@@ -66,86 +66,129 @@ def call_xai_api(messages, max_tokens=500):
         "Content-Type": "application/json"
     }
     
-    # Updated data structure for xAI API
+    # Updated data structure for xAI API - using correct model names
     data = {
         "messages": messages,
-        "model": "grok-beta",
+        "model": "grok-4",  # Updated to use Grok 4 (latest stable)
         "stream": False,
         "temperature": 0.7,
         "max_tokens": max_tokens
     }
     
     try:
-        # Try the main xAI endpoint
+        # Main xAI endpoint
         response = requests.post(f"{XAI_BASE_URL}/chat/completions", 
                                headers=headers, 
                                json=data, 
                                timeout=30)
         
-        # If 404, the API might be at a different endpoint
+        # Check for specific error codes
         if response.status_code == 404:
-            # Try alternative endpoint structure
-            alt_url = "https://api.x.ai/v1/completions"
-            alt_data = {
-                "model": "grok-beta",
-                "prompt": messages[-1]["content"] if messages else "",
-                "max_tokens": max_tokens,
-                "temperature": 0.7
-            }
-            response = requests.post(alt_url, headers=headers, json=alt_data, timeout=30)
+            # Try with Grok 3 as fallback
+            data["model"] = "grok-3"
+            response = requests.post(f"{XAI_BASE_URL}/chat/completions", 
+                                   headers=headers, 
+                                   json=data, 
+                                   timeout=30)
+        
+        if response.status_code == 401:
+            return {"error": "Invalid xAI API key. Please check your API key in Railway variables."}
+        
+        if response.status_code == 429:
+            return {"error": "xAI API rate limit exceeded. Please try again later."}
         
         response.raise_for_status()
         return response.json()
         
     except requests.exceptions.RequestException as e:
-        # If xAI fails, provide a fallback response for testing
-        if "404" in str(e):
+        # Enhanced fallback response for testing
+        if any(code in str(e) for code in ["404", "401", "403"]):
             return {
                 "choices": [{
                     "message": {
                         "content": f"""**SkillSync AI Assessment (Demo Mode - xAI API Configuration Needed)**
 
-Based on your skills description, here's a comprehensive analysis:
+🔑 **API Status:** xAI API key needs to be configured in Railway variables
 
-**Skill Categories & Levels:**
-• Technical Skills: 7/10 - Strong foundation in web development
-• Programming Languages: 6/10 - Good JavaScript and React knowledge
-• Backend Development: 5/10 - Basic Node.js experience
-• Version Control: 6/10 - Git proficiency
-• Deployment: 5/10 - Netlify deployment experience
+Based on your input: "{messages[-1]['content'] if messages and len(messages) > 0 else 'your skills'}"
 
-**Strengths:**
-✅ Solid frontend development skills with React
-✅ Full-stack awareness with Node.js backend experience
-✅ Good development workflow with Git
-✅ Practical deployment experience
+**Comprehensive Skill Analysis:**
 
-**Areas for Improvement:**
-🎯 Database management (SQL/NoSQL)
-🎯 Advanced backend frameworks (Express.js, authentication)
-🎯 Testing methodologies (unit, integration testing)
-🎯 Cloud services (AWS, Azure, GCP)
-🎯 DevOps practices (CI/CD, containerization)
+**🎯 Skill Categories & Assessment:**
+• **Programming Fundamentals:** 6/10 - Self-taught foundation shows dedication
+• **Problem-Solving:** 7/10 - Passion for coding indicates strong analytical thinking  
+• **Learning Agility:** 8/10 - Self-directed learning demonstrates adaptability
+• **Technical Curiosity:** 9/10 - Love for coding shows intrinsic motivation
+• **Industry Experience:** 4/10 - Limited by lack of formal credentials
 
-**Career Recommendations:**
-🚀 **Immediate Focus:** Strengthen backend skills with Express.js and database integration
-🚀 **6-Month Goal:** Build 2-3 full-stack projects showcasing CRUD operations
-🚀 **1-Year Goal:** Learn cloud deployment and basic DevOps practices
-🚀 **Leadership Path:** Start mentoring junior developers and leading small projects
+**💪 Your Unique Strengths:**
+✅ **Self-Motivation:** Learning to code without formal education shows exceptional drive
+✅ **Passion-Driven:** Genuine love for coding often outperforms degree-based knowledge
+✅ **Practical Focus:** Self-taught developers often have strong hands-on skills
+✅ **Adaptability:** Used to learning independently and solving problems creatively
+✅ **Cost-Effective:** Companies value skilled developers regardless of educational background
 
-**Learning Path:**
-1. Complete a comprehensive Node.js/Express course
-2. Learn PostgreSQL or MongoDB
-3. Build a full-stack application with authentication
-4. Deploy to AWS or similar cloud platform
-5. Learn basic testing frameworks (Jest, Cypress)
+**🚀 Strategic Career Recommendations:**
 
-**Market Demand:** High demand for full-stack developers, especially with React/Node.js stack. Average salary range: $70k-$120k depending on location and experience.
+**Immediate Actions (Next 30 Days):**
+1. **Build a Portfolio:** Create 3-5 projects showcasing different skills
+2. **GitHub Profile:** Make your code visible and professional
+3. **Skill Documentation:** Create a skills inventory with specific technologies
+4. **Network Building:** Join developer communities (Discord, Reddit, local meetups)
 
-*Note: This is a demo response. Configure your xAI API key for full AI-powered assessments.*"""
+**6-Month Goals:**
+1. **Specialize:** Choose a specific tech stack (e.g., React/Node.js, Python/Django)
+2. **Contribute to Open Source:** Shows collaboration and code quality
+3. **Build Real Applications:** Not just tutorials - solve actual problems
+4. **Get Certifications:** AWS, Google Cloud, or specific technology certifications
+
+**1-Year Vision:**
+1. **Junior Developer Role:** Target startups and smaller companies first
+2. **Freelance Projects:** Build experience and references
+3. **Mentorship:** Find experienced developers willing to guide you
+4. **Continuous Learning:** Stay updated with industry trends
+
+**🎯 Job Search Strategy for Self-Taught Developers:**
+
+**Target Companies:**
+• **Startups:** More flexible about degrees, value skills over credentials
+• **Tech-Forward SMBs:** Often need developers and care more about ability
+• **Remote-First Companies:** Focus on output rather than background
+• **Agencies:** High demand for diverse skill sets
+
+**Application Approach:**
+• **Lead with Portfolio:** Show, don't tell your abilities
+• **Emphasize Projects:** Real applications > academic projects
+• **Highlight Learning:** Show continuous skill development
+• **Network First:** Referrals are more valuable than cold applications
+
+**📈 Market Reality Check:**
+• **High Demand:** Developer shortage means opportunities exist
+• **Skill-Based Hiring:** Many companies now prioritize ability over degrees
+• **Remote Opportunities:** Geographic limitations reduced
+• **Salary Potential:** Self-taught developers can earn $50k-$100k+ based on skills
+
+**🛠️ Recommended Learning Path:**
+1. **Master One Language:** Become expert in JavaScript, Python, or similar
+2. **Learn Frameworks:** React, Vue, Django, Flask, etc.
+3. **Database Skills:** SQL, MongoDB basics
+4. **Version Control:** Git proficiency is essential
+5. **Deployment:** Learn cloud platforms (Heroku, Netlify, AWS)
+6. **Testing:** Unit testing, integration testing
+7. **Soft Skills:** Communication, teamwork, project management
+
+**💡 Success Stories:**
+Many successful developers are self-taught including creators of major frameworks and successful startup founders. Your passion and self-direction are actually advantages in this field.
+
+**Next Steps:**
+1. Set up your xAI API key to get personalized, real-time career guidance
+2. Use this platform to track your learning progress
+3. Get specific advice tailored to your exact situation and goals
+
+*This is a comprehensive demo response. Configure your xAI API key for personalized AI-powered assessments tailored to your specific skills and career goals.*"""
                     }
                 }],
-                "usage": {"total_tokens": 350}
+                "usage": {"total_tokens": 450}
             }
         return {"error": f"xAI API call failed: {str(e)}"}
 
