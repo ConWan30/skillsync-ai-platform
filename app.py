@@ -401,6 +401,11 @@ def get_user_assessments(user_id):
         'created_at': assessment.created_at.isoformat()
     } for assessment in assessments])
 
+@app.route('/ai-agent')
+def ai_agent_overview():
+    """AI Agent overview and capabilities page"""
+    return render_template('ai_agent.html')
+
 # Career Intelligence Agent Routes
 @app.route('/api/intelligence/trigger', methods=['POST'])
 def trigger_career_intelligence():

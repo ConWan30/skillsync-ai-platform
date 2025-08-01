@@ -322,6 +322,18 @@
             font-size: 0.9rem;
             overflow-x: auto;
         }
+        
+        .nav-link {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #1a1a1a;
+            transition: background 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: #f8fafc;
+        }
     </style>
 </head>
 <body>
@@ -409,6 +421,20 @@
                     <div class="endpoint-description">File upload and processing system</div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div style="background: #f8fafc; padding: 20px; border-radius: 20px; margin-bottom: 40px;">
+            <h2 style="margin-bottom: 20px;">Navigation</h2>
+            <a href="/dashboard" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
+            </a>
+            <a href="/api-docs" class="nav-link">
+                <i class="fas fa-book"></i> API Docs
+            </a>
+            <a href="/ai-agent" class="nav-link">
+                <i class="fas fa-robot"></i> AI Agent
+            </a>
         </div>
         
         <!-- Claude Framework Showcase -->
@@ -509,7 +535,7 @@
         <!-- Footer -->
         <div class="footer">
             <p>🚀 SkillSync AI Platform • Built with Claude Code Conversion Optimization Framework</p>
-            <p style="margin-top: 8px; font-size: 0.9rem;">Enterprise-grade AI-powered career development • © 2024</p>
+            <p style="margin-top: 8px; font-size: 0.9rem;">Enterprise-grade AI-powered career development • &copy; 2024</p>
         </div>
     </div>
     
