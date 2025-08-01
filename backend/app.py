@@ -58,7 +58,7 @@ XAI_BASE_URL = "https://api.x.ai/v1"
 def call_grok_ai(prompt, system_prompt=None):
     """Call xAI Grok API with career development expertise"""
     if not XAI_API_KEY:
-        return {"error": "xAI API key not configured"}
+        return "ERROR: xAI API key not configured in environment variables"
     
     headers = {
         "Authorization": f"Bearer {XAI_API_KEY}",
@@ -78,12 +78,38 @@ def call_grok_ai(prompt, system_prompt=None):
     }
     
     try:
+        print(f"[DEBUG] Calling xAI API with URL: {XAI_BASE_URL}/chat/completions")
+        print(f"[DEBUG] API Key present: {'Yes' if XAI_API_KEY else 'No'}")
+        print(f"[DEBUG] API Key length: {len(XAI_API_KEY) if XAI_API_KEY else 0}")
+        
         response = requests.post(f"{XAI_BASE_URL}/chat/completions", 
                                headers=headers, json=data, timeout=30)
+        
+        print(f"[DEBUG] Response status code: {response.status_code}")
+        print(f"[DEBUG] Response headers: {dict(response.headers)}")
+        
+        if response.status_code != 200:
+            print(f"[DEBUG] Response content: {response.text}")
+            return f"ERROR: xAI API returned status {response.status_code}: {response.text}"
+        
         response.raise_for_status()
-        return response.json()["choices"][0]["message"]["content"]
+        result = response.json()
+        
+        if "choices" not in result or not result["choices"]:
+            return f"ERROR: Invalid response format from xAI API: {result}"
+            
+        return result["choices"][0]["message"]["content"]
+        
+    except requests.exceptions.Timeout:
+        return "ERROR: xAI API request timed out after 30 seconds"
+    except requests.exceptions.ConnectionError:
+        return "ERROR: Could not connect to xAI API servers"
+    except requests.exceptions.RequestException as e:
+        return f"ERROR: Network request failed: {str(e)}"
+    except KeyError as e:
+        return f"ERROR: Unexpected response format from xAI API: missing {str(e)}"
     except Exception as e:
-        return f"AI service temporarily unavailable: {str(e)}"
+        return f"ERROR: Unexpected error calling xAI API: {str(e)}"
 
 # AI Intelligence Endpoints
 @app.route('/api/intelligence/market-trends')
