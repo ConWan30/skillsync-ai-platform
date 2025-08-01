@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync AI - Transform Your Career in 30 Days | AI-Powered Skill Development</title>
+    <meta name="description" content="Discover your hidden potential and accelerate your career with AI-powered skill assessment. Join 10,000+ professionals who've transformed their careers with SkillSync.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+        
+        .highlight {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-text p {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 32px;
+            max-width: 500px;
+        }
+        
+        .cta-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 18px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255,107,107,0.3);
+            margin-right: 16px;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255,107,107,0.4);
+        }
+        
+        .social-proof {
+            display: flex;
+            align-items: center;
+            margin-top: 32px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .avatars {
+            display: flex;
+            margin-right: 12px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -8px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+        
+        .hero-visual {
+            position: relative;
+        }
+        
+        .dashboard-preview {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .features {
+            padding: 100px 0;
+            background: #f8fafc;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .urgency-banner {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            font-weight: 600;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Urgency Banner (Step 15) -->
+    <div class="urgency-banner pulse">
+        🚀 Limited Time: Free AI Career Assessment - Only 100 spots left this month!
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="hero" style="margin-top: 50px;">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <!-- Bold Promise (Step 3) + Emotional Triggers (Step 5) -->
+                    <h1>Transform Your Career in <span class="highlight">30 Days</span> with AI-Powered Skill Mastery</h1>
+                    
+                    <!-- Pain Point (Step 2) + Target Persona (Step 1) -->
+                    <p>Stop feeling stuck in your career. Our AI analyzes your skills, identifies gaps, and creates a personalized roadmap to your dream job. Join 10,000+ professionals who've already transformed their careers.</p>
+                    
+                    <!-- Direct CTA (Step 16) -->
+                    <button class="cta-primary" onclick="startAssessment()">
+                        <i class="fas fa-rocket"></i> Start Free AI Assessment
+                    </button>
+                    
+                    <!-- Social Proof (Step 6) -->
+                    <div class="social-proof">
+                        <div class="avatars">
+                            <div class="avatar"></div>
+                            <div class="avatar"></div>
+                            <div class="avatar"></div>
+                            <div class="avatar"></div>
+                        </div>
+                        <span>10,247 professionals transformed their careers this month</span>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="dashboard-preview">
+                        <h3 style="color: white; margin-bottom: 16px;">🧠 AI-Powered Insights</h3>
+                        <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 8px; margin-bottom: 12px;">
+                            <strong style="color: #ffd700;">Skill Match: 87%</strong><br>
+                            <span style="color: rgba(255,255,255,0.8);">Perfect for Senior Developer roles</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 16px; border-radius: 8px;">
+                            <strong style="color: #ffd700;">Career Path:</strong><br>
+                            <span style="color: rgba(255,255,255,0.8);">AI/ML Engineer → $120k+ salary</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why 10,000+ Professionals Choose SkillSync</h2>
+            <div class="features-grid">
+                <!-- Differentiators (Step 7) -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                    <h3>AI-Powered Analysis</h3>
+                    <p>Our advanced AI doesn't just list your skills—it understands your potential and maps the fastest path to your goals.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>30-Day Transformation</h3>
+                    <p>See measurable career progress in just 30 days with our personalized learning paths and milestone tracking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Real-Time Market Data</h3>
+                    <p>Stay ahead with live job market insights and salary benchmarks tailored to your skill level and location.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        function startAssessment() {
+            // Scroll stopper (Step 11) + Reduce cognitive load (Step 19)
+            document.body.style.overflow = 'hidden';
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.8); z-index: 10000;
+                display: flex; align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 40px; border-radius: 20px; max-width: 500px; text-align: center;">
+                    <h2 style="margin-bottom: 20px; color: #1a1a1a;">🚀 Ready to Transform Your Career?</h2>
+                    <p style="margin-bottom: 30px; color: #666;">Tell us about your skills and experience to get your personalized AI assessment.</p>
+                    <textarea id="skillsInput" placeholder="Example: I have 3 years of Python experience, built web apps with Flask..." 
+                        style="width: 100%; height: 120px; padding: 15px; border: 2px solid #e2e8f0; border-radius: 10px; margin-bottom: 20px; font-size: 14px;"></textarea>
+                    <button onclick="processAssessment()" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 15px 30px; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; margin-right: 10px;">
+                        Get My AI Assessment
+                    </button>
+                    <button onclick="closeModal()" style="background: #e2e8f0; color: #666; padding: 15px 30px; border: none; border-radius: 25px; cursor: pointer;">
+                        Maybe Later
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            window.currentModal = modal;
+        }
+        
+        function closeModal() {
+            document.body.style.overflow = 'auto';
+            if (window.currentModal) {
+                document.body.removeChild(window.currentModal);
+            }
+        }
+        
+        async function processAssessment() {
+            const skills = document.getElementById('skillsInput').value;
+            if (!skills.trim()) {
+                alert('Please describe your skills first!');
+                return;
+            }
+            
+            const button = event.target;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AI is analyzing...';
+            button.disabled = true;
+            
+            try {
+                const response = await fetch('/assess-skills', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skills_description: skills })
+                });
+                
+                const result = await response.json();
+                
+                // Show results
+                window.currentModal.innerHTML = `
+                    <div style="background: white; padding: 40px; border-radius: 20px; max-width: 600px;">
+                        <h2 style="margin-bottom: 20px; color: #1a1a1a;">🎯 Your AI Career Assessment</h2>
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: left;">
+                            <pre style="white-space: pre-wrap; font-family: inherit;">${result.assessment}</pre>
+                        </div>
+                        <button onclick="getCareerGuidance('${skills}')" style="background: linear-gradient(45deg, #ff6b6b, #ee5a24); color: white; padding: 15px 30px; border: none; border-radius: 25px; font-weight: 600; cursor: pointer; margin-right: 10px;">
+                            Get Career Roadmap
+                        </button>
+                        <button onclick="closeModal()" style="background: #e2e8f0; color: #666; padding: 15px 30px; border: none; border-radius: 25px; cursor: pointer;">
+                            Close
+                        </button>
+                    </div>
+                `;
+            } catch (error) {
+                alert('Something went wrong. Please try again!');
+                closeModal();
+            }
+        }
+        
+        async function getCareerGuidance(skills) {
+            const button = event.target;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating roadmap...';
+            button.disabled = true;
+            
+            try {
+                const response = await fetch('/career-guidance', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ skills_description: skills })
+                });
+                
+                const result = await response.json();
+                
+                window.currentModal.innerHTML = `
+                    <div style="background: white; padding: 40px; border-radius: 20px; max-width: 700px;">
+                        <h2 style="margin-bottom: 20px; color: #1a1a1a;">🗺️ Your Personalized Career Roadmap</h2>
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin-bottom: 20px; text-align: left; max-height: 400px; overflow-y: auto;">
+                            <pre style="white-space: pre-wrap; font-family: inherit;">${result.guidance}</pre>
+                        </div>
+                        <button onclick="closeModal()" style="background: linear-gradient(45deg, #667eea, #764ba2); color: white; padding: 15px 30px; border: none; border-radius: 25px; font-weight: 600; cursor: pointer;">
+                            Start My Journey
+                        </button>
+                    </div>
+                `;
+            } catch (error) {
+                alert('Something went wrong. Please try again!');
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
