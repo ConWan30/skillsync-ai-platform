@@ -71,7 +71,7 @@ def call_grok_ai(prompt, system_prompt=None):
     messages.append({"role": "user", "content": prompt})
     
     data = {
-        "model": "grok-beta",
+        "model": "grok-1",
         "messages": messages,
         "temperature": 0.7,
         "max_tokens": 1000
@@ -167,7 +167,7 @@ def agent_status():
         "status": "active",
         "ai_integration": {
             "provider": "xAI Grok",
-            "model": "grok-beta",
+            "model": "grok-1",
             "specialization": "Career Development & Market Intelligence"
         },
         "capabilities": [
