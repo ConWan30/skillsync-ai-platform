@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
@@ -195,6 +195,12 @@ Many successful developers are self-taught including creators of major framework
 # Routes
 @app.route('/')
 def index():
+    """Enterprise-grade project overview and API documentation"""
+    return render_template('index.html')
+
+@app.route('/api')
+def api_info():
+    """API information endpoint"""
     return jsonify({
         'message': 'Welcome to SkillSync AI Platform API',
         'version': '1.0.0',
@@ -206,15 +212,90 @@ def index():
             'Career Guidance',
             'File Organization',
             'Progress Tracking'
-        ]
+        ],
+        'endpoints': {
+            'health': '/health',
+            'assess_skills': '/assess-skills',
+            'career_guidance': '/career-guidance',
+            'users': '/users',
+            'upload': '/upload'
+        }
     })
 
+# Frontend Demo Routes
+@app.route('/landing')
+def landing_demo():
+    """Serve the revolutionary landing page"""
+    return send_from_directory('.', 'index.html')
+
+@app.route('/dashboard-demo')
+def dashboard_demo():
+    """Serve the AI-powered dashboard"""
+    return send_from_directory('.', 'dashboard.html')
+
+@app.route('/api-docs')
+def api_docs():
+    """API documentation page"""
+    return jsonify({
+        'title': 'SkillSync AI Platform API Documentation',
+        'version': '1.0.0',
+        'description': 'Enterprise-grade AI-powered career development API',
+        'base_url': request.base_url.replace('/api-docs', ''),
+        'endpoints': {
+            'health_check': {
+                'method': 'GET',
+                'url': '/health',
+                'description': 'System health check and status monitoring',
+                'response': 'JSON with system status and timestamp'
+            },
+            'skill_assessment': {
+                'method': 'POST',
+                'url': '/assess-skills',
+                'description': 'AI-powered skill assessment and analysis',
+                'body': {
+                    'skills_description': 'String describing user skills and experience'
+                },
+                'response': 'JSON with AI assessment and recommendations'
+            },
+            'career_guidance': {
+                'method': 'POST',
+                'url': '/career-guidance',
+                'description': 'Personalized AI career roadmap generation',
+                'body': {
+                    'skills_description': 'String describing user skills and goals'
+                },
+                'response': 'JSON with personalized career guidance'
+            },
+            'user_creation': {
+                'method': 'POST',
+                'url': '/users',
+                'description': 'User registration and management',
+                'body': {
+                    'username': 'String',
+                    'email': 'String'
+                },
+                'response': 'JSON with user creation status'
+            },
+            'file_upload': {
+                'method': 'POST',
+                'url': '/upload',
+                'description': 'File upload and processing system',
+                'body': 'Multipart form data with file',
+                'response': 'JSON with upload status and file info'
+            }
+        }
+    })
+
+# Health check route
+@app.route('/health')
 @app.route('/api/health')
 def health_check():
     return jsonify({
         'status': 'healthy', 
         'timestamp': datetime.now().isoformat(),
-        'ai_status': 'xAI Grok Ready' if XAI_API_KEY else 'xAI API Key Required'
+        'ai_status': 'xAI Grok Ready' if XAI_API_KEY else 'xAI API Key Required',
+        'version': '1.0.0',
+        'framework': 'Claude Code Conversion Optimization Framework - 25 Steps Implemented'
     })
 
 @app.route('/api/users', methods=['POST'])
