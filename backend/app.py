@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
@@ -221,11 +221,19 @@ def generate_user_insights():
 # Routes
 @app.route('/')
 def index():
-    return jsonify({
-        'message': 'Welcome to SkillSync AI Platform API',
-        'version': '1.0.0',
-        'status': 'running'
-    })
+    return render_template('index.html')
+
+@app.route('/ai-agent')
+def ai_agent():
+    return render_template('ai_agent.html')
+
+@app.route('/api-docs')
+def api_docs():
+    return render_template('api_docs.html')
+
+@app.route('/health')
+def health_page():
+    return render_template('health.html')
 
 @app.route('/api/health')
 def health_check():
