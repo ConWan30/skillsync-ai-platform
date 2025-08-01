@@ -679,6 +679,22 @@ def test_user_insights():
     })
 
 # Enhanced Frontend Routes for User Engagement
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/ai-agent')
+def ai_agent():
+    return render_template('ai_agent.html')
+
+@app.route('/api-docs')
+def api_docs():
+    return render_template('api_docs.html')
+
+@app.route('/health')
+def health_page():
+    return render_template('health.html')
+
 @app.route('/dashboard')
 def dashboard():
     """User dashboard with progress tracking and recent insights"""
@@ -1283,22 +1299,6 @@ def ai_learning_path():
         return jsonify({"error": str(e)}), 500
 
 # Routes
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/ai-agent')
-def ai_agent():
-    return render_template('ai_agent.html')
-
-@app.route('/api-docs')
-def api_docs():
-    return render_template('api_docs.html')
-
-@app.route('/health')
-def health_page():
-    return render_template('health.html')
-
 @app.route('/api/health')
 def health_check():
     return jsonify({'status': 'healthy', 'timestamp': datetime.now(timezone.utc).isoformat()})
