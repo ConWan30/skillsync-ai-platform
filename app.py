@@ -7,6 +7,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 import requests
 import json
+from career_intelligence_agent import ProactiveCareerAgent, trigger_intelligence_cycle
 
 # Load environment variables
 load_dotenv()
@@ -399,6 +400,124 @@ def get_user_assessments(user_id):
         'ai_assessment': assessment.ai_assessment,
         'created_at': assessment.created_at.isoformat()
     } for assessment in assessments])
+
+# Career Intelligence Agent Routes
+@app.route('/api/intelligence/trigger', methods=['POST'])
+def trigger_career_intelligence():
+    """Manually trigger the career intelligence cycle"""
+    try:
+        import asyncio
+        # Run the intelligence cycle
+        asyncio.run(trigger_intelligence_cycle())
+        
+        return jsonify({
+            'message': 'Career intelligence cycle triggered successfully',
+            'status': 'completed',
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'error': 'Failed to trigger intelligence cycle',
+            'details': str(e)
+        }), 500
+
+@app.route('/api/intelligence/insights/<int:user_id>')
+def get_user_insights(user_id):
+    """Get the latest AI-generated insights for a specific user"""
+    try:
+        user = User.query.get_or_404(user_id)
+        agent = ProactiveCareerAgent()
+        
+        # Generate fresh insights for the user
+        import asyncio
+        market_insights = asyncio.run(agent.analyze_market_trends())
+        user_insights = asyncio.run(agent.generate_user_insights(user, market_insights))
+        opportunities = asyncio.run(agent.find_career_opportunities(user))
+        
+        return jsonify({
+            'user_id': user_id,
+            'username': user.username,
+            'insights': user_insights,
+            'opportunities': [
+                {
+                    'job_title': opp.job_title,
+                    'company': opp.company,
+                    'salary_range': opp.salary_range,
+                    'match_score': opp.match_score,
+                    'missing_skills': opp.missing_skills,
+                    'urgency': opp.urgency
+                } for opp in opportunities
+            ],
+            'generated_at': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'error': 'Failed to generate user insights',
+            'details': str(e)
+        }), 500
+
+@app.route('/api/intelligence/market-trends')
+def get_market_trends():
+    """Get current market trends and skill analysis"""
+    try:
+        agent = ProactiveCareerAgent()
+        
+        import asyncio
+        market_insights = asyncio.run(agent.analyze_market_trends())
+        
+        trends_data = [
+            {
+                'skill': insight.skill,
+                'demand_change': insight.demand_change,
+                'salary_trend': insight.salary_trend,
+                'job_count': insight.job_count,
+                'growth_prediction': insight.growth_prediction,
+                'recommended_action': insight.recommended_action
+            } for insight in market_insights
+        ]
+        
+        return jsonify({
+            'market_trends': trends_data,
+            'total_skills_analyzed': len(trends_data),
+            'analysis_timestamp': datetime.now().isoformat(),
+            'ai_provider': 'xAI Grok'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'error': 'Failed to analyze market trends',
+            'details': str(e)
+        }), 500
+
+@app.route('/api/intelligence/status')
+def intelligence_agent_status():
+    """Get the status and capabilities of the career intelligence agent"""
+    return jsonify({
+        'agent_name': 'Proactive Career Intelligence Agent',
+        'version': '1.0.0',
+        'status': 'active',
+        'capabilities': [
+            'Market Trend Analysis',
+            'Personalized Career Insights',
+            'Job Opportunity Matching',
+            'Skill Gap Detection',
+            'Proactive Notifications',
+            'AI-Powered Recommendations'
+        ],
+        'ai_integration': {
+            'provider': 'xAI Grok',
+            'status': 'connected' if XAI_API_KEY else 'api_key_required'
+        },
+        'autonomous_features': {
+            'daily_analysis': True,
+            'proactive_notifications': True,
+            'market_monitoring': True,
+            'opportunity_discovery': True
+        },
+        'last_updated': datetime.now().isoformat()
+    })
 
 # Initialize database
 with app.app_context():
