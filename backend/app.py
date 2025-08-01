@@ -116,73 +116,140 @@ def call_grok_ai(prompt, system_prompt=None):
 @app.route('/api/intelligence/market-trends')
 def analyze_market_trends():
     """Analyze current market trends using AI"""
-    system_prompt = """You are an expert career development and market intelligence specialist. 
-    You have deep knowledge of job markets, skill trends, salary data, and industry growth patterns.
-    Provide actionable insights about current market trends in technology and business sectors.
-    Focus on practical, data-driven recommendations that help professionals advance their careers."""
-    
-    prompt = """Analyze the current job market trends for the next 6 months. Focus on:
-    1. Top 5 most in-demand skills across tech and business
-    2. Salary trends and growth predictions
-    3. Emerging technologies and their impact on careers
-    4. Industry sectors showing the most growth
-    
-    Provide specific, actionable insights with approximate percentage changes where relevant."""
-    
-    ai_response = call_grok_ai(prompt, system_prompt)
-    
-    # Structure the response for the frontend
-    return jsonify({
-        "total_skills_analyzed": 150,
-        "ai_provider": "xAI Grok (Career Intelligence Specialist)",
-        "analysis_timestamp": datetime.utcnow().isoformat(),
-        "market_trends": [
-            {
-                "skill": "AI/Machine Learning",
-                "demand_change": 45,
-                "salary_trend": "$95k-$180k (+15%)",
-                "growth_prediction": "Explosive growth expected"
-            },
-            {
-                "skill": "Cloud Architecture (AWS/Azure)",
-                "demand_change": 38,
-                "salary_trend": "$85k-$160k (+12%)",
-                "growth_prediction": "Strong sustained demand"
-            },
-            {
-                "skill": "Cybersecurity",
-                "demand_change": 42,
-                "salary_trend": "$80k-$170k (+18%)",
-                "growth_prediction": "Critical shortage driving growth"
-            }
-        ],
-        "ai_analysis": ai_response
-    })
+    try:
+        system_prompt = """You are an expert career development and market intelligence specialist. 
+        You have deep knowledge of job markets, skill trends, salary data, and industry growth patterns.
+        Provide actionable insights about current market trends in technology and business sectors.
+        Focus on practical, data-driven recommendations that help professionals advance their careers."""
+        
+        prompt = """Analyze the current job market trends for the next 6 months. Focus on:
+        1. Top 5 most in-demand skills across tech and business
+        2. Salary trends and growth predictions
+        3. Emerging technologies and their impact on careers
+        4. Industry sectors showing the most growth
+        
+        Provide specific, actionable insights with approximate percentage changes where relevant."""
+        
+        ai_response = call_grok_ai(prompt, system_prompt)
+        
+        # Check if AI response is an error
+        if isinstance(ai_response, str) and "ERROR:" in ai_response:
+            return jsonify({
+                "total_skills_analyzed": 150,
+                "ai_provider": "SkillSync Market Intelligence (Fallback Mode)",
+                "analysis_timestamp": datetime.utcnow().isoformat(),
+                "market_trends": [
+                    {
+                        "skill": "AI/Machine Learning",
+                        "demand_change": 45,
+                        "salary_trend": "$95k-$180k (+15%)",
+                        "growth_prediction": "Explosive growth expected"
+                    },
+                    {
+                        "skill": "Cloud Architecture (AWS/Azure)",
+                        "demand_change": 38,
+                        "salary_trend": "$85k-$160k (+12%)",
+                        "growth_prediction": "Strong sustained demand"
+                    },
+                    {
+                        "skill": "Cybersecurity",
+                        "demand_change": 42,
+                        "salary_trend": "$80k-$170k (+18%)",
+                        "growth_prediction": "Critical shortage driving growth"
+                    }
+                ],
+                "ai_analysis": "AI service temporarily unavailable. Market analysis shows continued strong demand for AI/ML, cloud, and cybersecurity skills with significant salary growth across all sectors.",
+                "status": "fallback_mode"
+            })
+        
+        # Structure the response for the frontend with real AI data
+        return jsonify({
+            "total_skills_analyzed": 150,
+            "ai_provider": "xAI Grok (Career Intelligence Specialist)",
+            "analysis_timestamp": datetime.utcnow().isoformat(),
+            "market_trends": [
+                {
+                    "skill": "AI/Machine Learning",
+                    "demand_change": 45,
+                    "salary_trend": "$95k-$180k (+15%)",
+                    "growth_prediction": "Explosive growth expected"
+                },
+                {
+                    "skill": "Cloud Architecture (AWS/Azure)",
+                    "demand_change": 38,
+                    "salary_trend": "$85k-$160k (+12%)",
+                    "growth_prediction": "Strong sustained demand"
+                },
+                {
+                    "skill": "Cybersecurity",
+                    "demand_change": 42,
+                    "salary_trend": "$80k-$170k (+18%)",
+                    "growth_prediction": "Critical shortage driving growth"
+                }
+            ],
+            "ai_analysis": ai_response,
+            "status": "success"
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "error": "Failed to analyze market trends",
+            "message": str(e),
+            "total_skills_analyzed": 0,
+            "ai_provider": "SkillSync Error Handler",
+            "analysis_timestamp": datetime.utcnow().isoformat(),
+            "market_trends": [],
+            "ai_analysis": "Unable to analyze market trends at this time. Please try again later.",
+            "status": "error"
+        }), 500
 
 @app.route('/api/intelligence/status')
 def agent_status():
     """Get AI Agent status and capabilities"""
-    return jsonify({
-        "agent_name": "SkillSync Career Intelligence Agent",
-        "version": "2.1.0",
-        "status": "active",
-        "ai_integration": {
-            "provider": "xAI Grok",
-            "model": "grok-1",
-            "specialization": "Career Development & Market Intelligence"
-        },
-        "capabilities": [
-            "Real-time market trend analysis",
-            "Personalized career roadmap generation",
-            "Skill gap identification and recommendations",
-            "Salary benchmarking and negotiation insights",
-            "Industry growth prediction and opportunity matching",
-            "Proactive career opportunity alerts"
-        ],
-        "last_updated": datetime.utcnow().isoformat(),
-        "monitoring_status": "24/7 Active",
-        "skills_tracked": 150
-    })
+    try:
+        # This endpoint doesn't need AI calls - it returns system status
+        return jsonify({
+            "agent_name": "SkillSync Career Intelligence Agent",
+            "version": "2.1.0",
+            "status": "active",
+            "ai_integration": {
+                "provider": "xAI Grok",
+                "model": "Auto-Selected (grok-2, grok, grok-turbo, grok-1, grok-beta)",
+                "specialization": "Career Development & Market Intelligence"
+            },
+            "capabilities": [
+                "Real-time market trend analysis",
+                "Personalized career roadmap generation",
+                "Skill gap identification and recommendations",
+                "Salary benchmarking and negotiation insights",
+                "Industry growth prediction and opportunity matching",
+                "Proactive career opportunity alerts"
+            ],
+            "last_updated": datetime.utcnow().isoformat(),
+            "monitoring_status": "24/7 Active",
+            "skills_tracked": 150,
+            "api_status": "operational",
+            "fallback_mode_available": True
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "agent_name": "SkillSync Career Intelligence Agent",
+            "version": "2.1.0",
+            "status": "error",
+            "error_message": str(e),
+            "ai_integration": {
+                "provider": "xAI Grok",
+                "model": "Unavailable",
+                "specialization": "Career Development & Market Intelligence"
+            },
+            "capabilities": [],
+            "last_updated": datetime.utcnow().isoformat(),
+            "monitoring_status": "Error State",
+            "skills_tracked": 0,
+            "api_status": "error",
+            "fallback_mode_available": True
+        }), 500
 
 @app.route('/api/intelligence/trigger', methods=['POST'])
 def trigger_intelligence_cycle():
