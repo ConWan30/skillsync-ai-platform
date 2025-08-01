@@ -230,6 +230,132 @@
             margin-top: 1.5rem;
         }
 
+        .personalized-header {
+            margin-bottom: 2rem;
+        }
+
+        .dynamic-headline {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .urgency-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+        }
+
+        .urgency-indicator i {
+            margin-right: 0.5rem;
+        }
+
+        .emotional-state-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .state-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+        }
+
+        .state-badge i {
+            margin-right: 0.5rem;
+        }
+
+        .market-intelligence-feed {
+            margin-bottom: 2rem;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+        }
+
+        .pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #667eea;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .market-alerts {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .peer-comparison-widget {
+            margin-bottom: 2rem;
+        }
+
+        .comparison-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .confidence-score {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+        }
+
+        .comparison-content {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -267,9 +393,50 @@
     </nav>
 
     <div class="container">
-        <div class="page-header">
-            <h1><i class="fas fa-tachometer-alt"></i> Your Career Dashboard</h1>
-            <p>Track your progress, insights, and career development journey</p>
+        <!-- SkillSync Transformation Model - Dynamic Personalized Header -->
+        <div class="personalized-header" id="personalizedHeader">
+            <div class="dynamic-headline">
+                <h1 id="dynamicHeadline">Accelerate Your Developer Career</h1>
+                <p id="dynamicSubheadline">AI-powered insights tailored to your journey</p>
+                <div class="urgency-indicator" id="urgencyIndicator">
+                    <i class="fas fa-clock"></i>
+                    <span id="urgencyMessage">Perfect timing for career advancement</span>
+                </div>
+            </div>
+            <div class="emotional-state-indicator" id="emotionalState">
+                <div class="state-badge confident" id="stateBadge">
+                    <i class="fas fa-brain"></i>
+                    <span>AI analyzing your career state...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Real-Time Market Intelligence Feed -->
+        <div class="market-intelligence-feed" id="marketFeed">
+            <div class="feed-header">
+                <h3><i class="fas fa-chart-line"></i> Live Market Intelligence</h3>
+                <div class="live-indicator">
+                    <div class="pulse-dot"></div>
+                    <span>LIVE</span>
+                </div>
+            </div>
+            <div class="market-alerts" id="marketAlerts">
+                <div class="alert-item loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading real-time market data...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Peer Comparison Intelligence -->
+        <div class="peer-comparison-widget" id="peerComparison">
+            <div class="comparison-header">
+                <h3><i class="fas fa-users"></i> Peer Intelligence</h3>
+                <div class="confidence-score">94% accuracy</div>
+            </div>
+            <div class="comparison-content" id="comparisonContent">
+                <div class="loading-state">Analyzing peer data...</div>
+            </div>
         </div>
 
         <div class="dashboard-grid">
