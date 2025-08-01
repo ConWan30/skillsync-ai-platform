@@ -2,16 +2,12 @@
   "name": "skillsync-ai-platform",
   "version": "1.0.0",
   "description": "AI-powered platform for skill development, assessment, and career guidance",
-  "main": "index.js",
+  "main": "backend/app.py",
   "scripts": {
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:backend": "cd backend && python app.py",
-    "dev:frontend": "cd frontend && npm start",
-    "build": "cd frontend && npm run build",
     "start": "cd backend && python app.py",
-    "install:all": "npm install && cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
-    "test": "cd backend && python -m pytest && cd ../frontend && npm test",
-    "deploy": "railway up"
+    "dev": "cd backend && python app.py",
+    "build": "echo 'Backend only - no build step needed'",
+    "install": "cd backend && pip install -r requirements.txt"
   },
   "keywords": [
     "ai",
@@ -23,11 +19,8 @@
   ],
   "author": "ConWan30",
   "license": "MIT",
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  },
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "python": ">=3.9.0"
   }
 }
