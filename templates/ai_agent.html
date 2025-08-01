@@ -446,6 +446,12 @@
     </div>
     
     <script>
+        function formatLocalTime(utcTimestamp) {
+            // Convert UTC timestamp to local time
+            const date = new Date(utcTimestamp);
+            return date.toLocaleString();
+        }
+
         async function demoMarketTrends() {
             showLoading('Analyzing global market trends...');
             
@@ -453,11 +459,12 @@
                 const response = await fetch('/api/intelligence/market-trends');
                 const data = await response.json();
                 
+                const analysisTime = formatLocalTime(data.analysis_timestamp);
                 showResult(`Market Trends Analysis:
                 
 📊 Skills Analyzed: ${data.total_skills_analyzed}
 🤖 AI Provider: ${data.ai_provider}
-⏰ Analysis Time: ${new Date(data.analysis_timestamp).toLocaleString()}
+⏰ Analysis Time: ${analysisTime}
 
 🔥 Top Trending Skills:
 ${data.market_trends.slice(0, 3).map(trend => 
@@ -480,6 +487,7 @@ ${data.market_trends.slice(0, 3).map(trend =>
                 const response = await fetch('/api/intelligence/status');
                 const data = await response.json();
                 
+                const lastUpdated = formatLocalTime(data.last_updated);
                 showResult(`🤖 ${data.agent_name} v${data.version}
                 
 🟢 Status: ${data.status.toUpperCase()}
@@ -488,7 +496,7 @@ ${data.market_trends.slice(0, 3).map(trend =>
 🚀 Capabilities:
 ${data.capabilities.slice(0, 4).map(cap => `• ${cap}`).join('\n')}
 
-⏰ Last Updated: ${new Date(data.last_updated).toLocaleString()}`);
+⏰ Last Updated: ${lastUpdated}`);
                 
             } catch (error) {
                 showResult(`Error: ${error.message}\n\nNote: This demo requires the AI Agent to be deployed.`);
@@ -504,11 +512,12 @@ ${data.capabilities.slice(0, 4).map(cap => `• ${cap}`).join('\n')}
                 });
                 const data = await response.json();
                 
+                const timestamp = formatLocalTime(data.timestamp);
                 showResult(`🚀 Intelligence Cycle Triggered!
                 
 ✅ Status: ${data.status}
 📝 Message: ${data.message}
-⏰ Timestamp: ${new Date(data.timestamp).toLocaleString()}
+⏰ Timestamp: ${timestamp}
 
 🤖 The AI Agent is now analyzing market trends and generating insights!`);
                 
@@ -562,6 +571,7 @@ Now testing the real AI endpoint...`);
                     
                     const data = await response.json();
                     
+                    const generatedAt = formatLocalTime(data.generated_at);
                     showResult(`🤖 AI-Generated Career Insights
 
 👤 Profile Analysis:
@@ -572,7 +582,7 @@ Now testing the real AI endpoint...`);
 🎯 AI Career Specialist Recommendations:
 ${data.ai_insights}
 
-⏰ Generated: ${new Date(data.generated_at).toLocaleString()}
+⏰ Generated: ${generatedAt}
 🤖 AI Provider: ${data.ai_provider}
 📊 Confidence Score: ${(data.confidence_score * 100).toFixed(0)}%
 🔄 Status: ${data.status}

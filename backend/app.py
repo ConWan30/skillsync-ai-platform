@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 import requests
 import json
@@ -137,7 +137,7 @@ def analyze_market_trends():
             return jsonify({
                 "total_skills_analyzed": 150,
                 "ai_provider": "SkillSync Market Intelligence (Fallback Mode)",
-                "analysis_timestamp": datetime.utcnow().isoformat(),
+                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
                 "market_trends": [
                     {
                         "skill": "AI/Machine Learning",
@@ -166,7 +166,7 @@ def analyze_market_trends():
         return jsonify({
             "total_skills_analyzed": 150,
             "ai_provider": "xAI Grok (Career Intelligence Specialist)",
-            "analysis_timestamp": datetime.utcnow().isoformat(),
+            "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
             "market_trends": [
                 {
                     "skill": "AI/Machine Learning",
@@ -197,7 +197,7 @@ def analyze_market_trends():
             "message": str(e),
             "total_skills_analyzed": 0,
             "ai_provider": "SkillSync Error Handler",
-            "analysis_timestamp": datetime.utcnow().isoformat(),
+            "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
             "market_trends": [],
             "ai_analysis": "Unable to analyze market trends at this time. Please try again later.",
             "status": "error"
@@ -225,7 +225,7 @@ def agent_status():
                 "Industry growth prediction and opportunity matching",
                 "Proactive career opportunity alerts"
             ],
-            "last_updated": datetime.utcnow().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "monitoring_status": "24/7 Active",
             "skills_tracked": 150,
             "api_status": "operational",
@@ -244,7 +244,7 @@ def agent_status():
                 "specialization": "Career Development & Market Intelligence"
             },
             "capabilities": [],
-            "last_updated": datetime.utcnow().isoformat(),
+            "last_updated": datetime.now(timezone.utc).isoformat(),
             "monitoring_status": "Error State",
             "skills_tracked": 0,
             "api_status": "error",
@@ -267,7 +267,7 @@ def trigger_intelligence_cycle():
     return jsonify({
         "status": "success",
         "message": "Intelligence cycle initiated successfully",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "ai_status": ai_response,
         "next_cycle": "Scheduled in 4 hours"
     })
@@ -310,7 +310,7 @@ def generate_user_insights():
                     "experience": experience_level
                 },
                 "ai_insights": f"AI service temporarily unavailable. Here's a sample insight based on your profile:\n\nBased on your {experience_level} experience with {', '.join(user_skills[:2])}, I recommend:\n\n1. Focus on cloud technologies (AWS/Azure) - high demand\n2. Learn containerization (Docker/Kubernetes) - 40% salary increase potential\n3. Develop API design skills - essential for senior roles\n\nSalary range: $75k-$120k depending on location and specialization.",
-                "generated_at": datetime.utcnow().isoformat(),
+                "generated_at": datetime.now(timezone.utc).isoformat(),
                 "ai_provider": "SkillSync Career Intelligence (Fallback Mode)",
                 "confidence_score": 0.75,
                 "status": "fallback_mode"
@@ -323,7 +323,7 @@ def generate_user_insights():
                 "experience": experience_level
             },
             "ai_insights": ai_response,
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "ai_provider": "xAI Grok Career Specialist",
             "confidence_score": 0.92,
             "status": "success"
@@ -339,7 +339,7 @@ def generate_user_insights():
                 "experience": 'mid-level'
             },
             "ai_insights": "Unable to generate AI insights at this time. Please try again later or contact support if the issue persists.",
-            "generated_at": datetime.utcnow().isoformat(),
+            "generated_at": datetime.now(timezone.utc).isoformat(),
             "ai_provider": "SkillSync Error Handler",
             "confidence_score": 0.0,
             "status": "error"
@@ -351,7 +351,7 @@ def test_user_insights():
     return jsonify({
         "message": "User insights endpoint is accessible",
         "method": request.method,
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "test_data": {
             "skills": ['Python', 'JavaScript', 'SQL'],
             "goals": 'career advancement in technology',
@@ -379,7 +379,7 @@ def health_page():
 
 @app.route('/api/health')
 def health_check():
-    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
+    return jsonify({'status': 'healthy', 'timestamp': datetime.now(timezone.utc).isoformat()})
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
