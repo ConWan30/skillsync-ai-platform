@@ -70,46 +70,47 @@ def call_grok_ai(prompt, system_prompt=None):
         messages.append({"role": "system", "content": system_prompt})
     messages.append({"role": "user", "content": prompt})
     
-    data = {
-        "model": "grok-1",
-        "messages": messages,
-        "temperature": 0.7,
-        "max_tokens": 1000
-    }
+    # Try different model names that might work
+    model_names = ["grok-2", "grok", "grok-turbo", "grok-1", "grok-beta"]
     
-    try:
-        print(f"[DEBUG] Calling xAI API with URL: {XAI_BASE_URL}/chat/completions")
-        print(f"[DEBUG] API Key present: {'Yes' if XAI_API_KEY else 'No'}")
-        print(f"[DEBUG] API Key length: {len(XAI_API_KEY) if XAI_API_KEY else 0}")
+    for model_name in model_names:
+        data = {
+            "model": model_name,
+            "messages": messages,
+            "temperature": 0.7,
+            "max_tokens": 1000
+        }
         
-        response = requests.post(f"{XAI_BASE_URL}/chat/completions", 
-                               headers=headers, json=data, timeout=30)
-        
-        print(f"[DEBUG] Response status code: {response.status_code}")
-        print(f"[DEBUG] Response headers: {dict(response.headers)}")
-        
-        if response.status_code != 200:
-            print(f"[DEBUG] Response content: {response.text}")
-            return f"ERROR: xAI API returned status {response.status_code}: {response.text}"
-        
-        response.raise_for_status()
-        result = response.json()
-        
-        if "choices" not in result or not result["choices"]:
-            return f"ERROR: Invalid response format from xAI API: {result}"
+        try:
+            print(f"[DEBUG] Trying model: {model_name}")
+            print(f"[DEBUG] Calling xAI API with URL: {XAI_BASE_URL}/chat/completions")
+            print(f"[DEBUG] API Key present: {'Yes' if XAI_API_KEY else 'No'}")
+            print(f"[DEBUG] API Key length: {len(XAI_API_KEY) if XAI_API_KEY else 0}")
             
-        return result["choices"][0]["message"]["content"]
-        
-    except requests.exceptions.Timeout:
-        return "ERROR: xAI API request timed out after 30 seconds"
-    except requests.exceptions.ConnectionError:
-        return "ERROR: Could not connect to xAI API servers"
-    except requests.exceptions.RequestException as e:
-        return f"ERROR: Network request failed: {str(e)}"
-    except KeyError as e:
-        return f"ERROR: Unexpected response format from xAI API: missing {str(e)}"
-    except Exception as e:
-        return f"ERROR: Unexpected error calling xAI API: {str(e)}"
+            response = requests.post(f"{XAI_BASE_URL}/chat/completions", 
+                                   headers=headers, json=data, timeout=30)
+            
+            print(f"[DEBUG] Response status code: {response.status_code}")
+            
+            if response.status_code == 200:
+                print(f"[DEBUG] SUCCESS! Model {model_name} works!")
+                result = response.json()
+                if "choices" in result and result["choices"]:
+                    return result["choices"][0]["message"]["content"]
+                else:
+                    print(f"[DEBUG] Invalid response format: {result}")
+                    continue
+            else:
+                print(f"[DEBUG] Model {model_name} failed with status {response.status_code}")
+                print(f"[DEBUG] Response: {response.text}")
+                continue
+                
+        except Exception as e:
+            print(f"[DEBUG] Model {model_name} failed with exception: {str(e)}")
+            continue
+    
+    # If all models fail, return error
+    return f"ERROR: None of the xAI models ({', '.join(model_names)}) are accessible with your API key. Please check your xAI account and API key permissions."
 
 # AI Intelligence Endpoints
 @app.route('/api/intelligence/market-trends')
