@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Paths - SkillSync AI Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .path-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .path-tab {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .path-tab.active {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-color: white;
+        }
+
+        .path-tab:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .career-path {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .career-path.active {
+            display: block;
+        }
+
+        .path-overview {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .path-description {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .path-stats {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-item {
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .roadmap {
+            margin-bottom: 3rem;
+        }
+
+        .roadmap h3 {
+            margin-bottom: 2rem;
+            color: #333;
+            font-size: 1.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #667eea, #764ba2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-left: 1rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 1.5rem;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .timeline-level {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-duration {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        .skill-tag.core {
+            background: #28a745;
+        }
+
+        .skill-tag.optional {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .path-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .path-selector {
+                gap: 0.5rem;
+            }
+            
+            .path-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-brain"></i> SkillSync AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/market-intelligence">Market Intelligence</a></li>
+                <li><a href="/career-paths">Career Paths</a></li>
+                <li><a href="/tools">Tools</a></li>
+                <li><a href="/ai-agent">AI Agent</a></li>
+                <li><a href="/community">Community</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-route"></i> Career Paths Explorer</h1>
+            <p>Interactive roadmaps to guide your professional journey</p>
+        </div>
+
+        <div class="path-selector">
+            <div class="path-tab active" data-path="frontend">🎨 Frontend</div>
+            <div class="path-tab" data-path="backend">⚙️ Backend</div>
+            <div class="path-tab" data-path="fullstack">🚀 Full Stack</div>
+            <div class="path-tab" data-path="devops">☁️ DevOps</div>
+            <div class="path-tab" data-path="data">📊 Data Science</div>
+        </div>
+
+        <!-- Frontend Developer Path -->
+        <div class="career-path active" id="frontend">
+            <div class="path-overview">
+                <div class="path-description">
+                    <h2>Frontend Developer</h2>
+                    <p>Frontend developers create user-facing web applications using HTML, CSS, JavaScript, and modern frameworks. You'll build responsive, interactive experiences that users love.</p>
+                </div>
+                <div class="path-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">$75k</div>
+                        <div class="stat-label">Average Salary</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">6-12</div>
+                        <div class="stat-label">Months to Learn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">High</div>
+                        <div class="stat-label">Job Demand</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap">
+                <h3>🗺️ Learning Roadmap</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-level">Beginner (0-3 months)</div>
+                        <div class="timeline-duration">Foundation Skills</div>
+                        <p>Master the fundamentals of web development</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">HTML5</span>
+                            <span class="skill-tag core">CSS3</span>
+                            <span class="skill-tag core">JavaScript</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Responsive Design</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Intermediate (3-6 months)</div>
+                        <div class="timeline-duration">Framework & Tools</div>
+                        <p>Learn modern frameworks and development tools</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">React</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">Webpack</span>
+                            <span class="skill-tag">SASS/SCSS</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Advanced (6-12 months)</div>
+                        <div class="timeline-duration">Professional Skills</div>
+                        <p>Advanced concepts and professional practices</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">State Management</span>
+                            <span class="skill-tag">Testing</span>
+                            <span class="skill-tag">Performance</span>
+                            <span class="skill-tag optional">GraphQL</span>
+                            <span class="skill-tag optional">PWA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/tools" class="btn">📊 Skill Gap Analysis</a>
+                <a href="/ai-agent" class="btn">🤖 Get AI Guidance</a>
+                <a href="/community" class="btn">👥 Join Community</a>
+            </div>
+        </div>
+
+        <!-- Backend Developer Path -->
+        <div class="career-path" id="backend">
+            <div class="path-overview">
+                <div class="path-description">
+                    <h2>Backend Developer</h2>
+                    <p>Backend developers build server-side applications, APIs, and databases. You'll work with server technologies, databases, and cloud services to power web applications.</p>
+                </div>
+                <div class="path-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">$85k</div>
+                        <div class="stat-label">Average Salary</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">8-15</div>
+                        <div class="stat-label">Months to Learn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">Very High</div>
+                        <div class="stat-label">Job Demand</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap">
+                <h3>🗺️ Learning Roadmap</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-level">Beginner (0-4 months)</div>
+                        <div class="timeline-duration">Programming Fundamentals</div>
+                        <p>Learn a backend programming language and basics</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">Python/Node.js</span>
+                            <span class="skill-tag core">HTTP/REST</span>
+                            <span class="skill-tag core">Databases</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Linux</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Intermediate (4-8 months)</div>
+                        <div class="timeline-duration">Frameworks & Architecture</div>
+                        <p>Master backend frameworks and system design</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">Express/Django</span>
+                            <span class="skill-tag core">SQL/NoSQL</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">API Design</span>
+                            <span class="skill-tag">Authentication</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Advanced (8-15 months)</div>
+                        <div class="timeline-duration">Scalability & DevOps</div>
+                        <p>Advanced backend concepts and deployment</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">Microservices</span>
+                            <span class="skill-tag">Cloud (AWS/GCP)</span>
+                            <span class="skill-tag">Caching</span>
+                            <span class="skill-tag optional">Kubernetes</span>
+                            <span class="skill-tag optional">Message Queues</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/tools" class="btn">📊 Skill Gap Analysis</a>
+                <a href="/ai-agent" class="btn">🤖 Get AI Guidance</a>
+                <a href="/community" class="btn">👥 Join Community</a>
+            </div>
+        </div>
+
+        <!-- Full Stack Developer Path -->
+        <div class="career-path" id="fullstack">
+            <div class="path-overview">
+                <div class="path-description">
+                    <h2>Full Stack Developer</h2>
+                    <p>Full stack developers work on both frontend and backend. You'll have the versatility to build complete web applications from user interface to server infrastructure.</p>
+                </div>
+                <div class="path-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">$90k</div>
+                        <div class="stat-label">Average Salary</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">12-18</div>
+                        <div class="stat-label">Months to Learn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">Excellent</div>
+                        <div class="stat-label">Job Demand</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap">
+                <h3>🗺️ Learning Roadmap</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-level">Foundation (0-6 months)</div>
+                        <div class="timeline-duration">Frontend + Backend Basics</div>
+                        <p>Build solid foundation in both frontend and backend</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">HTML/CSS/JS</span>
+                            <span class="skill-tag core">React/Vue</span>
+                            <span class="skill-tag core">Node.js/Python</span>
+                            <span class="skill-tag">Databases</span>
+                            <span class="skill-tag">REST APIs</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Integration (6-12 months)</div>
+                        <div class="timeline-duration">Full Stack Projects</div>
+                        <p>Connect frontend and backend in complete applications</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">MERN/MEAN Stack</span>
+                            <span class="skill-tag core">Authentication</span>
+                            <span class="skill-tag">State Management</span>
+                            <span class="skill-tag">Testing</span>
+                            <span class="skill-tag">Deployment</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Professional (12-18 months)</div>
+                        <div class="timeline-duration">Production Ready</div>
+                        <p>Advanced full stack development and DevOps</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">System Design</span>
+                            <span class="skill-tag">Cloud Services</span>
+                            <span class="skill-tag">Performance</span>
+                            <span class="skill-tag optional">Microservices</span>
+                            <span class="skill-tag optional">CI/CD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/tools" class="btn">📊 Skill Gap Analysis</a>
+                <a href="/ai-agent" class="btn">🤖 Get AI Guidance</a>
+                <a href="/community" class="btn">👥 Join Community</a>
+            </div>
+        </div>
+
+        <!-- DevOps Engineer Path -->
+        <div class="career-path" id="devops">
+            <div class="path-overview">
+                <div class="path-description">
+                    <h2>DevOps Engineer</h2>
+                    <p>DevOps engineers bridge development and operations, focusing on automation, deployment, and infrastructure. You'll work with cloud platforms, containers, and CI/CD pipelines.</p>
+                </div>
+                <div class="path-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">$110k</div>
+                        <div class="stat-label">Average Salary</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">10-18</div>
+                        <div class="stat-label">Months to Learn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">Extremely High</div>
+                        <div class="stat-label">Job Demand</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap">
+                <h3>🗺️ Learning Roadmap</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-level">Foundation (0-4 months)</div>
+                        <div class="timeline-duration">System Administration</div>
+                        <p>Learn Linux, networking, and basic automation</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">Linux</span>
+                            <span class="skill-tag core">Bash Scripting</span>
+                            <span class="skill-tag core">Networking</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Python</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Cloud & Containers (4-10 months)</div>
+                        <div class="timeline-duration">Modern Infrastructure</div>
+                        <p>Master cloud platforms and containerization</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">AWS/Azure/GCP</span>
+                            <span class="skill-tag core">Docker</span>
+                            <span class="skill-tag core">Kubernetes</span>
+                            <span class="skill-tag">Terraform</span>
+                            <span class="skill-tag">Ansible</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Advanced (10-18 months)</div>
+                        <div class="timeline-duration">Enterprise DevOps</div>
+                        <p>Advanced automation and enterprise practices</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">CI/CD Pipelines</span>
+                            <span class="skill-tag">Monitoring</span>
+                            <span class="skill-tag">Security</span>
+                            <span class="skill-tag optional">Service Mesh</span>
+                            <span class="skill-tag optional">GitOps</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/tools" class="btn">📊 Skill Gap Analysis</a>
+                <a href="/ai-agent" class="btn">🤖 Get AI Guidance</a>
+                <a href="/community" class="btn">👥 Join Community</a>
+            </div>
+        </div>
+
+        <!-- Data Scientist Path -->
+        <div class="career-path" id="data">
+            <div class="path-overview">
+                <div class="path-description">
+                    <h2>Data Scientist</h2>
+                    <p>Data scientists extract insights from data using statistics, machine learning, and programming. You'll work with large datasets to solve business problems and build predictive models.</p>
+                </div>
+                <div class="path-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">$120k</div>
+                        <div class="stat-label">Average Salary</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">12-24</div>
+                        <div class="stat-label">Months to Learn</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">High</div>
+                        <div class="stat-label">Job Demand</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roadmap">
+                <h3>🗺️ Learning Roadmap</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-level">Foundation (0-6 months)</div>
+                        <div class="timeline-duration">Math & Programming</div>
+                        <p>Build strong foundation in statistics and programming</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">Python/R</span>
+                            <span class="skill-tag core">Statistics</span>
+                            <span class="skill-tag core">SQL</span>
+                            <span class="skill-tag">Pandas/NumPy</span>
+                            <span class="skill-tag">Matplotlib</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Machine Learning (6-12 months)</div>
+                        <div class="timeline-duration">ML Algorithms & Tools</div>
+                        <p>Learn machine learning algorithms and frameworks</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">Scikit-learn</span>
+                            <span class="skill-tag core">ML Algorithms</span>
+                            <span class="skill-tag">TensorFlow</span>
+                            <span class="skill-tag">Feature Engineering</span>
+                            <span class="skill-tag">Model Validation</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-level">Advanced (12-24 months)</div>
+                        <div class="timeline-duration">Deep Learning & Production</div>
+                        <p>Advanced ML techniques and deployment</p>
+                        <div class="skills-grid">
+                            <span class="skill-tag core">Deep Learning</span>
+                            <span class="skill-tag">MLOps</span>
+                            <span class="skill-tag">Big Data</span>
+                            <span class="skill-tag optional">NLP</span>
+                            <span class="skill-tag optional">Computer Vision</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <a href="/tools" class="btn">📊 Skill Gap Analysis</a>
+                <a href="/ai-agent" class="btn">🤖 Get AI Guidance</a>
+                <a href="/community" class="btn">👥 Join Community</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.path-tab');
+            const paths = document.querySelectorAll('.career-path');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetPath = this.getAttribute('data-path');
+                    
+                    // Remove active class from all tabs and paths
+                    tabs.forEach(t => t.classList.remove('active'));
+                    paths.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding path
+                    this.classList.add('active');
+                    document.getElementById(targetPath).classList.add('active');
+                });
+            });
+
+            // Animate timeline items on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateX(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all timeline items
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                item.style.transition = 'opacity 0.6s, transform 0.6s';
+                observer.observe(item);
+            });
+
+            // Add click tracking
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    console.log('Career path action:', this.textContent);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

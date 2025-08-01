@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - SkillSync AI Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .community-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .community-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            color: #667eea;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .discussion-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .discussion-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .discussion-meta {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mentor-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .mentor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .mentor-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .mentor-role {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .mentor-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        .event-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #28a745;
+        }
+
+        .event-date {
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            margin: 0.2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-brain"></i> SkillSync AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/market-intelligence">Market Intelligence</a></li>
+                <li><a href="/career-paths">Career Paths</a></li>
+                <li><a href="/tools">Tools</a></li>
+                <li><a href="/ai-agent">AI Agent</a></li>
+                <li><a href="/community">Community</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-users"></i> Developer Community</h1>
+            <p>Connect, learn, and grow with fellow developers worldwide</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">15.2k</div>
+                <div class="stat-label">Active Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2.8k</div>
+                <div class="stat-label">Discussions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">450</div>
+                <div class="stat-label">Mentors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+
+        <div class="community-grid">
+            <!-- Discussion Forums -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-comments card-icon"></i>
+                    <h3 class="card-title">💬 Discussion Forums</h3>
+                </div>
+                <p class="card-description">
+                    Join conversations about career development, technical challenges, and industry trends.
+                </p>
+                
+                <div class="discussion-item">
+                    <div class="discussion-title">Best practices for React performance optimization</div>
+                    <div class="discussion-meta">
+                        <span>by @sarah_dev</span>
+                        <span>24 replies • 2h ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Transitioning from Frontend to Full Stack</div>
+                    <div class="discussion-meta">
+                        <span>by @mike_codes</span>
+                        <span>18 replies • 4h ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Remote work tips for new developers</div>
+                    <div class="discussion-meta">
+                        <span>by @alex_remote</span>
+                        <span>31 replies • 6h ago</span>
+                    </div>
+                </div>
+
+                <a href="#" class="btn">Join Discussions</a>
+            </div>
+
+            <!-- Mentorship Program -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-user-graduate card-icon"></i>
+                    <h3 class="card-title">🎓 Mentorship Program</h3>
+                </div>
+                <p class="card-description">
+                    Connect with experienced developers for personalized guidance and career advice.
+                </p>
+
+                <div class="mentor-card">
+                    <div class="mentor-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="mentor-name">Emily Chen</div>
+                    <div class="mentor-role">Senior Full Stack Engineer @ Google</div>
+                    <div class="mentor-skills">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">AWS</span>
+                    </div>
+                </div>
+
+                <div class="mentor-card">
+                    <div class="mentor-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="mentor-name">David Rodriguez</div>
+                    <div class="mentor-role">DevOps Lead @ Microsoft</div>
+                    <div class="mentor-skills">
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Azure</span>
+                    </div>
+                </div>
+
+                <a href="#" class="btn">Find a Mentor</a>
+            </div>
+
+            <!-- Learning Groups -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-book-open card-icon"></i>
+                    <h3 class="card-title">📚 Study Groups</h3>
+                </div>
+                <p class="card-description">
+                    Join study groups to learn new technologies and prepare for interviews together.
+                </p>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">JavaScript Algorithms & Data Structures</div>
+                    <div class="discussion-meta">
+                        <span>42 members</span>
+                        <span>Daily challenges</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">System Design Interview Prep</div>
+                    <div class="discussion-meta">
+                        <span>38 members</span>
+                        <span>Weekly sessions</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">React Advanced Patterns</div>
+                    <div class="discussion-meta">
+                        <span>29 members</span>
+                        <span>Project-based</span>
+                    </div>
+                </div>
+
+                <a href="#" class="btn">Join Study Group</a>
+            </div>
+
+            <!-- Events & Webinars -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                    <h3 class="card-title">📅 Events & Webinars</h3>
+                </div>
+                <p class="card-description">
+                    Attend live events, workshops, and networking sessions with industry experts.
+                </p>
+
+                <div class="event-item">
+                    <div class="event-date">Dec 15, 2024</div>
+                    <div class="event-title">Building Scalable APIs with Node.js</div>
+                    <div class="event-description">
+                        Learn best practices for API design and performance optimization.
+                    </div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Dec 18, 2024</div>
+                    <div class="event-title">Career Panel: From Junior to Senior</div>
+                    <div class="event-description">
+                        Senior developers share their career journey and advice.
+                    </div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Dec 22, 2024</div>
+                    <div class="event-title">AI Tools for Developers Workshop</div>
+                    <div class="event-description">
+                        Hands-on workshop on integrating AI into your workflow.
+                    </div>
+                </div>
+
+                <a href="#" class="btn">View All Events</a>
+            </div>
+
+            <!-- Job Board -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-briefcase card-icon"></i>
+                    <h3 class="card-title">💼 Community Job Board</h3>
+                </div>
+                <p class="card-description">
+                    Discover job opportunities shared by community members and partner companies.
+                </p>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Senior React Developer @ TechCorp</div>
+                    <div class="discussion-meta">
+                        <span>$120k-$150k</span>
+                        <span>Remote • Posted 1d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Full Stack Engineer @ StartupXYZ</div>
+                    <div class="discussion-meta">
+                        <span>$90k-$130k + equity</span>
+                        <span>San Francisco • Posted 2d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">DevOps Engineer @ CloudTech</div>
+                    <div class="discussion-meta">
+                        <span>$110k-$140k</span>
+                        <span>Remote • Posted 3d ago</span>
+                    </div>
+                </div>
+
+                <a href="#" class="btn">Browse Jobs</a>
+            </div>
+
+            <!-- Success Stories -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-trophy card-icon"></i>
+                    <h3 class="card-title">🏆 Success Stories</h3>
+                </div>
+                <p class="card-description">
+                    Read inspiring stories from community members who achieved their career goals.
+                </p>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">"From Bootcamp to FAANG in 18 months"</div>
+                    <div class="discussion-meta">
+                        <span>by @jessica_codes</span>
+                        <span>156 likes • 3d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">"How I doubled my salary switching to DevOps"</div>
+                    <div class="discussion-meta">
+                        <span>by @tom_devops</span>
+                        <span>203 likes • 5d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">"Building a successful freelance career"</div>
+                    <div class="discussion-meta">
+                        <span>by @maria_freelance</span>
+                        <span>89 likes • 1w ago</span>
+                    </div>
+                </div>
+
+                <a href="#" class="btn">Read More Stories</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/ai-agent" class="btn-secondary btn">🤖 Get AI Career Advice</a>
+            <a href="/tools" class="btn-secondary btn">🛠️ Use Career Tools</a>
+            <a href="/career-paths" class="btn-secondary btn">🗺️ Explore Career Paths</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all community cards
+            document.querySelectorAll('.community-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s, transform 0.6s';
+                observer.observe(card);
+            });
+
+            // Add click tracking for analytics
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Community action:', this.textContent);
+                    alert('This feature will be available in the full version!');
+                });
+            });
+
+            // Animate stats on load
+            setTimeout(() => {
+                document.querySelectorAll('.stat-number').forEach(stat => {
+                    stat.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        stat.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

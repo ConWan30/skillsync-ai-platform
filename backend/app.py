@@ -676,6 +676,123 @@ def test_user_insights():
         "status": "test_success"
     })
 
+# Enhanced Frontend Routes for User Engagement
+@app.route('/dashboard')
+def dashboard():
+    """User dashboard with progress tracking and recent insights"""
+    return render_template('dashboard.html')
+
+@app.route('/market-intelligence')
+def market_intelligence_hub():
+    """Market intelligence hub with free insights and trends"""
+    # Get market data from knowledge base
+    market_data = get_enhanced_market_intelligence("market_trends")
+    
+    return render_template('market_intelligence.html', 
+                         trending_languages=market_data['trending_languages'],
+                         high_paying_roles=market_data['high_paying_roles'],
+                         technology_trends=market_data['technology_trends'])
+
+@app.route('/career-paths')
+def career_paths():
+    """Interactive career path explorer"""
+    career_paths = CAREER_KNOWLEDGE_BASE["career_paths"]
+    return render_template('career_paths.html', career_paths=career_paths)
+
+@app.route('/tools')
+def tools_hub():
+    """Free tools and calculators for career development"""
+    return render_template('tools.html')
+
+@app.route('/community')
+def community():
+    """Community forum and discussion area"""
+    return render_template('community.html')
+
+@app.route('/resources')
+def resources():
+    """Educational resources and learning materials"""
+    return render_template('resources.html')
+
+# API Endpoints for Interactive Tools
+@app.route('/api/tools/salary-calculator', methods=['POST'])
+def salary_calculator():
+    """Calculate estimated salary based on skills and location"""
+    try:
+        data = request.get_json() or {}
+        skills = data.get('skills', [])
+        location = data.get('location', 'remote')
+        experience = data.get('experience', 'mid-level')
+        
+        # Get salary benchmarks from knowledge base
+        salary_data = CAREER_KNOWLEDGE_BASE["salary_benchmarks_2024"]
+        
+        # Calculate base salary
+        base_salary = salary_data["by_experience_level"].get(experience, {})
+        base_range = base_salary.get("3_7_years", "$75k-$130k")  # default to mid-level
+        
+        # Apply location multiplier
+        location_multiplier = salary_data["by_location_multiplier"].get(location, 1.0)
+        
+        # Skill premium calculation
+        skill_premium = 0
+        high_value_skills = ["python", "aws", "docker", "kubernetes", "react", "ai", "ml"]
+        for skill in skills:
+            if skill.lower() in high_value_skills:
+                skill_premium += 0.1  # 10% per high-value skill
+        
+        return jsonify({
+            "base_salary_range": base_range,
+            "location": location,
+            "location_multiplier": location_multiplier,
+            "skill_premium": f"+{int(skill_premium * 100)}%",
+            "estimated_range": f"${int(75000 * location_multiplier * (1 + skill_premium) / 1000)}k-${int(130000 * location_multiplier * (1 + skill_premium) / 1000)}k",
+            "recommendations": [
+                "Consider learning cloud technologies for +15-30% salary boost",
+                "Docker/Kubernetes skills add significant market value",
+                "AI/ML expertise commands +25-40% premium"
+            ],
+            "data_source": "Based on Stack Overflow 2024 Developer Survey"
+        })
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/tools/skill-gap-analyzer', methods=['POST'])
+def skill_gap_analyzer():
+    """Analyze skill gaps based on career goals"""
+    try:
+        data = request.get_json() or {}
+        current_skills = data.get('current_skills', [])
+        target_role = data.get('target_role', 'full-stack developer')
+        
+        # Define skill requirements for different roles
+        role_requirements = {
+            "full-stack developer": ["JavaScript", "Python", "React", "Node.js", "SQL", "Git"],
+            "data scientist": ["Python", "SQL", "Machine Learning", "Statistics", "Pandas", "Jupyter"],
+            "cloud engineer": ["AWS", "Docker", "Kubernetes", "Linux", "Terraform", "Python"],
+            "frontend developer": ["JavaScript", "React", "CSS", "HTML", "TypeScript", "Git"],
+            "backend developer": ["Python", "SQL", "API Design", "Docker", "Git", "Database Design"]
+        }
+        
+        required_skills = role_requirements.get(target_role.lower(), [])
+        missing_skills = [skill for skill in required_skills if skill not in current_skills]
+        
+        return jsonify({
+            "target_role": target_role,
+            "current_skills": current_skills,
+            "required_skills": required_skills,
+            "missing_skills": missing_skills,
+            "completion_percentage": int((len(required_skills) - len(missing_skills)) / len(required_skills) * 100),
+            "learning_recommendations": [
+                f"Priority 1: {missing_skills[0] if missing_skills else 'You have all required skills!'}"
+            ] + [f"Learn: {skill}" for skill in missing_skills[:3]],
+            "estimated_learning_time": f"{len(missing_skills) * 2}-{len(missing_skills) * 4} months"
+        })
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 # Routes
 @app.route('/')
 def index():

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools Hub - SkillSync AI Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            color: #667eea;
+        }
+
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .tool-description {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .result-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid #28a745;
+            display: none;
+        }
+
+        .result-title {
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-details {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .skill-tag.missing {
+            background: #dc3545;
+        }
+
+        .skill-tag.learning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-brain"></i> SkillSync AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/market-intelligence">Market Intelligence</a></li>
+                <li><a href="/career-paths">Career Paths</a></li>
+                <li><a href="/tools">Tools</a></li>
+                <li><a href="/ai-agent">AI Agent</a></li>
+                <li><a href="/community">Community</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-tools"></i> Career Tools Hub</h1>
+            <p>Interactive tools to accelerate your career development</p>
+        </div>
+
+        <div class="tools-grid">
+            <!-- Salary Calculator -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-calculator tool-icon"></i>
+                    <h3 class="tool-title">💰 Salary Calculator</h3>
+                </div>
+                <p class="tool-description">
+                    Get accurate salary estimates based on your role, experience, location, and skills using real market data.
+                </p>
+                
+                <form id="salaryForm">
+                    <div class="form-group">
+                        <label class="form-label">Job Role</label>
+                        <select class="form-select" id="jobRole" required>
+                            <option value="">Select your role</option>
+                            <option value="frontend">Frontend Developer</option>
+                            <option value="backend">Backend Developer</option>
+                            <option value="fullstack">Full Stack Developer</option>
+                            <option value="devops">DevOps Engineer</option>
+                            <option value="data-scientist">Data Scientist</option>
+                            <option value="mobile">Mobile Developer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Years of Experience</label>
+                        <select class="form-select" id="experience" required>
+                            <option value="">Select experience</option>
+                            <option value="0-1">0-1 years (Entry Level)</option>
+                            <option value="2-4">2-4 years (Junior)</option>
+                            <option value="5-7">5-7 years (Mid-Level)</option>
+                            <option value="8-12">8-12 years (Senior)</option>
+                            <option value="13+">13+ years (Lead/Principal)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <select class="form-select" id="location" required>
+                            <option value="">Select location</option>
+                            <option value="san-francisco">San Francisco, CA</option>
+                            <option value="new-york">New York, NY</option>
+                            <option value="seattle">Seattle, WA</option>
+                            <option value="austin">Austin, TX</option>
+                            <option value="remote">Remote (US)</option>
+                            <option value="other">Other US City</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn">Calculate Salary</button>
+                </form>
+                
+                <div class="loading" id="salaryLoading">
+                    <i class="fas fa-spinner fa-spin"></i> Calculating...
+                </div>
+                
+                <div class="result-card" id="salaryResult">
+                    <div class="result-title">💰 Estimated Salary Range</div>
+                    <div class="result-value" id="salaryValue">$75,000 - $120,000</div>
+                    <div class="result-details" id="salaryDetails">
+                        Based on current market data for your role and experience level.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skill Gap Analyzer -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-chart-bar tool-icon"></i>
+                    <h3 class="tool-title">📊 Skill Gap Analyzer</h3>
+                </div>
+                <p class="tool-description">
+                    Analyze your current skills against market demands and get personalized learning recommendations.
+                </p>
+                
+                <form id="skillGapForm">
+                    <div class="form-group">
+                        <label class="form-label">Target Role</label>
+                        <select class="form-select" id="targetRole" required>
+                            <option value="">Select target role</option>
+                            <option value="frontend">Frontend Developer</option>
+                            <option value="backend">Backend Developer</option>
+                            <option value="fullstack">Full Stack Developer</option>
+                            <option value="devops">DevOps Engineer</option>
+                            <option value="data-scientist">Data Scientist</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Current Skills (comma-separated)</label>
+                        <input type="text" class="form-input" id="currentSkills" 
+                               placeholder="e.g., JavaScript, React, Node.js, Python" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Experience Level</label>
+                        <select class="form-select" id="skillLevel" required>
+                            <option value="">Select level</option>
+                            <option value="beginner">Beginner (0-2 years)</option>
+                            <option value="intermediate">Intermediate (2-5 years)</option>
+                            <option value="advanced">Advanced (5+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn">Analyze Skills</button>
+                </form>
+                
+                <div class="loading" id="skillGapLoading">
+                    <i class="fas fa-spinner fa-spin"></i> Analyzing...
+                </div>
+                
+                <div class="result-card" id="skillGapResult">
+                    <div class="result-title">📊 Skill Gap Analysis</div>
+                    <div class="result-value" id="skillMatchScore">85% Match</div>
+                    <div class="result-details">
+                        <strong>Skills you have:</strong>
+                        <div class="skill-list" id="hasSkills"></div>
+                        <br>
+                        <strong>Skills to learn:</strong>
+                        <div class="skill-list" id="missingSkills"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Optimizer -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-file-alt tool-icon"></i>
+                    <h3 class="tool-title">📄 Resume Optimizer</h3>
+                </div>
+                <p class="tool-description">
+                    Get AI-powered suggestions to optimize your resume for specific job roles and increase your interview chances.
+                </p>
+                
+                <form id="resumeForm">
+                    <div class="form-group">
+                        <label class="form-label">Target Job Title</label>
+                        <input type="text" class="form-input" id="jobTitle" 
+                               placeholder="e.g., Senior Frontend Developer" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Current Resume Summary</label>
+                        <textarea class="form-input" id="resumeSummary" rows="4" 
+                                  placeholder="Paste your current resume summary or objective..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn">Optimize Resume</button>
+                </form>
+                
+                <div class="loading" id="resumeLoading">
+                    <i class="fas fa-spinner fa-spin"></i> Optimizing...
+                </div>
+                
+                <div class="result-card" id="resumeResult">
+                    <div class="result-title">📄 Resume Optimization</div>
+                    <div class="result-details" id="resumeSuggestions">
+                        AI-powered suggestions will appear here...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interview Prep -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <i class="fas fa-comments tool-icon"></i>
+                    <h3 class="tool-title">🎯 Interview Prep</h3>
+                </div>
+                <p class="tool-description">
+                    Practice with AI-generated interview questions tailored to your target role and experience level.
+                </p>
+                
+                <form id="interviewForm">
+                    <div class="form-group">
+                        <label class="form-label">Interview Type</label>
+                        <select class="form-select" id="interviewType" required>
+                            <option value="">Select interview type</option>
+                            <option value="technical">Technical Interview</option>
+                            <option value="behavioral">Behavioral Interview</option>
+                            <option value="system-design">System Design</option>
+                            <option value="coding">Coding Challenge</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Role Focus</label>
+                        <select class="form-select" id="interviewRole" required>
+                            <option value="">Select role</option>
+                            <option value="frontend">Frontend Developer</option>
+                            <option value="backend">Backend Developer</option>
+                            <option value="fullstack">Full Stack Developer</option>
+                            <option value="devops">DevOps Engineer</option>
+                            <option value="data-scientist">Data Scientist</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn">Generate Questions</button>
+                </form>
+                
+                <div class="loading" id="interviewLoading">
+                    <i class="fas fa-spinner fa-spin"></i> Generating questions...
+                </div>
+                
+                <div class="result-card" id="interviewResult">
+                    <div class="result-title">🎯 Interview Questions</div>
+                    <div class="result-details" id="interviewQuestions">
+                        Practice questions will appear here...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Salary Calculator
+        document.getElementById('salaryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const loading = document.getElementById('salaryLoading');
+            const result = document.getElementById('salaryResult');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            
+            const formData = {
+                role: document.getElementById('jobRole').value,
+                experience: document.getElementById('experience').value,
+                location: document.getElementById('location').value
+            };
+            
+            try {
+                const response = await fetch('/api/tools/salary-calculator', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('salaryValue').textContent = data.salary_range;
+                document.getElementById('salaryDetails').textContent = data.details;
+                
+                loading.style.display = 'none';
+                result.style.display = 'block';
+            } catch (error) {
+                loading.style.display = 'none';
+                alert('Error calculating salary. Please try again.');
+            }
+        });
+
+        // Skill Gap Analyzer
+        document.getElementById('skillGapForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const loading = document.getElementById('skillGapLoading');
+            const result = document.getElementById('skillGapResult');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            
+            const formData = {
+                target_role: document.getElementById('targetRole').value,
+                current_skills: document.getElementById('currentSkills').value,
+                experience_level: document.getElementById('skillLevel').value
+            };
+            
+            try {
+                const response = await fetch('/api/tools/skill-gap-analyzer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('skillMatchScore').textContent = data.match_score + '% Match';
+                
+                // Display skills you have
+                const hasSkillsContainer = document.getElementById('hasSkills');
+                hasSkillsContainer.innerHTML = '';
+                data.matching_skills.forEach(skill => {
+                    const tag = document.createElement('span');
+                    tag.className = 'skill-tag';
+                    tag.textContent = skill;
+                    hasSkillsContainer.appendChild(tag);
+                });
+                
+                // Display missing skills
+                const missingSkillsContainer = document.getElementById('missingSkills');
+                missingSkillsContainer.innerHTML = '';
+                data.missing_skills.forEach(skill => {
+                    const tag = document.createElement('span');
+                    tag.className = 'skill-tag missing';
+                    tag.textContent = skill;
+                    missingSkillsContainer.appendChild(tag);
+                });
+                
+                loading.style.display = 'none';
+                result.style.display = 'block';
+            } catch (error) {
+                loading.style.display = 'none';
+                alert('Error analyzing skills. Please try again.');
+            }
+        });
+
+        // Resume Optimizer (placeholder - would connect to AI endpoint)
+        document.getElementById('resumeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loading = document.getElementById('resumeLoading');
+            const result = document.getElementById('resumeResult');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('resumeSuggestions').innerHTML = `
+                    <strong>Optimization Suggestions:</strong><br>
+                    • Add more quantifiable achievements (e.g., "Improved performance by 40%")<br>
+                    • Include relevant keywords: React, TypeScript, AWS<br>
+                    • Highlight leadership and collaboration skills<br>
+                    • Mention specific technologies used in projects<br>
+                    • Consider adding a portfolio link
+                `;
+                
+                loading.style.display = 'none';
+                result.style.display = 'block';
+            }, 2000);
+        });
+
+        // Interview Prep (placeholder - would connect to AI endpoint)
+        document.getElementById('interviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loading = document.getElementById('interviewLoading');
+            const result = document.getElementById('interviewResult');
+            
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('interviewQuestions').innerHTML = `
+                    <strong>Practice Questions:</strong><br><br>
+                    1. <strong>Technical:</strong> Explain the difference between let, const, and var in JavaScript.<br><br>
+                    2. <strong>Problem-solving:</strong> How would you optimize a slow-loading web page?<br><br>
+                    3. <strong>Experience:</strong> Describe a challenging project you worked on and how you overcame obstacles.<br><br>
+                    4. <strong>Architecture:</strong> How would you structure a large React application?<br><br>
+                    <em>💡 Tip: Practice answering these out loud and time yourself!</em>
+                `;
+                
+                loading.style.display = 'none';
+                result.style.display = 'block';
+            }, 2000);
+        });
+
+        // Add animation on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.tool-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s, transform 0.6s';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
