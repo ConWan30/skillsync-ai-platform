@@ -201,26 +201,7 @@ def index():
 @app.route('/api')
 def api_info():
     """API information endpoint"""
-    return jsonify({
-        'message': 'Welcome to SkillSync AI Platform API',
-        'version': '1.0.0',
-        'status': 'running',
-        'ai_provider': 'xAI Grok',
-        'features': [
-            'AI-Powered Skill Assessment',
-            'Personalized Learning Paths', 
-            'Career Guidance',
-            'File Organization',
-            'Progress Tracking'
-        ],
-        'endpoints': {
-            'health': '/health',
-            'assess_skills': '/assess-skills',
-            'career_guidance': '/career-guidance',
-            'users': '/users',
-            'upload': '/upload'
-        }
-    })
+    return render_template('api_info.html')
 
 # Frontend Demo Routes
 @app.route('/landing')
@@ -235,61 +216,38 @@ def dashboard_demo():
 
 @app.route('/api-docs')
 def api_docs():
-    """API documentation page"""
+    """Interactive API documentation page"""
+    return render_template('api_docs.html')
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint - returns HTML dashboard or JSON based on Accept header"""
+    if 'text/html' in request.headers.get('Accept', ''):
+        return render_template('health.html')
+    
     return jsonify({
-        'title': 'SkillSync AI Platform API Documentation',
+        'status': 'healthy', 
+        'timestamp': datetime.now().isoformat(),
+        'ai_status': 'xAI Grok Ready' if XAI_API_KEY else 'xAI API Key Required',
         'version': '1.0.0',
-        'description': 'Enterprise-grade AI-powered career development API',
-        'base_url': request.base_url.replace('/api-docs', ''),
+        'framework': 'Claude Code Conversion Optimization Framework - 25 Steps Implemented',
         'endpoints': {
-            'health_check': {
-                'method': 'GET',
-                'url': '/health',
-                'description': 'System health check and status monitoring',
-                'response': 'JSON with system status and timestamp'
-            },
-            'skill_assessment': {
-                'method': 'POST',
-                'url': '/assess-skills',
-                'description': 'AI-powered skill assessment and analysis',
-                'body': {
-                    'skills_description': 'String describing user skills and experience'
-                },
-                'response': 'JSON with AI assessment and recommendations'
-            },
-            'career_guidance': {
-                'method': 'POST',
-                'url': '/career-guidance',
-                'description': 'Personalized AI career roadmap generation',
-                'body': {
-                    'skills_description': 'String describing user skills and goals'
-                },
-                'response': 'JSON with personalized career guidance'
-            },
-            'user_creation': {
-                'method': 'POST',
-                'url': '/users',
-                'description': 'User registration and management',
-                'body': {
-                    'username': 'String',
-                    'email': 'String'
-                },
-                'response': 'JSON with user creation status'
-            },
-            'file_upload': {
-                'method': 'POST',
-                'url': '/upload',
-                'description': 'File upload and processing system',
-                'body': 'Multipart form data with file',
-                'response': 'JSON with upload status and file info'
-            }
+            'root': '/',
+            'api_info': '/api',
+            'health': '/health',
+            'assess_skills': '/assess-skills',
+            'career_guidance': '/career-guidance',
+            'users': '/users',
+            'upload': '/upload',
+            'landing_demo': '/landing',
+            'dashboard_demo': '/dashboard-demo',
+            'api_docs': '/api-docs'
         }
     })
 
-# Health check route
-@app.route('/health')
 @app.route('/api/health')
-def health_check():
+def api_health_check():
+    """API-specific health check - always returns JSON"""
     return jsonify({
         'status': 'healthy', 
         'timestamp': datetime.now().isoformat(),
@@ -367,12 +325,7 @@ def assess_skills():
             db.session.add(assessment)
             db.session.commit()
         
-        return jsonify({
-            'assessment': assessment_text,
-            'ai_provider': 'xAI Grok',
-            'timestamp': datetime.now().isoformat(),
-            'tokens_used': response.get('usage', {}).get('total_tokens', 'unknown')
-        })
+        return render_template('assessment.html', assessment=assessment_text)
         
     except (KeyError, IndexError) as e:
         return jsonify({'error': 'Invalid response from xAI API', 'details': str(e)}), 500
@@ -410,11 +363,7 @@ def career_guidance():
     try:
         guidance = response['choices'][0]['message']['content']
         
-        return jsonify({
-            'career_guidance': guidance,
-            'ai_provider': 'xAI Grok',
-            'timestamp': datetime.now().isoformat()
-        })
+        return render_template('career_guidance.html', guidance=guidance)
         
     except (KeyError, IndexError) as e:
         return jsonify({'error': 'Invalid response from xAI API', 'details': str(e)}), 500
