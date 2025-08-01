@@ -11,6 +11,10 @@ import json
 # Load environment variables
 load_dotenv()
 
+# xAI Configuration
+XAI_API_KEY = os.getenv('XAI_API_KEY', 'YOUR_XAI_API_KEY')  # Add your xAI API key here
+XAI_BASE_URL = "https://api.x.ai/v1"
+
 app = Flask(__name__, template_folder='../templates')
 CORS(app)
 
@@ -52,9 +56,6 @@ class LearningPath(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 # xAI Grok Configuration
-XAI_API_KEY = os.getenv('XAI_API_KEY')
-XAI_BASE_URL = "https://api.x.ai/v1"
-
 def call_grok_ai(prompt, system_prompt=None):
     """Call xAI Grok API with career development expertise"""
     if not XAI_API_KEY:
