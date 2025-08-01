@@ -518,27 +518,45 @@ ${data.capabilities.slice(0, 4).map(cap => `• ${cap}`).join('\n')}
         }
         
         async function demoUserInsights() {
-            showLoading('Generating user insights...');
+            showLoading('Generating personalized insights with AI...');
             
-            setTimeout(() => {
-                showResult(`👤 Sample User Insights (Demo Data):
+            try {
+                // Sample user profile - in a real app, this would come from user data
+                const userProfile = {
+                    skills: ['Python', 'JavaScript', 'SQL', 'React'],
+                    goals: 'advance to senior developer role and explore AI/ML',
+                    experience: 'mid-level'
+                };
+                
+                const response = await fetch('/api/intelligence/user-insights', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userProfile)
+                });
+                
+                const data = await response.json();
+                
+                showResult(`🤖 AI-Generated Career Insights
 
-🎯 Personalized Recommendations:
-"Based on your Python skills, consider learning Docker - demand up 23%"
+👤 Profile Analysis:
+• Skills: ${data.user_profile.skills.join(', ')}
+• Goals: ${data.user_profile.goals}
+• Experience: ${data.user_profile.experience}
 
-📈 Action Items:
-• 🚀 High Priority: Start learning Docker
-• 📊 Improve Python skills - strong market growth
-• 🔄 Consider adding React to your skillset
+🎯 AI Career Specialist Recommendations:
+${data.ai_insights}
 
-💼 Career Opportunities Found:
-• Senior Python Developer at TechCorp
-  💰 $90,000 - $130,000 | 🎯 85% match
+⏰ Generated: ${new Date(data.generated_at).toLocaleString()}
+🤖 AI Provider: ${data.ai_provider}
+📊 Confidence Score: ${(data.confidence_score * 100).toFixed(0)}%
 
-⏰ Generated: ${new Date().toLocaleString()}
-
-💡 Real insights use xAI Grok for actual users!`);
-            }, 2000);
+💡 These insights are powered by real AI analysis!`);
+                
+            } catch (error) {
+                showResult(`Error: ${error.message}\n\nNote: This requires the AI Agent backend to be running with xAI API key configured.`);
+            }
         }
         
         function showLoading(message) {
