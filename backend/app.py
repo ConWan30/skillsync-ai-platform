@@ -11,7 +11,7 @@ import json
 # Load environment variables
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates')
 CORS(app)
 
 # Configuration
