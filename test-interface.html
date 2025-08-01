@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync AI Platform - Test Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2563eb;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: vertical;
+        }
+        button {
+            background-color: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #1d4ed8;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #d1fae5;
+            border: 1px solid #10b981;
+        }
+        .error {
+            background-color: #fee2e2;
+            border: 1px solid #ef4444;
+        }
+        .loading {
+            background-color: #dbeafe;
+            border: 1px solid #3b82f6;
+        }
+        .ai-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #7c3aed, #2563eb);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 SkillSync AI Platform <span class="ai-badge">Powered by xAI Grok</span></h1>
+        
+        <div class="form-group">
+            <label for="skillsInput">Describe Your Skills & Experience:</label>
+            <textarea id="skillsInput" rows="6" placeholder="Example: I have 3 years of experience in Python programming, built several web applications with Flask and Django. I'm comfortable with databases like PostgreSQL and have basic knowledge of machine learning with scikit-learn. I also have experience with Git, Docker, and AWS deployment. I'm looking to transition into AI/ML engineering roles."></textarea>
+        </div>
+        
+        <button onclick="assessSkills()" id="assessBtn">🧠 Assess My Skills with AI</button>
+        <button onclick="clearResults()" id="clearBtn">🗑️ Clear Results</button>
+        
+        <div id="result"></div>
+        
+        <hr style="margin: 30px 0;">
+        
+        <h2>🎯 Career Guidance Test</h2>
+        <div class="form-group">
+            <label for="currentRole">Current Role:</label>
+            <textarea id="currentRole" rows="2" placeholder="e.g., Junior Web Developer"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="careerGoals">Career Goals:</label>
+            <textarea id="careerGoals" rows="2" placeholder="e.g., Become a Senior Full-Stack Developer and eventually a Tech Lead"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="additionalContext">Additional Context (Optional):</label>
+            <textarea id="additionalContext" rows="2" placeholder="e.g., I work at a startup and want to grow my leadership skills"></textarea>
+        </div>
+        
+        <button onclick="getCareerGuidance()" id="careerBtn">🎯 Get AI Career Guidance</button>
+        
+        <div id="careerResult"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://skillsync-ai-platform-production.up.railway.app';
+        
+        async function assessSkills() {
+            const skillsInput = document.getElementById('skillsInput').value.trim();
+            const resultDiv = document.getElementById('result');
+            const assessBtn = document.getElementById('assessBtn');
+            
+            if (!skillsInput) {
+                alert('Please describe your skills first!');
+                return;
+            }
+            
+            // Show loading state
+            assessBtn.disabled = true;
+            assessBtn.textContent = '🤔 AI is thinking...';
+            resultDiv.innerHTML = '<div class="result loading">🧠 xAI Grok is analyzing your skills... This may take 10-15 seconds.</div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/ai/assess-skills`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        skills_description: skillsInput
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>🎉 AI Skill Assessment Results (Powered by xAI Grok)</h3>
+                            <strong>Assessment:</strong><br>
+                            ${data.assessment}
+                            <br><br>
+                            <small><strong>AI Provider:</strong> ${data.ai_provider} | <strong>Timestamp:</strong> ${data.timestamp}</small>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>❌ Error</h3>
+                            ${data.error || 'Unknown error occurred'}
+                            ${data.details ? '<br><br><strong>Details:</strong> ' + data.details : ''}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Network Error</h3>
+                        Failed to connect to the API. Please check your internet connection.
+                        <br><br><strong>Error:</strong> ${error.message}
+                    </div>
+                `;
+            } finally {
+                assessBtn.disabled = false;
+                assessBtn.textContent = '🧠 Assess My Skills with AI';
+            }
+        }
+        
+        async function getCareerGuidance() {
+            const currentRole = document.getElementById('currentRole').value.trim();
+            const careerGoals = document.getElementById('careerGoals').value.trim();
+            const additionalContext = document.getElementById('additionalContext').value.trim();
+            const resultDiv = document.getElementById('careerResult');
+            const careerBtn = document.getElementById('careerBtn');
+            
+            if (!currentRole || !careerGoals) {
+                alert('Please fill in your current role and career goals!');
+                return;
+            }
+            
+            // Show loading state
+            careerBtn.disabled = true;
+            careerBtn.textContent = '🤔 AI is thinking...';
+            resultDiv.innerHTML = '<div class="result loading">🎯 xAI Grok is creating your personalized career guidance... This may take 10-15 seconds.</div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/ai/career-guidance`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_role: currentRole,
+                        career_goals: careerGoals,
+                        additional_context: additionalContext
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>🎯 AI Career Guidance (Powered by xAI Grok)</h3>
+                            <strong>Personalized Career Advice:</strong><br>
+                            ${data.career_guidance}
+                            <br><br>
+                            <small><strong>AI Provider:</strong> ${data.ai_provider} | <strong>Timestamp:</strong> ${data.timestamp}</small>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>❌ Error</h3>
+                            ${data.error || 'Unknown error occurred'}
+                            ${data.details ? '<br><br><strong>Details:</strong> ' + data.details : ''}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Network Error</h3>
+                        Failed to connect to the API. Please check your internet connection.
+                        <br><br><strong>Error:</strong> ${error.message}
+                    </div>
+                `;
+            } finally {
+                careerBtn.disabled = false;
+                careerBtn.textContent = '🎯 Get AI Career Guidance';
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('careerResult').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
