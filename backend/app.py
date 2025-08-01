@@ -181,42 +181,75 @@ def trigger_intelligence_cycle():
 @app.route('/api/intelligence/user-insights', methods=['POST'])
 def generate_user_insights():
     """Generate personalized user insights using AI"""
-    data = request.get_json() or {}
-    user_skills = data.get('skills', ['Python', 'JavaScript', 'SQL'])
-    career_goals = data.get('goals', 'career advancement in technology')
-    experience_level = data.get('experience', 'mid-level')
-    
-    system_prompt = """You are an expert career coach and market analyst specializing in technology careers.
-    You provide personalized, actionable career advice based on current market trends and individual skill profiles.
-    Your recommendations are specific, practical, and focused on measurable career growth."""
-    
-    prompt = f"""Analyze this professional's profile and provide personalized career insights:
-    
-    Current Skills: {', '.join(user_skills)}
-    Career Goals: {career_goals}
-    Experience Level: {experience_level}
-    
-    Provide:
-    1. Top 3 skill recommendations to learn next (with market demand reasoning)
-    2. Specific career opportunities they should pursue
-    3. Salary range expectations and negotiation tips
-    4. Action items for the next 90 days
-    
-    Be specific and actionable."""
-    
-    ai_response = call_grok_ai(prompt, system_prompt)
-    
-    return jsonify({
-        "user_profile": {
-            "skills": user_skills,
-            "goals": career_goals,
-            "experience": experience_level
-        },
-        "ai_insights": ai_response,
-        "generated_at": datetime.utcnow().isoformat(),
-        "ai_provider": "xAI Grok Career Specialist",
-        "confidence_score": 0.92
-    })
+    try:
+        data = request.get_json() or {}
+        user_skills = data.get('skills', ['Python', 'JavaScript', 'SQL'])
+        career_goals = data.get('goals', 'career advancement in technology')
+        experience_level = data.get('experience', 'mid-level')
+        
+        system_prompt = """You are an expert career coach and market analyst specializing in technology careers.
+        You provide personalized, actionable career advice based on current market trends and individual skill profiles.
+        Your recommendations are specific, practical, and focused on measurable career growth."""
+        
+        prompt = f"""Analyze this professional's profile and provide personalized career insights:
+        
+        Current Skills: {', '.join(user_skills)}
+        Career Goals: {career_goals}
+        Experience Level: {experience_level}
+        
+        Provide:
+        1. Top 3 skill recommendations to learn next (with market demand reasoning)
+        2. Specific career opportunities they should pursue
+        3. Salary range expectations and negotiation tips
+        4. Action items for the next 90 days
+        
+        Be specific and actionable."""
+        
+        ai_response = call_grok_ai(prompt, system_prompt)
+        
+        # Check if AI response is an error
+        if isinstance(ai_response, str) and "error" in ai_response.lower():
+            return jsonify({
+                "user_profile": {
+                    "skills": user_skills,
+                    "goals": career_goals,
+                    "experience": experience_level
+                },
+                "ai_insights": f"AI service temporarily unavailable. Here's a sample insight based on your profile:\n\nBased on your {experience_level} experience with {', '.join(user_skills[:2])}, I recommend:\n\n1. Focus on cloud technologies (AWS/Azure) - high demand\n2. Learn containerization (Docker/Kubernetes) - 40% salary increase potential\n3. Develop API design skills - essential for senior roles\n\nSalary range: $75k-$120k depending on location and specialization.",
+                "generated_at": datetime.utcnow().isoformat(),
+                "ai_provider": "SkillSync Career Intelligence (Fallback Mode)",
+                "confidence_score": 0.75,
+                "status": "fallback_mode"
+            })
+        
+        return jsonify({
+            "user_profile": {
+                "skills": user_skills,
+                "goals": career_goals,
+                "experience": experience_level
+            },
+            "ai_insights": ai_response,
+            "generated_at": datetime.utcnow().isoformat(),
+            "ai_provider": "xAI Grok Career Specialist",
+            "confidence_score": 0.92,
+            "status": "success"
+        })
+        
+    except Exception as e:
+        return jsonify({
+            "error": "Failed to generate insights",
+            "message": str(e),
+            "user_profile": {
+                "skills": ['Python', 'JavaScript', 'SQL'],
+                "goals": 'career advancement in technology',
+                "experience": 'mid-level'
+            },
+            "ai_insights": "Unable to generate AI insights at this time. Please try again later or contact support if the issue persists.",
+            "generated_at": datetime.utcnow().isoformat(),
+            "ai_provider": "SkillSync Error Handler",
+            "confidence_score": 0.0,
+            "status": "error"
+        }), 500
 
 # Routes
 @app.route('/')
