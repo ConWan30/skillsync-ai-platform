@@ -251,6 +251,21 @@ def generate_user_insights():
             "status": "error"
         }), 500
 
+@app.route('/api/intelligence/user-insights-test', methods=['GET', 'POST'])
+def test_user_insights():
+    """Simple test endpoint for debugging"""
+    return jsonify({
+        "message": "User insights endpoint is accessible",
+        "method": request.method,
+        "timestamp": datetime.utcnow().isoformat(),
+        "test_data": {
+            "skills": ['Python', 'JavaScript', 'SQL'],
+            "goals": 'career advancement in technology',
+            "experience": 'mid-level'
+        },
+        "status": "test_success"
+    })
+
 # Routes
 @app.route('/')
 def index():

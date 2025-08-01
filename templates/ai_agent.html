@@ -518,27 +518,51 @@ ${data.capabilities.slice(0, 4).map(cap => `• ${cap}`).join('\n')}
         }
         
         async function demoUserInsights() {
-            showLoading('Generating personalized insights with AI...');
+            showLoading('Testing endpoint connectivity...');
             
             try {
-                // Sample user profile - in a real app, this would come from user data
-                const userProfile = {
-                    skills: ['Python', 'JavaScript', 'SQL', 'React'],
-                    goals: 'advance to senior developer role and explore AI/ML',
-                    experience: 'mid-level'
-                };
-                
-                const response = await fetch('/api/intelligence/user-insights', {
+                // First test the debug endpoint
+                const testResponse = await fetch('/api/intelligence/user-insights-test', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(userProfile)
+                    body: JSON.stringify({test: true})
                 });
                 
-                const data = await response.json();
+                const testData = await testResponse.json();
                 
-                showResult(`🤖 AI-Generated Career Insights
+                showResult(`🔧 DEBUG TEST RESULTS:
+
+✅ Endpoint Accessible: ${testData.status}
+📡 Method: ${testData.method}
+⏰ Timestamp: ${testData.timestamp}
+📋 Test Data: ${JSON.stringify(testData.test_data, null, 2)}
+
+🎯 This confirms the backend is working!
+Now testing the real AI endpoint...`);
+                
+                // Wait 2 seconds then test the real endpoint
+                setTimeout(async () => {
+                    showLoading('Now testing real AI endpoint...');
+                    
+                    const userProfile = {
+                        skills: ['Python', 'JavaScript', 'SQL', 'React'],
+                        goals: 'advance to senior developer role and explore AI/ML',
+                        experience: 'mid-level'
+                    };
+                    
+                    const response = await fetch('/api/intelligence/user-insights', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(userProfile)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    showResult(`🤖 AI-Generated Career Insights
 
 👤 Profile Analysis:
 • Skills: ${data.user_profile.skills.join(', ')}
@@ -551,11 +575,22 @@ ${data.ai_insights}
 ⏰ Generated: ${new Date(data.generated_at).toLocaleString()}
 🤖 AI Provider: ${data.ai_provider}
 📊 Confidence Score: ${(data.confidence_score * 100).toFixed(0)}%
+🔄 Status: ${data.status}
 
 💡 These insights are powered by real AI analysis!`);
+                }, 2000);
                 
             } catch (error) {
-                showResult(`Error: ${error.message}\n\nNote: This requires the AI Agent backend to be running with xAI API key configured.`);
+                showResult(`❌ ERROR DETAILS:
+                
+Error: ${error.message}
+
+🔍 This helps us debug the issue:
+- If you see this error, the problem is with the network request
+- If you saw the debug test but this fails, the issue is with the AI endpoint specifically
+- Check the browser's Network tab (F12) for more details
+
+Note: This requires the AI Agent backend to be running with xAI API key configured.`);
             }
         }
         
