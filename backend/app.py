@@ -684,25 +684,13 @@ def test_user_insights():
 def index():
     return render_template('index.html')
 
-@app.route('/ai-agent')
-def ai_agent():
-    return render_template('ai_agent.html')
-
-@app.route('/api-docs')
-def api_docs():
-    return render_template('api_docs.html')
-
-@app.route('/health')
-def health_page():
-    return render_template('health.html')
-
 @app.route('/dashboard')
 def dashboard():
     """User dashboard with progress tracking and recent insights"""
     return render_template('dashboard.html')
 
 @app.route('/market-intelligence')
-def market_intelligence_hub():
+def market_intelligence():
     """Market intelligence hub with free insights and trends"""
     # Get market data from knowledge base
     market_data = get_enhanced_market_intelligence("market_trends")
@@ -719,7 +707,7 @@ def career_paths():
     return render_template('career_paths.html', career_paths=career_paths)
 
 @app.route('/tools')
-def tools_hub():
+def tools():
     """Free tools and calculators for career development"""
     return render_template('tools.html')
 
@@ -1394,7 +1382,11 @@ def create_tables():
 if __name__ == '__main__':
     # Create tables before running the app
     create_tables()
-    port = int(os.getenv('PORT', 5000))
+    print("[INFO] Database tables created successfully")
+    print("[INFO] SkillSync AI Platform starting...")
+    print(f"[INFO] xAI API Key configured: {'Yes' if XAI_API_KEY and XAI_API_KEY != 'YOUR_XAI_API_KEY' else 'No'}")
+    
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
 
 # SkillSync Transformation Model - Career Acceleration Conversion Framework
@@ -1691,45 +1683,39 @@ def demo_analysis():
         skills = data.get('skills', '')
         target = data.get('target', '')
         
+        print(f"[DEBUG] Demo analysis request: role={role}, experience={experience}, skills={skills}, target={target}")
+        
         # Create AI prompt for career analysis
         prompt = f"""
         Analyze this career profile and provide actionable insights:
         
-        USER PROFILE:
-        - Skills: {', '.join(skills)}
-        - Goals: {target if target else 'Career advancement'}
-        - Experience: {experience}
+        Current Role: {role}
+        Experience Level: {experience}
+        Skills: {skills}
+        Target Role: {target if target else 'Career advancement'}
         
-        CURRENT MARKET DATA (2024):
-        - Python: #1 language, $70k-$150k salary range, +35% growth
-        - JavaScript: Still #1 for code pushes, $65k-$140k range
-        - SQL: Essential skill, database market growing +25%
-        - AI/ML: +45% growth, +25-40% salary premium
-        - Cloud skills: +38% growth, +15-30% salary premium
+        Please provide:
+        1. A career health score (0-100) with explanation
+        2. 3-4 key insights about their profile and market position
+        3. 3-4 specific actionable recommendations
+        4. Salary potential and market outlook
         
-        SALARY BENCHMARKS BY EXPERIENCE:
-        - Entry (0-2 years): $50k-$85k
-        - Mid-level (3-7 years): $75k-$130k  
-        - Senior (8-15 years): $120k-$200k
-        - Principal (15+ years): $180k-$350k+
-        
-        Provide specific, actionable insights including:
-        1. Current market position analysis
-        2. Skill gap identification with growth potential
-        3. Salary expectations and negotiation points
-        4. Next career steps with timeline
-        5. Learning recommendations based on market trends
-        
-        Make it personal and actionable for their specific situation.
+        Make it personalized, specific, and actionable. Use real market data and trends.
         """
         
-        system_prompt = """You are an expert career counselor specializing in technology careers. 
-        Use the provided market data to give personalized, accurate advice. 
-        Focus on actionable recommendations that align with current market opportunities."""
+        system_prompt = """You are a senior career advisor and market analyst specializing in tech careers. 
+        Provide specific, actionable career advice based on current market trends and data. 
+        Be encouraging but realistic. Focus on concrete next steps and quantifiable outcomes."""
         
+        print(f"[DEBUG] Calling AI with prompt length: {len(prompt)}")
+        
+        # Call AI for analysis
         ai_response = call_grok_ai(prompt, system_prompt)
         
+        print(f"[DEBUG] AI response received: {ai_response[:200]}...")
+        
         if isinstance(ai_response, str) and "ERROR:" in ai_response:
+            print(f"[DEBUG] AI call failed, using fallback analysis")
             # Return fallback analysis if AI fails
             return jsonify({
                 "success": False,
@@ -1739,6 +1725,8 @@ def demo_analysis():
         
         # Parse AI response into structured format
         analysis = parse_ai_analysis(ai_response, role, experience, skills, target)
+        
+        print(f"[DEBUG] Analysis generated successfully")
         
         return jsonify({
             "success": True,

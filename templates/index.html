@@ -811,6 +811,11 @@
                         <button type="submit" class="demo-analyze-btn">
                             <i class="fas fa-brain"></i> Analyze My Career Now
                         </button>
+                        
+                        <!-- Test button for debugging -->
+                        <button type="button" class="demo-analyze-btn" onclick="testDemoForm()" style="background: #28a745; margin-top: 10px;">
+                            <i class="fas fa-bug"></i> Test Demo (Debug)
+                        </button>
                     </form>
                 </div>
                 
@@ -1019,60 +1024,6 @@
             window.location.href = '/dashboard';
         }
 
-        // Form submission
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Show loading state
-            document.getElementById('signupForm').style.display = 'none';
-            document.getElementById('signupLoading').style.display = 'block';
-            
-            // Animate loading steps
-            const steps = document.querySelectorAll('.loading-step');
-            let stepIndex = 0;
-            
-            const animateSteps = setInterval(() => {
-                if (stepIndex < steps.length) {
-                    steps[stepIndex].classList.add('active');
-                    steps[stepIndex].innerHTML = steps[stepIndex].innerHTML.replace('⏳', '✓');
-                    stepIndex++;
-                } else {
-                    clearInterval(animateSteps);
-                    
-                    // Show success after animation
-                    setTimeout(() => {
-                        document.getElementById('signupLoading').style.display = 'none';
-                        document.getElementById('signupSuccess').style.display = 'block';
-                    }, 1000);
-                }
-            }, 800);
-            
-            // Collect form data
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                currentRole: document.getElementById('currentRole').value,
-                experience: selectedExperience,
-                targetRole: document.getElementById('targetRole').value,
-                currentSalary: document.getElementById('currentSalary').value,
-                skills: document.getElementById('skills').value,
-                plan: selectedPlan
-            };
-            
-            console.log('User signup data:', formData);
-            
-            // In a real app, you'd send this to your backend
-            // For now, we'll simulate the process
-        });
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('signupModal');
-            if (event.target === modal) {
-                closeSignupModal();
-            }
-        }
-
         // Add smooth scroll behavior for all internal links
         document.addEventListener('DOMContentLoaded', function() {
             // Animate stats on scroll
@@ -1097,46 +1048,125 @@
                 section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                 observer.observe(section);
             });
-        });
 
-        // Live Demo Form Handler
-        document.getElementById('liveDemoForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = {
-                role: document.getElementById('demoRole').value,
-                experience: document.getElementById('demoExperience').value,
-                skills: document.getElementById('demoSkills').value,
-                target: document.getElementById('demoTarget').value
-            };
-            
-            // Show loading state
-            document.querySelector('.demo-placeholder').style.display = 'none';
-            document.getElementById('demoLoading').style.display = 'block';
-            document.getElementById('analysisResults').style.display = 'none';
-            
-            // Animate analysis steps
-            const steps = document.querySelectorAll('.analysis-step');
-            let stepIndex = 0;
-            
-            const animateSteps = setInterval(() => {
-                if (stepIndex < steps.length) {
-                    steps[stepIndex].classList.add('active');
-                    stepIndex++;
-                } else {
-                    clearInterval(animateSteps);
+            // Live Demo Form Handler - Initialize after DOM is loaded
+            const liveDemoForm = document.getElementById('liveDemoForm');
+            if (liveDemoForm) {
+                liveDemoForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    console.log('Demo form submitted!');
                     
-                    // Call AI analysis after animation
-                    setTimeout(() => {
-                        performAIAnalysis(formData);
-                    }, 1000);
+                    // Get form data
+                    const formData = {
+                        role: document.getElementById('demoRole').value,
+                        experience: document.getElementById('demoExperience').value,
+                        skills: document.getElementById('demoSkills').value,
+                        target: document.getElementById('demoTarget').value
+                    };
+                    
+                    console.log('Form data:', formData);
+                    
+                    // Validate required fields
+                    if (!formData.role || !formData.experience || !formData.skills) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const placeholder = document.querySelector('.demo-placeholder');
+                    const loading = document.getElementById('demoLoading');
+                    const results = document.getElementById('analysisResults');
+                    
+                    if (placeholder) placeholder.style.display = 'none';
+                    if (loading) loading.style.display = 'block';
+                    if (results) results.style.display = 'none';
+                    
+                    // Reset analysis steps
+                    const steps = document.querySelectorAll('.analysis-step');
+                    steps.forEach(step => step.classList.remove('active'));
+                    
+                    // Animate analysis steps
+                    let stepIndex = 0;
+                    const animateSteps = setInterval(() => {
+                        if (stepIndex < steps.length) {
+                            steps[stepIndex].classList.add('active');
+                            stepIndex++;
+                        } else {
+                            clearInterval(animateSteps);
+                            
+                            // Call AI analysis after animation
+                            setTimeout(() => {
+                                performAIAnalysis(formData);
+                            }, 1000);
+                        }
+                    }, 800);
+                });
+            } else {
+                console.error('Live demo form not found!');
+            }
+
+            // Signup Form Handler - Initialize after DOM is loaded
+            const signupForm = document.getElementById('signupForm');
+            if (signupForm) {
+                signupForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Show loading state
+                    document.getElementById('signupForm').style.display = 'none';
+                    document.getElementById('signupLoading').style.display = 'block';
+                    
+                    // Animate loading steps
+                    const steps = document.querySelectorAll('.loading-step');
+                    let stepIndex = 0;
+                    
+                    const animateSteps = setInterval(() => {
+                        if (stepIndex < steps.length) {
+                            steps[stepIndex].classList.add('active');
+                            steps[stepIndex].innerHTML = steps[stepIndex].innerHTML.replace('⏳', '✓');
+                            stepIndex++;
+                        } else {
+                            clearInterval(animateSteps);
+                            
+                            // Show success after animation
+                            setTimeout(() => {
+                                document.getElementById('signupLoading').style.display = 'none';
+                                document.getElementById('signupSuccess').style.display = 'block';
+                            }, 1000);
+                        }
+                    }, 800);
+                    
+                    // Collect form data
+                    const formData = {
+                        fullName: document.getElementById('fullName').value,
+                        email: document.getElementById('email').value,
+                        currentRole: document.getElementById('currentRole').value,
+                        experience: selectedExperience,
+                        targetRole: document.getElementById('targetRole').value,
+                        currentSalary: document.getElementById('currentSalary').value,
+                        skills: document.getElementById('skills').value,
+                        plan: selectedPlan
+                    };
+                    
+                    console.log('User signup data:', formData);
+                    
+                    // In a real app, you'd send this to your backend
+                    // For now, we'll simulate the process
+                });
+            }
+
+            // Close modal when clicking outside
+            window.onclick = function(event) {
+                const modal = document.getElementById('signupModal');
+                if (event.target === modal) {
+                    closeSignupModal();
                 }
-            }, 800);
+            }
         });
 
         async function performAIAnalysis(formData) {
             try {
+                console.log('Starting AI analysis with data:', formData);
+                
                 // Call the AI analysis endpoint
                 const response = await fetch('/api/intelligence/demo-analysis', {
                     method: 'POST',
@@ -1146,17 +1176,25 @@
                     body: JSON.stringify(formData)
                 });
                 
-                const result = await response.json();
+                console.log('Response status:', response.status);
                 
-                if (result.success) {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('Analysis result:', result);
+                
+                if (result.success && result.analysis) {
                     displayAnalysisResults(result.analysis);
                 } else {
                     // Fallback to sample analysis if AI fails
+                    console.log('AI analysis failed, using fallback');
                     displaySampleAnalysis(formData);
                 }
             } catch (error) {
                 console.error('AI Analysis error:', error);
-                // Fallback to sample analysis
+                // Always fallback to sample analysis on error
                 displaySampleAnalysis(formData);
             }
         }
@@ -1267,6 +1305,18 @@
                 recommendations: analysis.recommendations,
                 salaryInsight: analysis.salary
             });
+        }
+
+        function testDemoForm() {
+            console.log('Testing demo form submission...');
+            const formData = {
+                role: 'frontend',
+                experience: '2-4',
+                skills: 'React, JavaScript, HTML/CSS',
+                target: 'Senior Frontend Developer'
+            };
+            console.log('Test form data:', formData);
+            performAIAnalysis(formData);
         }
     </script>
 </body>
