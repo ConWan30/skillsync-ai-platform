@@ -420,9 +420,97 @@
             font-size: 1.2rem;
             opacity: 0.9;
         }
+        
+        /* Navigation Bar Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-right: 20px;
+        }
+        
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li {
+            margin-right: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #ccc;
+        }
+        
+        .nav-cta {
+            margin-left: 20px;
+        }
+        
+        .nav-signup-btn {
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-signup-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
     </style>
 </head>
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-brain"></i> SkillSync AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/market-intelligence">Market Intelligence</a></li>
+                <li><a href="/career-paths">Career Paths</a></li>
+                <li><a href="/tools">Tools</a></li>
+                <li><a href="/ai-agent">AI Agent</a></li>
+                <li><a href="/community">Community</a></li>
+            </ul>
+            <div class="nav-cta">
+                <button class="nav-signup-btn" onclick="openSignupModal()">
+                    <i class="fas fa-rocket"></i> Get Started Free
+                </button>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
         <!-- Hero Section with Clear Value Proposition -->
         <section class="hero-section">
