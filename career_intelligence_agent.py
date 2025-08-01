@@ -10,7 +10,6 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 import os
 from dataclasses import dataclass
-from app import db, User, Skill, Assessment, XAI_API_KEY, XAI_BASE_URL
 
 @dataclass
 class MarketInsight:
@@ -38,8 +37,9 @@ class ProactiveCareerAgent:
     """
     
     def __init__(self):
-        self.xai_api_key = XAI_API_KEY
-        self.xai_base_url = XAI_BASE_URL
+        # Get configuration from environment variables directly
+        self.xai_api_key = os.getenv('XAI_API_KEY')
+        self.xai_base_url = "https://api.x.ai/v1"
         self.job_apis = {
             'github_jobs': 'https://jobs.github.com/positions.json',
             'remote_ok': 'https://remoteok.io/api',
@@ -50,11 +50,26 @@ class ProactiveCareerAgent:
             'github_trending': 'https://api.github.com/search/repositories'
         }
     
+    def _get_db_models(self):
+        """Dynamically import database models to avoid circular imports"""
+        try:
+            from app import db, User, Skill, Assessment
+            return db, User, Skill, Assessment
+        except ImportError:
+            print("Warning: Could not import database models")
+            return None, None, None, None
+    
     async def run_daily_intelligence_cycle(self):
         """Main autonomous cycle - runs daily to analyze and notify users"""
         print("🤖 Starting Proactive Career Intelligence Cycle...")
         
         try:
+            # Get database models dynamically
+            db, User, Skill, Assessment = self._get_db_models()
+            if not User:
+                print("❌ Database models not available")
+                return
+            
             # 1. Analyze global market trends
             market_insights = await self.analyze_market_trends()
             
@@ -180,7 +195,7 @@ class ProactiveCareerAgent:
             'recommended_action': 'monitor'
         }
     
-    async def generate_user_insights(self, user: User, market_insights: List[MarketInsight]) -> Dict:
+    async def generate_user_insights(self, user, market_insights: List[MarketInsight]) -> Dict:
         """Generate personalized insights for a specific user"""
         user_skills = [skill.name for skill in user.skills]
         
@@ -203,7 +218,7 @@ class ProactiveCareerAgent:
             'generated_at': datetime.now().isoformat()
         }
     
-    async def ai_generate_personalized_insights(self, user: User, insights: List[MarketInsight]) -> str:
+    async def ai_generate_personalized_insights(self, user, insights: List[MarketInsight]) -> str:
         """Use AI to generate personalized career insights"""
         if not self.xai_api_key:
             return f"Based on market analysis, your skills are showing positive trends. Consider focusing on emerging technologies to stay competitive."
@@ -253,7 +268,7 @@ class ProactiveCareerAgent:
         # Fallback response
         return "Your skills are well-positioned in the current market. Consider exploring emerging technologies and building on your existing expertise."
     
-    async def find_career_opportunities(self, user: User) -> List[CareerOpportunity]:
+    async def find_career_opportunities(self, user) -> List[CareerOpportunity]:
         """Find specific career opportunities for the user"""
         # Simulate job opportunity discovery
         # In production, integrate with real job APIs
@@ -287,7 +302,7 @@ class ProactiveCareerAgent:
         
         return opportunities
     
-    async def generate_action_items(self, user: User, insights: List[MarketInsight]) -> List[str]:
+    async def generate_action_items(self, user, insights: List[MarketInsight]) -> List[str]:
         """Generate specific action items for the user"""
         actions = []
         
@@ -301,7 +316,7 @@ class ProactiveCareerAgent:
         
         return actions[:5]  # Top 5 actions
     
-    async def identify_skill_gaps(self, user: User, market_insights: List[MarketInsight]) -> List[str]:
+    async def identify_skill_gaps(self, user, market_insights: List[MarketInsight]) -> List[str]:
         """Identify skills the user should learn based on market trends"""
         user_skills = [skill.name.lower() for skill in user.skills]
         
@@ -312,7 +327,7 @@ class ProactiveCareerAgent:
         
         return high_demand_skills[:3]  # Top 3 skill gaps
     
-    async def send_proactive_notifications(self, user: User, insights: Dict, opportunities: List[CareerOpportunity]):
+    async def send_proactive_notifications(self, user, insights: Dict, opportunities: List[CareerOpportunity]):
         """Send proactive notifications to users (email, in-app, etc.)"""
         # For now, we'll store notifications in the database
         # In production, integrate with email/SMS/push notification services
@@ -324,7 +339,7 @@ class ProactiveCareerAgent:
         print(notification_content)
         print("-" * 50)
     
-    def format_notification(self, user: User, insights: Dict, opportunities: List[CareerOpportunity]) -> str:
+    def format_notification(self, user, insights: Dict, opportunities: List[CareerOpportunity]) -> str:
         """Format the notification content"""
         content = f"""
 🤖 SkillSync Career Intelligence Update for {user.username}
