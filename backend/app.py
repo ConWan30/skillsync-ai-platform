@@ -995,6 +995,7 @@ def ai_career_strategy():
         - Market trends: {market_trends}
         
         Provide a strategic analysis with:
+        
         1. **Gap analysis** between current and target role
         2. **Specific skills** to prioritize (with timeline)
         3. **Market positioning** strategy
@@ -1680,4 +1681,227 @@ def get_live_market_feed():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Routes
+@app.route('/api/intelligence/demo-analysis', methods=['POST'])
+def demo_analysis():
+    """Live demo career analysis endpoint"""
+    try:
+        data = request.get_json() or {}
+        role = data.get('role', '')
+        experience = data.get('experience', '')
+        skills = data.get('skills', '')
+        target = data.get('target', '')
+        
+        # Create AI prompt for career analysis
+        prompt = f"""
+        Analyze this career profile and provide actionable insights:
+        
+        USER PROFILE:
+        - Skills: {', '.join(skills)}
+        - Goals: {target if target else 'Career advancement'}
+        - Experience: {experience}
+        
+        CURRENT MARKET DATA (2024):
+        - Python: #1 language, $70k-$150k salary range, +35% growth
+        - JavaScript: Still #1 for code pushes, $65k-$140k range
+        - SQL: Essential skill, database market growing +25%
+        - AI/ML: +45% growth, +25-40% salary premium
+        - Cloud skills: +38% growth, +15-30% salary premium
+        
+        SALARY BENCHMARKS BY EXPERIENCE:
+        - Entry (0-2 years): $50k-$85k
+        - Mid-level (3-7 years): $75k-$130k  
+        - Senior (8-15 years): $120k-$200k
+        - Principal (15+ years): $180k-$350k+
+        
+        Provide specific, actionable insights including:
+        1. Current market position analysis
+        2. Skill gap identification with growth potential
+        3. Salary expectations and negotiation points
+        4. Next career steps with timeline
+        5. Learning recommendations based on market trends
+        
+        Make it personal and actionable for their specific situation.
+        """
+        
+        system_prompt = """You are an expert career counselor specializing in technology careers. 
+        Use the provided market data to give personalized, accurate advice. 
+        Focus on actionable recommendations that align with current market opportunities."""
+        
+        ai_response = call_grok_ai(prompt, system_prompt)
+        
+        if isinstance(ai_response, str) and "ERROR:" in ai_response:
+            # Return fallback analysis if AI fails
+            return jsonify({
+                "success": False,
+                "message": "Using sample analysis",
+                "analysis": generate_fallback_analysis(role, experience, skills, target)
+            })
+        
+        # Parse AI response into structured format
+        analysis = parse_ai_analysis(ai_response, role, experience, skills, target)
+        
+        return jsonify({
+            "success": True,
+            "analysis": analysis,
+            "timestamp": datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Demo analysis failed: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": "Analysis temporarily unavailable",
+            "analysis": generate_fallback_analysis(
+                data.get('role', ''), 
+                data.get('experience', ''), 
+                data.get('skills', ''), 
+                data.get('target', '')
+            )
+        }), 500
+
+def parse_ai_analysis(ai_response, role, experience, skills, target):
+    """Parse AI response into structured analysis format"""
+    try:
+        # Extract score (look for numbers 0-100)
+        import re
+        score_match = re.search(r'\b([0-9]{1,2}|100)\b', ai_response)
+        score = int(score_match.group(1)) if score_match else 75
+        
+        # Split response into sections
+        lines = ai_response.split('\n')
+        insights = []
+        recommendations = []
+        salary_info = ""
+        
+        current_section = None
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+                
+            # Detect sections
+            if 'insight' in line.lower() or 'key' in line.lower():
+                current_section = 'insights'
+            elif 'recommend' in line.lower() or 'next step' in line.lower():
+                current_section = 'recommendations'
+            elif 'salary' in line.lower() or 'earning' in line.lower():
+                current_section = 'salary'
+            elif line.startswith('-') or line.startswith('•') or line.startswith('*'):
+                # Bullet point
+                clean_line = line[1:].strip()
+                if current_section == 'insights' and len(insights) < 4:
+                    insights.append(clean_line)
+                elif current_section == 'recommendations' and len(recommendations) < 4:
+                    recommendations.append(clean_line)
+            elif current_section == 'salary' and len(line) > 20:
+                salary_info = line
+        
+        # Fallback if parsing fails
+        if not insights:
+            insights = [
+                f"Your {role} skills are well-positioned in the current market",
+                f"With {experience} experience, you're competitive for advancement",
+                "Continuous learning will accelerate your career growth"
+            ]
+        
+        if not recommendations:
+            recommendations = [
+                "Build a strong portfolio showcasing your best work",
+                "Network with professionals in your target industry",
+                "Stay updated with the latest technologies and trends"
+            ]
+        
+        if not salary_info:
+            salary_info = f"Based on your experience level and skills, you have strong earning potential in the {role} market."
+        
+        return {
+            "score": score,
+            "scoreExplanation": f"Your career profile shows strong potential. This score reflects your {experience} years of experience, current skills ({skills}), and market demand for {role} roles.",
+            "insights": insights[:4],
+            "recommendations": recommendations[:4],
+            "salaryInsight": salary_info
+        }
+        
+    except Exception as e:
+        print(f"[ERROR] Failed to parse AI analysis: {str(e)}")
+        return generate_fallback_analysis(role, experience, skills, target)
+
+def generate_fallback_analysis(role, experience, skills, target):
+    """Generate fallback analysis when AI is unavailable"""
+    role_data = {
+        'frontend': {
+            'score': 78,
+            'insights': [
+                'Frontend developers are in high demand with 23% job growth',
+                'React and JavaScript skills are highly valued by employers',
+                'Modern frontend roles require full-stack understanding',
+                'UI/UX collaboration skills set you apart from competitors'
+            ],
+            'recommendations': [
+                'Learn TypeScript to increase salary potential by $8-12k',
+                'Build responsive, accessible web applications',
+                'Master modern state management (Redux, Zustand)',
+                'Contribute to open-source React projects for visibility'
+            ],
+            'salary': 'Frontend developers with your experience typically earn $75k-$95k annually. Senior roles reach $110k-$130k with leadership responsibilities.'
+        },
+        'backend': {
+            'score': 82,
+            'insights': [
+                'Backend developers see 18% salary growth year-over-year',
+                'API design and database optimization skills are crucial',
+                'Cloud architecture knowledge is increasingly important',
+                'DevOps integration makes you more valuable to employers'
+            ],
+            'recommendations': [
+                'Get AWS or Azure certification for $10-15k salary boost',
+                'Learn microservices architecture and containerization',
+                'Master database performance optimization techniques',
+                'Build scalable APIs with proper documentation'
+            ],
+            'salary': 'Backend expertise commands $80k-$105k base salary. With cloud and DevOps skills, reach $120k-$140k in senior positions.'
+        },
+        'fullstack': {
+            'score': 85,
+            'insights': [
+                'Full-stack developers are most sought-after (31% demand increase)',
+                'End-to-end project ownership makes you highly valuable',
+                'Modern full-stack requires both frontend and backend mastery',
+                'DevOps knowledge is becoming essential for full-stack roles'
+            ],
+            'recommendations': [
+                'Master a modern full-stack framework (Next.js, NestJS)',
+                'Learn Docker and Kubernetes for deployment expertise',
+                'Build complete applications showcasing your range',
+                'Develop strong system design and architecture skills'
+            ],
+            'salary': 'Full-stack expertise earns $85k-$115k mid-level, with senior roles reaching $130k-$160k plus equity opportunities.'
+        }
+    }
+    
+    default_data = {
+        'score': 75,
+        'insights': [
+            'Your technical foundation shows strong growth potential',
+            'The market demand for your skills is steadily increasing',
+            'Continuous learning will accelerate your career trajectory',
+            'Building a strong professional network opens new opportunities'
+        ],
+        'recommendations': [
+            'Focus on building a portfolio of impactful projects',
+            'Engage with the tech community through meetups and conferences',
+            'Consider mentorship to accelerate your learning curve',
+            'Stay current with industry trends and emerging technologies'
+        ],
+        'salary': 'Based on your experience level and skill set, you have strong earning potential in the current tech market.'
+    }
+    
+    analysis_data = role_data.get(role, default_data)
+    
+    return {
+        "score": analysis_data['score'],
+        "scoreExplanation": f"Your career profile shows strong potential. This score is based on your {experience} years of experience, current skills ({skills}), and market demand for {role} roles.",
+        "insights": analysis_data['insights'],
+        "recommendations": analysis_data['recommendations'],
+        "salaryInsight": analysis_data['salary']
+    }
