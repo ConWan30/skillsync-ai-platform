@@ -15,8 +15,8 @@ from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 from enum import Enum
 
-# Import existing Grok API integration
-from app import call_grok_ai, CAREER_KNOWLEDGE_BASE
+# Import shared AI utilities to avoid circular import
+from ai_utils import call_grok_ai, CAREER_KNOWLEDGE_BASE
 
 # ============================================================================
 # GAMING CAREER KNOWLEDGE BASE
