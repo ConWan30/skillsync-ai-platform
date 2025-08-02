@@ -839,15 +839,13 @@
                 // Remove all elements containing brain emoji or AI learning text
                 const allElements = document.querySelectorAll('*');
                 allElements.forEach(el => {
-                    if (el.id !== 'multi-agent-visualizer-button') {
-                        const text = el.textContent || '';
-                        const title = el.title || '';
-                        if (text.includes('🧠') || title.includes('autonomous AI') || title.includes('behavioral insight') ||
-                            title.includes('learning from my behavior to provide personalized insights') ||
-                            title.includes('learning from your behavior to provide personalized insights')) {
-                            console.log('🗑️ Removing brain icon element:', text, title);
-                            el.remove();
-                        }
+                    const text = el.textContent || '';
+                    const title = el.title || '';
+                    if (text.includes('🧠') || title.includes('autonomous AI') || title.includes('behavioral insight') ||
+                        title.includes('learning from my behavior to provide personalized insights') ||
+                        title.includes('learning from your behavior to provide personalized insights')) {
+                        console.log('🗑️ Removing brain icon element:', text, title);
+                        el.remove();
                     }
                 });
                 
@@ -1559,180 +1557,177 @@
             }
         }
         
-        visualizer.style.display = 'flex';
-    }
-    
-    function closeAgentVisualizer() {
-        const visualizer = document.getElementById('agent-visualizer');
-        if (visualizer) {
-            visualizer.style.display = 'none';
+        function closeAgentVisualizer() {
+            const visualizer = document.getElementById('agent-visualizer');
+            if (visualizer) {
+                visualizer.style.display = 'none';
+            }
+            
+            // Stop monitoring when closed
+            if (window.agentMonitoringInterval) {
+                clearInterval(window.agentMonitoringInterval);
+            }
         }
         
-        // Stop monitoring when closed
-        if (window.agentMonitoringInterval) {
-            clearInterval(window.agentMonitoringInterval);
-        }
-    }
-    
-    function startAgentMonitoring() {
-        let syncCounter = 0;
-        let lastSyncTime = Date.now();
-        
-        // Update sync countdown
-        const updateSyncCountdown = () => {
-            const timeSinceSync = Date.now() - lastSyncTime;
-            const timeUntilNext = Math.max(0, 30000 - timeSinceSync);
-            const secondsUntilNext = Math.ceil(timeUntilNext / 1000);
+        function startAgentMonitoring() {
+            let syncCounter = 0;
+            let lastSyncTime = Date.now();
             
-            const nextSyncElement = document.getElementById('next-sync-time');
-            if (nextSyncElement) {
-                nextSyncElement.textContent = secondsUntilNext > 0 ? `${secondsUntilNext}s` : 'Now';
-            }
-        };
-        
-        // Simulate real-time agent activity
-        const simulateAgentActivity = () => {
-            // Simulate behavioral agent activity
-            const clickCount = universalAI?.sessionData?.behavioral_data?.clicks?.length || Math.floor(Math.random() * 50);
-            const engagementLevels = ['Basic', 'Medium', 'High', 'Expert'];
-            const engagement = engagementLevels[Math.min(Math.floor(clickCount / 10), 3)];
-            
-            updateAgentMetric('behavioral-clicks', clickCount);
-            updateAgentMetric('behavioral-engagement', engagement);
-            updateAgentMetric('behavioral-interests', getRandomInterests());
-            
-            // Simulate motivation agent
-            const energyLevels = ['Low', 'Medium', 'High'];
-            const energy = energyLevels[Math.floor(Math.random() * 3)];
-            updateAgentMetric('motivation-energy', energy);
-            updateAgentMetric('motivation-streak', Math.floor(Math.random() * 7));
-            updateAgentMetric('motivation-triggers', Math.floor(Math.random() * 5));
-            
-            // Simulate market intelligence
-            updateAgentMetric('market-opportunities', Math.floor(Math.random() * 10));
-            updateAgentMetric('market-trends', 'AI/ML, React, TypeScript');
-            updateAgentMetric('market-alignment', Math.floor(Math.random() * 100) + '%');
-            
-            // Simulate goal setting
-            updateAgentMetric('goal-active', Math.floor(Math.random() * 3));
-            updateAgentMetric('goal-progress', Math.floor(Math.random() * 100) + '%');
-            updateAgentMetric('goal-suggestions', Math.floor(Math.random() * 5));
-        };
-        
-        // Log A2A communication events
-        const logA2AEvent = (type, agent, message, data = null) => {
-            const timestamp = new Date().toLocaleTimeString();
-            const log = document.getElementById('agent-communication-log');
-            
-            if (log) {
-                const colors = {
-                    'SYNC': '#3b82f6',
-                    'INSIGHT': '#10b981',
-                    'COLLABORATION': '#f59e0b',
-                    'BEHAVIORAL': '#8b5cf6',
-                    'GOAL': '#ec4899',
-                    'MARKET': '#06b6d4'
-                };
+            // Update sync countdown
+            const updateSyncCountdown = () => {
+                const timeSinceSync = Date.now() - lastSyncTime;
+                const timeUntilNext = Math.max(0, 30000 - timeSinceSync);
+                const secondsUntilNext = Math.ceil(timeUntilNext / 1000);
                 
-                const color = colors[type] || '#94a3b8';
-                const dataStr = data ? ` | Data: ${JSON.stringify(data).substring(0, 50)}...` : '';
-                
-                const logEntry = document.createElement('div');
-                logEntry.style.color = color;
-                logEntry.innerHTML = `[${timestamp}] [${type}] ${agent}: ${message}${dataStr}`;
-                
-                log.appendChild(logEntry);
-                log.scrollTop = log.scrollHeight;
-                
-                // Highlight active agent
-                highlightActiveAgent(agent.toLowerCase().split(' ')[0]);
-            }
-        };
-        
-        // Simulate A2A protocol events
-        const simulateA2AEvents = () => {
-            const events = [
-                { type: 'BEHAVIORAL', agent: 'Behavioral Agent', message: 'Detected click on skill development content' },
-                { type: 'MARKET', agent: 'Market Agent', message: 'Correlating user interest with market trends' },
-                { type: 'COLLABORATION', agent: 'A2A Protocol', message: 'Agents sharing behavioral insights' },
-                { type: 'GOAL', agent: 'Goal Agent', message: 'Suggesting career goal based on behavior' },
-                { type: 'INSIGHT', agent: 'Multi-Agent', message: 'Generated collaborative recommendation' },
-                { type: 'SYNC', agent: 'System', message: 'A2A protocol sync completed successfully' }
-            ];
+                const nextSyncElement = document.getElementById('next-sync-time');
+                if (nextSyncElement) {
+                    nextSyncElement.textContent = secondsUntilNext > 0 ? `${secondsUntilNext}s` : 'Now';
+                }
+            };
             
-            const randomEvent = events[Math.floor(Math.random() * events.length)];
-            logA2AEvent(randomEvent.type, randomEvent.agent, randomEvent.message, { 
-                confidence: Math.floor(Math.random() * 40) + 60,
-                priority: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)]
-            });
-        };
-        
-        // Start monitoring intervals
-        simulateAgentActivity();
-        
-        // Update every 2 seconds
-        window.agentMonitoringInterval = setInterval(() => {
-            updateSyncCountdown();
-            
-            // Simulate agent activity every 3-7 seconds
-            if (Math.random() < 0.4) {
-                simulateAgentActivity();
-            }
-            
-            // Simulate A2A events every 2-5 seconds
-            if (Math.random() < 0.5) {
-                simulateA2AEvents();
-            }
-            
-            // Handle sync events every 30 seconds
-            if (Date.now() - lastSyncTime >= 30000) {
-                syncCounter++;
-                lastSyncTime = Date.now();
+            // Simulate real-time agent activity
+            const simulateAgentActivity = () => {
+                // Simulate behavioral agent activity
+                const clickCount = universalAI?.sessionData?.behavioral_data?.clicks?.length || Math.floor(Math.random() * 50);
+                const engagementLevels = ['Basic', 'Medium', 'High', 'Expert'];
+                const engagement = engagementLevels[Math.min(Math.floor(clickCount / 10), 3)];
                 
-                updateAgentMetric('total-syncs', syncCounter);
-                updateAgentMetric('last-sync-time', new Date().toLocaleTimeString());
+                updateAgentMetric('behavioral-clicks', clickCount);
+                updateAgentMetric('behavioral-engagement', engagement);
+                updateAgentMetric('behavioral-interests', getRandomInterests());
                 
-                logA2AEvent('SYNC', 'A2A Protocol', `Sync #${syncCounter} - All agents synchronized`, {
-                    agents: 4,
-                    insights_shared: Math.floor(Math.random() * 10) + 1,
-                    recommendations: Math.floor(Math.random() * 5) + 1
+                // Simulate motivation agent
+                const energyLevels = ['Low', 'Medium', 'High'];
+                const energy = energyLevels[Math.floor(Math.random() * 3)];
+                updateAgentMetric('motivation-energy', energy);
+                updateAgentMetric('motivation-streak', Math.floor(Math.random() * 7));
+                updateAgentMetric('motivation-triggers', Math.floor(Math.random() * 5));
+                
+                // Simulate market intelligence
+                updateAgentMetric('market-opportunities', Math.floor(Math.random() * 10));
+                updateAgentMetric('market-trends', 'AI/ML, React, TypeScript');
+                updateAgentMetric('market-alignment', Math.floor(Math.random() * 100) + '%');
+                
+                // Simulate goal setting
+                updateAgentMetric('goal-active', Math.floor(Math.random() * 3));
+                updateAgentMetric('goal-progress', Math.floor(Math.random() * 100) + '%');
+                updateAgentMetric('goal-suggestions', Math.floor(Math.random() * 5));
+            };
+            
+            // Log A2A communication events
+            const logA2AEvent = (type, agent, message, data = null) => {
+                const timestamp = new Date().toLocaleTimeString();
+                const log = document.getElementById('agent-communication-log');
+                
+                if (log) {
+                    const colors = {
+                        'SYNC': '#3b82f6',
+                        'INSIGHT': '#10b981',
+                        'COLLABORATION': '#f59e0b',
+                        'BEHAVIORAL': '#8b5cf6',
+                        'GOAL': '#ec4899',
+                        'MARKET': '#06b6d4'
+                    };
+                    
+                    const color = colors[type] || '#94a3b8';
+                    const dataStr = data ? ` | Data: ${JSON.stringify(data).substring(0, 50)}...` : '';
+                    
+                    const logEntry = document.createElement('div');
+                    logEntry.style.color = color;
+                    logEntry.innerHTML = `[${timestamp}] [${type}] ${agent}: ${message}${dataStr}`;
+                    
+                    log.appendChild(logEntry);
+                    log.scrollTop = log.scrollHeight;
+                    
+                    // Highlight active agent
+                    highlightActiveAgent(agent.toLowerCase().split(' ')[0]);
+                }
+            };
+            
+            // Simulate A2A protocol events
+            const simulateA2AEvents = () => {
+                const events = [
+                    { type: 'BEHAVIORAL', agent: 'Behavioral Agent', message: 'Detected click on skill development content' },
+                    { type: 'MARKET', agent: 'Market Agent', message: 'Correlating user interest with market trends' },
+                    { type: 'COLLABORATION', agent: 'A2A Protocol', message: 'Agents sharing behavioral insights' },
+                    { type: 'GOAL', agent: 'Goal Agent', message: 'Suggesting career goal based on behavior' },
+                    { type: 'INSIGHT', agent: 'Multi-Agent', message: 'Generated collaborative recommendation' },
+                    { type: 'SYNC', agent: 'System', message: 'A2A protocol sync completed successfully' }
+                ];
+                
+                const randomEvent = events[Math.floor(Math.random() * events.length)];
+                logA2AEvent(randomEvent.type, randomEvent.agent, randomEvent.message, { 
+                    confidence: Math.floor(Math.random() * 40) + 60,
+                    priority: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)]
                 });
-            }
-        }, 2000);
-    }
-    
-    function updateAgentMetric(elementId, value) {
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.textContent = value;
-        }
-    }
-    
-    function highlightActiveAgent(agentType) {
-        const agentCard = document.querySelector(`[data-agent="${agentType}"]`);
-        if (agentCard) {
-            agentCard.classList.add('active');
-            setTimeout(() => {
-                agentCard.classList.remove('active');
+            };
+            
+            // Start monitoring intervals
+            simulateAgentActivity();
+            
+            // Update every 2 seconds
+            window.agentMonitoringInterval = setInterval(() => {
+                updateSyncCountdown();
+                
+                // Simulate agent activity every 3-7 seconds
+                if (Math.random() < 0.4) {
+                    simulateAgentActivity();
+                }
+                
+                // Simulate A2A events every 2-5 seconds
+                if (Math.random() < 0.5) {
+                    simulateA2AEvents();
+                }
+                
+                // Handle sync events every 30 seconds
+                if (Date.now() - lastSyncTime >= 30000) {
+                    syncCounter++;
+                    lastSyncTime = Date.now();
+                    
+                    updateAgentMetric('total-syncs', syncCounter);
+                    updateAgentMetric('last-sync-time', new Date().toLocaleTimeString());
+                    
+                    logA2AEvent('SYNC', 'A2A Protocol', `Sync #${syncCounter} - All agents synchronized`, {
+                        agents: 4,
+                        insights_shared: Math.floor(Math.random() * 10) + 1,
+                        recommendations: Math.floor(Math.random() * 5) + 1
+                    });
+                }
             }, 2000);
         }
-    }
-    
-    function getRandomInterests() {
-        const interests = ['AI/ML', 'Web Dev', 'Data Science', 'Career Growth', 'Leadership', 'Skills'];
-        const count = Math.floor(Math.random() * 3) + 1;
-        return interests.slice(0, count).join(', ');
-    }
-    
-    function clearAgentLog() {
-        const log = document.getElementById('agent-communication-log');
-        if (log) {
-            log.innerHTML = `
-                <div style="color: #10b981;">[SYSTEM] Agent Communication Log Cleared</div>
-                <div style="color: #94a3b8;">[INFO] Monitoring A2A protocol events...</div>
-            `;
+        
+        function updateAgentMetric(elementId, value) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = value;
+            }
         }
-    }
+        
+        function highlightActiveAgent(agentType) {
+            const agentCard = document.querySelector(`[data-agent="${agentType}"]`);
+            if (agentCard) {
+                agentCard.classList.add('active');
+                setTimeout(() => {
+                    agentCard.classList.remove('active');
+                }, 2000);
+            }
+        }
+        
+        function getRandomInterests() {
+            const interests = ['AI/ML', 'Web Dev', 'Data Science', 'Career Growth', 'Leadership', 'Skills'];
+            const count = Math.floor(Math.random() * 3) + 1;
+            return interests.slice(0, count).join(', ');
+        }
+        
+        function clearAgentLog() {
+            const log = document.getElementById('agent-communication-log');
+            if (log) {
+                log.innerHTML = `
+                    <div style="color: #10b981;">[SYSTEM] Agent Communication Log Cleared</div>
+                    <div style="color: #94a3b8;">[INFO] Monitoring A2A protocol events...</div>
+                `;
+            }
+        }
     </script>
 </body>
 </html>
