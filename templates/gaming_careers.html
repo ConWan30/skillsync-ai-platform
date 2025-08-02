@@ -641,7 +641,7 @@
 
         // Add backup button handlers that work regardless of form initialization
         function addBackupButtonHandlers() {
-            console.log('� Adding backup button handlers...');
+            console.log('🔙 Adding backup button handlers...');
             
             // Backup handler for skill assessment button
             const assessBtn = document.getElementById('assessBtn');
@@ -717,6 +717,39 @@
             }
         }
 
+        // Tab switching functionality (restored)
+        function switchTab(tabName) {
+            console.log(`🔄 Switching to ${tabName} tab`);
+            
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and content
+            const targetTab = document.querySelector(`[onclick*="${tabName}"]`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            
+            const targetContent = document.getElementById(`${tabName}Tab`);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+            
+            // Load content based on tab
+            switch(tabName) {
+                case 'assessment':
+                    loadAssessmentResults();
+                    break;
+                case 'roadmap':
+                    loadRoadmapResults();
+                    break;
+                case 'market':
+                    loadMarketResults();
+                    break;
+            }
+        }
+
         // Initialize skill assessment form
         function initializeSkillAssessmentForm() {
             const assessmentForm = document.getElementById('skillAssessmentForm');
@@ -771,7 +804,7 @@
             showLoading('AI agents analyzing your gaming skills...');
             
             try {
-                const response = await fetch('/api/intelligence/gaming-skill-assessment', {
+                const response = await fetch('/api/assess-gaming-skills', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -799,7 +832,7 @@
             showLoading('AI agents creating your personalized gaming career roadmap...');
             
             try {
-                const response = await fetch('/api/intelligence/gaming-career-roadmap', {
+                const response = await fetch('/api/generate-gaming-roadmap', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -827,7 +860,7 @@
             showLoading('AI agents analyzing gaming market trends...');
             
             try {
-                const response = await fetch('/api/intelligence/gaming-market-analysis', {
+                const response = await fetch('/api/gaming-market-intelligence', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
