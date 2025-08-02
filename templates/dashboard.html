@@ -1447,98 +1447,19 @@
                 if (!visualizer) {
                     visualizer = document.createElement('div');
                     visualizer.id = 'agent-visualizer';
-                    visualizer.style.cssText = `
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background: rgba(0,0,0,0.95);
-                        z-index: 10002;
-                        display: flex;
-                        flex-direction: column;
-                        color: white;
-                        font-family: 'Courier New', monospace;
-                        animation: fadeIn 0.3s ease;
-                    `;
+                    visualizer.style.position = 'fixed';
+                    visualizer.style.top = '0';
+                    visualizer.style.left = '0';
+                    visualizer.style.width = '100%';
+                    visualizer.style.height = '100%';
+                    visualizer.style.background = 'rgba(0,0,0,0.95)';
+                    visualizer.style.zIndex = '10002';
+                    visualizer.style.display = 'flex';
+                    visualizer.style.flexDirection = 'column';
+                    visualizer.style.color = 'white';
+                    visualizer.style.fontFamily = 'Courier New, monospace';
                     
-                    visualizer.innerHTML = `
-                        <style>
-                            @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-                            @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-                            .agent-card { 
-                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                border-radius: 8px;
-                                padding: 15px;
-                                margin: 10px 0;
-                                animation: pulse 2s infinite;
-                            }
-                            .metric { color: #00ff88; font-weight: bold; }
-                            .log-entry { 
-                                padding: 5px 10px;
-                                margin: 2px 0;
-                                border-radius: 4px;
-                                font-size: 12px;
-                            }
-                            .log-behavioral { background: rgba(255, 165, 0, 0.2); }
-                            .log-motivation { background: rgba(0, 255, 136, 0.2); }
-                            .log-market { background: rgba(100, 149, 237, 0.2); }
-                            .log-goal { background: rgba(255, 20, 147, 0.2); }
-                        </style>
-                        
-                        <div style="display: flex; height: 100%; padding: 20px;">
-                            <!-- Left Panel: Agent Status Dashboard -->
-                            <div style="flex: 1; margin-right: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px;">
-                                <h2 style="margin-top: 0; color: #00ff88;">🤖 Agent Status Dashboard</h2>
-                                
-                                <div class="agent-card">
-                                    <h3>🧠 BehavioralAgent</h3>
-                                    <div>Status: <span class="metric" id="behavioral-status">ACTIVE</span></div>
-                                    <div>Insights Generated: <span class="metric" id="behavioral-insights">247</span></div>
-                                    <div>Learning Rate: <span class="metric" id="behavioral-learning">94.2%</span></div>
-                                </div>
-                                
-                                <div class="agent-card">
-                                    <h3>🎯 MotivationAgent</h3>
-                                    <div>Status: <span class="metric" id="motivation-status">ACTIVE</span></div>
-                                    <div>Goals Tracked: <span class="metric" id="motivation-goals">12</span></div>
-                                    <div>Engagement Score: <span class="metric" id="motivation-engagement">87.5%</span></div>
-                                </div>
-                                
-                                <div class="agent-card">
-                                    <h3>📊 MarketIntelligenceAgent</h3>
-                                    <div>Status: <span class="metric" id="market-status">ACTIVE</span></div>
-                                    <div>Data Sources: <span class="metric" id="market-sources">156</span></div>
-                                    <div>Trend Accuracy: <span class="metric" id="market-accuracy">96.8%</span></div>
-                                </div>
-                                
-                                <div class="agent-card">
-                                    <h3>🎯 GoalSettingAgent</h3>
-                                    <div>Status: <span class="metric" id="goal-status">ACTIVE</span></div>
-                                    <div>Active Goals: <span class="metric" id="goal-active">8</span></div>
-                                    <div>Success Rate: <span class="metric" id="goal-success">92.1%</span></div>
-                                </div>
-                            </div>
-                            
-                            <!-- Right Panel: Live Communication Log -->
-                            <div style="flex: 1; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                    <h2 style="margin: 0; color: #00ff88;">📡 Live A2A Communication</h2>
-                                    <button onclick="clearCommunicationLog()" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Clear Log</button>
-                                </div>
-                                
-                                <div id="communication-log" style="height: 400px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 5px; padding: 10px;">
-                                    <div class="log-entry log-behavioral">🧠 BehavioralAgent → MarketIntelligenceAgent: User shows high interest in AI/ML roles</div>
-                                    <div class="log-entry log-market">📊 MarketIntelligenceAgent → GoalSettingAgent: AI/ML salary trends +15% YoY</div>
-                                    <div class="log-entry log-goal">🎯 GoalSettingAgent → MotivationAgent: Recommend skill development path</div>
-                                    <div class="log-entry log-motivation">🎯 MotivationAgent → BehavioralAgent: User engagement optimal for learning</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Close Button -->
-                        <button onclick="closeAgentVisualizer()" style="position: absolute; top: 20px; right: 20px; background: #ff4444; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">✕ Close</button>
-                    `;
+                    visualizer.innerHTML = '<div style="display: flex; height: 100%; padding: 20px;"><div style="flex: 1; margin-right: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px;"><h2 style="margin-top: 0; color: #00ff88;">🤖 Agent Status Dashboard</h2><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>🧠 BehavioralAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Insights Generated: <span style="color: #00ff88; font-weight: bold;" id="behavioral-insights">247</span></div><div>Learning Rate: <span style="color: #00ff88; font-weight: bold;" id="behavioral-learning">94.2%</span></div></div><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>🎯 MotivationAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Goals Tracked: <span style="color: #00ff88; font-weight: bold;">12</span></div><div>Engagement Score: <span style="color: #00ff88; font-weight: bold;" id="motivation-engagement">87.5%</span></div></div><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>📊 MarketIntelligenceAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Data Sources: <span style="color: #00ff88; font-weight: bold;">156</span></div><div>Trend Accuracy: <span style="color: #00ff88; font-weight: bold;" id="market-accuracy">96.8%</span></div></div><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>🎯 GoalSettingAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Active Goals: <span style="color: #00ff88; font-weight: bold;">8</span></div><div>Success Rate: <span style="color: #00ff88; font-weight: bold;" id="goal-success">92.1%</span></div></div></div><div style="flex: 1; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px;"><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;"><h2 style="margin: 0; color: #00ff88;">📡 Live A2A Communication</h2><button onclick="clearCommunicationLog()" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Clear Log</button></div><div id="communication-log" style="height: 400px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 5px; padding: 10px;"><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(255, 165, 0, 0.2);">🧠 BehavioralAgent → MarketIntelligenceAgent: User shows high interest in AI/ML roles</div><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(100, 149, 237, 0.2);">📊 MarketIntelligenceAgent → GoalSettingAgent: AI/ML salary trends +15% YoY</div><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(255, 20, 147, 0.2);">🎯 GoalSettingAgent → MotivationAgent: Recommend skill development path</div><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(0, 255, 136, 0.2);">🎯 MotivationAgent → BehavioralAgent: User engagement optimal for learning</div></div></div></div><button onclick="closeAgentVisualizer()" style="position: absolute; top: 20px; right: 20px; background: #ff4444; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">✕ Close</button>';
                     
                     document.body.appendChild(visualizer);
                     
@@ -1565,7 +1486,7 @@
         function clearCommunicationLog() {
             const log = document.getElementById('communication-log');
             if (log) {
-                log.innerHTML = '<div class="log-entry" style="color: #888;">Communication log cleared...</div>';
+                log.innerHTML = '<div style="color: #888; padding: 5px 10px;">Communication log cleared...</div>';
             }
         }
         
@@ -1603,17 +1524,21 @@
             if (!log) return;
             
             const events = [
-                { type: 'behavioral', message: '🧠 BehavioralAgent → MarketIntelligenceAgent: User engagement pattern detected' },
-                { type: 'market', message: '📊 MarketIntelligenceAgent → GoalSettingAgent: New trend analysis available' },
-                { type: 'goal', message: '🎯 GoalSettingAgent → MotivationAgent: Goal progress update' },
-                { type: 'motivation', message: '🎯 MotivationAgent → BehavioralAgent: Motivation boost recommended' },
-                { type: 'behavioral', message: '🧠 BehavioralAgent → All Agents: User behavior analysis complete' },
-                { type: 'market', message: '📊 MarketIntelligenceAgent → All Agents: Market data synchronized' }
+                { type: 'behavioral', message: '🧠 BehavioralAgent → MarketIntelligenceAgent: User engagement pattern detected', color: 'rgba(255, 165, 0, 0.2)' },
+                { type: 'market', message: '📊 MarketIntelligenceAgent → GoalSettingAgent: New trend analysis available', color: 'rgba(100, 149, 237, 0.2)' },
+                { type: 'goal', message: '🎯 GoalSettingAgent → MotivationAgent: Goal progress update', color: 'rgba(255, 20, 147, 0.2)' },
+                { type: 'motivation', message: '🎯 MotivationAgent → BehavioralAgent: Motivation boost recommended', color: 'rgba(0, 255, 136, 0.2)' },
+                { type: 'behavioral', message: '🧠 BehavioralAgent → All Agents: User behavior analysis complete', color: 'rgba(255, 165, 0, 0.2)' },
+                { type: 'market', message: '📊 MarketIntelligenceAgent → All Agents: Market data synchronized', color: 'rgba(100, 149, 237, 0.2)' }
             ];
             
             const event = events[Math.floor(Math.random() * events.length)];
             const logEntry = document.createElement('div');
-            logEntry.className = `log-entry log-${event.type}`;
+            logEntry.style.padding = '5px 10px';
+            logEntry.style.margin = '2px 0';
+            logEntry.style.borderRadius = '4px';
+            logEntry.style.fontSize = '12px';
+            logEntry.style.background = event.color;
             logEntry.textContent = event.message;
             
             log.appendChild(logEntry);
