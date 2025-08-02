@@ -950,9 +950,33 @@
             console.log('📊 Assessment content added, checking visibility...');
             console.log('🔍 Container parent:', container.parentElement?.id);
             console.log('👁️ Parent display:', window.getComputedStyle(container.parentElement).display);
+            console.log('📏 Container dimensions:', {
+                width: container.offsetWidth,
+                height: container.offsetHeight,
+                top: container.offsetTop,
+                left: container.offsetLeft
+            });
+            console.log('🎨 Container styles:', {
+                color: window.getComputedStyle(container).color,
+                backgroundColor: window.getComputedStyle(container).backgroundColor,
+                opacity: window.getComputedStyle(container).opacity,
+                zIndex: window.getComputedStyle(container).zIndex
+            });
             
             // Switch to assessment tab
             switchTab('assessment');
+            
+            // Force visibility test
+            setTimeout(() => {
+                console.log('🧪 FORCE VISIBILITY TEST:');
+                const parentEl = container.parentElement;
+                parentEl.style.display = 'block !important';
+                parentEl.style.visibility = 'visible !important';
+                parentEl.style.opacity = '1 !important';
+                container.style.border = '5px solid red';
+                container.style.minHeight = '200px';
+                console.log('🔴 Added red border and forced visibility - can you see it now?');
+            }, 1000);
         }
 
         // Display roadmap results
