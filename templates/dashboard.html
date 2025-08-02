@@ -1112,8 +1112,17 @@
             // Initialize Universal AI System
             universalAI = new UniversalAISystem();
             
+            // Remove any existing AI indicators first
+            const existingIndicators = document.querySelectorAll('[style*="position: fixed"][style*="bottom: 20px"][style*="left: 20px"]');
+            existingIndicators.forEach(indicator => {
+                if (indicator.textContent.includes('AI') || indicator.textContent.includes('🧠')) {
+                    indicator.remove();
+                }
+            });
+            
             // Add AI status indicator with visualizer functionality
             const aiIndicator = document.createElement('div');
+            aiIndicator.id = 'multi-agent-visualizer-button';
             aiIndicator.style.cssText = `
                 position: fixed;
                 bottom: 20px;
@@ -1141,6 +1150,18 @@
                 this.style.transform = 'translateY(0)';
             };
             document.body.appendChild(aiIndicator);
+            
+            // Double-check and remove any conflicting indicators after a short delay
+            setTimeout(() => {
+                const allIndicators = document.querySelectorAll('[style*="position: fixed"][style*="bottom"]');
+                allIndicators.forEach(indicator => {
+                    if (indicator.id !== 'multi-agent-visualizer-button' && 
+                        (indicator.textContent.includes('AI') || indicator.textContent.includes('🧠'))) {
+                        console.log('Removing conflicting AI indicator:', indicator.textContent);
+                        indicator.remove();
+                    }
+                });
+            }, 1000);
         });
         
         // ============================================================================
