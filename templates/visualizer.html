@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent AI Communication Visualizer - SkillSync AI</title>
+    <meta name="description" content="Real-time visualization of AI agent communication and collaboration">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .visualizer-header {
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .visualizer-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: calc(100vh - 80px);
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .agent-status-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            overflow-y: auto;
+        }
+        
+        .communication-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .agent-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .agent-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .agent-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .metric-value {
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .communication-log {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        
+        .log-entry {
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .log-behavioral { background: rgba(255, 165, 0, 0.2); border-left: 4px solid #ffa500; }
+        .log-motivation { background: rgba(0, 255, 136, 0.2); border-left: 4px solid #00ff88; }
+        .log-market { background: rgba(100, 149, 237, 0.2); border-left: 4px solid #6495ed; }
+        .log-goal { background: rgba(255, 20, 147, 0.2); border-left: 4px solid #ff1493; }
+        
+        .log-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .log-status {
+            color: #00ff88;
+            font-size: 0.9rem;
+        }
+        
+        .clear-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .stats-bar {
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 10px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #ccc;
+            margin-top: 5px;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="visualizer-header">
+        <div class="header-title">
+            <i class="fas fa-brain"></i> Multi-Agent AI Communication Visualizer
+        </div>
+        <div class="header-controls">
+            <button class="control-btn" onclick="toggleAutoUpdate()">
+                <i class="fas fa-play" id="updateIcon"></i> <span id="updateText">Auto-Update: ON</span>
+            </button>
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Back to Platform
+            </button>
+        </div>
+    </div>
+    
+    <div class="visualizer-container">
+        <!-- Agent Status Panel -->
+        <div class="agent-status-panel">
+            <div class="panel-title">
+                <i class="fas fa-robot"></i> Agent Status Dashboard
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">
+                    🧠 BehavioralAgent
+                </div>
+                <div class="agent-metric">
+                    <span>Status:</span>
+                    <span class="metric-value">ACTIVE</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Insights Generated:</span>
+                    <span class="metric-value" id="behavioral-insights">247</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Learning Rate:</span>
+                    <span class="metric-value" id="behavioral-learning">94.2%</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Last Activity:</span>
+                    <span class="metric-value" id="behavioral-activity">2s ago</span>
+                </div>
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">
+                    🎯 MotivationAgent
+                </div>
+                <div class="agent-metric">
+                    <span>Status:</span>
+                    <span class="metric-value">ACTIVE</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Goals Tracked:</span>
+                    <span class="metric-value">12</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Engagement Score:</span>
+                    <span class="metric-value" id="motivation-engagement">87.5%</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Last Activity:</span>
+                    <span class="metric-value" id="motivation-activity">5s ago</span>
+                </div>
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">
+                    📊 MarketIntelligenceAgent
+                </div>
+                <div class="agent-metric">
+                    <span>Status:</span>
+                    <span class="metric-value">ACTIVE</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Data Sources:</span>
+                    <span class="metric-value">156</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Trend Accuracy:</span>
+                    <span class="metric-value" id="market-accuracy">96.8%</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Last Activity:</span>
+                    <span class="metric-value" id="market-activity">1s ago</span>
+                </div>
+            </div>
+            
+            <div class="agent-card">
+                <div class="agent-name">
+                    🎯 GoalSettingAgent
+                </div>
+                <div class="agent-metric">
+                    <span>Status:</span>
+                    <span class="metric-value">ACTIVE</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Active Goals:</span>
+                    <span class="metric-value">8</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Success Rate:</span>
+                    <span class="metric-value" id="goal-success">92.1%</span>
+                </div>
+                <div class="agent-metric">
+                    <span>Last Activity:</span>
+                    <span class="metric-value" id="goal-activity">3s ago</span>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number" id="total-messages">1,247</div>
+                    <div class="stat-label">Total Messages</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="active-sessions">4</div>
+                    <div class="stat-label">Active Sessions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="avg-response">0.3s</div>
+                    <div class="stat-label">Avg Response</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="system-health">98%</div>
+                    <div class="stat-label">System Health</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Communication Panel -->
+        <div class="communication-panel">
+            <div class="panel-title">
+                <i class="fas fa-comments"></i> Live A2A Communication Log
+            </div>
+            
+            <div class="log-controls">
+                <div class="log-status">
+                    <i class="fas fa-circle" style="color: #00ff88;"></i> Live Updates Active
+                </div>
+                <button class="clear-btn" onclick="clearCommunicationLog()">
+                    <i class="fas fa-trash"></i> Clear Log
+                </button>
+            </div>
+            
+            <div class="communication-log" id="communication-log">
+                <div class="log-entry log-behavioral">
+                    🧠 BehavioralAgent → MarketIntelligenceAgent: User shows high interest in AI/ML roles
+                </div>
+                <div class="log-entry log-market">
+                    📊 MarketIntelligenceAgent → GoalSettingAgent: AI/ML salary trends +15% YoY
+                </div>
+                <div class="log-entry log-goal">
+                    🎯 GoalSettingAgent → MotivationAgent: Recommend skill development path
+                </div>
+                <div class="log-entry log-motivation">
+                    🎯 MotivationAgent → BehavioralAgent: User engagement optimal for learning
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let autoUpdate = true;
+        let updateInterval;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Multi-Agent Visualizer Initialized');
+            startVisualizerUpdates();
+        });
+        
+        function startVisualizerUpdates() {
+            updateInterval = setInterval(function() {
+                if (autoUpdate) {
+                    updateAgentMetrics();
+                    addCommunicationEvent();
+                }
+            }, 2000); // Update every 2 seconds
+        }
+        
+        function updateAgentMetrics() {
+            // Update behavioral agent metrics
+            const insights = document.getElementById('behavioral-insights');
+            if (insights) insights.textContent = Math.floor(Math.random() * 50) + 200;
+            
+            const learning = document.getElementById('behavioral-learning');
+            if (learning) learning.textContent = (Math.random() * 10 + 90).toFixed(1) + '%';
+            
+            // Update motivation agent metrics
+            const engagement = document.getElementById('motivation-engagement');
+            if (engagement) engagement.textContent = (Math.random() * 15 + 80).toFixed(1) + '%';
+            
+            // Update market intelligence metrics
+            const accuracy = document.getElementById('market-accuracy');
+            if (accuracy) accuracy.textContent = (Math.random() * 5 + 95).toFixed(1) + '%';
+            
+            // Update goal setting metrics
+            const success = document.getElementById('goal-success');
+            if (success) success.textContent = (Math.random() * 8 + 90).toFixed(1) + '%';
+            
+            // Update activity timestamps
+            const activities = ['behavioral-activity', 'motivation-activity', 'market-activity', 'goal-activity'];
+            activities.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = Math.floor(Math.random() * 10) + 's ago';
+                }
+            });
+            
+            // Update stats
+            const totalMessages = document.getElementById('total-messages');
+            if (totalMessages) {
+                const current = parseInt(totalMessages.textContent.replace(',', ''));
+                totalMessages.textContent = (current + Math.floor(Math.random() * 3)).toLocaleString();
+            }
+        }
+        
+        function addCommunicationEvent() {
+            const log = document.getElementById('communication-log');
+            if (!log) return;
+            
+            const events = [
+                { type: 'behavioral', message: '🧠 BehavioralAgent → MarketIntelligenceAgent: User engagement pattern detected', color: 'log-behavioral' },
+                { type: 'market', message: '📊 MarketIntelligenceAgent → GoalSettingAgent: New trend analysis available', color: 'log-market' },
+                { type: 'goal', message: '🎯 GoalSettingAgent → MotivationAgent: Goal progress update', color: 'log-goal' },
+                { type: 'motivation', message: '🎯 MotivationAgent → BehavioralAgent: Motivation boost recommended', color: 'log-motivation' },
+                { type: 'behavioral', message: '🧠 BehavioralAgent → All Agents: User behavior analysis complete', color: 'log-behavioral' },
+                { type: 'market', message: '📊 MarketIntelligenceAgent → All Agents: Market data synchronized', color: 'log-market' },
+                { type: 'goal', message: '🎯 GoalSettingAgent → BehavioralAgent: New goal milestone achieved', color: 'log-goal' },
+                { type: 'motivation', message: '🎯 MotivationAgent → MarketIntelligenceAgent: User motivation score updated', color: 'log-motivation' }
+            ];
+            
+            const event = events[Math.floor(Math.random() * events.length)];
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${event.color}`;
+            logEntry.textContent = event.message;
+            
+            log.appendChild(logEntry);
+            log.scrollTop = log.scrollHeight;
+            
+            // Keep only last 50 entries
+            while (log.children.length > 50) {
+                log.removeChild(log.firstChild);
+            }
+        }
+        
+        function clearCommunicationLog() {
+            const log = document.getElementById('communication-log');
+            if (log) {
+                log.innerHTML = '<div class="log-entry" style="color: #888; text-align: center;">Communication log cleared...</div>';
+            }
+        }
+        
+        function toggleAutoUpdate() {
+            autoUpdate = !autoUpdate;
+            const icon = document.getElementById('updateIcon');
+            const text = document.getElementById('updateText');
+            
+            if (autoUpdate) {
+                icon.className = 'fas fa-play';
+                text.textContent = 'Auto-Update: ON';
+            } else {
+                icon.className = 'fas fa-pause';
+                text.textContent = 'Auto-Update: OFF';
+            }
+        }
+        
+        function goBack() {
+            // Go back to the previous page or dashboard
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = '/dashboard';
+            }
+        }
+    </script>
+</body>
+</html>

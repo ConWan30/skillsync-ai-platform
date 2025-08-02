@@ -481,7 +481,7 @@ def trigger_intelligence_cycle():
         Keep it professional and actionable for users seeking career guidance.
         """
         
-        system_prompt = """You are an AI career intelligence system providing status updates. 
+        system_prompt = """You are a senior career intelligence analyst specializing in technology markets. 
         Use current market data to give relevant, timely insights about career opportunities and trends.
         Focus on actionable intelligence that helps users make informed career decisions."""
         
@@ -693,6 +693,11 @@ def dashboard():
 def ai_agent():
     """AI Agent page with autonomous career intelligence features"""
     return render_template('ai_agent.html')
+
+@app.route('/visualizer')
+def visualizer():
+    """Multi-agent visualizer page"""
+    return render_template('visualizer.html')
 
 @app.route('/market-intelligence')
 def market_intelligence():
@@ -2066,18 +2071,18 @@ class AutonomousCareerAI:
             if interest.startswith('role_'):
                 role = interest.replace('role_', '')
                 insights.append({
-                    'type': 'role_focus',
-                    'message': f"I've noticed your strong interest in {role} development. Based on your behavior, I recommend focusing on advanced {role} skills.",
-                    'confidence': min(100, score * 10),
-                    'action': f"Explore {role} career paths"
+                    "type": "role_focus",
+                    "message": f"I've noticed your strong interest in {role} development. Based on your behavior, I recommend focusing on advanced {role} skills.",
+                    "confidence": min(100, score * 10),
+                    "action": f"Explore {role} career paths"
                 })
             
             elif interest == 'salary_focus':
                 insights.append({
-                    'type': 'salary_optimization',
-                    'message': "Your browsing patterns show you're focused on salary growth. I can help you identify the highest-paying opportunities in your field.",
-                    'confidence': min(100, score * 15),
-                    'action': "Get personalized salary strategy"
+                    "type": "salary_optimization",
+                    "message": "Your browsing patterns show you're focused on salary growth. I can help you identify the highest-paying opportunities in your field.",
+                    "confidence": min(100, score * 15),
+                    "action": "Get personalized salary strategy"
                 })
         
         # Generate insights based on career goals
@@ -2086,18 +2091,18 @@ class AutonomousCareerAI:
         for goal, score in top_goals:
             if goal == 'promotion_seeking':
                 insights.append({
-                    'type': 'promotion_ready',
-                    'message': "I can see you're exploring senior roles. Based on your engagement patterns, you seem ready for the next level.",
-                    'confidence': min(100, score * 5),
-                    'action': "Get promotion readiness assessment"
+                    "type": "promotion_ready",
+                    "message": "I can see you're exploring senior roles. Based on your engagement patterns, you seem ready for the next level.",
+                    "confidence": min(100, score * 5),
+                    "action": "Get promotion readiness assessment"
                 })
             
             elif goal == 'learning_focused':
                 insights.append({
-                    'type': 'skill_development',
-                    'message': "Your learning-focused behavior suggests you're actively developing new skills. I can recommend the most valuable skills for your career path.",
-                    'confidence': min(100, score * 8),
-                    'action': "Get personalized learning roadmap"
+                    "type": "skill_development",
+                    "message": "Your learning-focused behavior suggests you're actively developing new skills. I can recommend the most valuable skills for your career path.",
+                    "confidence": min(100, score * 8),
+                    "action": "Get personalized learning roadmap"
                 })
         
         # Add intelligence level context
@@ -2421,9 +2426,9 @@ def process_agent_collaboration(agent_states):
         
         if behavioral_interests and market_opportunities:
             insights.append({
-                'type': 'behavioral_market_alignment',
-                'message': 'Your interests align well with current market opportunities',
-                'confidence': 85
+                "type": "behavioral_market_alignment",
+                "message": "Your interests align well with current market opportunities",
+                "confidence": 85
             })
     
     # Goal + Motivation collaboration
@@ -2433,9 +2438,9 @@ def process_agent_collaboration(agent_states):
         
         if active_goals and energy_level == 'high':
             insights.append({
-                'type': 'goal_motivation_boost',
-                'message': 'Your high motivation is perfect for achieving your career goals',
-                'confidence': 90
+                "type": "goal_motivation_boost",
+                "message": "Your high motivation is perfect for achieving your career goals",
+                "confidence": 90
             })
     
     return insights
@@ -2450,11 +2455,11 @@ def generate_ai_agent_recommendations(agent_states, behavioral_data):
         
         if engagement == 'expert':
             recommendations.append({
-                'type': 'advanced_features',
-                'title': 'Unlock Advanced Features',
-                'description': 'Your high engagement suggests you\'re ready for our premium career tools',
-                'action': 'explore_premium',
-                'priority': 'high'
+                "type": "advanced_features",
+                "title": "Unlock Advanced Features",
+                "description": "Your high engagement suggests you're ready for our premium career tools",
+                "action": "explore_premium",
+                "priority": "high"
             })
     
     if 'market' in agent_states:
@@ -2462,11 +2467,11 @@ def generate_ai_agent_recommendations(agent_states, behavioral_data):
         
         if opportunities:
             recommendations.append({
-                'type': 'skill_development',
-                'title': 'Trending Skill Alert',
-                'description': f'Focus on {opportunities[0].get("skill", "emerging technologies")} for maximum career impact',
-                'action': 'start_learning',
-                'priority': 'medium'
+                "type": "skill_development",
+                "title": "Trending Skill Alert",
+                "description": f"Focus on {opportunities[0].get("skill", "emerging technologies")} for maximum career impact",
+                "action": "start_learning",
+                "priority": "medium"
             })
     
     return recommendations
