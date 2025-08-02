@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_from_directory, render_template
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
+from typing import Dict, Any
 import os
 from datetime import datetime, timezone
 from dotenv import load_dotenv
