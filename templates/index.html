@@ -974,9 +974,25 @@
         }
 
         function scrollToDemo() {
-            document.getElementById('demo').scrollIntoView({ 
-                behavior: 'smooth' 
-            });
+            console.log('Scrolling to demo section...');
+            const demoSection = document.getElementById('demo');
+            if (demoSection) {
+                demoSection.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                console.log('Successfully scrolled to demo section');
+                
+                // Optional: Focus on the first form field after scrolling
+                setTimeout(() => {
+                    const firstField = document.getElementById('demoRole');
+                    if (firstField) {
+                        firstField.focus();
+                    }
+                }, 1000);
+            } else {
+                console.error('Demo section not found! ID: demo');
+            }
         }
 
         function nextStep() {
