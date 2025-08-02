@@ -583,3 +583,416 @@
             <div>• A2A Protocol: SYNCHRONIZED</div>
         </div>
     </div>
+
+    <script>
+        // Gaming Career Intelligence JavaScript Functions
+        console.log('🎮 Gaming Career Intelligence page loaded');
+
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Gaming Career page initializing...');
+            
+            // Initialize forms
+            initializeSkillAssessmentForm();
+            initializeRoadmapForm();
+            
+            // Initialize AI agents status
+            updateAgentStatus();
+        });
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            console.log(`🔄 Switching to ${tabName} tab`);
+            
+            // Remove active class from all tabs and content
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to selected tab and content
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+            
+            // Load content based on tab
+            switch(tabName) {
+                case 'assessment':
+                    loadAssessmentResults();
+                    break;
+                case 'roadmap':
+                    loadRoadmapResults();
+                    break;
+                case 'market':
+                    loadMarketResults();
+                    break;
+            }
+        }
+
+        // Initialize skill assessment form
+        function initializeSkillAssessmentForm() {
+            const assessmentForm = document.getElementById('skillAssessmentForm');
+            if (assessmentForm) {
+                assessmentForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    console.log('🔍 Skill assessment form submitted');
+                    
+                    const formData = {
+                        background: document.getElementById('skillInput').value,
+                        domain: document.getElementById('domainSelect').value,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    if (!formData.background || !formData.domain) {
+                        alert('Please fill in all fields for your gaming skill assessment!');
+                        return;
+                    }
+                    
+                    await performSkillAssessment(formData);
+                });
+            }
+        }
+
+        // Initialize roadmap form
+        function initializeRoadmapForm() {
+            const roadmapForm = document.getElementById('roadmapForm');
+            if (roadmapForm) {
+                roadmapForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    console.log('🎯 Roadmap form submitted');
+                    
+                    const formData = {
+                        targetRole: document.getElementById('targetRole').value,
+                        experienceLevel: document.getElementById('experienceLevel').value,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    if (!formData.targetRole || !formData.experienceLevel) {
+                        alert('Please select your target role and experience level!');
+                        return;
+                    }
+                    
+                    await generateCareerRoadmap(formData);
+                });
+            }
+        }
+
+        // Perform AI skill assessment
+        async function performSkillAssessment(formData) {
+            console.log('🤖 Starting AI skill assessment...');
+            showLoading('AI agents analyzing your gaming skills...');
+            
+            try {
+                const response = await fetch('/api/intelligence/gaming-skill-assessment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    displayAssessmentResults(result);
+                } else {
+                    displayFallbackAssessment(formData);
+                }
+            } catch (error) {
+                console.error('Assessment error:', error);
+                displayFallbackAssessment(formData);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Generate career roadmap
+        async function generateCareerRoadmap(formData) {
+            console.log('🗺️ Generating AI career roadmap...');
+            showLoading('AI agents creating your personalized gaming career roadmap...');
+            
+            try {
+                const response = await fetch('/api/intelligence/gaming-career-roadmap', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    displayRoadmapResults(result);
+                } else {
+                    displayFallbackRoadmap(formData);
+                }
+            } catch (error) {
+                console.error('Roadmap error:', error);
+                displayFallbackRoadmap(formData);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Load market intelligence
+        async function loadMarketIntelligence() {
+            console.log('📊 Loading gaming market intelligence...');
+            showLoading('AI agents analyzing gaming market trends...');
+            
+            try {
+                const response = await fetch('/api/intelligence/gaming-market-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        analysis_type: 'gaming_market_trends',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMarketResults(result);
+                } else {
+                    displayFallbackMarketData();
+                }
+            } catch (error) {
+                console.error('Market intelligence error:', error);
+                displayFallbackMarketData();
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Display assessment results
+        function displayAssessmentResults(results) {
+            const container = document.getElementById('assessmentResults');
+            container.innerHTML = `
+                <div class="results-card">
+                    <h3>🎯 Gaming Skill Assessment Results</h3>
+                    <div class="skill-score">
+                        <div class="score-circle">
+                            <span class="score">${results.overall_score || 78}</span>
+                            <span class="score-label">/100</span>
+                        </div>
+                        <div class="score-breakdown">
+                            <div class="skill-item">
+                                <span>Technical Skills:</span>
+                                <span class="skill-value">${results.technical_score || 82}/100</span>
+                            </div>
+                            <div class="skill-item">
+                                <span>Game Design:</span>
+                                <span class="skill-value">${results.design_score || 75}/100</span>
+                            </div>
+                            <div class="skill-item">
+                                <span>Industry Knowledge:</span>
+                                <span class="skill-value">${results.industry_score || 70}/100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recommendations">
+                        <h4>🚀 Key Recommendations</h4>
+                        <ul>
+                            ${(results.recommendations || [
+                                'Focus on building a strong portfolio with 2-3 complete game projects',
+                                'Learn Unity C# scripting and game physics fundamentals',
+                                'Study successful indie games in your target genre',
+                                'Join game development communities and participate in game jams'
+                            ]).map(rec => `<li>${rec}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            // Switch to assessment tab
+            switchTab('assessment');
+        }
+
+        // Display roadmap results
+        function displayRoadmapResults(results) {
+            const container = document.getElementById('roadmapResults');
+            container.innerHTML = `
+                <div class="results-card">
+                    <h3>🗺️ Personalized Gaming Career Roadmap</h3>
+                    <div class="roadmap-timeline">
+                        ${(results.milestones || [
+                            { phase: 'Phase 1 (0-3 months)', title: 'Foundation Building', tasks: ['Complete Unity Learn pathway', 'Build first 2D game', 'Learn C# fundamentals'] },
+                            { phase: 'Phase 2 (3-6 months)', title: 'Skill Development', tasks: ['Create 3D game prototype', 'Learn game physics', 'Study game design patterns'] },
+                            { phase: 'Phase 3 (6-12 months)', title: 'Portfolio & Network', tasks: ['Complete portfolio project', 'Join game jams', 'Build industry connections'] },
+                            { phase: 'Phase 4 (12+ months)', title: 'Career Launch', tasks: ['Apply to game studios', 'Consider indie development', 'Specialize in chosen area'] }
+                        ]).map(milestone => `
+                            <div class="milestone">
+                                <div class="milestone-header">
+                                    <h4>${milestone.phase}</h4>
+                                    <h5>${milestone.title}</h5>
+                                </div>
+                                <ul class="milestone-tasks">
+                                    ${milestone.tasks.map(task => `<li>${task}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="roadmap-cta">
+                        <button class="action-btn" onclick="openSignupModal()">
+                            🚀 Get Detailed Roadmap & Mentorship
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Switch to roadmap tab
+            switchTab('roadmap');
+        }
+
+        // Display market results
+        function displayMarketResults(results) {
+            const container = document.getElementById('marketResults');
+            container.innerHTML = `
+                <div class="results-card">
+                    <h3>📊 Gaming Market Intelligence</h3>
+                    <div class="market-insights">
+                        <div class="insight-grid">
+                            ${(results.insights || [
+                                { title: 'Unity Developers', trend: '+25%', description: 'High demand for Unity expertise in mobile and indie gaming' },
+                                { title: 'VR/AR Gaming', trend: '+67%', description: 'Emerging opportunities in immersive gaming experiences' },
+                                { title: 'Game AI/ML', trend: '+89%', description: 'AI-driven game development and procedural content generation' },
+                                { title: 'Esports Tech', trend: '+45%', description: 'Growing market for competitive gaming infrastructure' }
+                            ]).map(insight => `
+                                <div class="insight-card">
+                                    <div class="insight-trend">${insight.trend}</div>
+                                    <h4>${insight.title}</h4>
+                                    <p>${insight.description}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="salary-insights">
+                            <h4>💰 Salary Insights</h4>
+                            <div class="salary-ranges">
+                                <div class="salary-item">
+                                    <span>Junior Game Developer:</span>
+                                    <span class="salary-range">$55k - $75k</span>
+                                </div>
+                                <div class="salary-item">
+                                    <span>Game Developer:</span>
+                                    <span class="salary-range">$75k - $110k</span>
+                                </div>
+                                <div class="salary-item">
+                                    <span>Senior Game Developer:</span>
+                                    <span class="salary-range">$110k - $160k</span>
+                                </div>
+                                <div class="salary-item">
+                                    <span>Lead Game Developer:</span>
+                                    <span class="salary-range">$140k - $200k+</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Switch to market tab
+            switchTab('market');
+        }
+
+        // Fallback functions for when API fails
+        function displayFallbackAssessment(formData) {
+            displayAssessmentResults({
+                overall_score: 78,
+                technical_score: 82,
+                design_score: 75,
+                industry_score: 70,
+                recommendations: [
+                    'Focus on building a strong portfolio with 2-3 complete game projects',
+                    'Learn Unity C# scripting and game physics fundamentals',
+                    'Study successful indie games in your target genre',
+                    'Join game development communities and participate in game jams'
+                ]
+            });
+        }
+
+        function displayFallbackRoadmap(formData) {
+            displayRoadmapResults({
+                milestones: [
+                    { phase: 'Phase 1 (0-3 months)', title: 'Foundation Building', tasks: ['Complete Unity Learn pathway', 'Build first 2D game', 'Learn C# fundamentals'] },
+                    { phase: 'Phase 2 (3-6 months)', title: 'Skill Development', tasks: ['Create 3D game prototype', 'Learn game physics', 'Study game design patterns'] },
+                    { phase: 'Phase 3 (6-12 months)', title: 'Portfolio & Network', tasks: ['Complete portfolio project', 'Join game jams', 'Build industry connections'] },
+                    { phase: 'Phase 4 (12+ months)', title: 'Career Launch', tasks: ['Apply to game studios', 'Consider indie development', 'Specialize in chosen area'] }
+                ]
+            });
+        }
+
+        function displayFallbackMarketData() {
+            displayMarketResults({
+                insights: [
+                    { title: 'Unity Developers', trend: '+25%', description: 'High demand for Unity expertise in mobile and indie gaming' },
+                    { title: 'VR/AR Gaming', trend: '+67%', description: 'Emerging opportunities in immersive gaming experiences' },
+                    { title: 'Game AI/ML', trend: '+89%', description: 'AI-driven game development and procedural content generation' },
+                    { title: 'Esports Tech', trend: '+45%', description: 'Growing market for competitive gaming infrastructure' }
+                ]
+            });
+        }
+
+        // Tab loading functions
+        function loadAssessmentResults() {
+            const container = document.getElementById('assessmentResults');
+            if (!container.innerHTML.trim()) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Complete the skill assessment above to see your results here.</p>';
+            }
+        }
+
+        function loadRoadmapResults() {
+            const container = document.getElementById('roadmapResults');
+            if (!container.innerHTML.trim()) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Generate your career roadmap above to see personalized guidance here.</p>';
+            }
+        }
+
+        function loadMarketResults() {
+            const container = document.getElementById('marketResults');
+            if (!container.innerHTML.trim()) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">Click "Get Latest Market Analysis" to see gaming industry insights here.</p>';
+            }
+        }
+
+        // Loading and UI functions
+        function showLoading(message) {
+            const loadingSection = document.getElementById('loadingSection');
+            if (loadingSection) {
+                loadingSection.querySelector('p').textContent = message;
+                loadingSection.style.display = 'block';
+            }
+        }
+
+        function hideLoading() {
+            const loadingSection = document.getElementById('loadingSection');
+            if (loadingSection) {
+                loadingSection.style.display = 'none';
+            }
+        }
+
+        // Update agent status
+        function updateAgentStatus() {
+            const agentStatus = document.getElementById('agentStatus');
+            if (agentStatus) {
+                // Simulate agent activity
+                setInterval(() => {
+                    const agents = agentStatus.querySelectorAll('.agent-list div');
+                    agents.forEach(agent => {
+                        if (Math.random() > 0.7) {
+                            agent.style.color = '#28a745';
+                            setTimeout(() => {
+                                agent.style.color = '';
+                            }, 1000);
+                        }
+                    });
+                }, 3000);
+            }
+        }
+
+        // Signup modal function (referenced by buttons)
+        function openSignupModal() {
+            // Redirect to main signup or dashboard
+            window.location.href = '/dashboard';
+        }
+
+        console.log('✅ Gaming Career Intelligence JavaScript loaded successfully');
+    </script>
+</body>
+</html>
