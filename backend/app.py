@@ -772,13 +772,6 @@ def salary_calculator():
                 '5-7': {'min': 110000, 'max': 165000, 'median': 137500},
                 '8-12': {'min': 145000, 'max': 220000, 'median': 182500},
                 '13+': {'min': 180000, 'max': 300000, 'median': 240000}
-            },
-            'mobile': {
-                '0-1': {'min': 55000, 'max': 80000, 'median': 67500},
-                '2-4': {'min': 70000, 'max': 105000, 'median': 87500},
-                '5-7': {'min': 90000, 'max': 135000, 'median': 112500},
-                '8-12': {'min': 115000, 'max': 170000, 'median': 142500},
-                '13+': {'min': 145000, 'max': 230000, 'median': 187500}
             }
         }
         
@@ -2138,23 +2131,23 @@ def analyze_user_behavior():
         if result['success']:
             print(f"[DEBUG] Generated {len(result['insights'])} smart insights")
             return jsonify({
-                'success': True,
-                'insights': result['insights'],
-                'intelligence_level': result['intelligence_level'],
-                'personalization_score': result['personalization_score'],
-                'message': f"AI intelligence level: {result['intelligence_level']}"
+                "success": True,
+                "insights": result['insights'],
+                "intelligence_level": result['intelligence_level'],
+                "personalization_score": result['personalization_score'],
+                "message": f"AI intelligence level: {result['intelligence_level']}"
             })
         else:
             return jsonify({
-                'success': False,
-                'error': result['error']
+                "success": False,
+                "error": result['error']
             }), 500
             
     except Exception as e:
         print(f"[ERROR] Behavior analysis endpoint failed: {str(e)}")
         return jsonify({
-            'success': False,
-            'error': 'Behavioral analysis temporarily unavailable'
+            "success": False,
+            "error": "Behavioral analysis temporarily unavailable"
         }), 500
 
 @app.route('/api/intelligence/user-profile/<user_id>')
@@ -2165,27 +2158,27 @@ def get_user_intelligence_profile(user_id):
         
         if not profile:
             return jsonify({
-                'success': False,
-                'message': 'User profile not found'
+                "success": False,
+                "message": "User profile not found"
             }), 404
         
         return jsonify({
-            'success': True,
-            'profile': {
-                'intelligence_level': profile.get('intelligence_level', 'basic'),
-                'behavioral_score': profile.get('behavioral_score', 0),
-                'interaction_count': profile.get('interaction_count', 0),
-                'top_interests': dict(sorted(profile.get('interests', {}).items(), key=lambda x: x[1], reverse=True)[:5]),
-                'career_signals': dict(sorted(profile.get('career_goals', {}).items(), key=lambda x: x[1], reverse=True)[:3]),
-                'last_updated': profile.get('last_updated', datetime.now()).isoformat()
+            "success": True,
+            "profile": {
+                "intelligence_level": profile.get('intelligence_level', 'basic'),
+                "behavioral_score": profile.get('behavioral_score', 0),
+                "interaction_count": profile.get('interaction_count', 0),
+                "top_interests": dict(sorted(profile.get('interests', {}).items(), key=lambda x: x[1], reverse=True)[:5]),
+                "career_signals": dict(sorted(profile.get('career_goals', {}).items(), key=lambda x: x[1], reverse=True)[:3]),
+                "last_updated": profile.get('last_updated', datetime.now()).isoformat()
             }
         })
         
     except Exception as e:
         print(f"[ERROR] Get user profile failed: {str(e)}")
         return jsonify({
-            'success': False,
-            'error': str(e)
+            "success": False,
+            "error": str(e)
         }), 500
 
 # ============================================================================
@@ -2544,14 +2537,14 @@ def parse_behavioral_insights(ai_response, behavioral_data):
     try:
         # Simple parsing - in production, this would be more sophisticated
         insights = {
-            'primary_interests': ['career_development', 'skill_building'],
-            'engagement_analysis': 'User shows consistent engagement with career-focused content',
-            'recommendations': [
+            "primary_interests": ['career_development', 'skill_building'],
+            "engagement_analysis": 'User shows consistent engagement with career-focused content',
+            "recommendations": [
                 'Continue exploring skill development opportunities',
                 'Consider setting specific career goals',
                 'Engage with market intelligence features'
             ],
-            'motivation_message': 'Your consistent engagement shows real commitment to career growth!'
+            "motivation_message": 'Your consistent engagement shows real commitment to career growth!'
         }
         
         # Extract key insights from AI response
@@ -2567,66 +2560,66 @@ def parse_behavioral_insights(ai_response, behavioral_data):
 def parse_market_correlation(ai_response, user_interests):
     """Parse market correlation analysis"""
     return {
-        'alignment_score': 78,
-        'top_opportunities': [
+        "alignment_score": 78,
+        "top_opportunities": [
             {'skill': 'AI/ML', 'demand': 'very_high', 'salary_potential': '$120k-180k'},
             {'skill': 'React', 'demand': 'high', 'salary_potential': '$90k-140k'}
         ],
-        'market_timing': 'excellent',
-        'ai_analysis': ai_response[:500] if len(ai_response) > 500 else ai_response
+        "market_timing": 'excellent',
+        "ai_analysis": ai_response[:500] if len(ai_response) > 500 else ai_response
     }
 
 def parse_goal_analysis(ai_response):
     """Parse AI goal analysis"""
     return {
-        'feasibility': 'high',
-        'timeline_assessment': 'realistic',
-        'key_milestones': [
+        "feasibility": 'high',
+        "timeline_assessment": 'realistic',
+        "key_milestones": [
             'Complete initial skill assessment',
             'Identify learning resources',
             'Set weekly practice schedule',
             'Track progress monthly'
         ],
-        'success_probability': 85,
-        'ai_insights': ai_response[:300] if len(ai_response) > 300 else ai_response
+        "success_probability": 85,
+        "ai_insights": ai_response[:300] if len(ai_response) > 300 else ai_response
     }
 
 # Fallback functions for when AI is unavailable
 def generate_fallback_agent_insights():
     return [
         {
-            'type': 'system_status',
-            'message': 'Multi-agent AI system is learning from your interactions',
-            'action': 'continue_exploring',
-            'action_label': 'Continue'
+            "type": "system_status",
+            "message": "Multi-agent AI system is learning from your interactions",
+            "action": "continue_exploring",
+            "action_label": "Continue"
         }
     ]
 
 def generate_fallback_behavioral_insights():
     return {
-        'primary_interests': ['career_development'],
-        'engagement_analysis': 'Building your career profile through platform interactions',
-        'recommendations': ['Explore more features to help us learn your preferences'],
-        'motivation_message': 'Every interaction helps us provide better career insights!'
+        "primary_interests": ['career_development'],
+        "engagement_analysis": "Building your career profile through platform interactions",
+        "recommendations": ["Explore more features to help us learn your preferences"],
+        "motivation_message": "Every interaction helps us provide better career insights!"
     }
 
 def generate_fallback_market_correlation():
     return {
-        'alignment_score': 65,
-        'top_opportunities': [
+        "alignment_score": 65,
+        "top_opportunities": [
             {'skill': 'Technology Skills', 'demand': 'high', 'salary_potential': 'Competitive'}
         ],
-        'market_timing': 'good',
-        'ai_analysis': 'Market analysis temporarily unavailable - using general trends'
+        "market_timing": 'good',
+        "ai_analysis": "Market analysis temporarily unavailable - using general trends"
     }
 
 def generate_fallback_goal_analysis(goal_data):
     return {
-        'feasibility': 'good',
-        'timeline_assessment': 'reasonable',
-        'key_milestones': ['Define specific steps', 'Set regular check-ins', 'Track progress'],
-        'success_probability': 70,
-        'ai_insights': 'Goal analysis temporarily unavailable - using standard framework'
+        "feasibility": 'good',
+        "timeline_assessment": 'reasonable',
+        "key_milestones": ['Define specific steps', 'Set regular check-ins', 'Track progress'],
+        "success_probability": 70,
+        "ai_insights": "Goal analysis temporarily unavailable - using standard framework"
     }
 
 @app.route('/api/intelligence/peer-analysis', methods=['GET', 'POST'])
@@ -2723,3 +2716,121 @@ def market_trends():
         
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/api/intelligence/behavior-analysis', methods=['POST'])
+def behavior_analysis():
+    """Handle behavioral tracking data from frontend"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+        
+        # Log the behavioral data for debugging
+        print(f"📊 Behavioral data received: {data}")
+        
+        # Extract behavioral metrics
+        clicks = data.get('clicks', 0)
+        scrolls = data.get('scrolls', 0)
+        page_visits = data.get('page_visits', 0)
+        interactions = data.get('interactions', [])
+        
+        # Generate AI-powered behavioral insights
+        try:
+            # Create behavioral analysis prompt
+            behavior_prompt = f"""
+            As a career intelligence AI, analyze this user behavior data and provide actionable insights:
+            
+            Behavioral Data:
+            - Clicks: {clicks}
+            - Scrolls: {scrolls}
+            - Page visits: {page_visits}
+            - Recent interactions: {interactions[:5] if interactions else 'None'}
+            
+            Provide:
+            1. Engagement level assessment
+            2. Interest pattern analysis
+            3. Personalized career recommendations
+            4. Next suggested actions
+            
+            Keep response concise and actionable.
+            """
+            
+            # Get AI analysis using xAI
+            messages = [{"role": "user", "content": behavior_prompt}]
+            
+            # Try different models in order of preference
+            models_to_try = ["grok-2-1212", "grok-2-vision-1212", "grok-beta"]
+            ai_response = None
+            
+            for model in models_to_try:
+                try:
+                    response = requests.post(
+                        "https://api.x.ai/v1/chat/completions",
+                        headers={
+                            "Authorization": f"Bearer {XAI_API_KEY}",
+                            "Content-Type": "application/json"
+                        },
+                        json={
+                            "messages": messages,
+                            "model": model,
+                            "temperature": 0.7,
+                            "max_tokens": 500
+                        },
+                        timeout=30
+                    )
+                    
+                    if response.status_code == 200:
+                        ai_response = response.json()['choices'][0]['message']['content']
+                        print(f"✅ Behavioral analysis generated using model: {model}")
+                        break
+                    else:
+                        print(f"❌ Model {model} failed with status {response.status_code}")
+                        continue
+                        
+                except Exception as model_error:
+                    print(f"❌ Error with model {model}: {str(model_error)}")
+                    continue
+            
+            if not ai_response:
+                # Fallback response if AI fails
+                ai_response = f"""
+                **Engagement Analysis**: {'High' if clicks > 3 else 'Moderate' if clicks > 1 else 'Low'} engagement detected
+                
+                **Interest Patterns**: User shows interest in career development and AI-powered tools
+                
+                **Recommendations**:
+                • Explore personalized career paths
+                • Try the AI-powered skill assessment
+                • Set specific career goals
+                
+                **Next Actions**: Continue exploring the platform features that align with your career interests
+                """
+            
+            return jsonify({
+                "success": True,
+                "analysis": ai_response,
+                "engagement_score": min(100, (clicks * 10) + (scrolls * 2) + (page_visits * 5)),
+                "recommendations": [
+                    'Explore AI-powered career tools',
+                    'Set personalized career goals',
+                    'Connect with industry professionals'
+                ]
+            })
+            
+        except Exception as ai_error:
+            print(f"❌ AI analysis error: {str(ai_error)}")
+            # Return basic analysis without AI
+            return jsonify({
+                "success": True,
+                "analysis": f"User engagement detected: {clicks} clicks, {scrolls} scrolls, {page_visits} page visits. Continue exploring career development features.",
+                "engagement_score": min(100, (clicks * 10) + (scrolls * 2) + (page_visits * 5)),
+                "recommendations": [
+                    'Explore AI-powered career tools',
+                    'Set personalized career goals',
+                    'Connect with industry professionals'
+                ]
+            })
+            
+    except Exception as e:
+        print(f"❌ Behavior analysis error: {str(e)}")
+        return jsonify({'error': str(e)}), 500

@@ -1207,6 +1207,16 @@
                 
                 // Track clicks with intelligent context
                 document.addEventListener('click', (event) => {
+                    // EXCLUDE multi-agent visualizer button from behavioral tracking
+                    if (event.target && (
+                        event.target.id === 'multi-agent-visualizer-button' ||
+                        event.target.textContent?.includes('Multi-Agent AI Active') ||
+                        event.target.closest('#multi-agent-visualizer-button')
+                    )) {
+                        console.log('🚫 Excluding multi-agent button from behavioral tracking');
+                        return; // Don't track this click
+                    }
+                    
                     this.trackClick(event);
                 });
                 
