@@ -1071,7 +1071,7 @@
             // Live Demo Form Handler - Initialize after DOM is loaded
             const liveDemoForm = document.getElementById('liveDemoForm');
             if (liveDemoForm) {
-                liveDemoForm.addEventListener('submit', async function(e) {
+                liveDemoForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     console.log('Demo form submitted!');
                     
@@ -1080,263 +1080,51 @@
                         role: document.getElementById('demoRole').value,
                         experience: document.getElementById('demoExperience').value,
                         skills: document.getElementById('demoSkills').value,
-                        target: document.getElementById('demoTarget').value
+                        target: '' // Optional field not in current form
                     };
                     
-                    console.log('Form data:', formData);
+                    console.log('Form data collected:', formData);
                     
-                    // Validate required fields
+                    // Validate form
                     if (!formData.role || !formData.experience || !formData.skills) {
-                        alert('Please fill in all required fields');
+                        alert('Please fill in all required fields!');
                         return;
                     }
                     
-                    // Show loading state
-                    const placeholder = document.querySelector('.demo-placeholder');
-                    const loading = document.getElementById('demoLoading');
-                    const results = document.getElementById('analysisResults');
-                    
-                    if (placeholder) placeholder.style.display = 'none';
-                    if (loading) loading.style.display = 'block';
-                    if (results) results.style.display = 'none';
-                    
-                    // Reset analysis steps
-                    const steps = document.querySelectorAll('.analysis-step');
-                    steps.forEach(step => step.classList.remove('active'));
-                    
-                    // Animate analysis steps
-                    let stepIndex = 0;
-                    const animateSteps = setInterval(() => {
-                        if (stepIndex < steps.length) {
-                            steps[stepIndex].classList.add('active');
-                            stepIndex++;
-                        } else {
-                            clearInterval(animateSteps);
-                            
-                            // Call AI analysis after animation
-                            setTimeout(() => {
-                                performAIAnalysis(formData);
-                            }, 1000);
-                        }
-                    }, 800);
-                });
-            } else {
-                console.error('Live demo form not found!');
-            }
-
-            // Signup Form Handler - Initialize after DOM is loaded
-            const signupForm = document.getElementById('signupForm');
-            if (signupForm) {
-                signupForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    // Show loading state
-                    document.getElementById('signupForm').style.display = 'none';
-                    document.getElementById('signupLoading').style.display = 'block';
-                    
-                    // Animate loading steps
-                    const steps = document.querySelectorAll('.loading-step');
-                    let stepIndex = 0;
-                    
-                    const animateSteps = setInterval(() => {
-                        if (stepIndex < steps.length) {
-                            steps[stepIndex].classList.add('active');
-                            steps[stepIndex].innerHTML = steps[stepIndex].innerHTML.replace('⏳', '✓');
-                            stepIndex++;
-                        } else {
-                            clearInterval(animateSteps);
-                            
-                            // Show success after animation
-                            setTimeout(() => {
-                                document.getElementById('signupLoading').style.display = 'none';
-                                document.getElementById('signupSuccess').style.display = 'block';
-                            }, 1000);
-                        }
-                    }, 800);
-                    
-                    // Collect form data
-                    const formData = {
-                        fullName: document.getElementById('fullName').value,
-                        email: document.getElementById('email').value,
-                        currentRole: document.getElementById('currentRole').value,
-                        experience: selectedExperience,
-                        targetRole: document.getElementById('targetRole').value,
-                        currentSalary: document.getElementById('currentSalary').value,
-                        skills: document.getElementById('skills').value,
-                        plan: selectedPlan
-                    };
-                    
-                    console.log('User signup data:', formData);
-                    
-                    // In a real app, you'd send this to your backend
-                    // For now, we'll simulate the process
+                    // Perform AI analysis
+                    performAIAnalysis(formData);
                 });
             }
-
-            // Close modal when clicking outside
-            window.onclick = function(event) {
-                const modal = document.getElementById('signupModal');
-                if (event.target === modal) {
-                    closeSignupModal();
-                }
+            
+            // Initialize other existing functionality
+            const buttons = document.querySelectorAll('.cta-primary, .cta-secondary');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    console.log('CTA button clicked:', this.textContent);
+                });
+            });
+            
+            // Auto-fill demo form when scrolling to demo section
+            const demoSection = document.getElementById('demo');
+            if (demoSection) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            console.log('Demo section is visible - auto-filling form');
+                            setTimeout(() => {
+                                if (!document.getElementById('demoRole').value) {
+                                    document.getElementById('demoRole').value = 'frontend';
+                                    document.getElementById('demoExperience').value = '2-4';
+                                    document.getElementById('demoSkills').value = 'React, JavaScript, HTML/CSS';
+                                }
+                            }, 1000);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(demoSection);
             }
         });
-
-        async function performAIAnalysis(formData) {
-            try {
-                console.log('Starting AI analysis with data:', formData);
-                
-                // Call the AI analysis endpoint
-                const response = await fetch('/api/intelligence/demo-analysis', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                console.log('Response status:', response.status);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                console.log('Analysis result:', result);
-                
-                if (result.success && result.analysis) {
-                    displayAnalysisResults(result.analysis);
-                } else {
-                    // Fallback to sample analysis if AI fails
-                    console.log('AI analysis failed, using fallback');
-                    displaySampleAnalysis(formData);
-                }
-            } catch (error) {
-                console.error('AI Analysis error:', error);
-                // Always fallback to sample analysis on error
-                displaySampleAnalysis(formData);
-            }
-        }
-
-        function displayAnalysisResults(analysis) {
-            // Hide loading, show results
-            document.getElementById('demoLoading').style.display = 'none';
-            document.getElementById('analysisResults').style.display = 'block';
-            
-            // Create results HTML
-            const resultsHTML = `
-                <div class="analysis-card">
-                    <h4><i class="fas fa-chart-line"></i> Career Health Score <span class="analysis-score">${analysis.score}/100</span></h4>
-                    <p>${analysis.scoreExplanation}</p>
-                </div>
-                
-                <div class="analysis-card">
-                    <h4><i class="fas fa-target"></i> Key Insights</h4>
-                    <ul>
-                        ${analysis.insights.map(insight => `<li>${insight}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="analysis-card">
-                    <h4><i class="fas fa-route"></i> Next Steps</h4>
-                    <ul>
-                        ${analysis.recommendations.map(rec => `<li>${rec}</li>`).join('')}
-                    </ul>
-                </div>
-                
-                <div class="analysis-card">
-                    <h4><i class="fas fa-dollar-sign"></i> Salary Potential</h4>
-                    <p>${analysis.salaryInsight}</p>
-                </div>
-            `;
-            
-            document.getElementById('analysisResults').innerHTML = resultsHTML;
-        }
-
-        function displaySampleAnalysis(formData) {
-            // Generate sample analysis based on form data
-            const roleData = {
-                'frontend': {
-                    score: 78,
-                    insights: [
-                        'Your React skills are in high demand (+23% job growth)',
-                        'Frontend developers with your experience earn 15% above average',
-                        'TypeScript knowledge would boost your profile significantly'
-                    ],
-                    recommendations: [
-                        'Learn TypeScript to increase salary potential by $8-12k',
-                        'Build a portfolio showcasing modern React patterns',
-                        'Consider specializing in performance optimization'
-                    ],
-                    salary: 'Based on your skills and experience, you could earn $75k-$95k annually. Senior roles reach $110k-$130k.'
-                },
-                'backend': {
-                    score: 82,
-                    insights: [
-                        'Backend developers are seeing 18% salary growth this year',
-                        'Your skill set aligns with 89% of senior backend positions',
-                        'Cloud architecture knowledge is highly valued'
-                    ],
-                    recommendations: [
-                        'Get AWS or Azure certification for $10-15k salary boost',
-                        'Learn microservices architecture patterns',
-                        'Contribute to open-source projects for visibility'
-                    ],
-                    salary: 'Your backend skills could command $80k-$105k. With cloud expertise, reach $120k-$140k.'
-                },
-                'fullstack': {
-                    score: 85,
-                    insights: [
-                        'Full-stack developers are the most sought-after (+31% demand)',
-                        'Your versatility makes you valuable for startups and enterprises',
-                        'Modern full-stack roles require DevOps knowledge'
-                    ],
-                    recommendations: [
-                        'Learn Docker and Kubernetes for deployment skills',
-                        'Master a modern framework like Next.js or NestJS',
-                        'Build end-to-end projects showcasing your range'
-                    ],
-                    salary: 'Full-stack expertise can earn $85k-$115k, with senior roles reaching $130k-$160k.'
-                }
-            };
-            
-            const defaultData = {
-                score: 75,
-                insights: [
-                    'Your technical skills show strong potential for growth',
-                    'The market demand for your role is increasing steadily',
-                    'Additional certifications could accelerate your career'
-                ],
-                recommendations: [
-                    'Focus on building a strong portfolio of projects',
-                    'Network with professionals in your target role',
-                    'Consider contributing to open-source projects'
-                ],
-                salary: 'Based on your experience level, you have strong earning potential in the current market.'
-            };
-            
-            const analysis = roleData[formData.role] || defaultData;
-            
-            displayAnalysisResults({
-                score: analysis.score,
-                scoreExplanation: `Your career profile shows strong potential. This score is based on your ${formData.experience} years of experience, current skills (${formData.skills}), and market demand for ${formData.role} roles.`,
-                insights: analysis.insights,
-                recommendations: analysis.recommendations,
-                salaryInsight: analysis.salary
-            });
-        }
-
-        function testDemoForm() {
-            console.log('Testing demo form submission...');
-            const formData = {
-                role: 'frontend',
-                experience: '2-4',
-                skills: 'React, JavaScript, HTML/CSS',
-                target: 'Senior Frontend Developer'
-            };
-            console.log('Test form data:', formData);
-            performAIAnalysis(formData);
-        }
         
         // ============================================================================
         // AUTONOMOUS AI BEHAVIORAL INTELLIGENCE SYSTEM - FRONTEND TRACKING
@@ -1735,9 +1523,219 @@
             
             document.body.appendChild(aiIndicator);
             
-            // Existing DOMContentLoaded code...
-            // (keep all the existing code here)
+            // Initialize demo form functionality
+            const liveDemoForm = document.getElementById('liveDemoForm');
+            if (liveDemoForm) {
+                liveDemoForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Demo form submitted!');
+                    
+                    // Get form data
+                    const formData = {
+                        role: document.getElementById('demoRole').value,
+                        experience: document.getElementById('demoExperience').value,
+                        skills: document.getElementById('demoSkills').value,
+                        target: '' // Optional field not in current form
+                    };
+                    
+                    console.log('Form data collected:', formData);
+                    
+                    // Validate form
+                    if (!formData.role || !formData.experience || !formData.skills) {
+                        alert('Please fill in all required fields!');
+                        return;
+                    }
+                    
+                    // Perform AI analysis
+                    performAIAnalysis(formData);
+                });
+            }
+            
+            // Initialize other existing functionality
+            const buttons = document.querySelectorAll('.cta-primary, .cta-secondary');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    console.log('CTA button clicked:', this.textContent);
+                });
+            });
+            
+            // Auto-fill demo form when scrolling to demo section
+            const demoSection = document.getElementById('demo');
+            if (demoSection) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            console.log('Demo section is visible - auto-filling form');
+                            setTimeout(() => {
+                                if (!document.getElementById('demoRole').value) {
+                                    document.getElementById('demoRole').value = 'frontend';
+                                    document.getElementById('demoExperience').value = '2-4';
+                                    document.getElementById('demoSkills').value = 'React, JavaScript, HTML/CSS';
+                                }
+                            }, 1000);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(demoSection);
+            }
         });
+        
+        async function performAIAnalysis(formData) {
+            try {
+                console.log('Starting AI analysis with data:', formData);
+                
+                // Call the AI analysis endpoint
+                const response = await fetch('/api/intelligence/demo-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('Analysis result:', result);
+                
+                if (result.success && result.analysis) {
+                    displayAnalysisResults(result.analysis);
+                } else {
+                    // Fallback to sample analysis if AI fails
+                    console.log('AI analysis failed, using fallback');
+                    displaySampleAnalysis(formData);
+                }
+            } catch (error) {
+                console.error('AI Analysis error:', error);
+                // Always fallback to sample analysis on error
+                displaySampleAnalysis(formData);
+            }
+        }
+
+        function displayAnalysisResults(analysis) {
+            // Hide loading, show results
+            document.getElementById('demoLoading').style.display = 'none';
+            document.getElementById('analysisResults').style.display = 'block';
+            
+            // Create results HTML
+            const resultsHTML = `
+                <div class="analysis-card">
+                    <h4><i class="fas fa-chart-line"></i> Career Health Score <span class="analysis-score">${analysis.score}/100</span></h4>
+                    <p>${analysis.scoreExplanation}</p>
+                </div>
+                
+                <div class="analysis-card">
+                    <h4><i class="fas fa-target"></i> Key Insights</h4>
+                    <ul>
+                        ${analysis.insights.map(insight => `<li>${insight}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="analysis-card">
+                    <h4><i class="fas fa-route"></i> Next Steps</h4>
+                    <ul>
+                        ${analysis.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="analysis-card">
+                    <h4><i class="fas fa-dollar-sign"></i> Salary Potential</h4>
+                    <p>${analysis.salaryInsight}</p>
+                </div>
+            `;
+            
+            document.getElementById('analysisResults').innerHTML = resultsHTML;
+        }
+
+        function displaySampleAnalysis(formData) {
+            // Generate sample analysis based on form data
+            const roleData = {
+                'frontend': {
+                    score: 78,
+                    insights: [
+                        'Your React skills are in high demand (+23% job growth)',
+                        'Frontend developers with your experience earn 15% above average',
+                        'TypeScript knowledge would boost your profile significantly'
+                    ],
+                    recommendations: [
+                        'Learn TypeScript to increase salary potential by $8-12k',
+                        'Build a portfolio showcasing modern React patterns',
+                        'Consider specializing in performance optimization'
+                    ],
+                    salary: 'Based on your skills and experience, you could earn $75k-$95k annually. Senior roles reach $110k-$130k.'
+                },
+                'backend': {
+                    score: 82,
+                    insights: [
+                        'Backend developers are seeing 18% salary growth this year',
+                        'Your skill set aligns with 89% of senior backend positions',
+                        'Cloud architecture knowledge is highly valued'
+                    ],
+                    recommendations: [
+                        'Get AWS or Azure certification for $10-15k salary boost',
+                        'Learn microservices architecture patterns',
+                        'Contribute to open-source projects for visibility'
+                    ],
+                    salary: 'Your backend skills could command $80k-$105k. With cloud expertise, reach $120k-$140k.'
+                },
+                'fullstack': {
+                    score: 85,
+                    insights: [
+                        'Full-stack developers are the most sought-after (+31% demand)',
+                        'Your versatility makes you valuable for startups and enterprises',
+                        'Modern full-stack roles require DevOps knowledge'
+                    ],
+                    recommendations: [
+                        'Learn Docker and Kubernetes for deployment skills',
+                        'Master a modern framework like Next.js or NestJS',
+                        'Build end-to-end projects showcasing your range'
+                    ],
+                    salary: 'Full-stack expertise can earn $85k-$115k, with senior roles reaching $130k-$160k.'
+                }
+            };
+            
+            const defaultData = {
+                score: 75,
+                insights: [
+                    'Your technical skills show strong potential for growth',
+                    'The market demand for your role is increasing steadily',
+                    'Additional certifications could accelerate your career'
+                ],
+                recommendations: [
+                    'Focus on building a strong portfolio of projects',
+                    'Network with professionals in your target role',
+                    'Consider contributing to open-source projects'
+                ],
+                salary: 'Based on your experience level, you have strong earning potential in the current market.'
+            };
+            
+            const analysis = roleData[formData.role] || defaultData;
+            
+            displayAnalysisResults({
+                score: analysis.score,
+                scoreExplanation: `Your career profile shows strong potential. This score is based on your ${formData.experience} years of experience, current skills (${formData.skills}), and market demand for ${formData.role} roles.`,
+                insights: analysis.insights,
+                recommendations: analysis.recommendations,
+                salaryInsight: analysis.salary
+            });
+        }
+
+        function testDemoForm() {
+            console.log('Testing demo form submission...');
+            const formData = {
+                role: 'frontend',
+                experience: '2-4',
+                skills: 'React, JavaScript, HTML/CSS',
+                target: 'Senior Frontend Developer'
+            };
+            console.log('Test form data:', formData);
+            performAIAnalysis(formData);
+        }
     </script>
 </body>
 </html>
