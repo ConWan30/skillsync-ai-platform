@@ -1574,17 +1574,17 @@
                     
                     // Get form data
                     const formData = {
-                        name: document.getElementById('demoName').value,
+                        name: document.getElementById('demoRole').value, // FIXED: Use demoRole instead of demoName
                         experience: document.getElementById('demoExperience').value,
-                        skills: document.getElementById('demoSkills').value,
+                        skills: document.getElementById('demoRole').value, // FIXED: Use demoRole as skills since demoSkills doesn't exist
                         goals: document.getElementById('demoGoals').value,
                         timestamp: new Date().toISOString()
                     };
                     
                     console.log('Form data collected:', formData);
                     
-                    // Validate form data
-                    if (!formData.name || !formData.experience || !formData.skills || !formData.goals) {
+                    // Validate form data - FIXED: Check for role instead of name
+                    if (!formData.name || !formData.experience || !formData.goals) {
                         alert('Please fill in all fields to get your AI career analysis!');
                         return;
                     }
