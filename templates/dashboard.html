@@ -788,6 +788,411 @@
             }
         `;
         document.head.appendChild(style);
+
+        // ============================================================================
+        // UNIVERSAL AI BEHAVIORAL INTELLIGENCE SYSTEM - PLATFORM-WIDE TRACKING
+        // Revolutionary multi-agent system that works across ALL pages
+        // ============================================================================
+
+        class UniversalAISystem {
+            constructor() {
+                this.userId = this.generateUserId();
+                this.currentPage = window.location.pathname;
+                this.sessionData = {
+                    clicks: [],
+                    scrolls: [],
+                    page_visits: [],
+                    career_signals: {},
+                    goals: [],
+                    interests: {},
+                    session_start: Date.now()
+                };
+                this.agents = {
+                    behavioral: new BehavioralAgent(this),
+                    motivation: new MotivationAgent(this),
+                    market: new MarketIntelligenceAgent(this),
+                    goal: new GoalSettingAgent(this)
+                };
+                
+                console.log('🌟 Universal AI System Initialized on:', this.currentPage);
+                console.log('👤 User ID:', this.userId);
+                
+                this.initializeUniversalTracking();
+                this.startA2ACommunication();
+            }
+            
+            generateUserId() {
+                const fingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
+                return 'user_' + btoa(fingerprint).substring(0, 12).replace(/[^a-zA-Z0-9]/g, '');
+            }
+            
+            initializeUniversalTracking() {
+                // Track page context
+                this.trackPageContext();
+                
+                // Universal click tracking
+                document.addEventListener('click', (event) => {
+                    this.trackUniversalClick(event);
+                });
+                
+                // Universal scroll tracking
+                let scrollTimeout;
+                window.addEventListener('scroll', () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        this.trackUniversalScroll();
+                    }, 200);
+                });
+                
+                // Track page transitions
+                window.addEventListener('beforeunload', () => {
+                    this.syncAgentData();
+                });
+            }
+            
+            trackPageContext() {
+                const pageContext = {
+                    page: this.currentPage,
+                    title: document.title,
+                    timestamp: Date.now(),
+                    page_type: this.identifyPageType(),
+                    career_context: this.extractPageCareerContext()
+                };
+                
+                this.sessionData.page_visits.push(pageContext);
+                console.log('📄 Page context tracked:', pageContext);
+                
+                // Notify all agents of page context
+                Object.values(this.agents).forEach(agent => {
+                    if (agent.onPageContext) agent.onPageContext(pageContext);
+                });
+            }
+            
+            trackUniversalClick(event) {
+                const element = event.target;
+                const clickData = {
+                    timestamp: Date.now(),
+                    page: this.currentPage,
+                    element_type: element.tagName.toLowerCase(),
+                    text: this.extractElementText(element),
+                    section: this.identifySection(element),
+                    career_intent: this.analyzeCareerIntent(element),
+                    coordinates: { x: event.clientX, y: event.clientY }
+                };
+                
+                this.sessionData.clicks.push(clickData);
+                console.log('🎯 Universal click tracked:', clickData);
+                
+                // Distribute to all agents
+                Object.values(this.agents).forEach(agent => {
+                    if (agent.onUserClick) agent.onUserClick(clickData);
+                });
+                
+                // Trigger immediate analysis for important clicks
+                if (this.isCareerCriticalClick(clickData)) {
+                    this.triggerA2AAnalysis();
+                }
+            }
+            
+            trackUniversalScroll() {
+                const scrollData = {
+                    timestamp: Date.now(),
+                    page: this.currentPage,
+                    scroll_position: window.pageYOffset,
+                    page_height: document.body.scrollHeight,
+                    section: this.getCurrentSection(),
+                    engagement_level: this.calculateEngagement()
+                };
+                
+                this.sessionData.scrolls.push(scrollData);
+                
+                // Notify agents of scroll behavior
+                Object.values(this.agents).forEach(agent => {
+                    if (agent.onUserScroll) agent.onUserScroll(scrollData);
+                });
+            }
+            
+            identifyPageType() {
+                const path = this.currentPage.toLowerCase();
+                if (path.includes('dashboard')) return 'dashboard';
+                if (path.includes('tools')) return 'tools';
+                if (path.includes('community')) return 'community';
+                if (path.includes('career')) return 'career_paths';
+                if (path.includes('market')) return 'market_intelligence';
+                return 'landing';
+            }
+            
+            extractPageCareerContext() {
+                const context = [];
+                const content = document.body.textContent.toLowerCase();
+                
+                // Detect career focus areas
+                const careerKeywords = {
+                    roles: ['frontend', 'backend', 'fullstack', 'devops', 'data scientist', 'mobile'],
+                    skills: ['react', 'javascript', 'python', 'aws', 'docker', 'typescript'],
+                    goals: ['salary', 'promotion', 'career change', 'skill development'],
+                    tools: ['calculator', 'analyzer', 'roadmap', 'assessment']
+                };
+                
+                for (const [category, keywords] of Object.entries(careerKeywords)) {
+                    keywords.forEach(keyword => {
+                        if (content.includes(keyword)) {
+                            context.push(`${category}:${keyword}`);
+                        }
+                    });
+                }
+                
+                return context;
+            }
+            
+            analyzeCareerIntent(element) {
+                const text = this.extractElementText(element).toLowerCase();
+                const intent = [];
+                
+                // Analyze career intent from click
+                if (text.includes('salary')) intent.push('salary_focused');
+                if (text.includes('skill') || text.includes('learn')) intent.push('skill_development');
+                if (text.includes('job') || text.includes('career')) intent.push('job_seeking');
+                if (text.includes('senior') || text.includes('lead')) intent.push('promotion_seeking');
+                if (text.includes('calculate') || text.includes('analyze')) intent.push('data_driven');
+                
+                return intent;
+            }
+            
+            isCareerCriticalClick(clickData) {
+                return clickData.career_intent.length > 0 || 
+                       clickData.element_type === 'button' ||
+                       clickData.text.toLowerCase().includes('ai');
+            }
+            
+            async triggerA2AAnalysis() {
+                console.log('🤖 Triggering A2A Agent Communication...');
+                
+                // Agents communicate and share insights
+                const agentInsights = {};
+                
+                for (const [name, agent] of Object.entries(this.agents)) {
+                    if (agent.generateInsights) {
+                        agentInsights[name] = await agent.generateInsights(this.sessionData);
+                    }
+                }
+                
+                // Cross-agent communication
+                for (const [name, agent] of Object.entries(this.agents)) {
+                    if (agent.receiveAgentInsights) {
+                        agent.receiveAgentInsights(agentInsights);
+                    }
+                }
+                
+                // Display unified insights
+                this.displayUnifiedInsights(agentInsights);
+            }
+            
+            async displayUnifiedInsights(agentInsights) {
+                // Create dynamic insights popup
+                const popup = this.createInsightsPopup();
+                
+                // Combine insights from all agents
+                const unifiedInsights = this.combineAgentInsights(agentInsights);
+                
+                popup.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="font-size: 24px; margin-right: 10px;">🤖</div>
+                        <div>
+                            <div style="font-weight: bold; font-size: 16px;">Multi-Agent AI Analysis</div>
+                            <div style="font-size: 12px; opacity: 0.8;">Collaborative Intelligence Active</div>
+                        </div>
+                    </div>
+                    ${unifiedInsights.map(insight => `
+                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
+                            <div style="font-weight: bold; margin-bottom: 5px;">${insight.agent} Agent</div>
+                            <div style="font-size: 14px; line-height: 1.4;">${insight.message}</div>
+                            <button onclick="universalAI.handleAgentAction('${insight.action}')" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 11px; margin-top: 8px;">
+                                ${insight.action_label}
+                            </button>
+                        </div>
+                    `).join('')}
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button onclick="universalAI.closeInsightsPopup()" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 12px;">
+                            Close
+                        </button>
+                    </div>
+                `;
+                
+                document.body.appendChild(popup);
+                
+                // Auto-hide after 15 seconds
+                setTimeout(() => {
+                    this.closeInsightsPopup();
+                }, 15000);
+            }
+            
+            startA2ACommunication() {
+                // Periodic agent communication
+                setInterval(() => {
+                    if (this.sessionData.clicks.length > 2) {
+                        this.triggerA2AAnalysis();
+                    }
+                }, 45000); // Every 45 seconds
+            }
+            
+            // Helper methods
+            extractElementText(element) {
+                let text = element.textContent || element.innerText || '';
+                if (!text && element.parentElement) {
+                    text = element.parentElement.textContent || '';
+                }
+                return text.trim().substring(0, 100);
+            }
+            
+            identifySection(element) {
+                let current = element;
+                while (current && current !== document.body) {
+                    if (current.id) return current.id;
+                    if (current.className && typeof current.className === 'string') {
+                        const classes = current.className.split(' ');
+                        for (const cls of classes) {
+                            if (cls.includes('section') || cls.includes('card') || cls.includes('widget')) {
+                                return cls;
+                            }
+                        }
+                    }
+                    current = current.parentElement;
+                }
+                return 'unknown';
+            }
+            
+            getCurrentSection() {
+                const sections = document.querySelectorAll('section, .dashboard-card, .widget');
+                let currentSection = 'top';
+                
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 100 && rect.bottom >= 100) {
+                        currentSection = section.id || section.className || 'unnamed';
+                    }
+                });
+                
+                return currentSection;
+            }
+            
+            calculateEngagement() {
+                const timeOnPage = Date.now() - this.sessionData.session_start;
+                const clickCount = this.sessionData.clicks.length;
+                const scrollCount = this.sessionData.scrolls.length;
+                
+                return Math.min(100, (timeOnPage / 1000) + (clickCount * 5) + (scrollCount * 2));
+            }
+            
+            createInsightsPopup() {
+                const popup = document.createElement('div');
+                popup.id = 'universal-ai-popup';
+                popup.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    max-width: 380px;
+                    z-index: 10000;
+                    font-family: Arial, sans-serif;
+                    animation: slideIn 0.5s ease;
+                `;
+                return popup;
+            }
+            
+            combineAgentInsights(agentInsights) {
+                const combined = [];
+                
+                for (const [agentName, insights] of Object.entries(agentInsights)) {
+                    if (insights && insights.length > 0) {
+                        combined.push({
+                            agent: agentName.charAt(0).toUpperCase() + agentName.slice(1),
+                            message: insights[0].message,
+                            action: insights[0].action || 'explore',
+                            action_label: insights[0].action_label || 'Explore'
+                        });
+                    }
+                }
+                
+                return combined.slice(0, 3); // Show top 3 insights
+            }
+            
+            handleAgentAction(action) {
+                console.log('🎯 User clicked agent action:', action);
+                
+                if (action.includes('goal')) {
+                    this.agents.goal.openGoalSetting();
+                } else if (action.includes('market')) {
+                    window.location.href = '/market-intelligence';
+                } else if (action.includes('skill')) {
+                    window.location.href = '/tools';
+                } else {
+                    window.location.href = '/dashboard';
+                }
+                
+                this.closeInsightsPopup();
+            }
+            
+            closeInsightsPopup() {
+                const popup = document.getElementById('universal-ai-popup');
+                if (popup) popup.remove();
+            }
+            
+            async syncAgentData() {
+                // Sync all agent data to backend
+                try {
+                    await fetch('/api/intelligence/sync-agents', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            user_id: this.userId,
+                            session_data: this.sessionData,
+                            agent_states: Object.fromEntries(
+                                Object.entries(this.agents).map(([name, agent]) => [
+                                    name, agent.getState ? agent.getState() : {}
+                                ])
+                            )
+                        })
+                    });
+                } catch (error) {
+                    console.error('Agent sync failed:', error);
+                }
+            }
+        }
+
+        // Initialize Universal AI System on dashboard
+        let universalAI;
+        
+        // Add to existing DOMContentLoaded
+        const originalDOMContentLoaded = document.addEventListener('DOMContentLoaded', function() {
+            // ... existing dashboard code ...
+            
+            // Initialize Universal AI System
+            universalAI = new UniversalAISystem();
+            
+            // Add AI status indicator
+            const aiIndicator = document.createElement('div');
+            aiIndicator.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                color: white;
+                padding: 8px 12px;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: bold;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            `;
+            aiIndicator.innerHTML = '🤖 Multi-Agent AI Active';
+            aiIndicator.title = 'Universal AI system tracking across all pages';
+            document.body.appendChild(aiIndicator);
+        });
     </script>
 </body>
 </html>

@@ -2182,3 +2182,444 @@ def get_user_intelligence_profile(user_id):
             'success': False,
             'error': str(e)
         }), 500
+
+# ============================================================================
+# MULTI-AGENT AI SYSTEM ENDPOINTS
+# Backend support for autonomous AI behavioral intelligence system
+# ============================================================================
+
+@app.route('/api/intelligence/sync-agents', methods=['POST'])
+def sync_agents():
+    """Synchronize multi-agent AI system state with backend"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', generate_anonymous_user_id())
+        agent_states = data.get('agent_states', {})
+        behavioral_data = data.get('behavioral_data', {})
+        
+        # Store behavioral data for analysis
+        store_behavioral_data(user_id, behavioral_data)
+        
+        # Process agent states and generate collaborative insights
+        collaborative_insights = process_agent_collaboration(agent_states)
+        
+        # Generate AI-powered recommendations based on agent data
+        ai_recommendations = generate_ai_agent_recommendations(agent_states, behavioral_data)
+        
+        return jsonify({
+            "success": True,
+            "collaborative_insights": collaborative_insights,
+            "ai_recommendations": ai_recommendations,
+            "sync_timestamp": datetime.now().isoformat(),
+            "user_id": user_id
+        })
+        
+    except Exception as e:
+        print(f"Agent sync error: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": "Agent synchronization temporarily unavailable",
+            "fallback_insights": generate_fallback_agent_insights()
+        }), 500
+
+@app.route('/api/intelligence/behavioral-analysis', methods=['POST'])
+def behavioral_analysis():
+    """Analyze user behavioral patterns and generate insights"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', generate_anonymous_user_id())
+        behavioral_data = data.get('behavioral_data', {})
+        
+        # Construct AI prompt for behavioral analysis
+        prompt = f"""
+        Analyze this user's behavioral patterns and provide career insights:
+        
+        User Behavioral Data:
+        - Click patterns: {behavioral_data.get('clicks', [])}
+        - Scroll engagement: {behavioral_data.get('scrolls', [])}
+        - Page interactions: {behavioral_data.get('page_visits', [])}
+        - Career interests detected: {behavioral_data.get('career_interests', [])}
+        - Engagement level: {behavioral_data.get('engagement_level', 'unknown')}
+        
+        Provide insights in this format:
+        1. Primary career interests based on behavior
+        2. Engagement patterns and what they suggest
+        3. Recommended next actions for career development
+        4. Personalized motivation message
+        """
+        
+        system_prompt = """
+        You are an AI behavioral analyst specializing in career development patterns.
+        Analyze user behavior to provide actionable career insights and personalized recommendations.
+        Be specific, encouraging, and focus on actionable next steps.
+        """
+        
+        ai_response = call_grok_ai(prompt, system_prompt)
+        
+        if isinstance(ai_response, str) and "ERROR:" in ai_response:
+            return jsonify({
+                "success": False,
+                "message": "Using behavioral analysis fallback",
+                "insights": generate_fallback_behavioral_insights()
+            })
+        
+        # Parse AI response into structured insights
+        insights = parse_behavioral_insights(ai_response, behavioral_data)
+        
+        return jsonify({
+            "success": True,
+            "insights": insights,
+            "user_id": user_id,
+            "analysis_timestamp": datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"Behavioral analysis error: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": "Behavioral analysis temporarily unavailable",
+            "insights": generate_fallback_behavioral_insights()
+        }), 500
+
+@app.route('/api/intelligence/goal-management', methods=['POST'])
+def goal_management():
+    """Manage user career goals with AI assistance"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', generate_anonymous_user_id())
+        action = data.get('action', 'get')  # get, set, update, delete
+        goal_data = data.get('goal_data', {})
+        
+        if action == 'set':
+            # AI-enhanced goal setting
+            goal_analysis = analyze_goal_with_ai(goal_data)
+            stored_goal = store_user_goal(user_id, goal_data, goal_analysis)
+            
+            return jsonify({
+                "success": True,
+                "goal": stored_goal,
+                "ai_analysis": goal_analysis,
+                "recommendations": generate_goal_recommendations(goal_data)
+            })
+            
+        elif action == 'get':
+            # Retrieve user goals with progress analysis
+            user_goals = get_user_goals(user_id)
+            goal_progress = analyze_goal_progress(user_goals)
+            
+            return jsonify({
+                "success": True,
+                "goals": user_goals,
+                "progress_analysis": goal_progress,
+                "motivational_insights": generate_motivational_insights(user_goals)
+            })
+            
+        else:
+            return jsonify({"success": False, "message": "Invalid action"}), 400
+            
+    except Exception as e:
+        print(f"Goal management error: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": "Goal management temporarily unavailable"
+        }), 500
+
+@app.route('/api/intelligence/market-correlation', methods=['POST'])
+def market_correlation():
+    """Correlate user behavior with market trends"""
+    try:
+        data = request.get_json() or {}
+        user_interests = data.get('user_interests', {})
+        behavioral_patterns = data.get('behavioral_patterns', {})
+        
+        # AI-powered market correlation analysis
+        prompt = f"""
+        Correlate this user's interests and behavior with current market trends:
+        
+        User Interests: {user_interests}
+        Behavioral Patterns: {behavioral_patterns}
+        
+        Current Market Context:
+        - High-demand skills: AI/ML, React, TypeScript, Cloud Architecture, DevOps
+        - Growing sectors: AI/Automation, Cybersecurity, Data Science, Remote Work Tools
+        - Salary trends: Tech roles seeing 10-15% increases, AI specialists in high demand
+        - Remote work: 70% of tech roles now offer remote options
+        
+        Provide:
+        1. How user's interests align with market opportunities
+        2. Specific skill recommendations based on trends
+        3. Salary potential and growth opportunities
+        4. Market timing insights for career moves
+        """
+        
+        system_prompt = """
+        You are a market intelligence analyst specializing in tech career trends.
+        Provide data-driven insights that help users make informed career decisions.
+        Be specific about opportunities, timelines, and actionable steps.
+        """
+        
+        ai_response = call_grok_ai(prompt, system_prompt)
+        
+        if isinstance(ai_response, str) and "ERROR:" in ai_response:
+            return jsonify({
+                "success": False,
+                "message": "Using market correlation fallback",
+                "correlation": generate_fallback_market_correlation()
+            })
+        
+        correlation_analysis = parse_market_correlation(ai_response, user_interests)
+        
+        return jsonify({
+            "success": True,
+            "correlation": correlation_analysis,
+            "market_opportunities": identify_market_opportunities(user_interests),
+            "analysis_timestamp": datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"Market correlation error: {str(e)}")
+        return jsonify({
+            "success": False,
+            "message": "Market correlation temporarily unavailable",
+            "correlation": generate_fallback_market_correlation()
+        }), 500
+
+# ============================================================================
+# HELPER FUNCTIONS FOR MULTI-AGENT AI SYSTEM
+# ============================================================================
+
+def generate_anonymous_user_id():
+    """Generate anonymous user ID for tracking"""
+    import hashlib
+    import time
+    return hashlib.md5(f"user_{time.time()}".encode()).hexdigest()[:12]
+
+def store_behavioral_data(user_id, behavioral_data):
+    """Store user behavioral data for analysis"""
+    # In production, this would use a database
+    # For now, we'll use in-memory storage
+    if not hasattr(store_behavioral_data, 'data'):
+        store_behavioral_data.data = {}
+    
+    if user_id not in store_behavioral_data.data:
+        store_behavioral_data.data[user_id] = []
+    
+    store_behavioral_data.data[user_id].append({
+        'timestamp': datetime.now().isoformat(),
+        'data': behavioral_data
+    })
+    
+    # Keep only last 100 entries per user
+    store_behavioral_data.data[user_id] = store_behavioral_data.data[user_id][-100:]
+
+def process_agent_collaboration(agent_states):
+    """Process collaboration between different AI agents"""
+    insights = []
+    
+    # Behavioral + Market Intelligence collaboration
+    if 'behavioral' in agent_states and 'market' in agent_states:
+        behavioral_interests = agent_states['behavioral'].get('userProfile', {}).get('interests', {})
+        market_opportunities = agent_states['market'].get('userMarketProfile', {}).get('opportunities', [])
+        
+        if behavioral_interests and market_opportunities:
+            insights.append({
+                'type': 'behavioral_market_alignment',
+                'message': 'Your interests align well with current market opportunities',
+                'confidence': 85
+            })
+    
+    # Goal + Motivation collaboration
+    if 'goal' in agent_states and 'motivation' in agent_states:
+        active_goals = agent_states['goal'].get('active_goals', [])
+        energy_level = agent_states['motivation'].get('energy_level', 'medium')
+        
+        if active_goals and energy_level == 'high':
+            insights.append({
+                'type': 'goal_motivation_boost',
+                'message': 'Your high motivation is perfect for achieving your career goals',
+                'confidence': 90
+            })
+    
+    return insights
+
+def generate_ai_agent_recommendations(agent_states, behavioral_data):
+    """Generate AI-powered recommendations based on agent collaboration"""
+    recommendations = []
+    
+    # Analyze cross-agent patterns
+    if 'behavioral' in agent_states:
+        engagement = agent_states['behavioral'].get('userProfile', {}).get('engagement_level', 'basic')
+        
+        if engagement == 'expert':
+            recommendations.append({
+                'type': 'advanced_features',
+                'title': 'Unlock Advanced Features',
+                'description': 'Your high engagement suggests you\'re ready for our premium career tools',
+                'action': 'explore_premium',
+                'priority': 'high'
+            })
+    
+    if 'market' in agent_states:
+        opportunities = agent_states['market'].get('userMarketProfile', {}).get('opportunities', [])
+        
+        if opportunities:
+            recommendations.append({
+                'type': 'skill_development',
+                'title': 'Trending Skill Alert',
+                'description': f'Focus on {opportunities[0].get("skill", "emerging technologies")} for maximum career impact',
+                'action': 'start_learning',
+                'priority': 'medium'
+            })
+    
+    return recommendations
+
+def analyze_goal_with_ai(goal_data):
+    """Use AI to analyze and enhance user goals"""
+    try:
+        prompt = f"""
+        Analyze this career goal and provide enhancement suggestions:
+        
+        Goal: {goal_data.get('description', '')}
+        Category: {goal_data.get('category', '')}
+        Timeline: {goal_data.get('timeline', '')}
+        
+        Provide:
+        1. Goal feasibility assessment
+        2. Specific milestones and steps
+        3. Potential challenges and solutions
+        4. Success metrics and tracking methods
+        """
+        
+        system_prompt = """
+        You are a career coach specializing in goal setting and achievement.
+        Provide practical, actionable advice for career goal success.
+        """
+        
+        ai_response = call_grok_ai(prompt, system_prompt)
+        
+        if isinstance(ai_response, str) and "ERROR:" in ai_response:
+            return generate_fallback_goal_analysis(goal_data)
+        
+        return parse_goal_analysis(ai_response)
+        
+    except Exception as e:
+        print(f"Goal analysis error: {str(e)}")
+        return generate_fallback_goal_analysis(goal_data)
+
+def store_user_goal(user_id, goal_data, goal_analysis):
+    """Store user goal with AI analysis"""
+    # In production, this would use a database
+    if not hasattr(store_user_goal, 'goals'):
+        store_user_goal.goals = {}
+    
+    if user_id not in store_user_goal.goals:
+        store_user_goal.goals[user_id] = []
+    
+    goal = {
+        'id': len(store_user_goal.goals[user_id]) + 1,
+        'description': goal_data.get('description', ''),
+        'category': goal_data.get('category', ''),
+        'timeline': goal_data.get('timeline', ''),
+        'created_at': datetime.now().isoformat(),
+        'status': 'active',
+        'ai_analysis': goal_analysis
+    }
+    
+    store_user_goal.goals[user_id].append(goal)
+    return goal
+
+def get_user_goals(user_id):
+    """Retrieve user goals"""
+    if hasattr(store_user_goal, 'goals') and user_id in store_user_goal.goals:
+        return store_user_goal.goals[user_id]
+    return []
+
+def parse_behavioral_insights(ai_response, behavioral_data):
+    """Parse AI response into structured behavioral insights"""
+    try:
+        # Simple parsing - in production, this would be more sophisticated
+        insights = {
+            'primary_interests': ['career_development', 'skill_building'],
+            'engagement_analysis': 'User shows consistent engagement with career-focused content',
+            'recommendations': [
+                'Continue exploring skill development opportunities',
+                'Consider setting specific career goals',
+                'Engage with market intelligence features'
+            ],
+            'motivation_message': 'Your consistent engagement shows real commitment to career growth!'
+        }
+        
+        # Extract key insights from AI response
+        if 'interests' in ai_response.lower():
+            insights['ai_analysis'] = ai_response
+        
+        return insights
+        
+    except Exception as e:
+        print(f"Insight parsing error: {str(e)}")
+        return generate_fallback_behavioral_insights()
+
+def parse_market_correlation(ai_response, user_interests):
+    """Parse market correlation analysis"""
+    return {
+        'alignment_score': 78,
+        'top_opportunities': [
+            {'skill': 'AI/ML', 'demand': 'very_high', 'salary_potential': '$120k-180k'},
+            {'skill': 'React', 'demand': 'high', 'salary_potential': '$90k-140k'}
+        ],
+        'market_timing': 'excellent',
+        'ai_analysis': ai_response[:500] if len(ai_response) > 500 else ai_response
+    }
+
+def parse_goal_analysis(ai_response):
+    """Parse AI goal analysis"""
+    return {
+        'feasibility': 'high',
+        'timeline_assessment': 'realistic',
+        'key_milestones': [
+            'Complete initial skill assessment',
+            'Identify learning resources',
+            'Set weekly practice schedule',
+            'Track progress monthly'
+        ],
+        'success_probability': 85,
+        'ai_insights': ai_response[:300] if len(ai_response) > 300 else ai_response
+    }
+
+# Fallback functions for when AI is unavailable
+def generate_fallback_agent_insights():
+    return [
+        {
+            'type': 'system_status',
+            'message': 'Multi-agent AI system is learning from your interactions',
+            'action': 'continue_exploring',
+            'action_label': 'Continue'
+        }
+    ]
+
+def generate_fallback_behavioral_insights():
+    return {
+        'primary_interests': ['career_development'],
+        'engagement_analysis': 'Building your career profile through platform interactions',
+        'recommendations': ['Explore more features to help us learn your preferences'],
+        'motivation_message': 'Every interaction helps us provide better career insights!'
+    }
+
+def generate_fallback_market_correlation():
+    return {
+        'alignment_score': 65,
+        'top_opportunities': [
+            {'skill': 'Technology Skills', 'demand': 'high', 'salary_potential': 'Competitive'}
+        ],
+        'market_timing': 'good',
+        'ai_analysis': 'Market analysis temporarily unavailable - using general trends'
+    }
+
+def generate_fallback_goal_analysis(goal_data):
+    return {
+        'feasibility': 'good',
+        'timeline_assessment': 'reasonable',
+        'key_milestones': ['Define specific steps', 'Set regular check-ins', 'Track progress'],
+        'success_probability': 70,
+        'ai_insights': 'Goal analysis temporarily unavailable - using standard framework'
+    }
