@@ -689,6 +689,11 @@ def dashboard():
     """User dashboard with progress tracking and recent insights"""
     return render_template('dashboard.html')
 
+@app.route('/ai-agent')
+def ai_agent():
+    """AI Agent page with autonomous career intelligence features"""
+    return render_template('ai_agent.html')
+
 @app.route('/market-intelligence')
 def market_intelligence():
     """Market intelligence hub with free insights and trends"""
@@ -1252,7 +1257,7 @@ def ai_learning_path():
             
             **Month 3-4: Intermediate Skills**
             - Learn frameworks and tools
-            - Contribute to open source
+            - Contribute to open-source
             - Network with other developers
             
             **Month 5-6: Advanced & Portfolio**
@@ -2105,10 +2110,10 @@ class AutonomousCareerAI:
         # Add intelligence level context
         if intelligence_level == 'expert':
             insights.append({
-                'type': 'ai_evolution',
-                'message': "I've learned a lot about your career goals from our interactions. My recommendations are now highly personalized to your specific interests and patterns.",
-                'confidence': 95,
-                'action': "Explore advanced AI insights"
+                "type": "ai_evolution",
+                "message": "I've learned a lot about your career goals from our interactions. My recommendations are now highly personalized to your specific interests and patterns.",
+                "confidence": 95,
+                "action": "Explore advanced AI insights"
             })
         
         return insights[:4]  # Return top 4 insights
