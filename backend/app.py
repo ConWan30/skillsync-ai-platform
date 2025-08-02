@@ -3307,7 +3307,7 @@ def auto_match_jobs_after_analysis():
         # Determine search parameters from analysis
         role = user_profile.get('role', '')
         location = preferences.get('location', 'remote')
-        experience = user_profile.get('experience', 'mid')
+        experience = user_profile.get('experience', 'mid-level')
         
         print(f"[INFO] Auto-matching jobs for {role} after career analysis")
         
@@ -3368,7 +3368,6 @@ def track_job_click():
     """Track job clicks for affiliate revenue attribution"""
     try:
         data = request.get_json() or {}
-        
         user_id = data.get('user_id', 'anonymous')
         job_id = data.get('job_id', '')
         tracking_id = data.get('tracking_id', '')
@@ -3401,7 +3400,6 @@ def track_job_application():
     """Track job applications for conversion analytics"""
     try:
         data = request.get_json() or {}
-        
         user_id = data.get('user_id', 'anonymous')
         job_id = data.get('job_id', '')
         tracking_id = data.get('tracking_id', '')
@@ -3792,7 +3790,7 @@ def parse_gaming_roadmap(ai_response, target_role, experience_level):
                 'phase': 'Phase 3 (6-12 months)',
                 'title': 'Portfolio & Network',
                 'tasks': [
-                    'Complete 2-3 polished portfolio projects',
+                    'Complete 2-3 polished game projects',
                     'Participate in game jams and competitions',
                     'Build industry connections and online presence',
                     'Contribute to open-source gaming projects'
@@ -3906,3 +3904,5 @@ def generate_fallback_gaming_market_data():
         'growth_rate': '8.7%',
         'analysis': 'Gaming industry continues strong growth with diverse career opportunities across development, design, and business roles.'
     }
+
+```
