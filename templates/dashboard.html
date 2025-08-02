@@ -1112,13 +1112,50 @@
             // Initialize Universal AI System
             universalAI = new UniversalAISystem();
             
-            // Remove any existing AI indicators first
-            const existingIndicators = document.querySelectorAll('[style*="position: fixed"][style*="bottom: 20px"][style*="left: 20px"]');
-            existingIndicators.forEach(indicator => {
-                if (indicator.textContent.includes('AI') || indicator.textContent.includes('🧠')) {
-                    indicator.remove();
-                }
-            });
+            // AGGRESSIVE CLEANUP: Remove ALL existing AI indicators
+            function removeAllAIIndicators() {
+                // Remove by common selectors
+                const selectors = [
+                    '[style*="position: fixed"]',
+                    '[style*="bottom"]',
+                    '[title*="AI"]',
+                    '[title*="learning"]',
+                    '[title*="behavioral"]',
+                    '[title*="autonomous"]'
+                ];
+                
+                selectors.forEach(selector => {
+                    const elements = document.querySelectorAll(selector);
+                    elements.forEach(el => {
+                        const text = el.textContent || '';
+                        const title = el.title || '';
+                        if ((text.includes('AI') || text.includes('🧠') || text.includes('learning')) ||
+                            (title.includes('AI') || title.includes('learning') || title.includes('behavioral'))) {
+                            console.log('Removing old AI indicator:', text, title);
+                            el.remove();
+                        }
+                    });
+                });
+                
+                // Remove by text content
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                    if (el.id !== 'multi-agent-visualizer-button' && 
+                        el.style.position === 'fixed' &&
+                        (el.textContent.includes('🧠') || el.textContent.includes('AI Learning'))) {
+                        console.log('Removing brain icon element:', el.textContent);
+                        el.remove();
+                    }
+                });
+            }
+            
+            // Run cleanup immediately
+            removeAllAIIndicators();
+            
+            // Run cleanup again after a delay to catch dynamically created indicators
+            setTimeout(removeAllAIIndicators, 500);
+            setTimeout(removeAllAIIndicators, 1500);
+            setTimeout(removeAllAIIndicators, 3000);
             
             // Add AI status indicator with visualizer functionality
             const aiIndicator = document.createElement('div');
@@ -1133,7 +1170,7 @@
                 border-radius: 20px;
                 font-size: 11px;
                 font-weight: bold;
-                z-index: 9999;
+                z-index: 10001;
                 box-shadow: 0 4px 12px rgba(0,0,0,0.2);
                 cursor: pointer;
                 transition: transform 0.3s ease;
@@ -1151,17 +1188,24 @@
             };
             document.body.appendChild(aiIndicator);
             
-            // Double-check and remove any conflicting indicators after a short delay
-            setTimeout(() => {
-                const allIndicators = document.querySelectorAll('[style*="position: fixed"][style*="bottom"]');
-                allIndicators.forEach(indicator => {
-                    if (indicator.id !== 'multi-agent-visualizer-button' && 
-                        (indicator.textContent.includes('AI') || indicator.textContent.includes('🧠'))) {
-                        console.log('Removing conflicting AI indicator:', indicator.textContent);
-                        indicator.remove();
-                    }
+            // Monitor for new AI indicators being created and remove them
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1 && node.id !== 'multi-agent-visualizer-button') {
+                            const text = node.textContent || '';
+                            const title = node.title || '';
+                            if ((text.includes('🧠') || text.includes('AI Learning')) ||
+                                (title.includes('autonomous AI') || title.includes('behavioral insight'))) {
+                                console.log('Blocking new AI indicator creation:', text, title);
+                                node.remove();
+                            }
+                        }
+                    });
                 });
-            }, 1000);
+            });
+            
+            observer.observe(document.body, { childList: true, subtree: true });
         });
         
         // ============================================================================
