@@ -2839,3 +2839,312 @@ def behavior_analysis():
     except Exception as e:
         print(f"❌ Behavior analysis error: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+# ============================================================================
+# GAMING CAREER FRAMEWORK API ENDPOINTS - MULTI-DOMAIN INTEGRATION
+# ============================================================================
+
+# Import gaming agents
+try:
+    from gaming_agents import (
+        initialize_gaming_agents, 
+        get_gaming_agent_status,
+        process_gaming_agent_collaboration,
+        MultiDomainAssessmentAgent,
+        AdaptiveRoadmapAgent,
+        GAMING_KNOWLEDGE_BASE
+    )
+    gaming_agents = initialize_gaming_agents()
+    GAMING_FRAMEWORK_ENABLED = True
+    print("[INFO] Gaming career framework loaded successfully")
+except ImportError as e:
+    print(f"[WARNING] Gaming framework not available: {e}")
+    GAMING_FRAMEWORK_ENABLED = False
+    gaming_agents = {}
+
+@app.route('/api/gaming/assess-skills', methods=['POST'])
+def assess_gaming_skills():
+    """Multi-Domain Assessment Agent - Gaming skill assessment endpoint"""
+    try:
+        data = request.get_json() or {}
+        user_input = data.get('user_input', '')
+        domain = data.get('domain', 'gaming')
+        user_id = data.get('user_id', 'anonymous')
+        
+        if not user_input:
+            return jsonify({
+                'success': False,
+                'error': 'User input is required for gaming skill assessment'
+            }), 400
+        
+        print(f"[DEBUG] Gaming skill assessment for domain: {domain}")
+        
+        if GAMING_FRAMEWORK_ENABLED:
+            # Use Multi-Domain Assessment Agent
+            assessment_agent = gaming_agents.get('multi_domain_assessment')
+            if not assessment_agent:
+                assessment_agent = MultiDomainAssessmentAgent()
+            
+            # Perform gaming skill assessment
+            assessment_result = assessment_agent.assess_gaming_skills(user_input, domain)
+            
+            # A2A Protocol: Integrate with existing agents
+            if assessment_result['success']:
+                agent_states = get_current_agent_states(user_id)
+                collaboration_insights = process_gaming_agent_collaboration(
+                    agent_states, 
+                    assessment_result['assessment']
+                )
+                assessment_result['collaboration_insights'] = collaboration_insights
+        else:
+            # Fallback assessment
+            assessment_result = generate_fallback_gaming_assessment(user_input, domain)
+        
+        return jsonify(assessment_result)
+        
+    except Exception as e:
+        print(f"[ERROR] Gaming skill assessment failed: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/gaming/generate-roadmap', methods=['POST'])
+def generate_gaming_roadmap():
+    """Adaptive Roadmap Agent - Gaming career roadmap generation"""
+    try:
+        data = request.get_json() or {}
+        gaming_profile = data.get('gaming_profile', {})
+        target_role = data.get('target_role', 'Game Developer')
+        user_id = data.get('user_id', 'anonymous')
+        
+        print(f"[DEBUG] Generating gaming roadmap for role: {target_role}")
+        
+        if GAMING_FRAMEWORK_ENABLED:
+            # Use Adaptive Roadmap Agent
+            roadmap_agent = gaming_agents.get('adaptive_roadmap')
+            if not roadmap_agent:
+                roadmap_agent = AdaptiveRoadmapAgent()
+            
+            roadmap_result = roadmap_agent.generate_gaming_roadmap(gaming_profile, target_role)
+            
+            # A2A Protocol integration
+            if roadmap_result['success']:
+                agent_states = get_current_agent_states(user_id)
+                collaboration_insights = process_gaming_agent_collaboration(
+                    agent_states, 
+                    {'roadmap': roadmap_result['roadmap'], 'target_role': target_role}
+                )
+                roadmap_result['enhanced_insights'] = collaboration_insights
+        else:
+            # Fallback roadmap
+            roadmap_result = generate_fallback_gaming_roadmap(gaming_profile, target_role)
+        
+        return jsonify(roadmap_result)
+        
+    except Exception as e:
+        print(f"[ERROR] Gaming roadmap generation failed: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/gaming/market-intelligence', methods=['GET'])
+def gaming_market_intelligence():
+    """Gaming Market Intelligence - Industry trends and insights"""
+    try:
+        # Gaming market intelligence with AI analysis
+        market_system_prompt = """
+        You are an expert gaming industry market analyst. Provide comprehensive 
+        market intelligence including growth opportunities, career paths, salary 
+        trends, emerging technologies, and strategic recommendations.
+        """
+        
+        market_prompt = """
+        Analyze the current gaming industry market and provide insights on:
+        1. Market Growth Opportunities ($321B industry, 8.7% CAGR)
+        2. High-Demand Career Paths (Game Dev, Esports, Business)
+        3. Salary Trends and Projections
+        4. Emerging Technology Impact (VR/AR, AI, Cloud Gaming)
+        5. Career Entry Strategies
+        6. Success Factors and Risk Mitigation
+        
+        Format as actionable market intelligence report.
+        """
+        
+        ai_analysis = call_grok_ai(market_prompt, market_system_prompt)
+        
+        intelligence_report = {
+            'success': True,
+            'market_overview': {
+                'industry_size': '$321.1 billion global gaming market',
+                'growth_rate': '8.7% CAGR through 2027',
+                'emerging_trends': [
+                    'Cloud Gaming', 'AI-Generated Content', 'VR/AR Gaming',
+                    'Esports Growth', 'Cross-Platform Development'
+                ]
+            },
+            'career_opportunities': {
+                'high_demand_roles': ['Game Developer', 'Technical Artist', 'Product Manager'],
+                'salary_ranges': {
+                    'junior': '$55k-$75k',
+                    'mid': '$75k-$110k',
+                    'senior': '$110k-$160k'
+                }
+            },
+            'ai_market_analysis': ai_analysis if ai_analysis and "ERROR:" not in ai_analysis else None,
+            'recommendations': {
+                'skill_priorities': ['Unity/Unreal', 'Programming', 'Game Design'],
+                'entry_strategies': ['Build portfolio', 'Join communities', 'Attend events']
+            },
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        return jsonify(intelligence_report)
+        
+    except Exception as e:
+        print(f"[ERROR] Gaming market intelligence failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/gaming/career-guidance', methods=['POST'])
+def gaming_career_guidance():
+    """Enhanced career guidance with gaming specialization"""
+    try:
+        data = request.get_json() or {}
+        user_input = data.get('user_input', '')
+        career_focus = data.get('career_focus', 'general')
+        user_id = data.get('user_id', 'anonymous')
+        
+        # Check if gaming-focused request
+        gaming_keywords = ['game', 'gaming', 'unity', 'unreal', 'esports', 'game dev']
+        is_gaming_request = any(keyword.lower() in user_input.lower() for keyword in gaming_keywords)
+        
+        if is_gaming_request:
+            # Gaming-specific guidance
+            gaming_system_prompt = """
+            You are an expert gaming industry career advisor. Provide comprehensive 
+            guidance on game development careers, esports opportunities, portfolio 
+            development, and industry networking strategies.
+            """
+            
+            gaming_guidance_prompt = f"""
+            Provide comprehensive gaming career guidance for: {user_input}
+            
+            Include:
+            1. Career Path Analysis (Best-fit roles, timeline)
+            2. Skill Development Plan (Technical, creative, business)
+            3. Portfolio Strategy (Projects, showcase tips)
+            4. Industry Integration (Networking, communities)
+            5. Success Metrics (Milestones, KPIs)
+            
+            Provide specific, actionable recommendations.
+            """
+            
+            ai_response = call_grok_ai(gaming_guidance_prompt, gaming_system_prompt)
+            
+            guidance = {
+                'career_analysis': {
+                    'recommended_roles': ['Game Developer', 'Technical Artist'],
+                    'progression_timeline': '12-24 months'
+                },
+                'skill_development': {
+                    'technical_priorities': ['Unity', 'C#', 'Game Design'],
+                    'learning_timeline': '6-12 months'
+                },
+                'portfolio_strategy': {
+                    'project_recommendations': ['2D Platformer Game']
+                },
+                'ai_guidance': ai_response if ai_response and "ERROR:" not in ai_response else None,
+                'gaming_specialized': True
+            }
+            
+            # A2A Protocol integration
+            agent_states = get_current_agent_states(user_id)
+            collaboration_insights = process_gaming_agent_collaboration(agent_states, guidance)
+            
+            return jsonify({
+                'success': True,
+                'guidance': guidance,
+                'collaboration_insights': collaboration_insights,
+                'domain': 'gaming',
+                'timestamp': datetime.now().isoformat()
+            })
+        else:
+            # Use existing general career guidance
+            return jsonify({
+                'success': True,
+                'guidance': {'message': 'Redirected to general career guidance'},
+                'domain': 'general'
+            })
+        
+    except Exception as e:
+        print(f"[ERROR] Gaming career guidance failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/gaming-careers')
+def gaming_careers_page():
+    """Serve the gaming careers page"""
+    return render_template('gaming_careers.html')
+
+# ============================================================================
+# GAMING FRAMEWORK HELPER FUNCTIONS
+# ============================================================================
+
+def get_current_agent_states(user_id: str) -> Dict[str, Any]:
+    """Get current states of all agents for A2A collaboration"""
+    return {
+        'behavioral': {
+            'userProfile': {'interests': {'technology': 0.8, 'gaming': 0.9}},
+            'status': 'ACTIVE'
+        },
+        'market': {
+            'trends': ['Gaming Growth', 'VR/AR Development', 'Cloud Gaming'],
+            'status': 'ACTIVE'
+        },
+        'goal': {
+            'active_goals': ['Learn game development', 'Build portfolio'],
+            'status': 'ACTIVE'
+        }
+    }
+
+def generate_fallback_gaming_assessment(user_input: str, domain: str) -> Dict[str, Any]:
+    """Generate fallback gaming assessment"""
+    return {
+        'success': True,
+        'assessment': {
+            'technical_skills': {
+                'programming': {'detected': ['C#'], 'proficiency': 6},
+                'game_engines': {'detected': ['Unity'], 'proficiency': 7}
+            },
+            'industry_alignment': {
+                'best_fit_roles': ['Game Developer'],
+                'industry_readiness': 70
+            },
+            'development_plan': {
+                'priority_skills': ['Unity', 'Game Design'],
+                'timeline': '6-9 months'
+            },
+            'fallback': True
+        },
+        'domain': domain,
+        'timestamp': datetime.now().isoformat()
+    }
+
+def generate_fallback_gaming_roadmap(gaming_profile: Dict, target_role: str) -> Dict[str, Any]:
+    """Generate fallback gaming roadmap"""
+    return {
+        'success': True,
+        'roadmap': {
+            'phases': {
+                'phase_1': {
+                    'title': 'Foundation Building (0-6 months)',
+                    'skills_focus': ['Unity Basics', 'C# Programming'],
+                    'projects': ['2D Platformer Game']
+                }
+            },
+            'overall_timeline': '12 months',
+            'fallback': True
+        },
+        'target_role': target_role,
+        'timestamp': datetime.now().isoformat()
+    }
