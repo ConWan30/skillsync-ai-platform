@@ -1247,7 +1247,9 @@
                             // If it's an AI indicator that's not our visualizer button, remove it
                             if (node.id !== 'multi-agent-visualizer-button' &&
                                 ((text.includes('🧠') || text.includes('AI Learning') || text.includes('Learning...')) ||
-                                 (title.includes('autonomous AI') || title.includes('behavioral insight') || title.includes('learning from your behavior to provide personalized insights')) ||
+                                 (title.includes('AI') || title.includes('learning') || title.includes('behavioral') || 
+                                  title.includes('personalized insights') || title.includes('learning from my behavior') ||
+                                  title.includes('learning from your behavior') || title.includes('provide personalized')) ||
                                  (style.includes('position: fixed') && style.includes('bottom') && (text.includes('AI') || text.includes('🧠'))))) {
                                 console.log('🚫 OVERRIDE: Blocking new AI indicator:', text, title);
                                 node.remove();
