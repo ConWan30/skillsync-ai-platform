@@ -748,19 +748,19 @@
         </section>
 
         <!-- WORKING DEMO SECTION - CLEARLY VISIBLE -->
-        <section style="background: #ff6b6b; color: white; padding: 60px 20px; text-align: center; min-height: 500px;" id="demo">
+        <section style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 60px 20px; text-align: center;" id="demo">
             <div style="max-width: 1000px; margin: 0 auto;">
                 <h2 style="font-size: 2.5rem; margin-bottom: 20px;">🚀 LIVE AI DEMO - TRY IT NOW!</h2>
                 <p style="font-size: 1.2rem; margin-bottom: 40px;">Fill out this form and see our AI analyze your career in real-time!</p>
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px;">
                     <!-- Demo Form -->
-                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px;">
-                        <h3 style="margin-bottom: 20px;">Tell us about yourself:</h3>
+                    <div style="background: rgba(255,255,255,0.15); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                        <h3 style="margin-bottom: 20px; font-size: 1.4rem;">Tell us about yourself:</h3>
                         <form id="liveDemoForm">
                             <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Current Role</label>
-                                <select id="demoRole" required style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold; text-align: left;">Current Role</label>
+                                <select id="demoRole" required style="width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; background: white; color: #333;">
                                     <option value="">Select your role</option>
                                     <option value="frontend">Frontend Developer</option>
                                     <option value="backend">Backend Developer</option>
@@ -772,8 +772,8 @@
                             </div>
                             
                             <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Experience Level</label>
-                                <select id="demoExperience" required style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold; text-align: left;">Experience Level</label>
+                                <select id="demoExperience" required style="width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; background: white; color: #333;">
                                     <option value="">Select experience</option>
                                     <option value="0-1">0-1 years</option>
                                     <option value="2-4">2-4 years</option>
@@ -782,37 +782,37 @@
                                 </select>
                             </div>
                             
-                            <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Primary Skills</label>
-                                <input type="text" id="demoSkills" placeholder="e.g., React, JavaScript, Python" required style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+                            <div style="margin-bottom: 20px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold; text-align: left;">Primary Skills</label>
+                                <input type="text" id="demoSkills" placeholder="e.g., React, JavaScript, Python" required style="width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; background: white; color: #333;">
                             </div>
                             
-                            <button type="submit" style="width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                            <button type="submit" style="width: 100%; padding: 15px; background: linear-gradient(45deg, #28a745, #20c997); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                                 🧠 ANALYZE MY CAREER NOW!
                             </button>
                             
-                            <button type="button" onclick="testDemoForm()" style="width: 100%; padding: 15px; background: #ffc107; color: black; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                            <button type="button" onclick="testDemoForm()" style="width: 100%; padding: 12px; background: rgba(255,193,7,0.2); color: white; border: 2px solid #ffc107; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,193,7,0.3)'" onmouseout="this.style.background='rgba(255,193,7,0.2)'">
                                 🔧 TEST DEMO (DEBUG)
                             </button>
                         </form>
                     </div>
                     
                     <!-- Demo Results -->
-                    <div id="demoResults" style="background: rgba(255,255,255,0.95); color: #333; padding: 30px; border-radius: 15px; min-height: 400px;">
+                    <div id="demoResults" style="background: rgba(255,255,255,0.95); color: #333; padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
                         <div class="demo-placeholder" style="text-align: center;">
                             <div style="font-size: 48px; margin-bottom: 20px;">🤖</div>
-                            <h3>AI Career Analysis</h3>
-                            <p>Fill out the form and click "ANALYZE MY CAREER NOW!" to see our AI in action!</p>
+                            <h3 style="color: #667eea; margin-bottom: 15px;">AI Career Analysis</h3>
+                            <p style="color: #666; line-height: 1.6;">Fill out the form and click "ANALYZE MY CAREER NOW!" to see our AI in action!</p>
                         </div>
                         
                         <div class="demo-loading" id="demoLoading" style="display: none; text-align: center;">
                             <div style="font-size: 48px; color: #667eea; margin-bottom: 20px;">🧠</div>
-                            <h3>AI Analyzing Your Profile...</h3>
+                            <h3 style="color: #667eea; margin-bottom: 20px;">AI Analyzing Your Profile...</h3>
                             <div class="analysis-steps">
-                                <div class="analysis-step" id="step1">🔍 Analyzing your skills and experience</div>
-                                <div class="analysis-step" id="step2">📊 Comparing with market data</div>
-                                <div class="analysis-step" id="step3">🎯 Generating personalized insights</div>
-                                <div class="analysis-step" id="step4">💡 Creating career recommendations</div>
+                                <div class="analysis-step" id="step1" style="color: #666; margin-bottom: 10px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">🔍 Analyzing your skills and experience</div>
+                                <div class="analysis-step" id="step2" style="color: #666; margin-bottom: 10px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">📊 Comparing with market data</div>
+                                <div class="analysis-step" id="step3" style="color: #666; margin-bottom: 10px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">🎯 Generating personalized insights</div>
+                                <div class="analysis-step" id="step4" style="color: #666; margin-bottom: 10px; padding: 10px; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">💡 Creating career recommendations</div>
                             </div>
                         </div>
                         
@@ -822,9 +822,9 @@
                     </div>
                 </div>
                 
-                <div style="margin-top: 40px; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 15px;">
-                    <p style="font-size: 18px; margin-bottom: 20px;"><strong>Want the full experience?</strong> Get personalized roadmaps, real-time alerts, and advanced AI tools.</p>
-                    <button onclick="openSignupModal()" style="padding: 15px 30px; background: #007bff; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer;">
+                <div style="margin-top: 40px; padding: 25px; background: rgba(255,255,255,0.15); border-radius: 20px; backdrop-filter: blur(10px);">
+                    <p style="font-size: 18px; margin-bottom: 20px; line-height: 1.6;"><strong>Want the full experience?</strong> Get personalized roadmaps, real-time alerts, and advanced AI tools.</p>
+                    <button onclick="openSignupModal()" style="padding: 15px 30px; background: linear-gradient(45deg, #007bff, #0056b3); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                         🚀 Get Your Complete Career Analysis
                     </button>
                 </div>
@@ -832,7 +832,7 @@
         </section>
 
         <!-- Problem/Solution Section -->
-        <section class="problem-solution">
+        <section class="problem-solution" style="margin-top: 0; padding-top: 80px;">
             <div class="problem-side">
                 <h2>❌ The Old Way (Slow & Uncertain)</h2>
                 <ul class="problem-list">
@@ -853,95 +853,6 @@
                     <li>Salary optimization strategies</li>
                     <li>14-month career acceleration roadmap</li>
                 </ul>
-            </div>
-        </section>
-
-        <!-- Live AI Demo Section -->
-        <section class="demo-section" id="demo">
-            <h2>🚀 Try Your Free Career Analysis Now</h2>
-            <p>See our AI analyze your career profile in real-time - no signup required!</p>
-            
-            <div class="live-demo-container">
-                <div class="demo-input-section">
-                    <h3>Tell us about yourself:</h3>
-                    <form id="liveDemoForm">
-                        <div class="demo-form-group">
-                            <label>Current Role</label>
-                            <select id="demoRole" required>
-                                <option value="">Select your role</option>
-                                <option value="frontend">Frontend Developer</option>
-                                <option value="backend">Backend Developer</option>
-                                <option value="fullstack">Full Stack Developer</option>
-                                <option value="mobile">Mobile Developer</option>
-                                <option value="devops">DevOps Engineer</option>
-                                <option value="data-scientist">Data Scientist</option>
-                                <option value="student">Student/Learning</option>
-                            </select>
-                        </div>
-                        
-                        <div class="demo-form-group">
-                            <label>Experience Level</label>
-                            <select id="demoExperience" required>
-                                <option value="">Select experience</option>
-                                <option value="0-1">0-1 years</option>
-                                <option value="2-4">2-4 years</option>
-                                <option value="5-7">5-7 years</option>
-                                <option value="8+">8+ years</option>
-                            </select>
-                        </div>
-                        
-                        <div class="demo-form-group">
-                            <label>Primary Skills</label>
-                            <input type="text" id="demoSkills" placeholder="e.g., React, JavaScript, Python" required>
-                        </div>
-                        
-                        <div class="demo-form-group">
-                            <label>Target Role (Optional)</label>
-                            <input type="text" id="demoTarget" placeholder="e.g., Senior Frontend Developer">
-                        </div>
-                        
-                        <button type="submit" class="demo-analyze-btn">
-                            <i class="fas fa-brain"></i> Analyze My Career Now
-                        </button>
-                        
-                        <!-- Test button for debugging -->
-                        <button type="button" class="demo-analyze-btn" onclick="testDemoForm()" style="background: #28a745; margin-top: 10px;">
-                            <i class="fas fa-bug"></i> Test Demo (Debug)
-                        </button>
-                    </form>
-                </div>
-                
-                <div class="demo-results-section" id="demoResults">
-                    <div class="demo-placeholder">
-                        <div class="demo-placeholder-icon">🤖</div>
-                        <h3>AI Career Analysis</h3>
-                        <p>Fill out the form and click "Analyze My Career Now" to see our AI in action!</p>
-                    </div>
-                    
-                    <div class="demo-loading" id="demoLoading">
-                        <div class="loading-brain">
-                            <i class="fas fa-brain fa-spin"></i>
-                        </div>
-                        <h3>AI Analyzing Your Profile...</h3>
-                        <div class="analysis-steps">
-                            <div class="analysis-step" id="step1">🔍 Analyzing your skills and experience</div>
-                            <div class="analysis-step" id="step2">📊 Comparing with market data</div>
-                            <div class="analysis-step" id="step3">🎯 Generating personalized insights</div>
-                            <div class="analysis-step" id="step4">💡 Creating career recommendations</div>
-                        </div>
-                    </div>
-                    
-                    <div class="demo-analysis-results" id="analysisResults">
-                        <!-- AI results will be populated here -->
-                    </div>
-                </div>
-            </div>
-            
-            <div class="demo-cta-section">
-                <p><strong>Want the full experience?</strong> Get personalized roadmaps, real-time alerts, and advanced AI tools.</p>
-                <button class="cta-primary" onclick="openSignupModal()">
-                    <i class="fas fa-rocket"></i> Get Your Complete Career Analysis
-                </button>
             </div>
         </section>
 
