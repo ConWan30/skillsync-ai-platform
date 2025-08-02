@@ -1543,25 +1543,37 @@
             // Initialize the autonomous behavior tracker
             autonomousTracker = new AutonomousBehaviorTracker();
             
-            // Add AI status indicator to page
+            // REPLACE OLD BRAIN ICON WITH NEW MULTI-AGENT VISUALIZER
             const aiIndicator = document.createElement('div');
-            aiIndicator.id = 'ai-status-indicator';
+            aiIndicator.id = 'multi-agent-visualizer-button';
             aiIndicator.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 20px;
-                background: linear-gradient(45deg, #667eea, #764ba2);
-                color: white;
-                padding: 10px 15px;
-                border-radius: 25px;
-                font-size: 12px;
-                font-weight: bold;
-                z-index: 9999;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                cursor: pointer;
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 20px !important;
+                background: linear-gradient(45deg, #667eea, #764ba2) !important;
+                color: white !important;
+                padding: 8px 12px !important;
+                border-radius: 20px !important;
+                font-size: 11px !important;
+                font-weight: bold !important;
+                z-index: 99999 !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+                cursor: pointer !important;
+                transition: transform 0.3s ease !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             `;
-            aiIndicator.innerHTML = '🧠 AI Learning...';
-            aiIndicator.title = 'Autonomous AI is learning from your behavior to provide personalized insights';
+            aiIndicator.innerHTML = '🤖 Multi-Agent AI Active';
+            aiIndicator.title = 'Click to view real-time agent communication';
+            aiIndicator.onclick = function() {
+                // Redirect to dashboard where the visualizer is available
+                window.location.href = '/dashboard';
+            };
+            aiIndicator.onmouseover = function() {
+                this.style.transform = 'translateY(-2px)';
+            };
+            aiIndicator.onmouseout = function() {
+                this.style.transform = 'translateY(0)';
+            };
             
             document.body.appendChild(aiIndicator);
             
