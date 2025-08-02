@@ -196,7 +196,7 @@
             border-radius: 20px;
             padding: 2rem;
             margin-bottom: 2rem;
-            display: none;
+            display: block;
         }
 
         .results-tabs {
@@ -717,10 +717,8 @@
             }
         }
 
-        // Tab switching functionality (restored)
+        // Tab switching functionality
         function switchTab(tabName) {
-            console.log(`🔄 Switching to ${tabName} tab`);
-            
             // Remove active class from all tabs and content
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -729,19 +727,11 @@
             const targetTab = document.querySelector(`[onclick*="${tabName}"]`);
             if (targetTab) {
                 targetTab.classList.add('active');
-                console.log(`✅ Tab button activated: ${tabName}`);
-            } else {
-                console.log(`❌ Tab button not found: ${tabName}`);
             }
             
             const targetContent = document.getElementById(`${tabName}Tab`);
             if (targetContent) {
                 targetContent.classList.add('active');
-                console.log(`✅ Tab content activated: ${tabName}Tab`);
-                console.log(`📍 Content classes:`, targetContent.className);
-                console.log(`👁️ Content computed display:`, window.getComputedStyle(targetContent).display);
-            } else {
-                console.log(`❌ Tab content not found: ${tabName}Tab`);
             }
             
             // Load content based on tab
@@ -826,7 +816,6 @@
                 
                 if (response.ok) {
                     const result = await response.json();
-                    console.log('✅ Assessment result received:', result);
                     displayAssessmentResults(result);
                 } else {
                     displayFallbackAssessment(formData);
@@ -906,9 +895,7 @@
 
         // Display assessment results
         function displayAssessmentResults(results) {
-            console.log('🎯 Displaying assessment results:', results);
             const container = document.getElementById('assessmentResults');
-            console.log('📍 Assessment container found:', !!container);
             container.innerHTML = `
                 <div class="results-card">
                     <h3>🎯 Gaming Skill Assessment Results</h3>
@@ -946,37 +933,8 @@
                 </div>
             `;
             
-            // Debug visibility
-            console.log('📊 Assessment content added, checking visibility...');
-            console.log('🔍 Container parent:', container.parentElement?.id);
-            console.log('👁️ Parent display:', window.getComputedStyle(container.parentElement).display);
-            console.log('📏 Container dimensions:', {
-                width: container.offsetWidth,
-                height: container.offsetHeight,
-                top: container.offsetTop,
-                left: container.offsetLeft
-            });
-            console.log('🎨 Container styles:', {
-                color: window.getComputedStyle(container).color,
-                backgroundColor: window.getComputedStyle(container).backgroundColor,
-                opacity: window.getComputedStyle(container).opacity,
-                zIndex: window.getComputedStyle(container).zIndex
-            });
-            
             // Switch to assessment tab
             switchTab('assessment');
-            
-            // Force visibility test
-            setTimeout(() => {
-                console.log('🧪 FORCE VISIBILITY TEST:');
-                const parentEl = container.parentElement;
-                parentEl.style.display = 'block !important';
-                parentEl.style.visibility = 'visible !important';
-                parentEl.style.opacity = '1 !important';
-                container.style.border = '5px solid red';
-                container.style.minHeight = '200px';
-                console.log('🔴 Added red border and forced visibility - can you see it now?');
-            }, 1000);
         }
 
         // Display roadmap results
