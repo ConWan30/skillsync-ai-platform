@@ -110,6 +110,7 @@ def call_grok_ai(prompt, system_prompt=None):
 def generate_fallback_gaming_assessment(user_input, domain):
     """Generate fallback gaming skill assessment when AI is unavailable"""
     return {
+        'success': True,
         'overall_score': 78,
         'technical_score': 82,
         'design_score': 75,
@@ -295,13 +296,18 @@ def assess_gaming_skills():
             assessment_result = assessment_agent.assess_gaming_skills(user_input, domain)
             
             # A2A Protocol: Integrate with existing agents
-            if assessment_result['success']:
-                agent_states = get_current_agent_states(user_id)
-                collaboration_insights = process_gaming_agent_collaboration(
-                    agent_states, 
-                    assessment_result['assessment']
-                )
-                assessment_result['collaboration_insights'] = collaboration_insights
+            if assessment_result.get('success'):
+                try:
+                    agent_states = get_current_agent_states(user_id)
+                    # Use the entire assessment result since it's now flattened
+                    collaboration_insights = process_gaming_agent_collaboration(
+                        agent_states, 
+                        assessment_result
+                    )
+                    assessment_result['collaboration_insights'] = collaboration_insights
+                except Exception as e:
+                    print(f"[WARNING] A2A collaboration failed: {e}")
+                    # Continue without collaboration insights
         else:
             # Fallback assessment
             assessment_result = generate_fallback_gaming_assessment(user_input, domain)
@@ -519,28 +525,6 @@ def get_current_agent_states(user_id: str) -> Dict[str, Any]:
         }
     }
 
-def generate_fallback_gaming_assessment(user_input: str, domain: str) -> Dict[str, Any]:
-    """Generate fallback gaming assessment"""
-    return {
-        'success': True,
-        'assessment': {
-            'technical_skills': {
-                'programming': {'detected': ['C#'], 'proficiency': 6},
-                'game_engines': {'detected': ['Unity'], 'proficiency': 7}
-            },
-            'industry_alignment': {
-                'best_fit_roles': ['Game Developer'],
-                'industry_readiness': 70
-            },
-            'development_plan': {
-                'priority_skills': ['Unity', 'Game Design'],
-                'timeline': '6-9 months'
-            },
-            'fallback': True
-        },
-        'domain': domain,
-        'timestamp': datetime.now().isoformat()
-    }
 
 def generate_fallback_gaming_roadmap(gaming_profile: Dict, target_role: str) -> Dict[str, Any]:
     """Generate fallback gaming roadmap"""
