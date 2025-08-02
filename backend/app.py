@@ -484,7 +484,7 @@ def gaming_career_guidance():
         print(f"[ERROR] Gaming career guidance failed: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
-@app.route('/gaming-careers-page')
+@app.route('/gaming-careers')
 def gaming_careers():
     """Serve the gaming careers page"""
     return render_template('gaming_careers.html')
