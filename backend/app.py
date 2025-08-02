@@ -885,6 +885,11 @@ def create_tables():
     with app.app_context():
         db.create_all()
 
+# Health check endpoint for Railway
+@app.route('/api/health')
+def health_check():
+    return jsonify({'status': 'healthy', 'timestamp': datetime.now(timezone.utc).isoformat()})
+
 if __name__ == '__main__':
     # Create tables before running the app
     create_tables()
