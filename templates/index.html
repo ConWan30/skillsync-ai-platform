@@ -1091,8 +1091,45 @@
                         return;
                     }
                     
-                    // Perform AI analysis
-                    performAIAnalysis(formData);
+                    // Show loading state with step-by-step animation
+                    const placeholder = document.querySelector('.demo-placeholder');
+                    const loading = document.getElementById('demoLoading');
+                    const results = document.getElementById('analysisResults');
+                    
+                    if (placeholder) placeholder.style.display = 'none';
+                    if (loading) loading.style.display = 'block';
+                    if (results) results.style.display = 'none';
+                    
+                    // Reset analysis steps
+                    const steps = document.querySelectorAll('.analysis-step');
+                    steps.forEach(step => {
+                        step.style.opacity = '0.3';
+                        step.style.transform = 'translateX(-10px)';
+                        step.style.transition = 'all 0.5s ease';
+                    });
+                    
+                    // Animate analysis steps one by one
+                    let stepIndex = 0;
+                    const animateSteps = setInterval(() => {
+                        if (stepIndex < steps.length) {
+                            const currentStep = steps[stepIndex];
+                            currentStep.style.opacity = '1';
+                            currentStep.style.transform = 'translateX(0)';
+                            currentStep.style.background = 'rgba(102, 126, 234, 0.2)';
+                            currentStep.style.borderLeft = '4px solid #667eea';
+                            
+                            console.log(`🔄 AI Analysis Step ${stepIndex + 1}: ${currentStep.textContent}`);
+                            stepIndex++;
+                        } else {
+                            clearInterval(animateSteps);
+                            
+                            // Call AI analysis after animation completes
+                            setTimeout(() => {
+                                console.log('🧠 Starting real AI analysis...');
+                                performAIAnalysis(formData);
+                            }, 800);
+                        }
+                    }, 1000); // 1 second between each step
                 });
             }
             
@@ -1546,8 +1583,45 @@
                         return;
                     }
                     
-                    // Perform AI analysis
-                    performAIAnalysis(formData);
+                    // Show loading state with step-by-step animation
+                    const placeholder = document.querySelector('.demo-placeholder');
+                    const loading = document.getElementById('demoLoading');
+                    const results = document.getElementById('analysisResults');
+                    
+                    if (placeholder) placeholder.style.display = 'none';
+                    if (loading) loading.style.display = 'block';
+                    if (results) results.style.display = 'none';
+                    
+                    // Reset analysis steps
+                    const steps = document.querySelectorAll('.analysis-step');
+                    steps.forEach(step => {
+                        step.style.opacity = '0.3';
+                        step.style.transform = 'translateX(-10px)';
+                        step.style.transition = 'all 0.5s ease';
+                    });
+                    
+                    // Animate analysis steps one by one
+                    let stepIndex = 0;
+                    const animateSteps = setInterval(() => {
+                        if (stepIndex < steps.length) {
+                            const currentStep = steps[stepIndex];
+                            currentStep.style.opacity = '1';
+                            currentStep.style.transform = 'translateX(0)';
+                            currentStep.style.background = 'rgba(102, 126, 234, 0.2)';
+                            currentStep.style.borderLeft = '4px solid #667eea';
+                            
+                            console.log(`🔄 AI Analysis Step ${stepIndex + 1}: ${currentStep.textContent}`);
+                            stepIndex++;
+                        } else {
+                            clearInterval(animateSteps);
+                            
+                            // Call AI analysis after animation completes
+                            setTimeout(() => {
+                                console.log('🧠 Starting real AI analysis...');
+                                performAIAnalysis(formData);
+                            }, 800);
+                        }
+                    }, 1000); // 1 second between each step
                 });
             }
             
