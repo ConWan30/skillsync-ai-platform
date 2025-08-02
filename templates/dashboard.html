@@ -842,12 +842,9 @@
                     if (el.id !== 'multi-agent-visualizer-button') {
                         const text = el.textContent || '';
                         const title = el.title || '';
-                        if (text.includes('🧠') || 
-                            text.includes('AI Learning') ||
-                            text.includes('Learning...') ||
-                            title.includes('autonomous AI') ||
-                            title.includes('behavioral insight') ||
-                            title.includes('learning from your')) {
+                        if (text.includes('🧠') || title.includes('autonomous AI') || title.includes('behavioral insight') ||
+                            title.includes('learning from my behavior to provide personalized insights') ||
+                            title.includes('learning from your behavior to provide personalized insights')) {
                             console.log('🗑️ Removing brain icon element:', text, title);
                             el.remove();
                         }
@@ -1191,7 +1188,9 @@
                     const style = el.style.cssText || '';
                     
                     if ((text.includes('🧠') || text.includes('AI') || text.includes('Learning')) ||
-                        (title.includes('AI') || title.includes('learning') || title.includes('behavioral')) ||
+                        (title.includes('AI') || title.includes('learning') || title.includes('behavioral') || 
+                         title.includes('personalized insights') || title.includes('learning from my behavior') ||
+                         title.includes('learning from your behavior') || title.includes('provide personalized')) ||
                         (style.includes('position: fixed') && style.includes('bottom') && (text.includes('AI') || text.includes('🧠')))) {
                         console.log('🗑️ OVERRIDE: Removing AI element:', text, title);
                         el.remove();
@@ -1248,7 +1247,7 @@
                             // If it's an AI indicator that's not our visualizer button, remove it
                             if (node.id !== 'multi-agent-visualizer-button' &&
                                 ((text.includes('🧠') || text.includes('AI Learning') || text.includes('Learning...')) ||
-                                 (title.includes('autonomous AI') || title.includes('behavioral insight') || title.includes('learning from your')) ||
+                                 (title.includes('autonomous AI') || title.includes('behavioral insight') || title.includes('learning from your behavior to provide personalized insights')) ||
                                  (style.includes('position: fixed') && style.includes('bottom') && (text.includes('AI') || text.includes('🧠'))))) {
                                 console.log('🚫 OVERRIDE: Blocking new AI indicator:', text, title);
                                 node.remove();
