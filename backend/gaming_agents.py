@@ -140,9 +140,12 @@ class MultiDomainAssessmentAgent:
                 assessment = self.parse_gaming_assessment(ai_response, user_input, domain)
                 assessment = self.add_gaming_benchmarks(assessment)
                 
+                # Format for frontend compatibility
+                frontend_assessment = self.format_for_frontend(assessment, ai_response)
+                
                 return {
                     "success": True,
-                    "assessment": assessment,
+                    **frontend_assessment,  # Spread the frontend fields at the top level
                     "domain": domain,
                     "agent_id": self.agent_id,
                     "timestamp": datetime.now().isoformat()
@@ -269,30 +272,58 @@ class MultiDomainAssessmentAgent:
         """Generate fallback assessment when AI is unavailable"""
         return {
             "success": True,
-            "assessment": {
-                "technical_skills": {
-                    "programming": {"detected": ["C#"], "proficiency": 6},
-                    "game_engines": {"detected": ["Unity"], "proficiency": 7},
-                    "overall_technical_score": 65
-                },
-                "creative_skills": {
-                    "game_design": {"level": 5},
-                    "overall_creative_score": 60
-                },
-                "industry_alignment": {
-                    "best_fit_roles": ["Game Developer", "Technical Artist"],
-                    "industry_readiness": 70
-                },
-                "development_plan": {
-                    "priority_skills": ["Advanced Unity", "Game Design Patterns"],
-                    "timeline": "6-9 months"
-                },
-                "overall_score": 67,
-                "fallback": True
-            },
+            "overall_score": 72,
+            "technical_score": 65,
+            "design_score": 68,
+            "industry_score": 75,
+            "recommendations": [
+                "Build a portfolio with 2-3 complete game projects",
+                "Learn Unity 3D and C# programming fundamentals", 
+                "Study game design principles and user experience",
+                "Join gaming communities and network with developers",
+                "Practice with game development frameworks"
+            ],
+            "strengths": ["Problem solving", "Creativity", "Technical aptitude"],
+            "areas_for_improvement": ["Advanced programming", "Game optimization", "Industry networking"],
+            "ai_analysis": "Fallback assessment based on typical gaming career patterns. Real AI analysis unavailable.",
             "domain": domain,
             "agent_id": self.agent_id,
+            "fallback": True,
             "timestamp": datetime.now().isoformat()
+        }
+    
+    def format_for_frontend(self, assessment: Dict[str, Any], ai_response: str) -> Dict[str, Any]:
+        """Format assessment data for frontend display"""
+        # Extract scores from complex assessment data
+        technical_score = assessment.get('technical_skills', {}).get('overall_technical_score', 75)
+        creative_score = assessment.get('creative_skills', {}).get('creativity_score', 70)
+        industry_score = assessment.get('industry_alignment', {}).get('alignment_score', 65)
+        
+        # Calculate overall score
+        overall_score = int((technical_score + creative_score + industry_score) / 3)
+        
+        # Extract recommendations from development plan
+        dev_plan = assessment.get('development_plan', {})
+        recommendations = dev_plan.get('priority_actions', [
+            'Build a portfolio with 2-3 complete game projects',
+            'Learn Unity 3D and C# programming fundamentals',
+            'Study game design principles and user experience',
+            'Join gaming communities and network with developers'
+        ])
+        
+        # Extract strengths and weaknesses
+        strengths = assessment.get('technical_skills', {}).get('strengths', ['Problem solving', 'Creativity'])
+        areas_for_improvement = dev_plan.get('skill_gaps', ['Advanced programming', 'Game optimization'])
+        
+        return {
+            'overall_score': overall_score,
+            'technical_score': technical_score,
+            'design_score': creative_score, 
+            'industry_score': industry_score,
+            'recommendations': recommendations[:5],  # Limit to 5 recommendations
+            'strengths': strengths[:3],  # Limit to 3 strengths
+            'areas_for_improvement': areas_for_improvement[:3],  # Limit to 3 areas
+            'ai_analysis': ai_response[:500] + '...' if len(ai_response) > 500 else ai_response  # Truncate long AI response
         }
 
 class AdaptiveRoadmapAgent:

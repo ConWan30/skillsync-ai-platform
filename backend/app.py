@@ -355,10 +355,16 @@ def generate_gaming_roadmap():
             'error': str(e)
         }), 500
 
-@app.route('/api/gaming/market-intelligence', methods=['GET'])
+@app.route('/api/gaming/market-intelligence', methods=['POST'])
 def gaming_market_intelligence():
     """Gaming Market Intelligence - Industry trends and insights"""
     try:
+        # Get request data
+        data = request.get_json() or {}
+        analysis_type = data.get('analysis_type', 'gaming_market_trends')
+        
+        print(f"[INFO] Gaming market intelligence requested: {analysis_type}")
+        
         # Gaming market intelligence with AI analysis
         market_system_prompt = """
         You are an expert gaming industry market analyst. Provide comprehensive 
