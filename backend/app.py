@@ -890,6 +890,51 @@ def create_tables():
 def health_check():
     return jsonify({'status': 'healthy', 'timestamp': datetime.now(timezone.utc).isoformat()})
 
+# Frontend Routes
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/dashboard')
+def dashboard():
+    """User dashboard with progress tracking and recent insights"""
+    return render_template('dashboard.html')
+
+@app.route('/gaming-careers')
+def gaming_careers_page():
+    """Serve the gaming careers page"""
+    return render_template('gaming_careers.html')
+
+@app.route('/market-intelligence')
+def market_intelligence():
+    """Market intelligence hub with free insights and trends"""
+    return render_template('market_intelligence.html')
+
+@app.route('/career-paths')
+def career_paths():
+    """Interactive career path explorer"""
+    return render_template('career_paths.html')
+
+@app.route('/tools')
+def tools():
+    """Free tools and calculators for career development"""
+    return render_template('tools.html')
+
+@app.route('/community')
+def community():
+    """Community forum and discussion area"""
+    return render_template('community.html')
+
+@app.route('/ai-agent')
+def ai_agent():
+    """AI Agent page with autonomous career intelligence features"""
+    return render_template('ai_agent.html')
+
+@app.route('/visualizer')
+def visualizer():
+    """Multi-agent visualizer page"""
+    return render_template('visualizer.html')
+
 if __name__ == '__main__':
     # Create tables before running the app
     create_tables()
