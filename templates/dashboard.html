@@ -793,6 +793,129 @@
         // Revolutionary multi-agent system that works across ALL pages
         // ============================================================================
 
+        // Agent Classes for Multi-Agent System
+        class BehavioralAgent {
+            constructor(aiSystem) {
+                this.aiSystem = aiSystem;
+                this.name = 'BehavioralAgent';
+                this.status = 'active';
+                this.lastActivity = Date.now();
+            }
+
+            trackClick(element, context = {}) {
+                const clickData = {
+                    timestamp: Date.now(),
+                    element: element.tagName || 'unknown',
+                    text: element.textContent?.substring(0, 50) || '',
+                    page: window.location.pathname,
+                    context: context
+                };
+                
+                this.aiSystem.sessionData.clicks.push(clickData);
+                this.lastActivity = Date.now();
+                
+                // Analyze click patterns
+                this.analyzeEngagement();
+            }
+
+            analyzeEngagement() {
+                const clicks = this.aiSystem.sessionData.clicks;
+                const recentClicks = clicks.filter(c => Date.now() - c.timestamp < 300000); // 5 minutes
+                
+                if (recentClicks.length > 10) {
+                    this.aiSystem.sessionData.career_signals.high_engagement = true;
+                }
+            }
+        }
+
+        class MotivationAgent {
+            constructor(aiSystem) {
+                this.aiSystem = aiSystem;
+                this.name = 'MotivationAgent';
+                this.status = 'active';
+                this.lastActivity = Date.now();
+                this.energyLevel = 'medium';
+            }
+
+            assessMotivation() {
+                const sessionTime = Date.now() - this.aiSystem.sessionData.session_start;
+                const clickCount = this.aiSystem.sessionData.clicks.length;
+                
+                if (sessionTime > 600000 && clickCount > 20) { // 10 minutes, 20+ clicks
+                    this.energyLevel = 'high';
+                } else if (sessionTime > 300000 && clickCount < 5) { // 5 minutes, <5 clicks
+                    this.energyLevel = 'low';
+                }
+                
+                this.lastActivity = Date.now();
+                return this.energyLevel;
+            }
+
+            generateMotivationalInsight() {
+                const insights = [
+                    "Your engagement shows strong career focus!",
+                    "Consistent learning leads to breakthrough opportunities.",
+                    "Your curiosity about market trends is a competitive advantage."
+                ];
+                return insights[Math.floor(Math.random() * insights.length)];
+            }
+        }
+
+        class MarketIntelligenceAgent {
+            constructor(aiSystem) {
+                this.aiSystem = aiSystem;
+                this.name = 'MarketIntelligenceAgent';
+                this.status = 'active';
+                this.lastActivity = Date.now();
+                this.marketData = {};
+            }
+
+            analyzeMarketAlignment() {
+                const userInterests = this.aiSystem.sessionData.interests;
+                const trendingSkills = ['AI/ML', 'React', 'Python', 'Cloud', 'TypeScript'];
+                
+                let alignment = 0;
+                Object.keys(userInterests).forEach(interest => {
+                    if (trendingSkills.some(skill => skill.toLowerCase().includes(interest.toLowerCase()))) {
+                        alignment += 20;
+                    }
+                });
+                
+                this.lastActivity = Date.now();
+                return Math.min(alignment, 100);
+            }
+
+            getMarketOpportunities() {
+                return Math.floor(Math.random() * 10) + 1;
+            }
+        }
+
+        class GoalSettingAgent {
+            constructor(aiSystem) {
+                this.aiSystem = aiSystem;
+                this.name = 'GoalSettingAgent';
+                this.status = 'active';
+                this.lastActivity = Date.now();
+            }
+
+            suggestGoals() {
+                const goals = [
+                    "Learn Docker & Kubernetes",
+                    "Earn AWS Certification",
+                    "Build React Portfolio Project",
+                    "Improve Python Skills",
+                    "Network with Senior Developers"
+                ];
+                
+                this.lastActivity = Date.now();
+                return goals.slice(0, Math.floor(Math.random() * 3) + 1);
+            }
+
+            trackProgress() {
+                return Math.floor(Math.random() * 100);
+            }
+        }
+
         class UniversalAISystem {
             constructor() {
                 this.userId = this.generateUserId();
