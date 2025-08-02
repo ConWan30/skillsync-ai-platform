@@ -1287,478 +1287,52 @@
                     console.error('Agent sync failed:', error);
                 }
             }
-        }
-
-        // Initialize Universal AI System on dashboard
-        let universalAI;
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Universal AI System
-            universalAI = new UniversalAISystem();
             
-            // COMPLETE AI INDICATOR OVERRIDE SYSTEM
-            let visualizerButtonCreated = false;
-            
-            function createVisualizerButton() {
-                if (visualizerButtonCreated) return;
-                
-                // Remove ALL existing AI indicators first
+            removeAllBrainIcons() {
+                // Remove all elements containing brain emoji or AI learning text
                 const allElements = document.querySelectorAll('*');
                 allElements.forEach(el => {
-                    const text = el.textContent || '';
-                    const title = el.title || '';
-                    const style = el.style.cssText || '';
-                    
-                    if ((text.includes('🧠') || text.includes('AI Learning') || text.includes('Learning...')) ||
-                        (title.includes('AI') || title.includes('learning') || title.includes('behavioral') || 
-                         title.includes('personalized insights') || title.includes('learning from my behavior') ||
-                         title.includes('learning from your behavior') || title.includes('provide personalized')) ||
-                        (style.includes('position: fixed') && style.includes('bottom') && (text.includes('AI') || text.includes('🧠')))) {
-                        console.log('🗑️ OVERRIDE: Removing AI element:', text, title);
-                        el.remove();
-                    }
-                });
-                
-                // Create the new visualizer button
-                const aiIndicator = document.createElement('div');
-                aiIndicator.id = 'multi-agent-visualizer-button';
-                aiIndicator.style.cssText = `
-                    position: fixed !important;
-                    bottom: 20px !important;
-                    left: 20px !important;
-                    background: linear-gradient(45deg, #667eea, #764ba2) !important;
-                    color: white !important;
-                    padding: 8px 12px !important;
-                    border-radius: 20px !important;
-                    font-size: 11px !important;
-                    font-weight: bold !important;
-                    z-index: 99999 !important;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
-                    cursor: pointer !important;
-                    transition: transform 0.3s ease !important;
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-                `;
-                aiIndicator.innerHTML = '🤖 Multi-Agent AI Active';
-                aiIndicator.title = 'Click to view real-time agent communication';
-                aiIndicator.onclick = function() {
-                    console.log('🖱️ Multi-Agent AI Active button clicked on DASHBOARD!');
-                    console.log('🔍 Current page:', window.location.pathname);
-                    try {
-                        openAgentVisualizer();
-                        console.log('✅ openAgentVisualizer() called successfully');
-                    } catch (error) {
-                        console.error('❌ Error calling openAgentVisualizer():', error);
-                    }
-                };
-                aiIndicator.onmouseover = function() {
-                    this.style.transform = 'translateY(-2px)';
-                };
-                aiIndicator.onmouseout = function() {
-                    this.style.transform = 'translateY(0)';
-                };
-                document.body.appendChild(aiIndicator);
-                visualizerButtonCreated = true;
-                console.log('✅ OVERRIDE: Multi-Agent Visualizer Button Created');
-            }
-            
-            // Create visualizer button immediately
-            createVisualizerButton();
-            
-            // Monitor for ANY new elements being added and replace AI indicators immediately
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1) { // Element node
-                            const text = node.textContent || '';
-                            const title = node.title || '';
-                            const style = node.style.cssText || '';
-                            
-                            // If it's an AI indicator that's not our visualizer button, remove it
-                            if (node.id !== 'multi-agent-visualizer-button' &&
-                                ((text.includes('🧠') || text.includes('AI Learning') || text.includes('Learning...')) ||
-                                 (title.includes('AI') || title.includes('learning') || title.includes('behavioral') || 
-                                  title.includes('personalized insights') || title.includes('learning from my behavior') ||
-                                  title.includes('learning from your behavior') || title.includes('provide personalized')) ||
-                                 (style.includes('position: fixed') && style.includes('bottom') && (text.includes('AI') || text.includes('🧠'))))) {
-                                console.log('🚫 OVERRIDE: Blocking new AI indicator:', text, title);
-                                node.remove();
-                                
-                                // Ensure our visualizer button is still there
-                                if (!document.getElementById('multi-agent-visualizer-button')) {
-                                    visualizerButtonCreated = false;
-                                    setTimeout(createVisualizerButton, 100);
-                                }
-                            }
-                        }
-                    });
-                });
-            });
-            
-            observer.observe(document.body, { 
-                childList: true, 
-                subtree: true,
-                attributes: true,
-                attributeFilter: ['style', 'title', 'class']
-            });
-            
-            // Periodic cleanup every 2 seconds to ensure no brain icons appear
-            setInterval(() => {
-                const brainElements = document.querySelectorAll('*');
-                brainElements.forEach(el => {
                     if (el.id !== 'multi-agent-visualizer-button') {
                         const text = el.textContent || '';
                         const title = el.title || '';
-                        if (text.includes('🧠') || title.includes('autonomous AI') || title.includes('behavioral insight')) {
-                            console.log('🔄 PERIODIC: Removing brain icon:', text, title);
+                        if (text.includes('🧠') || title.includes('autonomous AI') || title.includes('behavioral insight') ||
+                            title.includes('learning from my behavior to provide personalized insights') ||
+                            title.includes('learning from your behavior to provide personalized insights')) {
+                            console.log('🗑️ Removing brain icon element:', text, title);
                             el.remove();
                         }
                     }
                 });
                 
-                // Ensure our button is always present
-                if (!document.getElementById('multi-agent-visualizer-button')) {
-                    visualizerButtonCreated = false;
-                    createVisualizerButton();
-                }
-            }, 2000);
-        });
-        
-        // ============================================================================
-        // REAL-TIME AGENT COMMUNICATION VISUALIZER
-        // Live dashboard showing A2A protocol events and agent collaboration
-        // ============================================================================
-        
-        function openAgentVisualizer() {
-            console.log('🔓 Opening Agent Visualizer...');
-            try {
-                let visualizer = document.getElementById('agent-visualizer');
-                if (!visualizer) {
-                    visualizer = document.createElement('div');
-                    visualizer.id = 'agent-visualizer';
-                    visualizer.style.cssText = `
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background: rgba(0,0,0,0.95);
-                        z-index: 10002;
-                        display: flex;
-                        flex-direction: column;
-                        color: white;
-                        font-family: 'Courier New', monospace;
-                        animation: fadeIn 0.3s ease;
-                    `;
-                    
-                    visualizer.innerHTML = `
-                        <div style="padding: 20px; height: 100%; display: flex; flex-direction: column;">
-                            <!-- Header -->
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
-                                <h1 style="margin: 0; color: #10b981; font-size: 24px;">🤖 Agent Communication Visualizer</h1>
-                                <button onclick="closeAgentVisualizer()" style="background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 14px;">✕ Close</button>
-                            </div>
-                            
-                            <!-- Main Content -->
-                            <div style="flex: 1; display: flex; gap: 20px;">
-                                <!-- Left Panel: Agent Status Dashboard -->
-                                <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 20px;">
-                                    <h2 style="margin: 0 0 20px 0; color: #3b82f6; font-size: 18px;">🔍 Agent Status Dashboard</h2>
-                                    
-                                    <!-- Sync Status -->
-                                    <div style="background: rgba(16,185,129,0.1); border: 1px solid #10b981; border-radius: 6px; padding: 12px; margin-bottom: 20px;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                                            <span style="color: #10b981; font-weight: bold;">🔄 A2A Protocol Status</span>
-                                            <span style="color: #10b981;">ACTIVE</span>
-                                        </div>
-                                        <div style="margin-top: 8px; font-size: 12px; color: #94a3b8;">
-                                            Total Syncs: <span id="total-syncs">0</span> | Last Sync: <span id="last-sync-time">--:--</span> | Next: <span id="next-sync-time">30s</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Agent Cards -->
-                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                        <!-- Behavioral Agent -->
-                                        <div class="agent-card" data-agent="behavioral" style="background: rgba(139,92,246,0.1); border: 1px solid #8b5cf6; border-radius: 6px; padding: 12px;">
-                                            <div style="color: #8b5cf6; font-weight: bold; margin-bottom: 8px;">🧠 BehavioralAgent</div>
-                                            <div style="font-size: 12px; color: #94a3b8;">
-                                                Clicks: <span id="behavioral-clicks">0</span><br>
-                                                Engagement: <span id="behavioral-engagement">Medium</span><br>
-                                                Interests: <span id="behavioral-interests">AI/ML</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Motivation Agent -->
-                                        <div class="agent-card" data-agent="motivation" style="background: rgba(236,72,153,0.1); border: 1px solid #ec4899; border-radius: 6px; padding: 12px;">
-                                            <div style="color: #ec4899; font-weight: bold; margin-bottom: 8px;">💪 MotivationAgent</div>
-                                            <div style="font-size: 12px; color: #94a3b8;">
-                                                Energy: <span id="motivation-energy">High</span><br>
-                                                Streak: <span id="motivation-streak">3</span> days<br>
-                                                Triggers: <span id="motivation-triggers">2</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Market Intelligence Agent -->
-                                        <div class="agent-card" data-agent="market" style="background: rgba(6,182,212,0.1); border: 1px solid #06b6d4; border-radius: 6px; padding: 12px;">
-                                            <div style="color: #06b6d4; font-weight: bold; margin-bottom: 8px;">📊 MarketIntelligenceAgent</div>
-                                            <div style="font-size: 12px; color: #94a3b8;">
-                                                Opportunities: <span id="market-opportunities">7</span><br>
-                                                Trends: <span id="market-trends">AI/ML, React</span><br>
-                                                Alignment: <span id="market-alignment">85%</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Goal Setting Agent -->
-                                        <div class="agent-card" data-agent="goal" style="background: rgba(245,158,11,0.1); border: 1px solid #f59e0b; border-radius: 6px; padding: 12px;">
-                                            <div style="color: #f59e0b; font-weight: bold; margin-bottom: 8px;">🎯 GoalSettingAgent</div>
-                                            <div style="font-size: 12px; color: #94a3b8;">
-                                                Active Goals: <span id="goal-active">2</span><br>
-                                                Progress: <span id="goal-progress">68%</span><br>
-                                                Suggestions: <span id="goal-suggestions">3</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Right Panel: Live Communication Log -->
-                                <div style="flex: 1; background: rgba(255,255,255,0.05); border-radius: 8px; padding: 20px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                        <h2 style="margin: 0; color: #f59e0b; font-size: 18px;">📡 Live Communication Log</h2>
-                                        <button onclick="clearAgentLog()" style="background: rgba(255,255,255,0.1); color: #94a3b8; border: 1px solid #374151; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">Clear</button>
-                                    </div>
-                                    
-                                    <div id="agent-communication-log" style="
-                                        height: calc(100% - 60px);
-                                        background: rgba(0,0,0,0.3);
-                                        border: 1px solid #374151;
-                                        border-radius: 4px;
-                                        padding: 15px;
-                                        overflow-y: auto;
-                                        font-size: 12px;
-                                        line-height: 1.4;
-                                        color: #94a3b8;
-                                    ">
-                                        <div style="color: #10b981;">[SYSTEM] Agent Communication Visualizer Initialized</div>
-                                        <div style="color: #94a3b8;">[INFO] Monitoring A2A protocol events...</div>
-                                        <div style="color: #3b82f6;">[SYNC] All agents synchronized and ready</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    document.body.appendChild(visualizer);
-                    
-                    // Add CSS animations
-                    const style = document.createElement('style');
-                    style.textContent = `
-                        @keyframes fadeIn {
-                            from { opacity: 0; }
-                            to { opacity: 1; }
+                // Also remove by style properties
+                const fixedElements = document.querySelectorAll('[style*="position: fixed"]');
+                fixedElements.forEach(el => {
+                    if (el.id !== 'multi-agent-visualizer-button') {
+                        const text = el.textContent || '';
+                        const title = el.title || '';
+                        if ((text.includes('🧠') || text.includes('AI')) && 
+                            (el.style.bottom || el.style.left)) {
+                            console.log('🗑️ Removing fixed position AI element:', text);
+                            el.remove();
                         }
-                        
-                        .agent-card {
-                            transition: all 0.3s ease;
-                        }
-                        
-                        .agent-card:hover {
-                            transform: translateY(-2px);
-                            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-                        }
-                        
-                        .agent-card.active {
-                            animation: agentActive 2s ease;
-                        }
-                        
-                        @keyframes agentActive {
-                            0% { border-color: currentColor; }
-                            50% { border-color: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-                            100% { border-color: currentColor; }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                    
-                    // Start real-time monitoring
-                    startAgentMonitoring();
-                }
-                
-                visualizer.style.display = 'flex';
-            } catch (error) {
-                console.error('❌ Error creating Agent Visualizer:', error);
-                alert('Error opening Agent Visualizer. Please check console for details.');
-            }
-        }
-        
-        function closeAgentVisualizer() {
-            const visualizer = document.getElementById('agent-visualizer');
-            if (visualizer) {
-                visualizer.style.display = 'none';
-            }
-            
-            // Stop monitoring when closed
-            if (window.agentMonitoringInterval) {
-                clearInterval(window.agentMonitoringInterval);
-            }
-        }
-        
-        function startAgentMonitoring() {
-            let syncCounter = 0;
-            let lastSyncTime = Date.now();
-            
-            // Update sync countdown
-            const updateSyncCountdown = () => {
-                const timeSinceSync = Date.now() - lastSyncTime;
-                const timeUntilNext = Math.max(0, 30000 - timeSinceSync);
-                const secondsUntilNext = Math.ceil(timeUntilNext / 1000);
-                
-                const nextSyncElement = document.getElementById('next-sync-time');
-                if (nextSyncElement) {
-                    nextSyncElement.textContent = secondsUntilNext > 0 ? `${secondsUntilNext}s` : 'Now';
-                }
-            };
-            
-            // Simulate real-time agent activity
-            const simulateAgentActivity = () => {
-                // Simulate behavioral agent activity
-                const clickCount = universalAI?.sessionData?.behavioral_data?.clicks?.length || Math.floor(Math.random() * 50);
-                const engagementLevels = ['Basic', 'Medium', 'High', 'Expert'];
-                const engagement = engagementLevels[Math.min(Math.floor(clickCount / 10), 3)];
-                
-                updateAgentMetric('behavioral-clicks', clickCount);
-                updateAgentMetric('behavioral-engagement', engagement);
-                updateAgentMetric('behavioral-interests', getRandomInterests());
-                
-                // Simulate motivation agent
-                const energyLevels = ['Low', 'Medium', 'High'];
-                const energy = energyLevels[Math.floor(Math.random() * 3)];
-                updateAgentMetric('motivation-energy', energy);
-                updateAgentMetric('motivation-streak', Math.floor(Math.random() * 7));
-                updateAgentMetric('motivation-triggers', Math.floor(Math.random() * 5));
-                
-                // Simulate market intelligence
-                updateAgentMetric('market-opportunities', Math.floor(Math.random() * 10));
-                updateAgentMetric('market-trends', 'AI/ML, React, TypeScript');
-                updateAgentMetric('market-alignment', Math.floor(Math.random() * 100) + '%');
-                
-                // Simulate goal setting
-                updateAgentMetric('goal-active', Math.floor(Math.random() * 3));
-                updateAgentMetric('goal-progress', Math.floor(Math.random() * 100) + '%');
-                updateAgentMetric('goal-suggestions', Math.floor(Math.random() * 5));
-            };
-            
-            // Log A2A communication events
-            const logA2AEvent = (type, agent, message, data = null) => {
-                const timestamp = new Date().toLocaleTimeString();
-                const log = document.getElementById('agent-communication-log');
-                
-                if (log) {
-                    const colors = {
-                        'SYNC': '#3b82f6',
-                        'INSIGHT': '#10b981',
-                        'COLLABORATION': '#f59e0b',
-                        'BEHAVIORAL': '#8b5cf6',
-                        'GOAL': '#ec4899',
-                        'MARKET': '#06b6d4'
-                    };
-                    
-                    const color = colors[type] || '#94a3b8';
-                    const dataStr = data ? ` | Data: ${JSON.stringify(data).substring(0, 50)}...` : '';
-                    
-                    const logEntry = document.createElement('div');
-                    logEntry.style.color = color;
-                    logEntry.innerHTML = `[${timestamp}] [${type}] ${agent}: ${message}${dataStr}`;
-                    
-                    log.appendChild(logEntry);
-                    log.scrollTop = log.scrollHeight;
-                    
-                    // Highlight active agent
-                    highlightActiveAgent(agent.toLowerCase().split(' ')[0]);
-                }
-            };
-            
-            // Simulate A2A protocol events
-            const simulateA2AEvents = () => {
-                const events = [
-                    { type: 'BEHAVIORAL', agent: 'Behavioral Agent', message: 'Detected click on skill development content' },
-                    { type: 'MARKET', agent: 'Market Agent', message: 'Correlating user interest with market trends' },
-                    { type: 'COLLABORATION', agent: 'A2A Protocol', message: 'Agents sharing behavioral insights' },
-                    { type: 'GOAL', agent: 'Goal Agent', message: 'Suggesting career goal based on behavior' },
-                    { type: 'INSIGHT', agent: 'Multi-Agent', message: 'Generated collaborative recommendation' },
-                    { type: 'SYNC', agent: 'System', message: 'A2A protocol sync completed successfully' }
-                ];
-                
-                const randomEvent = events[Math.floor(Math.random() * events.length)];
-                logA2AEvent(randomEvent.type, randomEvent.agent, randomEvent.message, { 
-                    confidence: Math.floor(Math.random() * 40) + 60,
-                    priority: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)]
+                    }
                 });
-            };
+            }
             
-            // Start monitoring intervals
-            simulateAgentActivity();
+            // Override any method that might create old indicators
+            createAIIndicator() {
+                console.log('🚫 Old AI indicator creation blocked');
+                return; // Do nothing - blocked
+            }
             
-            // Update every 2 seconds
-            window.agentMonitoringInterval = setInterval(() => {
-                updateSyncCountdown();
-                
-                // Simulate agent activity every 3-7 seconds
-                if (Math.random() < 0.4) {
-                    simulateAgentActivity();
-                }
-                
-                // Simulate A2A events every 2-5 seconds
-                if (Math.random() < 0.5) {
-                    simulateA2AEvents();
-                }
-                
-                // Handle sync events every 30 seconds
-                if (Date.now() - lastSyncTime >= 30000) {
-                    syncCounter++;
-                    lastSyncTime = Date.now();
-                    
-                    updateAgentMetric('total-syncs', syncCounter);
-                    updateAgentMetric('last-sync-time', new Date().toLocaleTimeString());
-                    
-                    logA2AEvent('SYNC', 'A2A Protocol', `Sync #${syncCounter} - All agents synchronized`, {
-                        agents: 4,
-                        insights_shared: Math.floor(Math.random() * 10) + 1,
-                        recommendations: Math.floor(Math.random() * 5) + 1
-                    });
-                }
-            }, 2000);
-        }
-        
-        function updateAgentMetric(elementId, value) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.textContent = value;
+            showAIStatus() {
+                console.log('🚫 Old AI status display blocked');
+                return; // Do nothing - blocked
             }
-        }
-        
-        function highlightActiveAgent(agentType) {
-            const agentCard = document.querySelector(`[data-agent="${agentType}"]`);
-            if (agentCard) {
-                agentCard.classList.add('active');
-                setTimeout(() => {
-                    agentCard.classList.remove('active');
-                }, 2000);
+            
+            addStatusIndicator() {
+                console.log('🚫 Old status indicator creation blocked');
+                return; // Do nothing - blocked
             }
-        }
-        
-        function getRandomInterests() {
-            const interests = ['AI/ML', 'Web Dev', 'Data Science', 'Career Growth', 'Leadership', 'Skills'];
-            const count = Math.floor(Math.random() * 3) + 1;
-            return interests.slice(0, count).join(', ');
-        }
-        
-        function clearAgentLog() {
-            const log = document.getElementById('agent-communication-log');
-            if (log) {
-                log.innerHTML = `
-                    <div style="color: #10b981;">[SYSTEM] Agent Communication Log Cleared</div>
-                    <div style="color: #94a3b8;">[INFO] Monitoring A2A protocol events...</div>
-                `;
-            }
-        }
-    </script>
-</body>
-</html>
+            
+            initializeUniversalTracking() {
