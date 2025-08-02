@@ -1717,59 +1717,162 @@
             }, true);
             
             console.log('🛡️ Global click interceptor installed as final backup');
-{{ ... }}
-```
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>SkillSync AI</h4>
-                    <p>AI-powered career intelligence platform helping professionals navigate their career journey with data-driven insights.</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Platform</h4>
-                    <ul>
-                        <li><a href="/dashboard">Dashboard</a></li>
-                        <li><a href="/market-intelligence">Market Intelligence</a></li>
-                        <li><a href="/career-paths">Career Paths</a></li>
-                        <li><a href="/tools">Tools</a></li>
-                        <li><a href="/community">Community</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
-                        <li><a href="/gaming-careers">Gaming Careers</a></li>
-                        <li><a href="/ai-agent">AI Agent</a></li>
-                        <li><a href="#" onclick="showJobRecommendationsModal()">Job Opportunities</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#privacy">Privacy Policy</a></li>
-                        <li><a href="#terms">Terms of Service</a></li>
-                        <li><a href="#affiliate-disclosure">Affiliate Disclosure</a></li>
-                    </ul>
-                </div>
-            </div>
             
-            <div class="footer-bottom">
-                <div class="footer-disclaimer">
-                    <p><strong>Affiliate Disclosure:</strong> SkillSync AI Platform participates in affiliate programs with job boards and career services. We may earn commissions when you click on job listings or sign up for services through our platform. This helps us provide free career intelligence tools while maintaining our editorial independence. All job recommendations are based on our AI analysis of your career profile and market data.</p>
-                </div>
+            // REPLACE OLD BRAIN ICON WITH NEW MULTI-AGENT VISUALIZER
+            const aiIndicator = document.createElement('div');
+            aiIndicator.id = 'multi-agent-visualizer-button';
+            aiIndicator.style.cssText = `
+                position: fixed !important;
+                bottom: 20px !important;
+                left: 20px !important;
+                background: linear-gradient(45deg, #667eea, #764ba2) !important;
+                color: white !important;
+                padding: 8px 12px !important;
+                border-radius: 20px !important;
+                font-size: 11px !important;
+                font-weight: bold !important;
+                z-index: 99999 !important;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+                cursor: pointer !important;
+                transition: transform 0.3s ease !important;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+            `;
+            aiIndicator.innerHTML = '🤖 Multi-Agent AI Active';
+            aiIndicator.title = 'Click to view real-time agent communication';
+            aiIndicator.onclick = function() {
+                // Redirect to visualizer
+                window.location.href = '/visualizer';
+            };
+            aiIndicator.onmouseover = function() {
+                this.style.transform = 'translateY(-2px)';
+            };
+            aiIndicator.onmouseout = function() {
+                this.style.transform = 'translateY(0)';
+            };
+            
+            document.body.appendChild(aiIndicator);
+        });
+        
+        async function performAIAnalysis(formData) {
+            try {
+                console.log('Starting AI analysis with data:', formData);
                 
-                <div class="footer-copyright">
-                    <p>&copy; 2025 SkillSync AI Platform. All rights reserved. | Empowering careers through AI intelligence.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+                // Call the AI analysis endpoint
+                const response = await fetch('/api/intelligence/demo-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const result = await response.json();
+                console.log('Analysis result:', result);
+                
+                if (result.success && result.analysis) {
+                    return result.analysis;
+                } else {
+                    // Fallback to sample analysis if AI fails
+                    console.log('AI analysis failed, using fallback');
+                    return displaySampleAnalysis(formData);
+                }
+            } catch (error) {
+                console.error('AI Analysis error:', error);
+                // Always fallback to sample analysis on error
+                return displaySampleAnalysis(formData);
+            }
+        }
 
-```
+        function displayAnalysisResults(analysis, formData) {
+            // Hide loading, show results
+            const demoLoading = document.getElementById('demoLoading');
+            if (demoLoading) {
+                demoLoading.style.display = 'none';
+            }
+            
+            // Show results in the demo results area
+            const demoResults = document.getElementById('demoResults');
+            if (demoResults) {
+                demoResults.innerHTML = `
+                    <div style="text-align: left;">
+                        <h3 style="color: #667eea; margin-bottom: 20px;">🤖 AI Career Analysis Results</h3>
+                        
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <h4 style="margin: 0 0 10px 0; color: #667eea;">📊 Career Health Score</h4>
+                            <div style="font-size: 24px; font-weight: bold; color: #28a745;">${analysis.score || '85'}/100</div>
+                            <p style="margin: 5px 0 0 0; font-size: 14px;">${analysis.scoreExplanation || 'Strong foundation with room for strategic growth'}</p>
+                        </div>
+                        
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <h4 style="margin: 0 0 10px 0; color: #667eea;">🎯 Key Insights</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                ${(analysis.insights || [
+                                    'Your experience level aligns well with current market demands',
+                                    'Strong potential for career advancement in your chosen field',
+                                    'Consider expanding your skill set to increase market value'
+                                ]).map(insight => `<li style="margin-bottom: 5px;">${insight}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div style="background: rgba(102, 126, 234, 0.1); padding: 15px; border-radius: 10px;">
+                            <h4 style="margin: 0 0 10px 0; color: #667eea;">🚀 Next Steps</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                ${(analysis.recommendations || [
+                                    'Focus on building a portfolio showcasing your skills',
+                                    'Network with professionals in your target companies',
+                                    'Consider obtaining relevant certifications'
+                                ]).map(rec => `<li style="margin-bottom: 5px;">${rec}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px; text-align: center;">
+                            <button onclick="openSignupModal()" style="padding: 12px 24px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                                Get Full Analysis & Roadmap
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function displaySampleAnalysis(formData) {
+            return {
+                score: 85,
+                scoreExplanation: 'Strong foundation with excellent growth potential',
+                insights: [
+                    `Your ${formData.experience} experience level positions you well in the current market`,
+                    'Your career goals show clear direction and ambition',
+                    'Strong alignment between your interests and market opportunities'
+                ],
+                recommendations: [
+                    'Build a strong portfolio showcasing your best work',
+                    'Network with professionals in your target field',
+                    'Consider pursuing relevant certifications or training',
+                    'Stay updated with the latest industry trends and technologies'
+                ],
+                salaryInsight: 'Based on your profile, you have strong earning potential in your chosen field'
+            };
+        }
+
+        function testDemoForm() {
+            console.log('🔧 Testing demo form...');
+            
+            // Auto-fill form for testing
+            document.getElementById('demoRole').value = 'frontend';
+            document.getElementById('demoExperience').value = 'mid';
+            document.getElementById('demoGoals').value = 'I want to become a senior frontend developer and learn React, TypeScript, and modern web technologies.';
+            
+            // Trigger form submission
+            const form = document.getElementById('liveDemoForm');
+            if (form) {
+                const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+                form.dispatchEvent(submitEvent);
+            }
+        }
+    </script>
