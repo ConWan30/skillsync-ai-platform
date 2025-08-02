@@ -1524,10 +1524,10 @@
             if (!log) return;
             
             const events = [
-                { type: 'behavioral', message: '🧠 BehavioralAgent → MarketIntelligenceAgent: User engagement pattern detected', color: 'rgba(255, 165, 0, 0.2)' },
-                { type: 'market', message: '📊 MarketIntelligenceAgent → GoalSettingAgent: New trend analysis available', color: 'rgba(100, 149, 237, 0.2)' },
-                { type: 'goal', message: '🎯 GoalSettingAgent → MotivationAgent: Goal progress update', color: 'rgba(255, 20, 147, 0.2)' },
-                { type: 'motivation', message: '🎯 MotivationAgent → BehavioralAgent: Motivation boost recommended', color: 'rgba(0, 255, 136, 0.2)' },
+                { type: 'behavioral', message: '🧠 BehavioralAgent → MarketIntelligenceAgent: User shows high interest in AI/ML roles', color: 'rgba(255, 165, 0, 0.2)' },
+                { type: 'market', message: '📊 MarketIntelligenceAgent → GoalSettingAgent: AI/ML salary trends +15% YoY', color: 'rgba(100, 149, 237, 0.2)' },
+                { type: 'goal', message: '🎯 GoalSettingAgent → MotivationAgent: Recommend skill development path', color: 'rgba(255, 20, 147, 0.2)' },
+                { type: 'motivation', message: '🎯 MotivationAgent → BehavioralAgent: User engagement optimal for learning', color: 'rgba(0, 255, 136, 0.2)' },
                 { type: 'behavioral', message: '🧠 BehavioralAgent → All Agents: User behavior analysis complete', color: 'rgba(255, 165, 0, 0.2)' },
                 { type: 'market', message: '📊 MarketIntelligenceAgent → All Agents: Market data synchronized', color: 'rgba(100, 149, 237, 0.2)' }
             ];
@@ -1549,6 +1549,70 @@
                 log.removeChild(log.firstChild);
             }
         }
+
+        // ============================================================================
+        // SYSTEM ISOLATION: PREVENT BEHAVIORAL TRACKING CONFLICTS
+        // ============================================================================
+        
+        // Override and disable old behavioral tracking system completely
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🛡️ Activating Multi-Agent System Isolation...');
+            
+            // Disable any existing behavioral trackers
+            if (window.AutonomousBehaviorTracker) {
+                console.log('🚫 Disabling AutonomousBehaviorTracker...');
+                window.AutonomousBehaviorTracker = null;
+            }
+            
+            if (window.UniversalAISystem) {
+                console.log('🔄 Overriding UniversalAISystem for Multi-Agent compatibility...');
+                // Keep only the multi-agent visualizer functionality
+                const originalSystem = window.UniversalAISystem;
+                window.UniversalAISystem = {
+                    // Disable all old methods that create brain icons
+                    createAIIndicator: function() { console.log('🚫 Old AI indicator creation blocked'); },
+                    showBehavioralInsight: function() { console.log('🚫 Old behavioral insight blocked'); },
+                    trackBehavior: function() { console.log('🚫 Old behavior tracking blocked'); },
+                    
+                    // Keep only multi-agent visualizer methods
+                    removeAllBrainIcons: originalSystem?.removeAllBrainIcons || function() {
+                        console.log('🧹 Cleaning up old AI indicators...');
+                        const allElements = document.querySelectorAll('*');
+                        allElements.forEach(el => {
+                            if (el.id !== 'multi-agent-visualizer-button') {
+                                const text = el.textContent || '';
+                                const title = el.title || '';
+                                if (text.includes('🧠') || title.includes('autonomous AI') || 
+                                    title.includes('behavioral insight') ||
+                                    title.includes('learning from') || 
+                                    text.includes('AI Learning')) {
+                                    console.log('🗑️ Removing old AI indicator:', el);
+                                    el.remove();
+                                }
+                            }
+                        });
+                    }
+                };
+            }
+            
+            // Remove any existing brain icons or old AI indicators
+            setTimeout(function() {
+                if (window.UniversalAISystem && window.UniversalAISystem.removeAllBrainIcons) {
+                    window.UniversalAISystem.removeAllBrainIcons();
+                }
+            }, 1000);
+            
+            // Prevent old behavioral tracking from interfering
+            document.addEventListener('click', function(event) {
+                // If clicking on multi-agent button, stop all other event handlers
+                if (event.target && event.target.id === 'multi-agent-visualizer-button') {
+                    console.log('🛡️ Multi-Agent button click - blocking other handlers');
+                    event.stopImmediatePropagation();
+                }
+            }, true); // Use capture phase to intercept early
+            
+            console.log('✅ Multi-Agent System Isolation Complete');
+        });
 
     </script>
 </body>
