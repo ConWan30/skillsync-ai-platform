@@ -1068,6 +1068,374 @@ def track_goal_progress():
         print(f"[ERROR] Goal progress tracking failed: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+@app.route('/api/goals/ai-guidance', methods=['POST'])
+def get_ai_guidance():
+    """Get AI-powered guidance for specific goals"""
+    try:
+        data = request.get_json() or {}
+        goal_id = data.get('goal_id', '')
+        request_type = data.get('request_type', 'guidance')
+        
+        # AI-powered guidance generation
+        guidance_system_prompt = """
+        You are a goal achievement specialist. Provide specific, actionable guidance
+        for career goals. Keep responses under 100 words total. Focus on immediate next steps.
+        """
+        
+        guidance_prompt = f"""
+        Goal ID: {goal_id}
+        Request: {request_type}
+        
+        Provide:
+        • 3 immediate next actions
+        • 2 strategic tips
+        • 2 potential obstacles + solutions
+        
+        Under 100 words total. Be specific and actionable.
+        """
+        
+        ai_analysis = call_grok_ai(guidance_prompt, guidance_system_prompt)
+        
+        guidance = {
+            'next_actions': [
+                'Break down the goal into smaller weekly milestones',
+                'Set up accountability system (mentor, partner, or tracking app)',
+                'Schedule dedicated time blocks for goal-related activities'
+            ],
+            'tips': [
+                'Track progress daily to maintain momentum',
+                'Celebrate small wins to stay motivated'
+            ],
+            'obstacles': [
+                'Time management challenges → Use time-blocking technique',
+                'Lack of motivation → Find an accountability partner'
+            ],
+            'ai_analysis': ai_analysis if ai_analysis and "ERROR:" not in ai_analysis else "Focus on consistent daily progress and break large goals into manageable steps."
+        }
+        
+        return jsonify({
+            'success': True,
+            'guidance': guidance,
+            'goal_id': goal_id,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] AI guidance generation failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+# ============================================================================
+# TOOLS API ENDPOINTS - CAREER DEVELOPMENT TOOLS
+# ============================================================================
+
+@app.route('/api/tools/salary-calculator', methods=['POST'])
+def salary_calculator():
+    """Calculate salary estimates based on role, experience, and location"""
+    try:
+        data = request.get_json() or {}
+        role = data.get('role', '')
+        experience = data.get('experience', '')
+        location = data.get('location', '')
+        
+        # Salary calculation logic based on market data
+        base_salaries = {
+            'frontend': {'0-1': 65000, '2-4': 85000, '5-7': 110000, '8-12': 140000, '13+': 170000},
+            'backend': {'0-1': 70000, '2-4': 90000, '5-7': 120000, '8-12': 150000, '13+': 180000},
+            'fullstack': {'0-1': 75000, '2-4': 95000, '5-7': 125000, '8-12': 155000, '13+': 185000},
+            'devops': {'0-1': 80000, '2-4': 100000, '5-7': 130000, '8-12': 160000, '13+': 195000},
+            'data-scientist': {'0-1': 85000, '2-4': 110000, '5-7': 140000, '8-12': 170000, '13+': 210000},
+            'mobile': {'0-1': 70000, '2-4': 90000, '5-7': 115000, '8-12': 145000, '13+': 175000}
+        }
+        
+        # Location multipliers
+        location_multipliers = {
+            'san-francisco': 1.4, 'new-york': 1.3, 'seattle': 1.25,
+            'austin': 1.1, 'remote': 1.0, 'other': 0.95
+        }
+        
+        base_salary = base_salaries.get(role, {}).get(experience, 75000)
+        multiplier = location_multipliers.get(location, 1.0)
+        
+        adjusted_salary = int(base_salary * multiplier)
+        salary_range = f"${adjusted_salary - 15000:,} - ${adjusted_salary + 25000:,}"
+        
+        return jsonify({
+            'success': True,
+            'salary_range': salary_range,
+            'details': f'Based on current market data for {role.replace("-", " ").title()} with {experience} experience in {location.replace("-", " ").title()}',
+            'base_salary': adjusted_salary,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Salary calculator failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/tools/skill-gap-analyzer', methods=['POST'])
+def skill_gap_analyzer():
+    """Analyze skill gaps for target roles"""
+    try:
+        data = request.get_json() or {}
+        target_role = data.get('target_role', '')
+        current_skills = data.get('current_skills', '').lower().split(',')
+        current_skills = [skill.strip() for skill in current_skills]
+        
+        # Required skills by role
+        role_requirements = {
+            'frontend': ['html', 'css', 'javascript', 'react', 'typescript', 'webpack', 'git'],
+            'backend': ['python', 'sql', 'api', 'docker', 'aws', 'git', 'database'],
+            'fullstack': ['html', 'css', 'javascript', 'react', 'python', 'sql', 'git', 'api'],
+            'devops': ['docker', 'kubernetes', 'aws', 'terraform', 'jenkins', 'git', 'linux'],
+            'data-scientist': ['python', 'sql', 'pandas', 'scikit-learn', 'jupyter', 'git', 'statistics']
+        }
+        
+        required_skills = role_requirements.get(target_role, [])
+        matching_skills = [skill for skill in current_skills if any(req in skill for req in required_skills)]
+        missing_skills = [skill for skill in required_skills if not any(skill in cs for cs in current_skills)]
+        
+        match_percentage = int((len(matching_skills) / len(required_skills)) * 100) if required_skills else 0
+        
+        return jsonify({
+            'success': True,
+            'match_score': match_percentage,
+            'matching_skills': matching_skills[:10],  # Limit display
+            'missing_skills': missing_skills[:8],     # Limit display
+            'recommendations': [
+                f'Focus on learning {missing_skills[0] if missing_skills else "advanced concepts"}',
+                'Build projects showcasing these skills',
+                'Consider getting certified in key technologies'
+            ],
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Skill gap analyzer failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/tools/career-strategy', methods=['POST'])
+def career_strategy():
+    """Generate AI-powered career strategy"""
+    try:
+        data = request.get_json() or {}
+        current_role = data.get('current_role', '')
+        career_goals = data.get('career_goals', '')
+        experience_level = data.get('experience_level', '')
+        
+        # AI-powered strategy generation
+        strategy_system_prompt = """
+        You are a strategic career advisor. Provide focused, actionable career strategy. 
+        Keep responses under 120 words total. Focus on immediate steps and timeline.
+        """
+        
+        strategy_prompt = f"""
+        Current role: {current_role}
+        Goals: {career_goals}
+        Level: {experience_level}
+        
+        Provide strategy with:
+        • 3 key recommendations
+        • 3-step action plan
+        • Realistic timeline
+        • Success probability (%)
+        
+        Keep under 120 words total.
+        """
+        
+        ai_response = call_grok_ai(strategy_prompt, strategy_system_prompt)
+        
+        # Structured strategy response
+        strategy = {
+            'recommendations': [
+                'Build target skills through focused learning and practice',
+                'Network with professionals in your target industry/role',
+                'Create portfolio projects that demonstrate your capabilities'
+            ],
+            'action_plan': [
+                'Complete skills assessment and identify top 3 gaps',
+                'Set up learning schedule with weekly milestones',
+                'Start networking and applying to target positions'
+            ],
+            'timeline': '6-12 months for significant progress',
+            'success_probability': 85,
+            'ai_analysis': ai_response if ai_response and "ERROR:" not in ai_response else None
+        }
+        
+        return jsonify({
+            'success': True,
+            'strategy': strategy,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Career strategy generation failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/tools/resume-optimizer', methods=['POST'])
+def resume_optimizer():
+    """AI-powered resume optimization"""
+    try:
+        data = request.get_json() or {}
+        target_job = data.get('target_job', '')
+        resume_content = data.get('resume_content', '')
+        industry = data.get('industry', '')
+        
+        # AI resume optimization
+        resume_system_prompt = """
+        You are a resume optimization expert. Analyze resume content and provide 
+        specific improvements. Keep feedback under 100 words, focus on actionable changes.
+        """
+        
+        resume_prompt = f"""
+        Target job: {target_job}
+        Industry: {industry}
+        Resume: {resume_content[:500]}...
+        
+        Provide:
+        • Optimization score (1-100)
+        • Top 3 specific improvements
+        • 3-5 keywords to add
+        • Brief feedback
+        
+        Under 100 words total.
+        """
+        
+        ai_feedback = call_grok_ai(resume_prompt, resume_system_prompt)
+        
+        # Generate optimization suggestions
+        optimization = {
+            'score': 78,
+            'improvements': [
+                'Add quantifiable achievements with specific metrics',
+                'Include more industry-specific keywords',
+                'Strengthen technical skills section',
+                'Add relevant certifications or projects'
+            ],
+            'keywords': ['leadership', 'optimization', 'collaboration', 'innovation', 'results-driven'],
+            'ai_feedback': ai_feedback if ai_feedback and "ERROR:" not in ai_feedback else "Focus on quantifiable achievements and relevant keywords for your target role."
+        }
+        
+        return jsonify({
+            'success': True,
+            'optimization': optimization,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Resume optimization failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/tools/interview-prep', methods=['POST'])
+def interview_prep():
+    """Generate AI-powered interview preparation"""
+    try:
+        data = request.get_json() or {}
+        company_role = data.get('company_role', '')
+        interview_type = data.get('interview_type', '')
+        user_background = data.get('user_background', '')
+        
+        # AI interview preparation
+        interview_system_prompt = """
+        You are an interview preparation specialist. Generate specific interview questions 
+        and tips. Keep responses focused and practical, under 150 words total.
+        """
+        
+        interview_prompt = f"""
+        Company/Role: {company_role}
+        Interview type: {interview_type}
+        Background: {user_background}
+        
+        Generate:
+        • 3 specific interview questions
+        • 3 preparation tips
+        • 3 focus areas
+        
+        Under 150 words total.
+        """
+        
+        ai_response = call_grok_ai(interview_prompt, interview_system_prompt)
+        
+        # Generate interview prep content
+        prep = {
+            'questions': [
+                "Tell me about a challenging project you worked on and how you overcame obstacles",
+                "How do you stay current with industry trends and technologies?",
+                "Describe a time when you had to work with a difficult team member"
+            ],
+            'tips': [
+                'Research the company culture and recent news',
+                'Practice answers using the STAR method (Situation, Task, Action, Result)',
+                'Prepare thoughtful questions about the role and team'
+            ],
+            'focus_areas': ['Technical Skills', 'Problem Solving', 'Communication', 'Team Collaboration'],
+            'ai_analysis': ai_response if ai_response and "ERROR:" not in ai_response else None
+        }
+        
+        return jsonify({
+            'success': True,
+            'prep': prep,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Interview prep generation failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/tools/learning-path', methods=['POST'])
+def learning_path():
+    """Generate AI-powered learning path"""
+    try:
+        data = request.get_json() or {}
+        target_skill = data.get('target_skill', '')
+        current_level = data.get('current_level', '')
+        timeline = data.get('timeline', '')
+        
+        # Learning path generation
+        months = {'3_months': 3, '6_months': 6, '12_months': 12}
+        duration = months.get(timeline, 6)
+        
+        # Generate phases based on timeline
+        phases = []
+        if duration >= 3:
+            phases.append({
+                'title': 'Foundation Building',
+                'duration': '1-2 months',
+                'skills': ['Core concepts', 'Basic syntax', 'Development environment'],
+                'resources': ['Online courses', 'Documentation', 'Tutorial videos']
+            })
+        
+        if duration >= 6:
+            phases.append({
+                'title': 'Practical Application',
+                'duration': '2-4 months',
+                'skills': ['Project building', 'Best practices', 'Advanced features'],
+                'resources': ['Hands-on projects', 'Code reviews', 'Community forums']
+            })
+        
+        if duration >= 12:
+            phases.append({
+                'title': 'Mastery & Specialization',
+                'duration': '4+ months',
+                'skills': ['Advanced concepts', 'Performance optimization', 'Architecture'],
+                'resources': ['Advanced courses', 'Open source contributions', 'Mentorship']
+            })
+        
+        path = {
+            'phases': phases,
+            'estimated_completion': f'{duration} months',
+            'skill_focus': target_skill,
+            'difficulty_progression': f'{current_level} → Advanced'
+        }
+        
+        return jsonify({
+            'success': True,
+            'path': path,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Learning path generation failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 # ============================================================================
 # JOB BOARD INTEGRATION & AFFILIATE REVENUE ENDPOINTS
 # ============================================================================

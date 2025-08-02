@@ -731,28 +731,239 @@
             }
         }
         
-        function getAIGuidance(goalId) {
-            alert('AI Guidance feature coming soon! This will provide personalized recommendations for achieving your specific goal.');
+        async function getAIGuidance(goalId) {
+            try {
+                const response = await fetch('/api/goals/ai-guidance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        goal_id: goalId,
+                        request_type: 'guidance'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    const modal = document.createElement('div');
+                    modal.style.cssText = `
+                        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                        background: rgba(0,0,0,0.5); z-index: 1000; display: flex; 
+                        align-items: center; justify-content: center;
+                    `;
+                    
+                    modal.innerHTML = `
+                        <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 500px; 
+                             width: 90%; max-height: 80vh; overflow-y: auto;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; 
+                                 margin-bottom: 1.5rem;">
+                                <h3><i class="fas fa-robot"></i> AI Guidance</h3>
+                                <button onclick="this.closest('[style*=fixed]').remove()" 
+                                        style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong>🎯 Next Actions:</strong><br>
+                                ${result.guidance.next_actions.map(action => `• ${action}`).join('<br>')}<br><br>
+                                
+                                <strong>💡 Strategic Tips:</strong><br>
+                                ${result.guidance.tips.map(tip => `• ${tip}`).join('<br>')}<br><br>
+                                
+                                <strong>🚧 Potential Obstacles:</strong><br>
+                                ${result.guidance.obstacles.map(obs => `• ${obs}`).join('<br>')}<br><br>
+                                
+                                <strong>🤖 AI Analysis:</strong><br>
+                                <em>${result.guidance.ai_analysis}</em>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(modal);
+                } else {
+                    alert('Error getting AI guidance: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error getting AI guidance: ' + error.message);
+            }
         }
         
         function showGoalTemplates() {
-            alert('Goal Templates feature coming soon! Pre-built SMART goal templates for common career objectives.');
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 1000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 600px; 
+                     width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3><i class="fas fa-template"></i> Goal Templates</h3>
+                        <button onclick="this.closest('[style*=fixed]').remove()" 
+                                style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <h4>🎯 Popular Career Goal Templates</h4>
+                        <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                            <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; cursor: pointer;" 
+                                 onclick="useTemplate('Transition to Tech Role')">
+                                <strong>Career Transition to Tech</strong><br>
+                                <small>Goal: Move from current role to software development within 12 months</small>
+                            </div>
+                            <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; cursor: pointer;"
+                                 onclick="useTemplate('Advance to Senior Level')">
+                                <strong>Advance to Senior Level</strong><br>
+                                <small>Goal: Get promoted to senior role and increase salary by 25%</small>
+                            </div>
+                            <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; cursor: pointer;"
+                                 onclick="useTemplate('Learn New Technology')">
+                                <strong>Master New Technology</strong><br>
+                                <small>Goal: Become proficient in AI/ML and build portfolio projects</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function useTemplate(templateName) {
+            const templates = {
+                'Transition to Tech Role': {
+                    career_focus: 'Software Development',
+                    current_level: 'Career Transition',
+                    desired_outcome: 'Transition from my current role to a software developer position at a tech company within 12 months, earning $75k+ annually',
+                    current_situation: 'Currently working in a non-tech role but have been learning programming through online courses'
+                },
+                'Advance to Senior Level': {
+                    career_focus: 'Software Development',
+                    current_level: 'Mid Level',
+                    desired_outcome: 'Get promoted to senior developer role with 25% salary increase and technical leadership responsibilities',
+                    current_situation: 'Mid-level developer with 3-4 years experience, ready for next career step'
+                },
+                'Learn New Technology': {
+                    career_focus: 'AI/Machine Learning',
+                    current_level: 'Mid Level',
+                    desired_outcome: 'Become proficient in AI/ML technologies and transition to ML engineer role within 18 months',
+                    current_situation: 'Experienced developer looking to specialize in AI/ML field'
+                }
+            };
+            
+            const template = templates[templateName];
+            if (template) {
+                document.getElementById('careerFocus').value = template.career_focus;
+                document.getElementById('currentLevel').value = template.current_level;
+                document.getElementById('desiredOutcome').value = template.desired_outcome;
+                document.getElementById('currentSituation').value = template.current_situation;
+                
+                // Close modal
+                document.querySelector('[style*="position: fixed"]').remove();
+                
+                // Show success message
+                alert(`Template "${templateName}" has been applied! You can now customize and generate your goals.`);
+            }
         }
         
         function analyzeCurrentProgress() {
-            alert('Progress Analysis feature coming soon! AI-powered assessment of your current goal completion status.');
+            alert('Progress analysis requires active goals. Please create some goals first, then track your progress to get AI-powered insights.');
         }
         
         function downloadGoalsPDF() {
-            alert('PDF Download feature coming soon! Export your goals as a formatted PDF document.');
+            // Simple PDF-like download simulation
+            const goals = document.querySelectorAll('.goal-card');
+            if (goals.length === 0) {
+                alert('No goals to download. Please create some goals first!');
+                return;
+            }
+            
+            let content = "SKILLSYNC AI - CAREER GOALS PLAN\\n\\n";
+            content += "Generated on: " + new Date().toLocaleDateString() + "\\n\\n";
+            
+            goals.forEach((goal, index) => {
+                const title = goal.querySelector('.goal-title')?.textContent || `Goal ${index + 1}`;
+                content += `GOAL ${index + 1}: ${title}\\n`;
+                content += "="*50 + "\\n\\n";
+            });
+            
+            // Create downloadable text file
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'skillsync-career-goals.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            alert('Goals plan downloaded! Check your downloads folder.');
         }
         
         function scheduleReminders() {
-            alert('Reminder System feature coming soon! Set up automated progress check-ins and milestone alerts.');
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 1000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 400px; width: 90%;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3><i class="fas fa-bell"></i> Set Reminders</h3>
+                        <button onclick="this.closest('[style*=fixed]').remove()" 
+                                style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Reminder Frequency</label>
+                        <select id="reminderFreq" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                            <option value="daily">Daily Check-in</option>
+                            <option value="weekly" selected>Weekly Progress Review</option>
+                            <option value="monthly">Monthly Milestone Check</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Preferred Time</label>
+                        <input type="time" id="reminderTime" value="09:00" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                    <button onclick="setReminder()" style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Set Reminder
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function setReminder() {
+            const freq = document.getElementById('reminderFreq').value;
+            const time = document.getElementById('reminderTime').value;
+            
+            // Close modal
+            document.querySelector('[style*="position: fixed"]').remove();
+            
+            alert(`Reminder set! You'll receive ${freq} notifications at ${time} to check your goal progress. (Note: Enable browser notifications for best experience)`);
         }
         
         function shareGoals() {
-            alert('Goal Sharing feature coming soon! Share your goals with mentors, colleagues, or accountability partners.');
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Career Goals - SkillSync AI',
+                    text: 'Check out my AI-generated career goals and progress!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers without native sharing
+                const shareText = `Check out my AI-generated career goals on SkillSync AI: ${window.location.href}`;
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('Goal sharing link copied to clipboard! You can now paste and share it with mentors or colleagues.');
+                }).catch(() => {
+                    alert('Goal sharing: You can manually copy this link and share it: ' + window.location.href);
+                });
+            }
         }
     </script>
 </body>

@@ -686,6 +686,353 @@
             }, 2000);
         });
 
+        // AI-Enhanced Career Tools Functions
+        async function openAICareerStrategy() {
+            const modal = createModal('AI Career Strategy', `
+                <form id="careerStrategyForm">
+                    <div class="form-group">
+                        <label class="form-label">Current Role</label>
+                        <input type="text" class="form-input" id="currentRole" placeholder="e.g., Software Developer" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Career Goals</label>
+                        <textarea class="form-input" id="careerGoals" rows="3" placeholder="Where do you want to be in 2-3 years?" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Experience Level</label>
+                        <select class="form-select" id="experienceLevel" required>
+                            <option value="">Select level</option>
+                            <option value="entry">Entry Level (0-2 years)</option>
+                            <option value="mid">Mid Level (2-5 years)</option>
+                            <option value="senior">Senior Level (5+ years)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Generate AI Strategy</button>
+                </form>
+                <div id="strategyLoading" class="loading" style="display:none;">
+                    <i class="fas fa-spinner fa-spin"></i> Analyzing career path...
+                </div>
+                <div id="strategyResult" class="result-card" style="display:none;">
+                    <div class="result-title">🎯 Your AI Career Strategy</div>
+                    <div id="strategyContent"></div>
+                </div>
+            `);
+            
+            document.getElementById('careerStrategyForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const loading = document.getElementById('strategyLoading');
+                const result = document.getElementById('strategyResult');
+                
+                loading.style.display = 'block';
+                result.style.display = 'none';
+                
+                const formData = {
+                    current_role: document.getElementById('currentRole').value,
+                    career_goals: document.getElementById('careerGoals').value,
+                    experience_level: document.getElementById('experienceLevel').value
+                };
+                
+                try {
+                    const response = await fetch('/api/tools/career-strategy', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        document.getElementById('strategyContent').innerHTML = `
+                            <strong>Strategic Recommendations:</strong><br>
+                            ${data.strategy.recommendations.map(rec => `• ${rec}`).join('<br>')}<br><br>
+                            <strong>Action Plan:</strong><br>
+                            ${data.strategy.action_plan.map(action => `• ${action}`).join('<br>')}<br><br>
+                            <strong>Timeline:</strong> ${data.strategy.timeline}<br>
+                            <strong>Success Probability:</strong> ${data.strategy.success_probability}%
+                        `;
+                    } else {
+                        document.getElementById('strategyContent').innerHTML = 'Error generating strategy. Please try again.';
+                    }
+                    
+                    loading.style.display = 'none';
+                    result.style.display = 'block';
+                } catch (error) {
+                    loading.style.display = 'none';
+                    alert('Error generating career strategy. Please try again.');
+                }
+            });
+        }
+
+        async function openAIResumeOptimizer() {
+            const modal = createModal('AI Resume Optimizer', `
+                <form id="resumeOptimizerForm">
+                    <div class="form-group">
+                        <label class="form-label">Target Job Title</label>
+                        <input type="text" class="form-input" id="targetJobTitle" placeholder="e.g., Senior Frontend Developer" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Resume Content</label>
+                        <textarea class="form-input" id="resumeContent" rows="6" placeholder="Paste your resume content here..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Industry Focus</label>
+                        <select class="form-select" id="industryFocus" required>
+                            <option value="">Select industry</option>
+                            <option value="tech">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="startup">Startup</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Optimize Resume</button>
+                </form>
+                <div id="resumeOptimizerLoading" class="loading" style="display:none;">
+                    <i class="fas fa-spinner fa-spin"></i> Optimizing resume...
+                </div>
+                <div id="resumeOptimizerResult" class="result-card" style="display:none;">
+                    <div class="result-title">📄 Resume Optimization Results</div>
+                    <div id="resumeOptimizerContent"></div>
+                </div>
+            `);
+            
+            document.getElementById('resumeOptimizerForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const loading = document.getElementById('resumeOptimizerLoading');
+                const result = document.getElementById('resumeOptimizerResult');
+                
+                loading.style.display = 'block';
+                result.style.display = 'none';
+                
+                const formData = {
+                    target_job: document.getElementById('targetJobTitle').value,
+                    resume_content: document.getElementById('resumeContent').value,
+                    industry: document.getElementById('industryFocus').value
+                };
+                
+                try {
+                    const response = await fetch('/api/tools/resume-optimizer', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        document.getElementById('resumeOptimizerContent').innerHTML = `
+                            <strong>Optimization Score:</strong> ${data.optimization.score}/100<br><br>
+                            <strong>Key Improvements:</strong><br>
+                            ${data.optimization.improvements.map(imp => `• ${imp}`).join('<br>')}<br><br>
+                            <strong>Keywords to Add:</strong><br>
+                            ${data.optimization.keywords.map(kw => `<span class="skill-tag">${kw}</span>`).join(' ')}<br><br>
+                            <strong>AI Analysis:</strong><br>
+                            <em>${data.optimization.ai_feedback}</em>
+                        `;
+                    } else {
+                        document.getElementById('resumeOptimizerContent').innerHTML = 'Error optimizing resume. Please try again.';
+                    }
+                    
+                    loading.style.display = 'none';
+                    result.style.display = 'block';
+                } catch (error) {
+                    loading.style.display = 'none';
+                    alert('Error optimizing resume. Please try again.');
+                }
+            });
+        }
+
+        async function openAIInterviewPrep() {
+            const modal = createModal('AI Interview Prep', `
+                <form id="interviewPrepForm">
+                    <div class="form-group">
+                        <label class="form-label">Company/Role</label>
+                        <input type="text" class="form-input" id="companyRole" placeholder="e.g., Google - Software Engineer" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Interview Type</label>
+                        <select class="form-select" id="interviewTypeAI" required>
+                            <option value="">Select type</option>
+                            <option value="technical">Technical Interview</option>
+                            <option value="behavioral">Behavioral Interview</option>
+                            <option value="system_design">System Design</option>
+                            <option value="cultural_fit">Cultural Fit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Background</label>
+                        <textarea class="form-input" id="userBackground" rows="3" placeholder="Brief description of your skills and experience..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Generate Interview Prep</button>
+                </form>
+                <div id="interviewPrepLoading" class="loading" style="display:none;">
+                    <i class="fas fa-spinner fa-spin"></i> Preparing interview questions...
+                </div>
+                <div id="interviewPrepResult" class="result-card" style="display:none;">
+                    <div class="result-title">🎯 AI Interview Preparation</div>
+                    <div id="interviewPrepContent"></div>
+                </div>
+            `);
+            
+            document.getElementById('interviewPrepForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const loading = document.getElementById('interviewPrepLoading');
+                const result = document.getElementById('interviewPrepResult');
+                
+                loading.style.display = 'block';
+                result.style.display = 'none';
+                
+                const formData = {
+                    company_role: document.getElementById('companyRole').value,
+                    interview_type: document.getElementById('interviewTypeAI').value,
+                    user_background: document.getElementById('userBackground').value
+                };
+                
+                try {
+                    const response = await fetch('/api/tools/interview-prep', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        document.getElementById('interviewPrepContent').innerHTML = `
+                            <strong>Tailored Questions:</strong><br>
+                            ${data.prep.questions.map((q, i) => `${i+1}. ${q}`).join('<br><br>')}<br><br>
+                            <strong>Key Tips:</strong><br>
+                            ${data.prep.tips.map(tip => `• ${tip}`).join('<br>')}<br><br>
+                            <strong>Focus Areas:</strong><br>
+                            ${data.prep.focus_areas.map(area => `<span class="skill-tag">${area}</span>`).join(' ')}
+                        `;
+                    } else {
+                        document.getElementById('interviewPrepContent').innerHTML = 'Error generating interview prep. Please try again.';
+                    }
+                    
+                    loading.style.display = 'none';
+                    result.style.display = 'block';
+                } catch (error) {
+                    loading.style.display = 'none';
+                    alert('Error generating interview prep. Please try again.');
+                }
+            });
+        }
+
+        async function openAILearningPath() {
+            const modal = createModal('AI Learning Path', `
+                <form id="learningPathForm">
+                    <div class="form-group">
+                        <label class="form-label">Target Skill/Role</label>
+                        <input type="text" class="form-input" id="targetSkill" placeholder="e.g., React Developer, Data Science" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Current Skill Level</label>
+                        <select class="form-select" id="currentSkillLevel" required>
+                            <option value="">Select level</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Learning Timeline</label>
+                        <select class="form-select" id="learningTimeline" required>
+                            <option value="">Select timeline</option>
+                            <option value="3_months">3 months</option>
+                            <option value="6_months">6 months</option>
+                            <option value="12_months">12 months</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Create Learning Path</button>
+                </form>
+                <div id="learningPathLoading" class="loading" style="display:none;">
+                    <i class="fas fa-spinner fa-spin"></i> Creating personalized path...
+                </div>
+                <div id="learningPathResult" class="result-card" style="display:none;">
+                    <div class="result-title">🎓 Your AI Learning Path</div>
+                    <div id="learningPathContent"></div>
+                </div>
+            `);
+            
+            document.getElementById('learningPathForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const loading = document.getElementById('learningPathLoading');
+                const result = document.getElementById('learningPathResult');
+                
+                loading.style.display = 'block';
+                result.style.display = 'none';
+                
+                const formData = {
+                    target_skill: document.getElementById('targetSkill').value,
+                    current_level: document.getElementById('currentSkillLevel').value,
+                    timeline: document.getElementById('learningTimeline').value
+                };
+                
+                try {
+                    const response = await fetch('/api/tools/learning-path', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        let pathHTML = '<strong>Learning Phases:</strong><br>';
+                        data.path.phases.forEach((phase, i) => {
+                            pathHTML += `
+                                <br><strong>Phase ${i+1}: ${phase.title}</strong><br>
+                                <em>Duration: ${phase.duration}</em><br>
+                                ${phase.skills.map(skill => `• ${skill}`).join('<br>')}<br>
+                                <strong>Resources:</strong> ${phase.resources.join(', ')}<br>
+                            `;
+                        });
+                        pathHTML += `<br><strong>Estimated completion:</strong> ${data.path.estimated_completion}`;
+                        
+                        document.getElementById('learningPathContent').innerHTML = pathHTML;
+                    } else {
+                        document.getElementById('learningPathContent').innerHTML = 'Error creating learning path. Please try again.';
+                    }
+                    
+                    loading.style.display = 'none';
+                    result.style.display = 'block';
+                } catch (error) {
+                    loading.style.display = 'none';
+                    alert('Error creating learning path. Please try again.');
+                }
+            });
+        }
+
+        // Modal creation helper
+        function createModal(title, content) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 1000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 500px; 
+                     width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; 
+                         margin-bottom: 1.5rem;">
+                        <h3>${title}</h3>
+                        <button onclick="this.closest('[style*=fixed]').remove()" 
+                                style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                    </div>
+                    ${content}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            return modal;
+        }
+
         // Add animation on scroll
         document.addEventListener('DOMContentLoaded', function() {
             const observerOptions = {
