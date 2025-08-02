@@ -729,11 +729,19 @@
             const targetTab = document.querySelector(`[onclick*="${tabName}"]`);
             if (targetTab) {
                 targetTab.classList.add('active');
+                console.log(`✅ Tab button activated: ${tabName}`);
+            } else {
+                console.log(`❌ Tab button not found: ${tabName}`);
             }
             
             const targetContent = document.getElementById(`${tabName}Tab`);
             if (targetContent) {
                 targetContent.classList.add('active');
+                console.log(`✅ Tab content activated: ${tabName}Tab`);
+                console.log(`📍 Content classes:`, targetContent.className);
+                console.log(`👁️ Content computed display:`, window.getComputedStyle(targetContent).display);
+            } else {
+                console.log(`❌ Tab content not found: ${tabName}Tab`);
             }
             
             // Load content based on tab
@@ -937,6 +945,11 @@
                     </div>
                 </div>
             `;
+            
+            // Debug visibility
+            console.log('📊 Assessment content added, checking visibility...');
+            console.log('🔍 Container parent:', container.parentElement?.id);
+            console.log('👁️ Parent display:', window.getComputedStyle(container.parentElement).display);
             
             // Switch to assessment tab
             switchTab('assessment');
