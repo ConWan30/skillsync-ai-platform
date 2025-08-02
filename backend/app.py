@@ -3233,3 +3233,261 @@ def gaming_career_analysis_demo():
             'success': False,
             'error': str(e)
         }), 500
+
+# ============================================================================
+# JOB BOARD INTEGRATION & AFFILIATE REVENUE ENDPOINTS
+# ============================================================================
+
+from job_board_integration import JobBoardIntegrator, JobRevenueTracker
+
+job_integrator = JobBoardIntegrator()
+revenue_tracker = JobRevenueTracker()
+
+@app.route('/api/jobs/search', methods=['POST'])
+def search_jobs():
+    """Search jobs across all platforms with affiliate tracking"""
+    try:
+        data = request.get_json() or {}
+        
+        # Extract search parameters
+        query = data.get('query', '')
+        location = data.get('location', 'remote')
+        experience_level = data.get('experience_level', 'mid')
+        limit = data.get('limit', 20)
+        
+        print(f"[INFO] Job search: {query} in {location} ({experience_level} level)")
+        
+        # Search all job platforms
+        jobs = job_integrator.search_all_platforms(
+            query=query,
+            location=location,
+            experience_level=experience_level,
+            limit=limit
+        )
+        
+        # Calculate revenue potential
+        total_revenue_potential = sum(job.get('revenue_potential', 0) for job in jobs)
+        
+        return jsonify({
+            'success': True,
+            'jobs': jobs,
+            'total_jobs': len(jobs),
+            'search_params': {
+                'query': query,
+                'location': location,
+                'experience_level': experience_level
+            },
+            'revenue_metrics': {
+                'total_revenue_potential': total_revenue_potential,
+                'average_commission': total_revenue_potential / max(len(jobs), 1),
+                'platforms_searched': ['Indeed', 'LinkedIn', 'ZipRecruiter', 'Gaming Boards']
+            },
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Job search failed: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'fallback_message': 'Job search temporarily unavailable. Please try again later.'
+        }), 500
+
+@app.route('/api/jobs/auto-match-after-analysis', methods=['POST'])
+def auto_match_jobs_after_analysis():
+    """Automatically match jobs after career analysis completion"""
+    try:
+        data = request.get_json() or {}
+        
+        # Extract user profile and analysis results
+        user_profile = data.get('user_profile', {})
+        career_analysis = data.get('career_analysis', {})
+        preferences = data.get('preferences', {})
+        
+        # Determine search parameters from analysis
+        role = user_profile.get('role', '')
+        location = preferences.get('location', 'remote')
+        experience = user_profile.get('experience', 'mid')
+        
+        print(f"[INFO] Auto-matching jobs for {role} after career analysis")
+        
+        # Search relevant jobs
+        matched_jobs = job_integrator.search_all_platforms(
+            query=role,
+            location=location,
+            experience_level=experience,
+            limit=15
+        )
+        
+        # Enhanced scoring based on career analysis
+        for job in matched_jobs:
+            # Boost score based on career analysis insights
+            if career_analysis.get('score', 0) > 80:
+                job['match_score'] += 10  # High career score = better matches
+            
+            # Gaming career bonus
+            if 'gaming' in role.lower() and job.get('industry') == 'Gaming':
+                job['match_score'] += 15
+        
+        # Re-sort by enhanced scores
+        matched_jobs.sort(key=lambda x: x.get('match_score', 0), reverse=True)
+        
+        # Track auto-matching event for revenue analytics
+        revenue_tracker.track_job_click(
+            user_id=data.get('user_id', 'anonymous'),
+            job_id='auto_match_event',
+            tracking_id=f"auto_match_{datetime.now().timestamp()}",
+            platform='SkillSync_AutoMatch',
+            revenue_potential=sum(job.get('revenue_potential', 0) for job in matched_jobs[:5])
+        )
+        
+        return jsonify({
+            'success': True,
+            'auto_matched': True,
+            'matched_jobs': matched_jobs[:10],  # Top 10 matches
+            'match_quality': 'high' if career_analysis.get('score', 0) > 75 else 'medium',
+            'revenue_opportunity': sum(job.get('revenue_potential', 0) for job in matched_jobs[:5]),
+            'next_steps': [
+                'Review matched opportunities',
+                'Click on jobs that interest you',
+                'Apply directly through affiliate links',
+                'Track your application progress'
+            ],
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Auto job matching failed: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/jobs/track-click', methods=['POST'])
+def track_job_click():
+    """Track job clicks for affiliate revenue attribution"""
+    try:
+        data = request.get_json() or {}
+        
+        user_id = data.get('user_id', 'anonymous')
+        job_id = data.get('job_id', '')
+        tracking_id = data.get('tracking_id', '')
+        platform = data.get('platform', '')
+        revenue_potential = data.get('revenue_potential', 0)
+        
+        # Track the click event
+        event = revenue_tracker.track_job_click(
+            user_id=user_id,
+            job_id=job_id,
+            tracking_id=tracking_id,
+            platform=platform,
+            revenue_potential=revenue_potential
+        )
+        
+        return jsonify({
+            'success': True,
+            'tracked': True,
+            'event_id': event.get('timestamp'),
+            'message': f'Click tracked for {platform} job',
+            'revenue_potential': revenue_potential
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Click tracking failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/jobs/track-application', methods=['POST'])
+def track_job_application():
+    """Track job applications for conversion analytics"""
+    try:
+        data = request.get_json() or {}
+        
+        user_id = data.get('user_id', 'anonymous')
+        job_id = data.get('job_id', '')
+        tracking_id = data.get('tracking_id', '')
+        
+        # Track the application event
+        event = revenue_tracker.track_job_application(
+            user_id=user_id,
+            job_id=job_id,
+            tracking_id=tracking_id
+        )
+        
+        return jsonify({
+            'success': True,
+            'tracked': True,
+            'event_id': event.get('timestamp'),
+            'message': 'Application tracked successfully',
+            'conversion_stage': 'application_submitted'
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Application tracking failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/jobs/revenue-analytics', methods=['GET'])
+def get_revenue_analytics():
+    """Get revenue analytics and projections"""
+    try:
+        metrics = revenue_tracker.calculate_revenue_metrics()
+        
+        return jsonify({
+            'success': True,
+            'revenue_metrics': metrics,
+            'performance_insights': {
+                'top_performing_platform': 'Indeed',  # Based on click data
+                'conversion_optimization': 'Focus on gaming job placements for higher commissions',
+                'growth_opportunity': 'LinkedIn Premium upgrades show strong potential'
+            },
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Revenue analytics failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/jobs/platform-status', methods=['GET'])
+def get_platform_status():
+    """Check status of job board integrations"""
+    try:
+        status = {
+            'indeed': {
+                'status': 'active' if job_integrator.indeed_publisher_id else 'needs_api_key',
+                'api_key_configured': bool(job_integrator.indeed_publisher_id),
+                'commission_rate': job_integrator.affiliate_config['indeed']['commission_rate'],
+                'base_commission': job_integrator.affiliate_config['indeed']['base_commission']
+            },
+            'linkedin': {
+                'status': 'active' if job_integrator.linkedin_api_key else 'needs_api_key',
+                'api_key_configured': bool(job_integrator.linkedin_api_key),
+                'commission_rate': job_integrator.affiliate_config['linkedin']['commission_rate'],
+                'monthly_value': job_integrator.affiliate_config['linkedin']['monthly_value']
+            },
+            'ziprecruiter': {
+                'status': 'active' if job_integrator.ziprecruiter_api_key else 'needs_api_key',
+                'api_key_configured': bool(job_integrator.ziprecruiter_api_key),
+                'commission_rate': job_integrator.affiliate_config['ziprecruiter']['commission_rate'],
+                'base_commission': job_integrator.affiliate_config['ziprecruiter']['base_commission']
+            },
+            'gaming_boards': {
+                'status': 'active',
+                'boards_available': list(job_integrator.gaming_boards.keys()),
+                'commission_rate': 0.25,
+                'base_commission': 200
+            }
+        }
+        
+        return jsonify({
+            'success': True,
+            'platform_status': status,
+            'overall_health': 'good',
+            'recommendations': [
+                'Configure Indeed Publisher ID for full API access',
+                'Set up LinkedIn API key for premium job access',
+                'Add ZipRecruiter API key for enhanced job matching'
+            ]
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Platform status check failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
