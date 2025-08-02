@@ -597,19 +597,19 @@ def ai_market_trends():
     try:
         # Get AI-powered market analysis
         market_system_prompt = """
-        You are an expert AI career market analyst. Provide comprehensive 
-        analysis of current skill trends, salary data, and growth predictions
-        in the technology and AI sectors. Focus on actionable insights.
+        You are a concise market analyst. Provide brief, data-focused insights 
+        under 60 words. Focus on numbers and immediate trends.
         """
         
         market_prompt = """
-        Analyze current tech and AI job market trends including:
-        1. Top 5 trending skills with demand changes
-        2. Salary trend analysis
-        3. Growth predictions for next 12 months
-        4. Emerging technologies impact
+        Current tech market analysis:
         
-        Provide specific percentages and salary ranges where possible.
+        Provide only:
+        • Top 3 trending skills with % demand change
+        • Salary growth rate this year
+        • Best opportunity for next 6 months
+        
+        Under 60 words. Be specific with numbers.
         """
         
         ai_analysis = call_grok_ai(market_prompt, market_system_prompt)
@@ -707,25 +707,20 @@ def generate_user_insights():
         
         # AI-powered career insights
         insights_system_prompt = """
-        You are an expert AI career specialist. Analyze user profiles and provide 
-        personalized career insights, skill recommendations, and strategic advice 
-        based on their current skills, goals, and experience level.
+        You are a direct career advisor. Provide focused insights in under 80 words. 
+        Be specific about immediate actions.
         """
         
         insights_prompt = f"""
-        Analyze this professional's career profile:
-        - Skills: {user_profile.get('skills', [])}
-        - Goals: {user_profile.get('goals', 'Not specified')}
-        - Experience: {user_profile.get('experience', 'Not specified')}
+        Profile: {user_profile.get('skills', [])} | {user_profile.get('goals', 'Not specified')} | {user_profile.get('experience', 'Not specified')}
         
-        Provide personalized insights including:
-        1. Career trajectory analysis
-        2. Skill gap identification  
-        3. Strategic recommendations
-        4. Market positioning advice
-        5. Next steps for career advancement
+        Provide only:
+        • Career fit score (1-100)
+        • Top 2 skill gaps to address
+        • Next immediate action
+        • Salary growth potential
         
-        Be specific and actionable.
+        Under 80 words total.
         """
         
         ai_insights = call_grok_ai(insights_prompt, insights_system_prompt)
@@ -855,26 +850,22 @@ def analyze_career_goals():
         
         # AI-powered goal analysis
         goals_system_prompt = """
-        You are an expert career strategist and goal-setting specialist. Analyze career goals 
-        and provide comprehensive strategic recommendations including SMART goal breakdown, 
-        action plans, potential obstacles, and success strategies.
+        You are a direct career analyst. Provide concise, actionable feedback only. 
+        Keep responses under 100 words. Focus on immediate next steps.
         """
         
         goals_prompt = f"""
-        Analyze these career goals:
-        - Goals: {goals_input}
-        - Current Situation: {current_situation}
-        - Timeline: {timeline}
+        Analyze: {goals_input}
+        Current: {current_situation}
+        Timeline: {timeline}
         
-        Provide comprehensive analysis including:
-        1. SMART Goals Breakdown (Specific, Measurable, Achievable, Relevant, Time-bound)
-        2. Action Plan with milestones
-        3. Potential obstacles and mitigation strategies
-        4. Success probability assessment
-        5. Skills and resources needed
-        6. Networking and relationship strategies
+        Provide only:
+        • Feasibility score (1-100)
+        • Top 3 immediate actions needed
+        • Main obstacle + solution
+        • Success probability
         
-        Be specific and actionable.
+        Keep response under 100 words. Be direct.
         """
         
         ai_analysis = call_grok_ai(goals_prompt, goals_system_prompt)
@@ -949,25 +940,23 @@ def generate_smart_goals():
         
         # AI-powered SMART goal generation
         smart_goals_system_prompt = """
-        You are an expert career coach specializing in SMART goal methodology. 
-        Generate specific, measurable, achievable, relevant, and time-bound career goals 
-        based on user input. Provide detailed action steps and success metrics.
+        You are a concise career strategist. Generate 2-3 focused SMART goals maximum. 
+        Keep responses under 150 words total. Be direct and actionable, not verbose.
         """
         
         smart_goals_prompt = f"""
-        Generate SMART career goals based on:
-        - Career Focus: {career_focus}
-        - Current Level: {current_level}
-        - Desired Outcome: {desired_outcome}
+        Create 2-3 concise SMART goals for:
+        - Focus: {career_focus}
+        - Level: {current_level}  
+        - Goal: {desired_outcome}
         
-        Create 3-5 SMART goals with:
-        1. Clear objective statement
-        2. Specific success metrics
-        3. Timeline with milestones
-        4. Action steps
-        5. Progress tracking methods
+        For each goal provide ONLY:
+        • One clear objective (1 sentence)
+        • One measurable outcome (specific number/metric)
+        • Timeline (3-12 months)
+        • Top 3 action steps (bullet points)
         
-        Format as structured, actionable goals.
+        Keep total response under 150 words. Be direct and practical.
         """
         
         ai_goals = call_grok_ai(smart_goals_prompt, smart_goals_system_prompt)
@@ -1036,24 +1025,20 @@ def track_goal_progress():
         
         # AI-powered progress analysis
         progress_system_prompt = """
-        You are an expert goal tracking specialist. Analyze goal progress updates and provide 
-        encouraging feedback, identify potential issues, and suggest next steps for improvement.
+        You are a motivational progress coach. Keep feedback under 50 words. 
+        Be encouraging but direct about next steps.
         """
         
         progress_prompt = f"""
-        Analyze this goal progress update:
-        - Goal ID: {goal_id}
-        - Progress Update: {progress_update}
-        - Completion: {completion_percentage}%
+        Progress: {progress_update}
+        Completion: {completion_percentage}%
         
-        Provide:
-        1. Progress assessment and feedback
-        2. Motivation and encouragement
-        3. Potential obstacles identified
-        4. Suggested next steps
-        5. Timeline adjustments if needed
+        Provide only:
+        • Quick assessment (Good/Needs work)
+        • One specific next step
+        • Motivational note (1 sentence)
         
-        Be supportive and actionable.
+        Maximum 50 words total.
         """
         
         ai_feedback = call_grok_ai(progress_prompt, progress_system_prompt)

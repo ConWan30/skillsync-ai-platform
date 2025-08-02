@@ -45,7 +45,7 @@ def call_grok_ai(prompt, system_prompt=None):
                     "model": model,
                     "stream": False,
                     "temperature": 0.7,
-                    "max_tokens": 1000
+                    "max_tokens": 300  # Reduced for more concise responses
                 }
                 
                 print(f"[INFO] Trying xAI model: {model}")
