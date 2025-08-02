@@ -954,212 +954,217 @@
         let selectedPlan = 'free';
 
         function openSignupModal(plan = 'free') {
-            selectedPlan = plan;
-            document.getElementById('signupModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            // Create signup modal if it doesn't exist
+            let modal = document.getElementById('signup-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'signup-modal';
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.7);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10001;
+                    animation: fadeIn 0.3s ease;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="
+                        background: white;
+                        padding: 40px;
+                        border-radius: 20px;
+                        max-width: 500px;
+                        width: 90%;
+                        text-align: center;
+                        position: relative;
+                        animation: slideUp 0.3s ease;
+                    ">
+                        <button onclick="closeSignupModal()" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 20px;
+                            background: none;
+                            border: none;
+                            font-size: 24px;
+                            cursor: pointer;
+                            color: #999;
+                        ">×</button>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="color: #667eea; margin-bottom: 10px;">🚀 Get Started with SkillSync</h2>
+                            <p style="color: #666; margin: 0;">Join thousands of professionals accelerating their careers</p>
+                        </div>
+                        
+                        <form id="signup-form" style="margin-bottom: 20px;">
+                            <div style="margin-bottom: 20px;">
+                                <input type="email" id="signup-email" placeholder="Enter your email address" required style="
+                                    width: 100%;
+                                    padding: 15px;
+                                    border: 2px solid #e2e8f0;
+                                    border-radius: 10px;
+                                    font-size: 16px;
+                                    outline: none;
+                                    transition: border-color 0.3s ease;
+                                " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'">
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <select id="signup-role" required style="
+                                    width: 100%;
+                                    padding: 15px;
+                                    border: 2px solid #e2e8f0;
+                                    border-radius: 10px;
+                                    font-size: 16px;
+                                    outline: none;
+                                    background: white;
+                                ">
+                                    <option value="">Select your current role</option>
+                                    <option value="student">Student</option>
+                                    <option value="entry-level">Entry Level Professional</option>
+                                    <option value="mid-level">Mid-Level Professional</option>
+                                    <option value="senior">Senior Professional</option>
+                                    <option value="manager">Manager/Lead</option>
+                                    <option value="executive">Executive</option>
+                                    <option value="freelancer">Freelancer/Consultant</option>
+                                    <option value="career-changer">Career Changer</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" style="
+                                width: 100%;
+                                padding: 15px;
+                                background: linear-gradient(45deg, #667eea, #764ba2);
+                                color: white;
+                                border: none;
+                                border-radius: 10px;
+                                font-size: 16px;
+                                font-weight: bold;
+                                cursor: pointer;
+                                transition: transform 0.3s ease;
+                            " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                                🚀 Start My Career Analysis
+                            </button>
+                        </form>
+                        
+                        <div style="margin-top: 20px;">
+                            <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Or continue with:</p>
+                            <div style="display: flex; gap: 10px; justify-content: center;">
+                                <button onclick="signupWithGoogle()" style="
+                                    flex: 1;
+                                    padding: 12px;
+                                    background: #4285f4;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 8px;
+                                    cursor: pointer;
+                                    font-weight: bold;
+                                ">Google</button>
+                                <button onclick="signupWithLinkedIn()" style="
+                                    flex: 1;
+                                    padding: 12px;
+                                    background: #0077b5;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 8px;
+                                    cursor: pointer;
+                                    font-weight: bold;
+                                ">LinkedIn</button>
+                            </div>
+                        </div>
+                        
+                        <p style="font-size: 12px; color: #999; margin-top: 20px;">
+                            By signing up, you agree to our Terms of Service and Privacy Policy
+                        </p>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Add CSS animations
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateY(30px); opacity: 0; }
+                        to { transform: translateY(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Handle form submission
+                document.getElementById('signup-form').addEventListener('submit', handleSignupSubmission);
+            }
             
-            // Track signup modal open
-            console.log('Signup modal opened for plan:', plan);
+            modal.style.display = 'flex';
         }
-
+        
         function closeSignupModal() {
-            document.getElementById('signupModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            resetSignupForm();
-        }
-
-        function scrollToDemo() {
-            console.log('Scrolling to demo section...');
-            const demoSection = document.getElementById('demo');
-            if (demoSection) {
-                demoSection.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                console.log('Successfully scrolled to demo section');
-                
-                // Optional: Focus on the first form field after scrolling
-                setTimeout(() => {
-                    const firstField = document.getElementById('demoRole');
-                    if (firstField) {
-                        firstField.focus();
-                    }
-                }, 1000);
-            } else {
-                console.error('Demo section not found! ID: demo');
+            const modal = document.getElementById('signup-modal');
+            if (modal) {
+                modal.style.display = 'none';
             }
         }
-
-        function nextStep() {
-            // Validate current step
-            if (currentStep === 1) {
-                const name = document.getElementById('fullName').value;
-                const email = document.getElementById('email').value;
-                const role = document.getElementById('currentRole').value;
-                
-                if (!name || !email || !role) {
-                    alert('Please fill in all required fields');
-                    return;
-                }
+        
+        function handleSignupSubmission(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('signup-email').value;
+            const role = document.getElementById('signup-role').value;
+            
+            if (!email || !role) {
+                alert('Please fill in all fields');
+                return;
             }
             
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            currentStep++;
-            document.getElementById(`step${currentStep}`).classList.add('active');
-        }
-
-        function prevStep() {
-            document.getElementById(`step${currentStep}`).classList.remove('active');
-            currentStep--;
-            document.getElementById(`step${currentStep}`).classList.add('active');
-        }
-
-        function selectExperience(experience) {
-            selectedExperience = experience;
+            // Show loading state
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '🔄 Creating your account...';
+            submitBtn.disabled = true;
             
-            // Visual feedback
-            document.querySelectorAll('.experience-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            event.target.closest('.experience-option').classList.add('selected');
-            
-            // Auto-advance after selection
+            // Simulate account creation (in real app, this would call backend)
             setTimeout(() => {
-                nextStep();
-            }, 500);
-        }
-
-        function resetSignupForm() {
-            currentStep = 1;
-            selectedExperience = '';
-            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
-            document.getElementById('step1').classList.add('active');
-            document.getElementById('signupForm').style.display = 'block';
-            document.getElementById('signupLoading').style.display = 'none';
-            document.getElementById('signupSuccess').style.display = 'none';
-        }
-
-        function goToDashboard() {
-            window.location.href = '/dashboard';
-        }
-
-        // Add smooth scroll behavior for all internal links
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate stats on scroll
-            const observerOptions = {
-                threshold: 0.5,
-                rootMargin: '0px 0px -100px 0px'
-            };
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all sections for animation
-            document.querySelectorAll('section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(30px)';
-                section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                observer.observe(section);
-            });
-
-            // Live Demo Form Handler - Initialize after DOM is loaded
-            const liveDemoForm = document.getElementById('liveDemoForm');
-            if (liveDemoForm) {
-                liveDemoForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    console.log('Demo form submitted!');
-                    
-                    // Get form data
-                    const formData = {
-                        role: document.getElementById('demoRole').value,
-                        experience: document.getElementById('demoExperience').value,
-                        skills: document.getElementById('demoSkills').value,
-                        target: '' // Optional field not in current form
-                    };
-                    
-                    console.log('Form data collected:', formData);
-                    
-                    // Validate form
-                    if (!formData.role || !formData.experience || !formData.skills) {
-                        alert('Please fill in all required fields!');
-                        return;
-                    }
-                    
-                    // Show loading state with step-by-step animation
-                    const placeholder = document.querySelector('.demo-placeholder');
-                    const loading = document.getElementById('demoLoading');
-                    const results = document.getElementById('analysisResults');
-                    
-                    if (placeholder) placeholder.style.display = 'none';
-                    if (loading) loading.style.display = 'block';
-                    if (results) results.style.display = 'none';
-                    
-                    // Reset analysis steps
-                    const steps = document.querySelectorAll('.analysis-step');
-                    steps.forEach(step => {
-                        step.style.opacity = '0.3';
-                        step.style.transform = 'translateX(-10px)';
-                        step.style.transition = 'all 0.5s ease';
-                    });
-                    
-                    // Animate analysis steps one by one
-                    let stepIndex = 0;
-                    const animateSteps = setInterval(() => {
-                        if (stepIndex < steps.length) {
-                            const currentStep = steps[stepIndex];
-                            currentStep.style.opacity = '1';
-                            currentStep.style.transform = 'translateX(0)';
-                            currentStep.style.background = 'rgba(102, 126, 234, 0.2)';
-                            currentStep.style.borderLeft = '4px solid #667eea';
-                            
-                            console.log(`🔄 AI Analysis Step ${stepIndex + 1}: ${currentStep.textContent}`);
-                            stepIndex++;
-                        } else {
-                            clearInterval(animateSteps);
-                            
-                            // Call AI analysis after animation completes
-                            setTimeout(() => {
-                                console.log('🧠 Starting real AI analysis...');
-                                performAIAnalysis(formData);
-                            }, 800);
-                        }
-                    }, 1000); // 1 second between each step
-                });
-            }
-            
-            // Initialize other existing functionality
-            const buttons = document.querySelectorAll('.cta-primary, .cta-secondary');
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    console.log('CTA button clicked:', this.textContent);
-                });
-            });
-            
-            // Auto-fill demo form when scrolling to demo section
-            const demoSection = document.getElementById('demo');
-            if (demoSection) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            console.log('Demo section is visible - auto-filling form');
-                            setTimeout(() => {
-                                if (!document.getElementById('demoRole').value) {
-                                    document.getElementById('demoRole').value = 'frontend';
-                                    document.getElementById('demoExperience').value = '2-4';
-                                    document.getElementById('demoSkills').value = 'React, JavaScript, HTML/CSS';
-                                }
-                            }, 1000);
-                        }
-                    });
-                }, { threshold: 0.5 });
+                // Store user info
+                localStorage.setItem('skillsync_user_email', email);
+                localStorage.setItem('skillsync_user_role', role);
+                localStorage.setItem('skillsync_signup_date', new Date().toISOString());
                 
-                observer.observe(demoSection);
+                // Show success and redirect
+                submitBtn.textContent = '✅ Account Created!';
+                submitBtn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    closeSignupModal();
+                    
+                    // Redirect to dashboard
+                    window.location.href = '/dashboard';
+                }, 1500);
+            }, 2000);
+        }
+        
+        function signupWithGoogle() {
+            // Simulate Google OAuth (in real app, this would use Google OAuth)
+            alert('Google signup coming soon! For now, please use email signup.');
+        }
+        
+        function signupWithLinkedIn() {
+            // Simulate LinkedIn OAuth (in real app, this would use LinkedIn OAuth)
+            alert('LinkedIn signup coming soon! For now, please use email signup.');
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('signup-modal');
+            if (modal && event.target === modal) {
+                closeSignupModal();
             }
         });
         
@@ -1167,7 +1172,7 @@
         // AUTONOMOUS AI BEHAVIORAL INTELLIGENCE SYSTEM - FRONTEND TRACKING
         // Revolutionary behavioral tracking that learns from user interactions
         // ============================================================================
-
+        
         class AutonomousBehaviorTracker {
             constructor() {
                 this.userId = this.generateUserId();
