@@ -813,11 +813,76 @@
                     goal: new GoalSettingAgent(this)
                 };
                 
+                // DISABLE OLD AI INDICATOR CREATION
+                this.disableOldIndicators = true;
+                this.skipIndicatorCreation = true;
+                
                 console.log('🌟 Universal AI System Initialized on:', this.currentPage);
                 console.log('👤 User ID:', this.userId);
                 
                 this.initializeUniversalTracking();
                 this.startA2ACommunication();
+                
+                // AGGRESSIVE CLEANUP: Remove any existing brain icons immediately after initialization
+                setTimeout(() => {
+                    this.removeAllBrainIcons();
+                }, 100);
+                setTimeout(() => {
+                    this.removeAllBrainIcons();
+                }, 500);
+                setTimeout(() => {
+                    this.removeAllBrainIcons();
+                }, 1000);
+            }
+            
+            removeAllBrainIcons() {
+                // Remove all elements containing brain emoji or AI learning text
+                const allElements = document.querySelectorAll('*');
+                allElements.forEach(el => {
+                    if (el.id !== 'multi-agent-visualizer-button') {
+                        const text = el.textContent || '';
+                        const title = el.title || '';
+                        if (text.includes('🧠') || 
+                            text.includes('AI Learning') ||
+                            text.includes('Learning...') ||
+                            title.includes('autonomous AI') ||
+                            title.includes('behavioral insight') ||
+                            title.includes('learning from your')) {
+                            console.log('🗑️ Removing brain icon element:', text, title);
+                            el.remove();
+                        }
+                    }
+                });
+                
+                // Also remove by style properties
+                const fixedElements = document.querySelectorAll('[style*="position: fixed"]');
+                fixedElements.forEach(el => {
+                    if (el.id !== 'multi-agent-visualizer-button') {
+                        const text = el.textContent || '';
+                        const title = el.title || '';
+                        if ((text.includes('🧠') || text.includes('AI')) && 
+                            (el.style.bottom || el.style.left)) {
+                            console.log('🗑️ Removing fixed position AI element:', text);
+                            el.remove();
+                        }
+                    }
+                });
+            }
+            
+            // Override any method that might create old indicators
+            createAIIndicator() {
+                console.log('🚫 Old AI indicator creation blocked');
+                return; // Do nothing - blocked
+            }
+            
+            showAIStatus() {
+                console.log('🚫 Old AI status display blocked');
+                return; // Do nothing - blocked
+            }
+            
+            addStatusIndicator() {
+                console.log('🚫 Old status indicator creation blocked');
+                return; // Do nothing - blocked
             }
             
             generateUserId() {
