@@ -1565,6 +1565,85 @@
             // Initialize the autonomous behavior tracker
             autonomousTracker = new AutonomousBehaviorTracker();
             
+            // CRITICAL FIX: Add missing form submission handler for "Analyze My Career Now" button
+            const liveDemoForm = document.getElementById('liveDemoForm');
+            if (liveDemoForm) {
+                liveDemoForm.addEventListener('submit', async function(event) {
+                    event.preventDefault(); // Prevent page jump
+                    console.log('🚀 Live Demo Form submitted - starting AI analysis...');
+                    
+                    // Get form data
+                    const formData = {
+                        name: document.getElementById('demoName').value,
+                        experience: document.getElementById('demoExperience').value,
+                        skills: document.getElementById('demoSkills').value,
+                        goals: document.getElementById('demoGoals').value,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    console.log('Form data collected:', formData);
+                    
+                    // Validate form data
+                    if (!formData.name || !formData.experience || !formData.skills || !formData.goals) {
+                        alert('Please fill in all fields to get your AI career analysis!');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const submitButton = event.target.querySelector('button[type="submit"]');
+                    const originalText = submitButton.innerHTML;
+                    submitButton.innerHTML = '🔄 AI ANALYZING YOUR CAREER...';
+                    submitButton.disabled = true;
+                    
+                    // Show loading in results area
+                    const demoResults = document.getElementById('demoResults');
+                    const demoLoading = document.getElementById('demoLoading');
+                    if (demoLoading) {
+                        demoLoading.style.display = 'block';
+                        document.querySelector('.demo-placeholder').style.display = 'none';
+                    }
+                    
+                    try {
+                        // Perform AI analysis
+                        const analysis = await performAIAnalysis(formData);
+                        
+                        // Display results
+                        displayAnalysisResults(analysis, formData);
+                        
+                        // Reset button
+                        submitButton.innerHTML = '✅ ANALYSIS COMPLETE!';
+                        submitButton.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                        
+                        setTimeout(() => {
+                            submitButton.innerHTML = originalText;
+                            submitButton.disabled = false;
+                            submitButton.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                        }, 3000);
+                        
+                    } catch (error) {
+                        console.error('Error during AI analysis:', error);
+                        
+                        // Show error state
+                        submitButton.innerHTML = '❌ ANALYSIS FAILED - TRY AGAIN';
+                        submitButton.style.background = 'linear-gradient(45deg, #dc3545, #c82333)';
+                        
+                        setTimeout(() => {
+                            submitButton.innerHTML = originalText;
+                            submitButton.disabled = false;
+                            submitButton.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                        }, 3000);
+                        
+                        // Still show sample analysis as fallback
+                        const fallbackAnalysis = displaySampleAnalysis(formData);
+                        displayAnalysisResults(fallbackAnalysis, formData);
+                    }
+                });
+                
+                console.log('✅ Live Demo Form handler attached successfully');
+            } else {
+                console.error('❌ Live Demo Form not found!');
+            }
+            
             // REPLACE OLD BRAIN ICON WITH NEW MULTI-AGENT VISUALIZER
             const aiIndicator = document.createElement('div');
             aiIndicator.id = 'multi-agent-visualizer-button';
@@ -1624,34 +1703,47 @@
                     submitBtn.innerHTML = '🤖 AI ANALYZING...';
                     submitBtn.disabled = true;
                     
-                    // Determine if this is a gaming-related analysis
-                    const gamingRoles = ['game-developer', 'game-designer', 'technical-artist', 'esports-analyst', 'gaming-business', 'indie-developer'];
-                    const isGamingCareer = gamingRoles.includes(formData.role) || 
-                                          formData.goals.toLowerCase().includes('game') || 
-                                          formData.goals.toLowerCase().includes('gaming') ||
-                                          formData.goals.toLowerCase().includes('unity') ||
-                                          formData.goals.toLowerCase().includes('unreal');
+                    // Show loading in results area
+                    const demoResults = document.getElementById('demoResults');
+                    const demoLoading = document.getElementById('demoLoading');
+                    if (demoLoading) {
+                        demoLoading.style.display = 'block';
+                        document.querySelector('.demo-placeholder').style.display = 'none';
+                    }
                     
                     try {
-                        let analysisResult;
+                        // Perform AI analysis
+                        const analysis = await performAIAnalysis(formData);
                         
-                        if (isGamingCareer) {
-                            // Use gaming-specific analysis
-                            analysisResult = await performGamingCareerAnalysis(formData);
-                        } else {
-                            // Use general tech career analysis
-                            analysisResult = await performAIAnalysis(formData);
-                        }
+                        // Display results
+                        displayAnalysisResults(analysis, formData);
                         
-                        displayAnalysisResults(analysisResult, isGamingCareer);
+                        // Reset button
+                        submitBtn.innerHTML = '✅ ANALYSIS COMPLETE!';
+                        submitBtn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                        
+                        setTimeout(() => {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            submitBtn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                        }, 3000);
                         
                     } catch (error) {
-                        console.error('Analysis error:', error);
-                        displaySampleAnalysis(formData, isGamingCareer);
-                    } finally {
-                        // Reset button
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
+                        console.error('Error during AI analysis:', error);
+                        
+                        // Show error state
+                        submitBtn.innerHTML = '❌ ANALYSIS FAILED - TRY AGAIN';
+                        submitBtn.style.background = 'linear-gradient(45deg, #dc3545, #c82333)';
+                        
+                        setTimeout(() => {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                            submitBtn.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                        }, 3000);
+                        
+                        // Still show sample analysis as fallback
+                        const fallbackAnalysis = displaySampleAnalysis(formData);
+                        displayAnalysisResults(fallbackAnalysis, formData);
                     }
                 });
             }
