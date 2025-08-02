@@ -804,12 +804,16 @@
             showLoading('AI agents analyzing your gaming skills...');
             
             try {
-                const response = await fetch('/api/assess-gaming-skills', {
+                const response = await fetch('/api/gaming/assess-skills', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({
+                        user_input: formData.background,
+                        domain: formData.domain,
+                        timestamp: formData.timestamp
+                    })
                 });
                 
                 if (response.ok) {
@@ -832,12 +836,16 @@
             showLoading('AI agents creating your personalized gaming career roadmap...');
             
             try {
-                const response = await fetch('/api/generate-gaming-roadmap', {
+                const response = await fetch('/api/gaming/generate-roadmap', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData)
+                    body: JSON.stringify({
+                        target_role: formData.targetRole,
+                        experience_level: formData.experienceLevel,
+                        timestamp: formData.timestamp
+                    })
                 });
                 
                 if (response.ok) {
@@ -860,7 +868,7 @@
             showLoading('AI agents analyzing gaming market trends...');
             
             try {
-                const response = await fetch('/api/gaming-market-intelligence', {
+                const response = await fetch('/api/gaming/market-intelligence', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
