@@ -1742,19 +1742,19 @@
                 }
                 
                 const result = await response.json();
-                console.log('Analysis result:', result);
+                console.log('Gaming analysis result:', result);
                 
                 if (result.success && result.analysis) {
                     return result.analysis;
                 } else {
                     // Fallback to sample analysis if AI fails
                     console.log('Gaming career analysis failed, using fallback');
-                    return displaySampleAnalysis(formData);
+                    return generateSampleGamingAnalysis(formData);
                 }
             } catch (error) {
                 console.error('Gaming Career Analysis error:', error);
                 // Always fallback to sample analysis on error
-                return displaySampleAnalysis(formData);
+                return generateSampleGamingAnalysis(formData);
             }
         }
 
@@ -1844,30 +1844,34 @@
                 'game-developer': {
                     score: 80,
                     insights: [
-                        'Game developers with Unity experience are in high demand (+25% job growth)',
-                        'Your skills align with 85% of game development positions',
-                        'C# knowledge is highly valued in the industry'
+                        'Game development market is growing at 8.7% annually with high demand',
+                        'Unity and C# skills are highly valued in the gaming industry',
+                        'Strong portfolio projects are essential for breaking into game development',
+                        'VR/AR gaming represents emerging high-growth opportunities'
                     ],
                     recommendations: [
-                        'Learn C# to increase salary potential by $10-15k',
-                        'Build a portfolio showcasing Unity projects',
-                        'Consider specializing in VR/AR development'
+                        'Master Unity game engine and C# programming',
+                        'Build 2-3 complete game projects for your portfolio',
+                        'Learn game design principles and user experience',
+                        'Join game development communities and game jams'
                     ],
-                    salary: 'Game developers with Unity experience can earn $70k-$100k annually. Senior roles reach $120k-$150k.'
+                    salary: 'Game developers typically earn $65k-$95k annually, with senior roles reaching $120k-$150k in major gaming hubs.'
                 },
                 'game-designer': {
                     score: 78,
                     insights: [
-                        'Game designers with experience in level design are in high demand (+20% job growth)',
-                        'Your skills align with 80% of game design positions',
-                        'Knowledge of game engines like Unreal Engine is highly valued'
+                        'Game design roles focus on player experience and game mechanics',
+                        'Strong understanding of player psychology is crucial',
+                        'Portfolio should showcase level design and game flow',
+                        'Collaboration skills are essential in game development teams'
                     ],
                     recommendations: [
-                        'Learn Unreal Engine to increase salary potential by $8-12k',
-                        'Build a portfolio showcasing level design projects',
-                        'Consider specializing in game narrative design'
+                        'Learn game design tools like Unity, Unreal Engine',
+                        'Study successful games and analyze their design patterns',
+                        'Create playable prototypes to demonstrate design skills',
+                        'Develop skills in user research and playtesting'
                     ],
-                    salary: 'Game designers with level design experience can earn $60k-$90k annually. Senior roles reach $100k-$130k.'
+                    salary: 'Game designers earn $55k-$85k annually, with lead designers reaching $100k-$130k.'
                 }
             };
             
@@ -1907,6 +1911,133 @@
             console.log('Test form data:', formData);
             performAIAnalysis(formData);
         }
-    </script>
-</body>
-</html>
+
+        function generateSampleGamingAnalysis(formData) {
+            const gamingAnalysis = {
+                'game-developer': {
+                    score: 85,
+                    insights: [
+                        'Game development market is growing at 8.7% annually with high demand',
+                        'Unity and C# skills are highly valued in the gaming industry',
+                        'Strong portfolio projects are essential for breaking into game development',
+                        'VR/AR gaming represents emerging high-growth opportunities'
+                    ],
+                    recommendations: [
+                        'Master Unity game engine and C# programming',
+                        'Build 2-3 complete game projects for your portfolio',
+                        'Learn game design principles and user experience',
+                        'Join game development communities and game jams'
+                    ],
+                    salary: 'Game developers typically earn $65k-$95k annually, with senior roles reaching $120k-$150k in major gaming hubs.'
+                },
+                'game-designer': {
+                    score: 80,
+                    insights: [
+                        'Game design roles focus on player experience and game mechanics',
+                        'Strong understanding of player psychology is crucial',
+                        'Portfolio should showcase level design and game flow',
+                        'Collaboration skills are essential in game development teams'
+                    ],
+                    recommendations: [
+                        'Learn game design tools like Unity, Unreal Engine',
+                        'Study successful games and analyze their design patterns',
+                        'Create playable prototypes to demonstrate design skills',
+                        'Develop skills in user research and playtesting'
+                    ],
+                    salary: 'Game designers earn $55k-$85k annually, with lead designers reaching $100k-$130k.'
+                },
+                'technical-artist': {
+                    score: 82,
+                    insights: [
+                        'Technical artists bridge the gap between art and programming',
+                        'High demand for technical artists in AAA game studios',
+                        'Skills in both 3D art and scripting are essential',
+                        'Pipeline optimization knowledge is highly valued'
+                    ],
+                    recommendations: [
+                        'Master 3D software like Maya, Blender, or 3ds Max',
+                        'Learn scripting languages like Python or MEL',
+                        'Understand game engine pipelines and optimization',
+                        'Build portfolio showing both artistic and technical skills'
+                    ],
+                    salary: 'Technical artists earn $70k-$100k annually, with senior positions reaching $130k-$160k.'
+                },
+                'esports-analyst': {
+                    score: 78,
+                    insights: [
+                        'Esports industry is rapidly growing with professional opportunities',
+                        'Data analysis and game knowledge are crucial skills',
+                        'Understanding of competitive gaming strategies is essential',
+                        'Communication skills for broadcasting and content creation'
+                    ],
+                    recommendations: [
+                        'Develop expertise in specific games and their competitive scenes',
+                        'Learn data analysis tools and statistical methods',
+                        'Build portfolio of game analysis and commentary',
+                        'Network with esports organizations and content creators'
+                    ],
+                    salary: 'Esports analysts earn $45k-$75k annually, with senior positions and broadcasting roles reaching $90k-$120k.'
+                },
+                'gaming-business': {
+                    score: 76,
+                    insights: [
+                        'Gaming business roles span marketing, publishing, and operations',
+                        'Understanding of gaming culture and player behavior is crucial',
+                        'Business acumen combined with gaming passion is valuable',
+                        'Digital marketing and community management skills are in demand'
+                    ],
+                    recommendations: [
+                        'Develop business skills in marketing, finance, or operations',
+                        'Gain deep understanding of gaming industry trends',
+                        'Build experience with community management and social media',
+                        'Network with gaming industry professionals and attend conferences'
+                    ],
+                    salary: 'Gaming business professionals earn $50k-$85k annually, with management roles reaching $100k-$140k.'
+                },
+                'indie-developer': {
+                    score: 83,
+                    insights: [
+                        'Indie game development offers creative freedom and entrepreneurial opportunities',
+                        'Multi-disciplinary skills are essential for solo or small team development',
+                        'Marketing and business skills are as important as technical abilities',
+                        'Community building and player engagement drive success'
+                    ],
+                    recommendations: [
+                        'Master game development tools like Unity or Godot',
+                        'Learn multiple disciplines: programming, art, design, audio',
+                        'Develop marketing and business skills for game publishing',
+                        'Build audience through social media and game development content'
+                    ],
+                    salary: 'Indie developers have variable income based on game success, ranging from $20k-$200k+ annually depending on project performance.'
+                }
+            };
+
+            const defaultGaming = {
+                score: 75,
+                insights: [
+                    'Gaming industry offers diverse career opportunities',
+                    'Portfolio and practical experience are key to success',
+                    'Industry values creativity combined with technical skills',
+                    'Networking and community involvement accelerate career growth'
+                ],
+                recommendations: [
+                    'Identify your specific area of interest within gaming',
+                    'Build relevant skills through online courses and practice',
+                    'Create portfolio projects that demonstrate your abilities',
+                    'Engage with gaming communities and attend industry events'
+                ],
+                salary: 'Gaming industry salaries vary widely based on role and experience, typically ranging from $50k-$120k annually.'
+            };
+
+            const analysis = gamingAnalysis[formData.role] || defaultGaming;
+            
+            return {
+                score: analysis.score,
+                scoreExplanation: `Your gaming career profile shows strong potential. This score is based on your ${formData.experience} experience level, career goals (${formData.goals}), and market demand for ${formData.role} roles in the gaming industry.`,
+                insights: analysis.insights,
+                recommendations: analysis.recommendations,
+                salaryInsight: analysis.salary
+            };
+        }
+
+        function displayAnalysisResults(analysis, isGamingCareer) {

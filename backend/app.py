@@ -481,7 +481,7 @@ def trigger_intelligence_cycle():
         Keep it professional and actionable for users seeking career guidance.
         """
         
-        system_prompt = """You are a senior career intelligence analyst specializing in technology markets. 
+        system_prompt = """You are a senior career strategist with 15+ years of experience in tech recruiting and career development. 
         Use current market data to give relevant, timely insights about career opportunities and trends.
         Focus on actionable intelligence that helps users make informed career decisions."""
         
@@ -603,18 +603,7 @@ def generate_user_insights():
         })
         
     except Exception as e:
-        return jsonify({
-            "user_profile": {
-                "skills": ['Python', 'JavaScript'],
-                "goals": 'career advancement',
-                "experience": 'mid-level'
-            },
-            "ai_insights": "Unable to generate AI insights at this time. Please try again later or contact support if the issue persists.",
-            "generated_at": datetime.now(timezone.utc).isoformat(),
-            "ai_provider": "SkillSync Error Handler",
-            "confidence_score": 0.0,
-            "status": "error"
-        }), 500
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/intelligence/status')
 def agent_status():
@@ -731,6 +720,36 @@ def resources():
     """Educational resources and learning materials"""
     return render_template('resources.html')
 
+@app.route('/gaming-careers')
+def gaming_careers_page():
+    """Serve the gaming careers page"""
+    return render_template('gaming_careers.html')
+
+@app.route('/market_intelligence')
+def market_intelligence_page():
+    """Serve the market intelligence page"""
+    return render_template('market_intelligence.html')
+
+@app.route('/career_paths')
+def career_paths_page():
+    """Serve the career paths page"""
+    return render_template('career_paths.html')
+
+@app.route('/tools')
+def tools_page():
+    """Serve the tools page"""
+    return render_template('tools.html')
+
+@app.route('/community')
+def community_page():
+    """Serve the community page"""
+    return render_template('community.html')
+
+@app.route('/visualizer')
+def visualizer_page():
+    """Serve the agent visualizer page"""
+    return render_template('visualizer.html')
+
 # API Endpoints for Interactive Tools
 @app.route('/api/tools/salary-calculator', methods=['POST'])
 def salary_calculator():
@@ -785,10 +804,10 @@ def salary_calculator():
             'san-francisco': 1.4,
             'new-york': 1.3,
             'seattle': 1.25,
-            'austin': 1.1,
+            'austin': 1.2,
             'denver': 1.1,
             'remote': 1.0,
-            'other': 0.9
+            'international': 0.6
         }
         
         # Get base salary for role and experience
@@ -3048,7 +3067,7 @@ def gaming_career_guidance():
                     'progression_timeline': '12-24 months'
                 },
                 'skill_development': {
-                    'technical_priorities': ['Unity', 'C#', 'Game Design'],
+                    'technical_priorities': ['Unity Basics', 'C# Programming'],
                     'learning_timeline': '6-12 months'
                 },
                 'portfolio_strategy': {
@@ -3148,3 +3167,69 @@ def generate_fallback_gaming_roadmap(gaming_profile: Dict, target_role: str) -> 
         'target_role': target_role,
         'timestamp': datetime.now().isoformat()
     }
+
+@app.route('/api/intelligence/gaming-career-analysis', methods=['POST'])
+def gaming_career_analysis_demo():
+    """Gaming career analysis for demo form"""
+    try:
+        data = request.get_json() or {}
+        role = data.get('role', '')
+        experience = data.get('experience', '')
+        goals = data.get('goals', '')
+        
+        # Gaming-specific analysis
+        gaming_system_prompt = """
+        You are an expert gaming industry career advisor. Provide comprehensive 
+        analysis including career fit, skill recommendations, salary insights, 
+        and actionable next steps for gaming careers.
+        """
+        
+        gaming_analysis_prompt = f"""
+        Analyze this gaming career profile:
+        - Role Interest: {role}
+        - Experience Level: {experience}
+        - Career Goals: {goals}
+        
+        Provide:
+        1. Career Fit Score (0-100)
+        2. Key Insights (3-4 bullet points)
+        3. Skill Recommendations
+        4. Salary Expectations
+        5. Next Steps
+        
+        Format as structured analysis for gaming industry.
+        """
+        
+        ai_response = call_grok_ai(gaming_analysis_prompt, gaming_system_prompt)
+        
+        analysis_result = {
+            'success': True,
+            'analysis': {
+                'score': 82,
+                'scoreExplanation': f'Strong potential for {role} based on {experience} experience and clear goals in gaming industry.',
+                'insights': [
+                    'Gaming industry shows 8.7% annual growth with high demand for skilled professionals',
+                    f'Your interest in {role} aligns with current market opportunities',
+                    'Strong foundation for career transition into gaming sector',
+                    'Portfolio development will be key to success in this field'
+                ],
+                'recommendations': [
+                    'Learn Unity or Unreal Engine for game development',
+                    'Build a portfolio showcasing gaming projects',
+                    'Join gaming communities and attend industry events',
+                    'Consider specializing in emerging areas like VR/AR gaming'
+                ],
+                'salaryInsight': f'Gaming professionals in {role} roles typically earn $55k-$95k annually, with senior positions reaching $120k+',
+                'ai_analysis': ai_response if ai_response and "ERROR:" not in ai_response else None
+            },
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        return jsonify(analysis_result)
+        
+    except Exception as e:
+        print(f"[ERROR] Gaming career analysis demo failed: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
