@@ -57,13 +57,13 @@
             text-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         
-        .hero-section .subtitle {
+        .hero-section .hero-subtitle {
             font-size: 1.5rem;
             opacity: 0.9;
             margin-bottom: 30px;
         }
         
-        .hero-section .description {
+        .hero-section .hero-description {
             font-size: 1.1rem;
             opacity: 0.8;
             max-width: 800px;
@@ -165,6 +165,27 @@
             width: 16px;
         }
         
+        .a2a-protocol-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        .a2a-protocol-section h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .a2a-protocol-section p {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
         .use-cases-section {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -185,7 +206,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         
-        .use-case-number {
+        .use-case-icon {
             width: 60px;
             height: 60px;
             background: var(--primary-gradient);
@@ -219,13 +240,25 @@
             border-left: 4px solid #667eea;
         }
         
-        .interactive-demo {
+        .demo-section {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 40px;
             margin-bottom: 40px;
             box-shadow: var(--shadow-lg);
+        }
+        
+        .demo-section h2 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section p {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 30px;
         }
         
         .demo-buttons {
@@ -235,7 +268,7 @@
             margin-top: 30px;
         }
         
-        .demo-button {
+        .demo-btn {
             background: var(--primary-gradient);
             color: white;
             border: none;
@@ -250,12 +283,12 @@
             gap: 8px;
         }
         
-        .demo-button:hover {
+        .demo-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
         
-        .demo-result {
+        .demo-output {
             margin-top: 20px;
             padding: 20px;
             background: var(--dark-bg);
@@ -283,161 +316,164 @@
         
         <div class="hero-section">
             <h1><i class="fas fa-robot"></i> AI Agent</h1>
-            <div class="subtitle">Autonomous Career Intelligence System</div>
-            <div class="description">
-                Meet your 24/7 AI career advisor that proactively monitors job markets, 
-                analyzes skill trends, and delivers personalized guidance before you even ask.
-            </div>
-        </div>
-        
-        <div class="agent-status">
-            <h2><i class="fas fa-heartbeat"></i> Agent Status</h2>
-            <div class="status-indicator">
-                <div class="pulse-dot"></div>
-                <span>Active & Monitoring</span>
-            </div>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                <div style="text-align: center; padding: 20px; background: white; border-radius: 12px;">
-                    <div style="font-size: 2rem; font-weight: 800; color: #667eea; margin-bottom: 8px;">24/7</div>
-                    <div style="color: #64748b; font-weight: 600;">Monitoring</div>
-                </div>
-                <div style="text-align: center; padding: 20px; background: white; border-radius: 12px;">
-                    <div style="font-size: 2rem; font-weight: 800; color: #667eea; margin-bottom: 8px;">14+</div>
-                    <div style="color: #64748b; font-weight: 600;">Skills Tracked</div>
-                </div>
-                <div style="text-align: center; padding: 20px; background: white; border-radius: 12px;">
-                    <div style="font-size: 2rem; font-weight: 800; color: #667eea; margin-bottom: 8px;">xAI</div>
-                    <div style="color: #64748b; font-weight: 600;">Grok Powered</div>
-                </div>
-                <div style="text-align: center; padding: 20px; background: white; border-radius: 12px;">
-                    <div style="font-size: 2rem; font-weight: 800; color: #667eea; margin-bottom: 8px;">∞</div>
-                    <div style="color: #64748b; font-weight: 600;">Scalability</div>
-                </div>
-            </div>
+            <p class="hero-subtitle">Revolutionary Multi-Agent Career Intelligence System</p>
+            <p class="hero-description">
+                Experience the world's first autonomous multi-agent AI system for career development. 
+                Four specialized agents work together using our proprietary A2A (Agent-to-Agent) protocol 
+                to deliver personalized, adaptive career intelligence that learns from your behavior.
+            </p>
         </div>
         
         <div class="capabilities-grid">
             <div class="capability-card">
-                <div class="capability-icon"><i class="fas fa-chart-line"></i></div>
-                <div class="capability-title">Market Intelligence</div>
-                <div class="capability-description">
-                    Continuously analyzes job market trends, salary data, and skill demand across industries.
-                </div>
-                <ul class="capability-features">
-                    <li><i class="fas fa-check"></i> Real-time job market analysis</li>
-                    <li><i class="fas fa-check"></i> Salary trend monitoring</li>
-                    <li><i class="fas fa-check"></i> Skill demand forecasting</li>
-                    <li><i class="fas fa-check"></i> Industry growth predictions</li>
-                </ul>
-            </div>
-            
-            <div class="capability-card">
                 <div class="capability-icon"><i class="fas fa-brain"></i></div>
-                <div class="capability-title">Personalized Insights</div>
+                <div class="capability-title">Behavioral Intelligence Agent</div>
                 <div class="capability-description">
-                    Generates AI-powered recommendations tailored to your unique skill profile and career goals.
+                    Tracks your clicks, scrolls, and interactions across the platform to build a comprehensive 
+                    career profile. Analyzes career intent in real-time and identifies your interests, 
+                    engagement patterns, and professional goals through behavioral analysis.
                 </div>
-                <ul class="capability-features">
-                    <li><i class="fas fa-check"></i> Custom career roadmaps</li>
-                    <li><i class="fas fa-check"></i> Skill gap identification</li>
-                    <li><i class="fas fa-check"></i> Learning path optimization</li>
-                    <li><i class="fas fa-check"></i> Opportunity matching</li>
-                </ul>
             </div>
             
             <div class="capability-card">
-                <div class="capability-icon"><i class="fas fa-bell"></i></div>
-                <div class="capability-title">Proactive Notifications</div>
+                <div class="capability-icon"><i class="fas fa-fire"></i></div>
+                <div class="capability-title">Motivation & Energy Agent</div>
                 <div class="capability-description">
-                    Reaches out with timely insights, opportunities, and recommendations before you ask.
+                    Monitors your motivation levels and provides personalized encouragement based on your 
+                    energy state. Delivers contextual motivational messages and tracks your achievement 
+                    streaks to keep you engaged and moving toward your career goals.
                 </div>
-                <ul class="capability-features">
-                    <li><i class="fas fa-check"></i> Smart timing algorithms</li>
-                    <li><i class="fas fa-check"></i> Priority-based alerts</li>
-                    <li><i class="fas fa-check"></i> Opportunity notifications</li>
-                    <li><i class="fas fa-check"></i> Market change alerts</li>
-                </ul>
             </div>
             
             <div class="capability-card">
-                <div class="capability-icon"><i class="fas fa-search"></i></div>
-                <div class="capability-title">Opportunity Discovery</div>
+                <div class="capability-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="capability-title">Market Intelligence Agent</div>
                 <div class="capability-description">
-                    Automatically finds and matches relevant career opportunities based on your profile.
+                    Correlates your interests with real-time market trends using AI-powered analysis. 
+                    Identifies salary opportunities, skill demand patterns, and provides market timing 
+                    insights for optimal career moves based on your behavioral profile.
                 </div>
-                <ul class="capability-features">
-                    <li><i class="fas fa-check"></i> Job opportunity matching</li>
-                    <li><i class="fas fa-check"></i> Skill-based filtering</li>
-                    <li><i class="fas fa-check"></i> Salary range analysis</li>
-                    <li><i class="fas fa-check"></i> Company culture fit</li>
-                </ul>
+            </div>
+            
+            <div class="capability-card">
+                <div class="capability-icon"><i class="fas fa-target"></i></div>
+                <div class="capability-title">Goal Setting & Tracking Agent</div>
+                <div class="capability-description">
+                    Detects goal-setting intent from your behavior and provides AI-enhanced goal analysis. 
+                    Offers smart goal templates, tracks progress, and provides milestone recommendations 
+                    with success probability assessments.
+                </div>
+            </div>
+        </div>
+        
+        <div class="a2a-protocol-section">
+            <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">
+                <i class="fas fa-network-wired"></i> A2A Protocol: Agent-to-Agent Communication
+            </h2>
+            <p style="text-align: center; color: #64748b; margin-bottom: 30px; font-size: 1.1rem;">
+                Our revolutionary A2A protocol enables agents to share insights and collaborate autonomously, 
+                creating a unified intelligence system that gets smarter with every interaction.
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 30px;">
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                        <i class="fas fa-sync-alt" style="color: white; font-size: 24px;"></i>
+                    </div>
+                    <h4 style="color: #1e293b; margin-bottom: 10px;">Real-time Sync</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">Agents synchronize every 30 seconds, sharing behavioral insights and collaborative recommendations.</p>
+                </div>
+                
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                        <i class="fas fa-lightbulb" style="color: white; font-size: 24px;"></i>
+                    </div>
+                    <h4 style="color: #1e293b; margin-bottom: 10px;">Collaborative Insights</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">Agents combine their specialized knowledge to generate unified, actionable career recommendations.</p>
+                </div>
+                
+                <div style="text-align: center; padding: 20px;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                        <i class="fas fa-chart-bar" style="color: white; font-size: 24px;"></i>
+                    </div>
+                    <h4 style="color: #1e293b; margin-bottom: 10px;">Adaptive Learning</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">System learns from cross-agent patterns to provide increasingly personalized career intelligence.</p>
+                </div>
             </div>
         </div>
         
         <div class="use-cases-section">
-            <h2><i class="fas fa-lightbulb"></i> Real-World Use Cases</h2>
-            <p style="color: #64748b; margin-bottom: 30px;">See how the AI Agent transforms career development:</p>
+            <h2><i class="fas fa-lightbulb"></i> Multi-Agent Intelligence in Action</h2>
+            <p style="color: #64748b; margin-bottom: 30px;">See how our four specialized agents work together:</p>
             
             <div class="use-case">
-                <div class="use-case-number">1</div>
+                <div class="use-case-icon">
+                    <i class="fas fa-mouse-pointer"></i>
+                </div>
                 <div class="use-case-content">
-                    <h4>The Career Changer</h4>
-                    <p>Sarah, a marketing manager, wants to transition into data science.</p>
-                    <div class="use-case-example">
-                        "AI Agent detected a 35% increase in data science roles requiring marketing background. 
-                        Recommended Python and SQL courses, identified 3 relevant job openings."
+                    <div class="use-case-title">Behavioral Pattern Recognition</div>
+                    <div class="use-case-description">
+                        "Behavioral Agent detected high engagement with AI/ML content across 15 page visits. 
+                        Market Intelligence Agent confirmed 25% salary premium for AI skills. Motivation Agent 
+                        boosted energy level to 'high' and Goal Setting Agent suggested: 'Master Python for AI within 6 months.'"
                     </div>
                 </div>
             </div>
             
             <div class="use-case">
-                <div class="use-case-number">2</div>
+                <div class="use-case-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
                 <div class="use-case-content">
-                    <h4>The Skill Upgrader</h4>
-                    <p>Mike, a Python developer, wants to stay competitive in the market.</p>
-                    <div class="use-case-example">
-                        "AI Agent noticed Docker demand increased 28% for Python roles. Proactively suggested 
-                        containerization courses and found Docker-focused opportunities with 15% salary premium."
+                    <div class="use-case-title">Agent Collaboration Example</div>
+                    <div class="use-case-description">
+                        "Goal Setting Agent identified promotion intent. Behavioral Agent confirmed leadership-focused 
+                        clicks. Market Intelligence Agent found 30% increase in management roles requiring technical background. 
+                        Motivation Agent delivered personalized encouragement: 'Your consistent engagement shows leadership potential!'"
                     </div>
                 </div>
             </div>
             
             <div class="use-case">
-                <div class="use-case-number">3</div>
+                <div class="use-case-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
                 <div class="use-case-content">
-                    <h4>The Recent Graduate</h4>
-                    <p>Alex just graduated with a computer science degree and needs career direction.</p>
-                    <div class="use-case-example">
-                        "AI Agent analyzed Alex's coursework, identified strengths in algorithms and JavaScript, 
-                        recommended focusing on React/Node.js, and found entry-level positions at startups."
+                    <div class="use-case-title">Autonomous Career Acceleration</div>
+                    <div class="use-case-description">
+                        "Multi-agent system detected career change intent through behavioral patterns. Agents collaborated 
+                        via A2A protocol to create a personalized transition plan, identify transferable skills, and provide 
+                        real-time market timing insights - all without manual input."
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="interactive-demo">
-            <h2><i class="fas fa-play-circle"></i> Try the AI Agent</h2>
-            <p style="color: #64748b; margin-bottom: 20px;">
-                Experience the power of autonomous career intelligence:
+        <div class="demo-section">
+            <h2><i class="fas fa-play-circle"></i> Experience the Multi-Agent System</h2>
+            <p style="color: #64748b; margin-bottom: 30px;">
+                The system is already active and learning from your behavior. Check the "🤖 Multi-Agent AI Active" 
+                indicator on any page to see it in action. Try these live demonstrations:
             </p>
             
             <div class="demo-buttons">
-                <button class="demo-button" onclick="demoMarketTrends()">
-                    <i class="fas fa-chart-bar"></i> Analyze Market Trends
-                </button>
-                <button class="demo-button" onclick="demoAgentStatus()">
+                <button onclick="demoAgentStatus()" class="demo-btn">
                     <i class="fas fa-robot"></i> Check Agent Status
                 </button>
-                <button class="demo-button" onclick="demoTriggerCycle()">
-                    <i class="fas fa-sync"></i> Trigger Intelligence Cycle
+                <button onclick="demoMarketTrends()" class="demo-btn">
+                    <i class="fas fa-chart-line"></i> Market Intelligence Demo
                 </button>
-                <button class="demo-button" onclick="demoUserInsights()">
-                    <i class="fas fa-user-cog"></i> Generate User Insights
+                <button onclick="demoTriggerCycle()" class="demo-btn">
+                    <i class="fas fa-sync-alt"></i> Trigger A2A Sync
+                </button>
+                <button onclick="demoUserInsights()" class="demo-btn">
+                    <i class="fas fa-user-cog"></i> Behavioral Analysis
                 </button>
             </div>
             
-            <div id="demo-result" class="demo-result"></div>
+            <div id="demo-output" class="demo-output"></div>
+            
+            <p style="font-size: 0.9rem;">🤖 Multi-Agent AI System • Powered by xAI Grok • A2A Protocol Active</p>
         </div>
         
         <div style="text-align: center; color: rgba(255,255,255,0.8); margin-top: 40px;">
@@ -605,7 +641,7 @@ Note: This requires the AI Agent backend to be running with xAI API key configur
         }
         
         function showLoading(message) {
-            const resultDiv = document.getElementById('demo-result');
+            const resultDiv = document.getElementById('demo-output');
             resultDiv.style.display = 'block';
             resultDiv.innerHTML = `<div style="display: flex; align-items: center; gap: 12px;">
                 <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid white; border-radius: 50%; animation: spin 1s linear infinite;"></div>
@@ -617,7 +653,7 @@ Note: This requires the AI Agent backend to be running with xAI API key configur
         }
         
         function showResult(result) {
-            const resultDiv = document.getElementById('demo-result');
+            const resultDiv = document.getElementById('demo-output');
             resultDiv.style.display = 'block';
             resultDiv.innerHTML = result;
         }
