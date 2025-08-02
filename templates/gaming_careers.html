@@ -592,37 +592,128 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Gaming Career page initializing...');
             
-            // Initialize forms
-            initializeSkillAssessmentForm();
-            initializeRoadmapForm();
+            // Add comprehensive debugging
+            console.log('🔍 Checking for form elements...');
+            const skillForm = document.getElementById('skillAssessmentForm');
+            const roadmapForm = document.getElementById('roadmapForm');
+            const backgroundField = document.getElementById('background');
+            const domainField = document.getElementById('domain');
+            const targetRoleField = document.getElementById('targetRole');
+            const experienceLevelField = document.getElementById('experienceLevel');
+            
+            console.log('Form elements found:', {
+                skillForm: !!skillForm,
+                roadmapForm: !!roadmapForm,
+                backgroundField: !!backgroundField,
+                domainField: !!domainField,
+                targetRoleField: !!targetRoleField,
+                experienceLevelField: !!experienceLevelField
+            });
+            
+            // Initialize forms with error handling
+            try {
+                initializeSkillAssessmentForm();
+                console.log('✅ Skill assessment form initialized');
+            } catch (error) {
+                console.error('❌ Error initializing skill assessment form:', error);
+            }
+            
+            try {
+                initializeRoadmapForm();
+                console.log('✅ Roadmap form initialized');
+            } catch (error) {
+                console.error('❌ Error initializing roadmap form:', error);
+            }
+            
+            // Add direct button click handlers as backup
+            addBackupButtonHandlers();
             
             // Initialize AI agents status
-            updateAgentStatus();
+            try {
+                updateAgentStatus();
+                console.log('✅ Agent status initialized');
+            } catch (error) {
+                console.error('❌ Error initializing agent status:', error);
+            }
+            
+            console.log('🎮 Gaming Career page initialization complete');
         });
 
-        // Tab switching functionality
-        function switchTab(tabName) {
-            console.log(`🔄 Switching to ${tabName} tab`);
+        // Add backup button handlers that work regardless of form initialization
+        function addBackupButtonHandlers() {
+            console.log('� Adding backup button handlers...');
             
-            // Remove active class from all tabs and content
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            // Backup handler for skill assessment button
+            const assessBtn = document.getElementById('assessBtn');
+            if (assessBtn) {
+                assessBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log('🚀 Skill assessment button clicked (backup handler)');
+                    
+                    const background = document.getElementById('background')?.value || '';
+                    const domain = document.getElementById('domain')?.value || '';
+                    
+                    if (!background.trim()) {
+                        alert('Please describe your gaming/technical background!');
+                        return;
+                    }
+                    
+                    const formData = {
+                        background: background,
+                        domain: domain,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    performSkillAssessment(formData);
+                });
+                console.log('✅ Backup skill assessment handler added');
+            } else {
+                console.error('❌ Skill assessment button not found');
+            }
             
-            // Add active class to selected tab and content
-            event.target.classList.add('active');
-            document.getElementById(`${tabName}Tab`).classList.add('active');
+            // Backup handler for roadmap button
+            const roadmapBtn = document.getElementById('roadmapBtn');
+            if (roadmapBtn) {
+                roadmapBtn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log('🎯 Roadmap button clicked (backup handler)');
+                    
+                    const targetRole = document.getElementById('targetRole')?.value || '';
+                    const experienceLevel = document.getElementById('experienceLevel')?.value || '';
+                    
+                    if (!targetRole || !experienceLevel) {
+                        alert('Please select your target role and experience level!');
+                        return;
+                    }
+                    
+                    const formData = {
+                        targetRole: targetRole,
+                        experienceLevel: experienceLevel,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    generateCareerRoadmap(formData);
+                });
+                console.log('✅ Backup roadmap handler added');
+            } else {
+                console.error('❌ Roadmap button not found');
+            }
             
-            // Load content based on tab
-            switch(tabName) {
-                case 'assessment':
-                    loadAssessmentResults();
-                    break;
-                case 'roadmap':
-                    loadRoadmapResults();
-                    break;
-                case 'market':
-                    loadMarketResults();
-                    break;
+            // Add market intelligence button handler
+            const marketBtns = document.querySelectorAll('button[onclick*="loadMarketIntelligence"]');
+            marketBtns.forEach(btn => {
+                btn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    console.log('📊 Market intelligence button clicked');
+                    loadMarketIntelligence();
+                });
+            });
+            
+            if (marketBtns.length > 0) {
+                console.log(`✅ ${marketBtns.length} market intelligence button handlers added`);
+            } else {
+                console.error('❌ Market intelligence buttons not found');
             }
         }
 
