@@ -958,6 +958,11 @@
                 }, 1000);
             }
             
+            generateUserId() {
+                const fingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
+                return 'user_' + btoa(fingerprint).substring(0, 12).replace(/[^a-zA-Z0-9]/g, '');
+            }
+            
             startA2ACommunication() {
                 console.log('🤖 Starting A2A (Agent-to-Agent) Communication Protocol...');
                 
