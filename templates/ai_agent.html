@@ -469,6 +469,12 @@
                 <button onclick="demoUserInsights()" class="demo-btn">
                     <i class="fas fa-user-cog"></i> Behavioral Analysis
                 </button>
+                <button onclick="openGoalsPage()" class="demo-btn">
+                    <i class="fas fa-target"></i> AI Goal Setting
+                </button>
+                <button onclick="openGamingCareers()" class="demo-btn">
+                    <i class="fas fa-gamepad"></i> Gaming Careers
+                </button>
             </div>
             
             <div id="demo-output" class="demo-output"></div>
@@ -656,6 +662,20 @@ Note: This requires the AI Agent backend to be running with xAI API key configur
             const resultDiv = document.getElementById('demo-output');
             resultDiv.style.display = 'block';
             resultDiv.innerHTML = result;
+        }
+        
+        function openGoalsPage() {
+            showLoading('Redirecting to AI Goal Setting...');
+            setTimeout(() => {
+                window.location.href = '/goals';
+            }, 1000);
+        }
+        
+        function openGamingCareers() {
+            showLoading('Redirecting to Gaming Careers...');
+            setTimeout(() => {
+                window.location.href = '/gaming-careers';
+            }, 1000);
         }
     </script>
 </body>
