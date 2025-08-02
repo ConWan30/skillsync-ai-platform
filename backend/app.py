@@ -1893,3 +1893,292 @@ def generate_fallback_analysis(role, experience, skills, target):
         "recommendations": analysis_data['recommendations'],
         "salaryInsight": analysis_data['salary']
     }
+
+# ============================================================================
+# AUTONOMOUS AI BEHAVIORAL INTELLIGENCE SYSTEM
+# Revolutionary AI that learns from user behavior and gets smarter over time
+# ============================================================================
+
+class AutonomousCareerAI:
+    """AI system that learns from user behavior to provide increasingly personalized insights"""
+    
+    def __init__(self):
+        self.user_profiles = {}
+        self.behavior_patterns = {}
+        self.career_signals = {
+            'promotion_seeking': ['senior', 'lead', 'manager', 'salary', 'promotion'],
+            'skill_development': ['learn', 'tutorial', 'course', 'skill', 'training'],
+            'job_searching': ['job', 'interview', 'resume', 'application', 'hiring'],
+            'career_change': ['transition', 'change', 'switch', 'pivot', 'different'],
+            'salary_focused': ['salary', 'compensation', 'pay', 'money', 'income'],
+            'tech_stack': ['react', 'python', 'javascript', 'node', 'aws', 'docker']
+        }
+    
+    def analyze_behavior(self, user_id, behavior_data):
+        """Analyze user behavior to extract career insights"""
+        try:
+            # Initialize user profile if new
+            if user_id not in self.user_profiles:
+                self.user_profiles[user_id] = {
+                    'interests': {},
+                    'career_goals': {},
+                    'skill_focus': {},
+                    'behavioral_score': 0,
+                    'interaction_count': 0,
+                    'last_updated': datetime.now(),
+                    'intelligence_level': 'basic'
+                }
+            
+            profile = self.user_profiles[user_id]
+            profile['interaction_count'] += 1
+            
+            # Extract interests from behavior
+            interests = self.extract_interests(behavior_data)
+            career_signals = self.detect_career_signals(behavior_data)
+            engagement_level = self.calculate_engagement(behavior_data)
+            
+            # Update user profile
+            self.update_user_intelligence(user_id, interests, career_signals, engagement_level)
+            
+            # Generate personalized insights
+            insights = self.generate_smart_insights(user_id)
+            
+            return {
+                'success': True,
+                'insights': insights,
+                'intelligence_level': profile['intelligence_level'],
+                'personalization_score': profile['behavioral_score']
+            }
+            
+        except Exception as e:
+            print(f"[ERROR] Behavior analysis failed: {str(e)}")
+            return {'success': False, 'error': str(e)}
+    
+    def extract_interests(self, behavior_data):
+        """Extract career interests from user behavior"""
+        interests = {}
+        
+        # Analyze clicked elements
+        for click in behavior_data.get('clicks', []):
+            element_text = click.get('text', '').lower()
+            page_context = click.get('page', '').lower()
+            
+            # Detect role interests
+            if any(role in element_text for role in ['frontend', 'backend', 'fullstack', 'devops', 'data']):
+                role = next(role for role in ['frontend', 'backend', 'fullstack', 'devops', 'data'] if role in element_text)
+                interests[f'role_{role}'] = interests.get(f'role_{role}', 0) + 2
+            
+            # Detect skill interests
+            if 'skill' in page_context or 'tool' in page_context:
+                interests['skill_development'] = interests.get('skill_development', 0) + 1
+            
+            # Detect salary focus
+            if any(term in element_text for term in ['salary', 'pay', 'compensation']):
+                interests['salary_focus'] = interests.get('salary_focus', 0) + 3
+        
+        # Analyze scroll patterns
+        for scroll in behavior_data.get('scrolls', []):
+            section = scroll.get('section', '').lower()
+            time_spent = scroll.get('time_spent', 0)
+            
+            if time_spent > 5:  # Spent significant time
+                if 'career' in section:
+                    interests['career_planning'] = interests.get('career_planning', 0) + 1
+                elif 'market' in section:
+                    interests['market_intelligence'] = interests.get('market_intelligence', 0) + 1
+        
+        return interests
+    
+    def detect_career_signals(self, behavior_data):
+        """Detect career-related signals from behavior"""
+        signals = {}
+        
+        # Analyze page visits and time spent
+        for page_visit in behavior_data.get('page_visits', []):
+            page = page_visit.get('page', '').lower()
+            time_spent = page_visit.get('time_spent', 0)
+            
+            # Detect promotion seeking
+            if any(term in page for term in ['senior', 'lead', 'manager']):
+                signals['promotion_seeking'] = signals.get('promotion_seeking', 0) + time_spent
+            
+            # Detect job search activity
+            if any(term in page for term in ['job', 'interview', 'resume']):
+                signals['job_searching'] = signals.get('job_searching', 0) + time_spent
+            
+            # Detect learning intent
+            if any(term in page for term in ['learn', 'skill', 'course']):
+                signals['learning_focused'] = signals.get('learning_focused', 0) + time_spent
+        
+        return signals
+    
+    def calculate_engagement(self, behavior_data):
+        """Calculate user engagement level"""
+        total_clicks = len(behavior_data.get('clicks', []))
+        total_time = sum(scroll.get('time_spent', 0) for scroll in behavior_data.get('scrolls', []))
+        page_depth = len(behavior_data.get('page_visits', []))
+        
+        engagement_score = (total_clicks * 2) + (total_time / 10) + (page_depth * 3)
+        
+        if engagement_score > 50:
+            return 'high'
+        elif engagement_score > 20:
+            return 'medium'
+        else:
+            return 'low'
+    
+    def update_user_intelligence(self, user_id, interests, signals, engagement):
+        """Update user profile with new intelligence"""
+        profile = self.user_profiles[user_id]
+        
+        # Merge interests
+        for interest, score in interests.items():
+            profile['interests'][interest] = profile['interests'].get(interest, 0) + score
+        
+        # Merge career signals
+        for signal, score in signals.items():
+            profile['career_goals'][signal] = profile['career_goals'].get(signal, 0) + score
+        
+        # Update behavioral score
+        profile['behavioral_score'] = min(100, profile['behavioral_score'] + len(interests) + len(signals))
+        
+        # Determine intelligence level
+        if profile['interaction_count'] > 20 and profile['behavioral_score'] > 60:
+            profile['intelligence_level'] = 'expert'
+        elif profile['interaction_count'] > 10 and profile['behavioral_score'] > 30:
+            profile['intelligence_level'] = 'intermediate'
+        else:
+            profile['intelligence_level'] = 'basic'
+        
+        profile['last_updated'] = datetime.now()
+    
+    def generate_smart_insights(self, user_id):
+        """Generate personalized insights based on learned behavior"""
+        profile = self.user_profiles.get(user_id, {})
+        interests = profile.get('interests', {})
+        goals = profile.get('career_goals', {})
+        intelligence_level = profile.get('intelligence_level', 'basic')
+        
+        insights = []
+        
+        # Generate insights based on top interests
+        top_interests = sorted(interests.items(), key=lambda x: x[1], reverse=True)[:3]
+        
+        for interest, score in top_interests:
+            if interest.startswith('role_'):
+                role = interest.replace('role_', '')
+                insights.append({
+                    'type': 'role_focus',
+                    'message': f"I've noticed your strong interest in {role} development. Based on your behavior, I recommend focusing on advanced {role} skills.",
+                    'confidence': min(100, score * 10),
+                    'action': f"Explore {role} career paths"
+                })
+            
+            elif interest == 'salary_focus':
+                insights.append({
+                    'type': 'salary_optimization',
+                    'message': "Your browsing patterns show you're focused on salary growth. I can help you identify the highest-paying opportunities in your field.",
+                    'confidence': min(100, score * 15),
+                    'action': "Get personalized salary strategy"
+                })
+        
+        # Generate insights based on career goals
+        top_goals = sorted(goals.items(), key=lambda x: x[1], reverse=True)[:2]
+        
+        for goal, score in top_goals:
+            if goal == 'promotion_seeking':
+                insights.append({
+                    'type': 'promotion_ready',
+                    'message': "I can see you're exploring senior roles. Based on your engagement patterns, you seem ready for the next level.",
+                    'confidence': min(100, score * 5),
+                    'action': "Get promotion readiness assessment"
+                })
+            
+            elif goal == 'learning_focused':
+                insights.append({
+                    'type': 'skill_development',
+                    'message': "Your learning-focused behavior suggests you're actively developing new skills. I can recommend the most valuable skills for your career path.",
+                    'confidence': min(100, score * 8),
+                    'action': "Get personalized learning roadmap"
+                })
+        
+        # Add intelligence level context
+        if intelligence_level == 'expert':
+            insights.append({
+                'type': 'ai_evolution',
+                'message': "I've learned a lot about your career goals from our interactions. My recommendations are now highly personalized to your specific interests and patterns.",
+                'confidence': 95,
+                'action': "Explore advanced AI insights"
+            })
+        
+        return insights[:4]  # Return top 4 insights
+
+# Global AI instance
+autonomous_ai = AutonomousCareerAI()
+
+@app.route('/api/intelligence/behavior-analysis', methods=['POST'])
+def analyze_user_behavior():
+    """Endpoint for autonomous AI behavioral analysis"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', 'anonymous_' + str(hash(request.remote_addr))[:8])
+        behavior_data = data.get('behavior_data', {})
+        
+        print(f"[DEBUG] Analyzing behavior for user: {user_id}")
+        print(f"[DEBUG] Behavior data: {behavior_data}")
+        
+        # Analyze behavior with autonomous AI
+        result = autonomous_ai.analyze_behavior(user_id, behavior_data)
+        
+        if result['success']:
+            print(f"[DEBUG] Generated {len(result['insights'])} smart insights")
+            return jsonify({
+                'success': True,
+                'insights': result['insights'],
+                'intelligence_level': result['intelligence_level'],
+                'personalization_score': result['personalization_score'],
+                'message': f"AI intelligence level: {result['intelligence_level']}"
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': result['error']
+            }), 500
+            
+    except Exception as e:
+        print(f"[ERROR] Behavior analysis endpoint failed: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': 'Behavioral analysis temporarily unavailable'
+        }), 500
+
+@app.route('/api/intelligence/user-profile/<user_id>')
+def get_user_intelligence_profile(user_id):
+    """Get user's AI intelligence profile"""
+    try:
+        profile = autonomous_ai.user_profiles.get(user_id, {})
+        
+        if not profile:
+            return jsonify({
+                'success': False,
+                'message': 'User profile not found'
+            }), 404
+        
+        return jsonify({
+            'success': True,
+            'profile': {
+                'intelligence_level': profile.get('intelligence_level', 'basic'),
+                'behavioral_score': profile.get('behavioral_score', 0),
+                'interaction_count': profile.get('interaction_count', 0),
+                'top_interests': dict(sorted(profile.get('interests', {}).items(), key=lambda x: x[1], reverse=True)[:5]),
+                'career_signals': dict(sorted(profile.get('career_goals', {}).items(), key=lambda x: x[1], reverse=True)[:3]),
+                'last_updated': profile.get('last_updated', datetime.now()).isoformat()
+            }
+        })
+        
+    except Exception as e:
+        print(f"[ERROR] Get user profile failed: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500

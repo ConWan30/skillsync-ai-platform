@@ -1426,6 +1426,407 @@
             console.log('Test form data:', formData);
             performAIAnalysis(formData);
         }
+        
+        // ============================================================================
+        // AUTONOMOUS AI BEHAVIORAL INTELLIGENCE SYSTEM - FRONTEND TRACKING
+        // Revolutionary behavioral tracking that learns from user interactions
+        // ============================================================================
+
+        class AutonomousBehaviorTracker {
+            constructor() {
+                this.userId = this.generateUserId();
+                this.behaviorData = {
+                    clicks: [],
+                    scrolls: [],
+                    page_visits: [],
+                    session_start: Date.now(),
+                    current_page: window.location.pathname
+                };
+                this.isTracking = true;
+                this.lastScrollTime = Date.now();
+                this.pageStartTime = Date.now();
+                this.aiInsights = [];
+                
+                console.log('🧠 Autonomous AI Behavioral Intelligence System Initialized');
+                console.log('👤 User ID:', this.userId);
+                
+                this.initializeTracking();
+                this.startPeriodicAnalysis();
+            }
+            
+            generateUserId() {
+                // Generate consistent user ID based on browser fingerprint
+                const fingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
+                return 'user_' + btoa(fingerprint).substring(0, 12).replace(/[^a-zA-Z0-9]/g, '');
+            }
+            
+            initializeTracking() {
+                // Track page visit
+                this.trackPageVisit();
+                
+                // Track clicks with intelligent context
+                document.addEventListener('click', (event) => {
+                    this.trackClick(event);
+                });
+                
+                // Track scroll behavior
+                let scrollTimeout;
+                window.addEventListener('scroll', () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        this.trackScroll();
+                    }, 150);
+                });
+                
+                // Track page visibility changes
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.analyzeAndSendBehavior();
+                    }
+                });
+                
+                // Track before page unload
+                window.addEventListener('beforeunload', () => {
+                    this.analyzeAndSendBehavior();
+                });
+            }
+            
+            trackClick(event) {
+                const element = event.target;
+                const clickData = {
+                    timestamp: Date.now(),
+                    element_type: element.tagName.toLowerCase(),
+                    text: this.extractElementText(element),
+                    page: window.location.pathname,
+                    section: this.identifySection(element),
+                    coordinates: { x: event.clientX, y: event.clientY },
+                    career_context: this.extractCareerContext(element)
+                };
+                
+                this.behaviorData.clicks.push(clickData);
+                
+                console.log('🎯 Click tracked:', clickData.text, '| Context:', clickData.career_context);
+                
+                // Immediate analysis for important clicks
+                if (this.isImportantClick(clickData)) {
+                    this.triggerImmediateAnalysis();
+                }
+            }
+            
+            trackScroll() {
+                const scrollData = {
+                    timestamp: Date.now(),
+                    scroll_position: window.pageYOffset,
+                    page_height: document.body.scrollHeight,
+                    viewport_height: window.innerHeight,
+                    section: this.getCurrentSection(),
+                    time_spent: Date.now() - this.lastScrollTime,
+                    scroll_percentage: Math.round((window.pageYOffset / (document.body.scrollHeight - window.innerHeight)) * 100)
+                };
+                
+                this.behaviorData.scrolls.push(scrollData);
+                this.lastScrollTime = Date.now();
+                
+                // Track deep engagement
+                if (scrollData.time_spent > 5000) { // 5+ seconds in one section
+                    console.log('🔍 Deep engagement detected in section:', scrollData.section);
+                }
+            }
+            
+            trackPageVisit() {
+                const pageData = {
+                    page: window.location.pathname,
+                    title: document.title,
+                    timestamp: Date.now(),
+                    referrer: document.referrer,
+                    time_spent: 0 // Will be updated when leaving
+                };
+                
+                this.behaviorData.page_visits.push(pageData);
+                console.log('📄 Page visit tracked:', pageData.page);
+            }
+            
+            extractElementText(element) {
+                // Get meaningful text from element
+                let text = element.textContent || element.innerText || '';
+                
+                // If no text, try parent elements
+                if (!text && element.parentElement) {
+                    text = element.parentElement.textContent || '';
+                }
+                
+                // Clean and limit text
+                return text.trim().substring(0, 100);
+            }
+            
+            identifySection(element) {
+                // Identify which section of the page the element belongs to
+                let current = element;
+                while (current && current !== document.body) {
+                    if (current.id) {
+                        return current.id;
+                    }
+                    if (current.className && typeof current.className === 'string') {
+                        const classes = current.className.split(' ');
+                        for (const cls of classes) {
+                            if (cls.includes('section') || cls.includes('hero') || cls.includes('demo') || cls.includes('pricing')) {
+                                return cls;
+                            }
+                        }
+                    }
+                    current = current.parentElement;
+                }
+                return 'unknown';
+            }
+            
+            getCurrentSection() {
+                // Determine current section based on scroll position
+                const sections = document.querySelectorAll('section[id], div[id]');
+                let currentSection = 'top';
+                
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 100 && rect.bottom >= 100) {
+                        currentSection = section.id || section.className || 'unnamed';
+                    }
+                });
+                
+                return currentSection;
+            }
+            
+            extractCareerContext(element) {
+                const text = this.extractElementText(element).toLowerCase();
+                const context = [];
+                
+                // Detect career-related keywords
+                const careerKeywords = {
+                    roles: ['frontend', 'backend', 'fullstack', 'devops', 'data scientist', 'manager', 'senior', 'lead'],
+                    skills: ['react', 'javascript', 'python', 'node', 'aws', 'docker', 'typescript'],
+                    goals: ['salary', 'promotion', 'career', 'job', 'interview', 'resume'],
+                    actions: ['learn', 'analyze', 'calculate', 'optimize', 'improve']
+                };
+                
+                for (const [category, keywords] of Object.entries(careerKeywords)) {
+                    for (const keyword of keywords) {
+                        if (text.includes(keyword)) {
+                            context.push(`${category}:${keyword}`);
+                        }
+                    }
+                }
+                
+                return context;
+            }
+            
+            isImportantClick(clickData) {
+                // Determine if this click warrants immediate AI analysis
+                const importantElements = ['button', 'a'];
+                const importantKeywords = ['analyze', 'demo', 'career', 'salary', 'ai'];
+                
+                if (importantElements.includes(clickData.element_type)) {
+                    return true;
+                }
+                
+                const text = clickData.text.toLowerCase();
+                return importantKeywords.some(keyword => text.includes(keyword));
+            }
+            
+            async triggerImmediateAnalysis() {
+                console.log('⚡ Triggering immediate AI analysis...');
+                await this.analyzeAndSendBehavior();
+            }
+            
+            async analyzeAndSendBehavior() {
+                if (!this.isTracking || this.behaviorData.clicks.length === 0) {
+                    return;
+                }
+                
+                try {
+                    console.log('🧠 Sending behavior data to Autonomous AI...');
+                    console.log('📊 Data summary:', {
+                        clicks: this.behaviorData.clicks.length,
+                        scrolls: this.behaviorData.scrolls.length,
+                        page_visits: this.behaviorData.page_visits.length
+                    });
+                    
+                    const response = await fetch('/api/intelligence/behavior-analysis', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: this.userId,
+                            behavior_data: this.behaviorData
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            this.aiInsights = result.insights;
+                            this.displayAIInsights(result);
+                            console.log('🎯 AI Analysis Complete:', {
+                                intelligence_level: result.intelligence_level,
+                                insights_count: result.insights.length,
+                                personalization_score: result.personalization_score
+                            });
+                        }
+                    }
+                    
+                    // Reset behavior data after analysis
+                    this.resetBehaviorData();
+                    
+                } catch (error) {
+                    console.error('❌ Behavioral analysis failed:', error);
+                }
+            }
+            
+            displayAIInsights(result) {
+                // Display AI insights to user
+                if (result.insights && result.insights.length > 0) {
+                    this.showAIInsightsPopup(result);
+                }
+            }
+            
+            showAIInsightsPopup(result) {
+                // Create and show AI insights popup
+                const popup = document.createElement('div');
+                popup.id = 'ai-insights-popup';
+                popup.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    max-width: 350px;
+                    z-index: 10000;
+                    font-family: Arial, sans-serif;
+                    animation: slideIn 0.5s ease;
+                `;
+                
+                const topInsight = result.insights[0];
+                popup.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <div style="font-size: 24px; margin-right: 10px;">🧠</div>
+                        <div>
+                            <div style="font-weight: bold; font-size: 16px;">AI Intelligence Level: ${result.intelligence_level}</div>
+                            <div style="font-size: 12px; opacity: 0.8;">Personalization Score: ${result.personalization_score}/100</div>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; margin-bottom: 8px;">${topInsight.type.replace('_', ' ').toUpperCase()}</div>
+                        <div style="font-size: 14px; line-height: 1.4;">${topInsight.message}</div>
+                        <div style="margin-top: 10px;">
+                            <button onclick="autonomousTracker.handleInsightAction('${topInsight.action}')" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 12px;">
+                                ${topInsight.action}
+                            </button>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button onclick="autonomousTracker.closeInsightsPopup()" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 12px;">
+                            Close
+                        </button>
+                    </div>
+                `;
+                
+                // Add animation CSS
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                document.body.appendChild(popup);
+                
+                // Auto-hide after 10 seconds
+                setTimeout(() => {
+                    this.closeInsightsPopup();
+                }, 10000);
+            }
+            
+            handleInsightAction(action) {
+                console.log('🎯 User clicked insight action:', action);
+                
+                // Handle different insight actions
+                if (action.includes('career paths')) {
+                    window.location.href = '/career-paths';
+                } else if (action.includes('salary')) {
+                    window.location.href = '/tools';
+                } else if (action.includes('assessment')) {
+                    openSignupModal();
+                } else {
+                    // Default action - open signup modal
+                    openSignupModal();
+                }
+                
+                this.closeInsightsPopup();
+            }
+            
+            closeInsightsPopup() {
+                const popup = document.getElementById('ai-insights-popup');
+                if (popup) {
+                    popup.remove();
+                }
+            }
+            
+            resetBehaviorData() {
+                this.behaviorData = {
+                    clicks: [],
+                    scrolls: [],
+                    page_visits: [this.behaviorData.page_visits[this.behaviorData.page_visits.length - 1]], // Keep current page
+                    session_start: this.behaviorData.session_start,
+                    current_page: window.location.pathname
+                };
+            }
+            
+            startPeriodicAnalysis() {
+                // Analyze behavior every 30 seconds if there's activity
+                setInterval(() => {
+                    if (this.behaviorData.clicks.length > 3 || this.behaviorData.scrolls.length > 10) {
+                        this.analyzeAndSendBehavior();
+                    }
+                }, 30000);
+            }
+        }
+
+        // Initialize Autonomous AI Behavioral Intelligence System
+        let autonomousTracker;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the autonomous behavior tracker
+            autonomousTracker = new AutonomousBehaviorTracker();
+            
+            // Add AI status indicator to page
+            const aiIndicator = document.createElement('div');
+            aiIndicator.id = 'ai-status-indicator';
+            aiIndicator.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                color: white;
+                padding: 10px 15px;
+                border-radius: 25px;
+                font-size: 12px;
+                font-weight: bold;
+                z-index: 9999;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                cursor: pointer;
+            `;
+            aiIndicator.innerHTML = '🧠 AI Learning...';
+            aiIndicator.title = 'Autonomous AI is learning from your behavior to provide personalized insights';
+            
+            document.body.appendChild(aiIndicator);
+            
+            // Existing DOMContentLoaded code...
+            // (keep all the existing code here)
+        });
     </script>
 </body>
 </html>
