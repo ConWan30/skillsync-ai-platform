@@ -449,18 +449,18 @@
                 <h2 class="section-title">🔍 Multi-Domain Skill Assessment</h2>
                 <form id="skillAssessmentForm">
                     <div class="form-group">
-                        <label for="skillInput">Describe your gaming/technical background:</label>
+                        <label for="background">Describe your gaming/technical background:</label>
                         <textarea 
-                            id="skillInput" 
-                            name="skillInput" 
+                            id="background" 
+                            name="background" 
                             rows="6" 
                             placeholder="e.g., I've been learning Unity for 6 months, built a 2D platformer, know C# basics, interested in game design and VR development..."
                         ></textarea>
                     </div>
                     
                     <div class="form-group">
-                        <label for="domainSelect">Career Domain Focus:</label>
-                        <select id="domainSelect" name="domainSelect">
+                        <label for="domain">Career Domain Focus:</label>
+                        <select id="domain" name="domain">
                             <option value="gaming">Game Development</option>
                             <option value="esports">Esports & Competitive Gaming</option>
                             <option value="game_business">Gaming Business & Marketing</option>
@@ -635,8 +635,8 @@
                     console.log('🔍 Skill assessment form submitted');
                     
                     const formData = {
-                        background: document.getElementById('skillInput').value,
-                        domain: document.getElementById('domainSelect').value,
+                        background: document.getElementById('background').value,
+                        domain: document.getElementById('domain').value,
                         timestamp: new Date().toISOString()
                     };
                     
