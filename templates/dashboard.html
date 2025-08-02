@@ -220,7 +220,7 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
 
         .quick-actions {
@@ -373,6 +373,187 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .loading-spinner {
+            text-align: center;
+            color: #666;
+        }
+
+        .loading-spinner i {
+            margin-right: 0.5rem;
+        }
+
+        /* Gaming Integration Styles */
+        .market-alerts {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .alert-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert-item i {
+            color: #ffd700;
+        }
+
+        .emotional-state {
+            margin-top: 1rem;
+        }
+
+        .state-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .state-indicator i {
+            color: #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .trending-skills h4 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .goals-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .goals-section h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .goals-section h4:before {
+            content: "🎯";
+        }
+
+        .goals-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .goals-list li {
+            padding: 0.25rem 0;
+            color: #666;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .goals-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e1e5e9;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Responsive Design for Gaming Features */
+        @media (max-width: 768px) {
+            .market-alerts {
+                flex-direction: column;
+            }
+            
+            .market-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-stats {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -383,11 +564,12 @@
             </a>
             <ul class="nav-links">
                 <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/market-intelligence">Market Intelligence</a></li>
-                <li><a href="/career-paths">Career Paths</a></li>
-                <li><a href="/tools">Tools</a></li>
-                <li><a href="/ai-agent">AI Agent</a></li>
+                <li><a href="/market_intelligence">Market Intelligence</a></li>
+                <li><a href="/career_paths">Career Paths</a></li>
+                <li><a href="/gaming-careers">🎮 Gaming Careers</a></li>
+                <li><a href="/tools">AI Tools</a></li>
                 <li><a href="/community">Community</a></li>
+                <li><a href="/visualizer">AI Agents</a></li>
             </ul>
         </div>
     </nav>
@@ -396,17 +578,27 @@
         <!-- SkillSync Transformation Model - Dynamic Personalized Header -->
         <div class="personalized-header" id="personalizedHeader">
             <div class="dynamic-headline">
-                <h1 id="dynamicHeadline">Accelerate Your Developer Career</h1>
-                <p id="dynamicSubheadline">AI-powered insights tailored to your journey</p>
-                <div class="urgency-indicator" id="urgencyIndicator">
-                    <i class="fas fa-clock"></i>
-                    <span id="urgencyMessage">Perfect timing for career advancement</span>
+                <h1 id="dynamicHeadline">Multi-Domain Career Intelligence Dashboard</h1>
+                <p id="dynamicSubheadline">AI-powered insights for Tech & Gaming professionals</p>
+            </div>
+            
+            <!-- Real-time Market Alerts -->
+            <div class="market-alerts" id="marketAlerts">
+                <div class="alert-item">
+                    <i class="fas fa-chart-trending-up"></i>
+                    <span>Tech Market: High demand for React developers (+15%)</span>
+                </div>
+                <div class="alert-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Gaming Market: Unity developers in demand (+25%)</span>
                 </div>
             </div>
-            <div class="emotional-state-indicator" id="emotionalState">
-                <div class="state-badge confident" id="stateBadge">
+            
+            <!-- Emotional State Detection -->
+            <div class="emotional-state" id="emotionalState">
+                <div class="state-indicator">
                     <i class="fas fa-brain"></i>
-                    <span>AI analyzing your career state...</span>
+                    <span id="stateText">Analyzing your career momentum...</span>
                 </div>
             </div>
         </div>
@@ -440,6 +632,112 @@
         </div>
 
         <div class="dashboard-grid">
+            <!-- Multi-Domain Career Progress Card -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-line card-icon"></i>
+                    <h3 class="card-title">Multi-Domain Career Progress</h3>
+                </div>
+                <div class="card-content">
+                    <div class="progress-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Tech Career Score</span>
+                            <span class="stat-value">85/100</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Gaming Career Score</span>
+                            <span class="stat-value">72/100</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Overall Readiness</span>
+                            <span class="stat-value">78/100</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 78%"></div>
+                    </div>
+                    <p class="progress-text">Your multi-domain career profile shows strong potential in both tech and gaming sectors</p>
+                </div>
+            </div>
+
+            <!-- Gaming Market Intelligence -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-gamepad card-icon"></i>
+                    <h3 class="card-title">Gaming Market Intelligence</h3>
+                </div>
+                <div class="card-content">
+                    <div class="market-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Market Size</span>
+                            <span class="stat-value">$321B</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Growth Rate</span>
+                            <span class="stat-value">8.7%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Job Openings</span>
+                            <span class="stat-value">15,000+</span>
+                        </div>
+                    </div>
+                    <div class="trending-skills">
+                        <h4>Trending Gaming Skills</h4>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Unity</span>
+                            <span class="skill-tag">Unreal Engine</span>
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">Game Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Market Intelligence -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-trending-up card-icon"></i>
+                    <h3 class="card-title">Live Market Intelligence</h3>
+                </div>
+                <div class="card-content">
+                    <div id="liveMarketData">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>Loading real-time market data...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Domain Goals & Recommendations -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fas fa-target card-icon"></i>
+                    <h3 class="card-title">Multi-Domain Goals & Recommendations</h3>
+                </div>
+                <div class="card-content">
+                    <div class="goals-section">
+                        <h4>Tech Career Goals</h4>
+                        <ul class="goals-list">
+                            <li>Master React and Node.js</li>
+                            <li>Build full-stack portfolio</li>
+                            <li>Prepare for senior developer role</li>
+                        </ul>
+                    </div>
+                    <div class="goals-section">
+                        <h4>Gaming Career Goals</h4>
+                        <ul class="goals-list">
+                            <li>Learn Unity game development</li>
+                            <li>Create 2D platformer game</li>
+                            <li>Join indie game development community</li>
+                        </ul>
+                    </div>
+                    <button class="btn" onclick="window.location.href='/gaming-careers'">
+                        🎮 Explore Gaming Careers
+                    </button>
+                </div>
+            </div>
+
             <!-- Career Progress Card -->
             <div class="dashboard-card">
                 <div class="card-header">
@@ -1232,13 +1530,13 @@
             combineAgentInsights(agentInsights) {
                 const combined = [];
                 
-                for (const [agentName, insights] of Object.entries(agentInsights)) {
-                    if (insights && insights.length > 0) {
+                for (const [name, agent] of Object.entries(this.agents)) {
+                    if (agentInsights[name] && agentInsights[name].length > 0) {
                         combined.push({
-                            agent: agentName.charAt(0).toUpperCase() + agentName.slice(1),
-                            message: insights[0].message,
-                            action: insights[0].action || 'explore',
-                            action_label: insights[0].action_label || 'Explore'
+                            agent: agent.name.charAt(0).toUpperCase() + agent.name.slice(1),
+                            message: agentInsights[name][0].message,
+                            action: agentInsights[name][0].action || 'explore',
+                            action_label: agentInsights[name][0].action_label || 'Explore'
                         });
                     }
                 }
