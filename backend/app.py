@@ -484,8 +484,8 @@ def gaming_career_guidance():
         print(f"[ERROR] Gaming career guidance failed: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
-@app.route('/gaming-careers')
-def gaming_careers_page():
+@app.route('/gaming-careers-page')
+def gaming_careers():
     """Serve the gaming careers page"""
     return render_template('gaming_careers.html')
 
@@ -899,11 +899,6 @@ def index():
 def dashboard():
     """User dashboard with progress tracking and recent insights"""
     return render_template('dashboard.html')
-
-@app.route('/gaming-careers')
-def gaming_careers_page():
-    """Serve the gaming careers page"""
-    return render_template('gaming_careers.html')
 
 @app.route('/market-intelligence')
 def market_intelligence():
