@@ -958,54 +958,50 @@
                 }, 1000);
             }
             
-            removeAllBrainIcons() {
-                // Remove all elements containing brain emoji or AI learning text
-                const allElements = document.querySelectorAll('*');
-                allElements.forEach(el => {
-                    const text = el.textContent || '';
-                    const title = el.title || '';
-                    if (text.includes('🧠') || title.includes('autonomous AI') || title.includes('behavioral insight') ||
-                        title.includes('learning from my behavior to provide personalized insights') ||
-                        title.includes('learning from your behavior to provide personalized insights')) {
-                        console.log('🗑️ Removing brain icon element:', text, title);
-                        el.remove();
-                    }
-                });
+            startA2ACommunication() {
+                console.log('🤖 Starting A2A (Agent-to-Agent) Communication Protocol...');
                 
-                // Also remove by style properties
-                const fixedElements = document.querySelectorAll('[style*="position: fixed"]');
-                fixedElements.forEach(el => {
-                    if (el.id !== 'multi-agent-visualizer-button') {
-                        const text = el.textContent || '';
-                        const title = el.title || '';
-                        if ((text.includes('🧠') || text.includes('AI')) && 
-                            (el.style.bottom || el.style.left)) {
-                            console.log('🗑️ Removing fixed position AI element:', text);
-                            el.remove();
-                        }
+                // Initialize agent communication intervals
+                this.a2aInterval = setInterval(() => {
+                    this.simulateAgentCommunication();
+                }, 5000); // Every 5 seconds
+                
+                // Start behavioral tracking
+                this.agents.behavioral.trackClick = (element, context) => {
+                    this.agents.behavioral.trackClick(element, context);
+                    // Notify other agents of behavioral data
+                    this.notifyAgents('behavioral_update', {
+                        element: element.tagName,
+                        context: context,
+                        timestamp: Date.now()
+                    });
+                };
+                
+                console.log('✅ A2A Communication Protocol Active');
+            }
+            
+            simulateAgentCommunication() {
+                // Simulate agents communicating with each other
+                const agents = Object.keys(this.agents);
+                const randomAgent1 = agents[Math.floor(Math.random() * agents.length)];
+                const randomAgent2 = agents[Math.floor(Math.random() * agents.length)];
+                
+                if (randomAgent1 !== randomAgent2) {
+                    console.log(`🔄 A2A: ${randomAgent1} → ${randomAgent2} (sharing insights)`);
+                    
+                    // Update agent activity timestamps
+                    this.agents[randomAgent1].lastActivity = Date.now();
+                    this.agents[randomAgent2].lastActivity = Date.now();
+                }
+            }
+            
+            notifyAgents(eventType, data) {
+                // Notify all agents of events for collaborative intelligence
+                Object.values(this.agents).forEach(agent => {
+                    if (agent.onA2AEvent) {
+                        agent.onA2AEvent(eventType, data);
                     }
                 });
-            }
-            
-            // Override any method that might create old indicators
-            createAIIndicator() {
-                console.log('🚫 Old AI indicator creation blocked');
-                return; // Do nothing - blocked
-            }
-            
-            showAIStatus() {
-                console.log('🚫 Old AI status display blocked');
-                return; // Do nothing - blocked
-            }
-            
-            addStatusIndicator() {
-                console.log('🚫 Old status indicator creation blocked');
-                return; // Do nothing - blocked
-            }
-            
-            generateUserId() {
-                const fingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
-                return 'user_' + btoa(fingerprint).substring(0, 12).replace(/[^a-zA-Z0-9]/g, '');
             }
             
             initializeUniversalTracking() {
