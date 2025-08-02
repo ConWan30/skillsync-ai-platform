@@ -1794,250 +1794,57 @@
         }
 
         function displaySampleAnalysis(formData, isGamingCareer) {
-            // Generate sample analysis based on form data
-            const roleData = {
-                'frontend': {
-                    score: 78,
-                    insights: [
-                        'Your React skills are in high demand (+23% job growth)',
-                        'Frontend developers with your experience earn 15% above average',
-                        'TypeScript knowledge would boost your profile significantly'
-                    ],
-                    recommendations: [
-                        'Learn TypeScript to increase salary potential by $8-12k',
-                        'Build a portfolio showcasing modern React patterns',
-                        'Consider specializing in performance optimization'
-                    ],
-                    salary: 'Based on your skills and experience, you could earn $75k-$95k annually. Senior roles reach $110k-$130k.'
-                },
-                'backend': {
-                    score: 82,
-                    insights: [
-                        'Backend developers are seeing 18% salary growth this year',
-                        'Your skill set aligns with 89% of senior backend positions',
-                        'Cloud architecture knowledge is highly valued'
-                    ],
-                    recommendations: [
-                        'Get AWS or Azure certification for $10-15k salary boost',
-                        'Learn microservices architecture patterns',
-                        'Contribute to open-source projects for visibility'
-                    ],
-                    salary: 'Your backend skills could command $80k-$105k. With cloud expertise, reach $120k-$140k.'
-                },
-                'fullstack': {
-                    score: 85,
-                    insights: [
-                        'Full-stack developers are the most sought-after (+31% demand)',
-                        'Your versatility makes you valuable for startups and enterprises',
-                        'Modern full-stack roles require DevOps knowledge'
-                    ],
-                    recommendations: [
-                        'Learn Docker and Kubernetes for deployment skills',
-                        'Master a modern framework like Next.js or NestJS',
-                        'Build end-to-end projects showcasing your range'
-                    ],
-                    salary: 'Full-stack expertise can earn $85k-$115k, with senior roles reaching $130k-$160k.'
-                }
-            };
-            
-            const gamingData = {
-                'game-developer': {
-                    score: 80,
-                    insights: [
-                        'Game development market is growing at 8.7% annually with high demand',
-                        'Unity and C# skills are highly valued in the gaming industry',
-                        'Strong portfolio projects are essential for breaking into game development',
-                        'VR/AR gaming represents emerging high-growth opportunities'
-                    ],
-                    recommendations: [
-                        'Master Unity game engine and C# programming',
-                        'Build 2-3 complete game projects for your portfolio',
-                        'Learn game design principles and user experience',
-                        'Join game development communities and game jams'
-                    ],
-                    salary: 'Game developers typically earn $65k-$95k annually, with senior roles reaching $120k-$150k in major gaming hubs.'
-                },
-                'game-designer': {
-                    score: 78,
-                    insights: [
-                        'Game design roles focus on player experience and game mechanics',
-                        'Strong understanding of player psychology is crucial',
-                        'Portfolio should showcase level design and game flow',
-                        'Collaboration skills are essential in game development teams'
-                    ],
-                    recommendations: [
-                        'Learn game design tools like Unity, Unreal Engine',
-                        'Study successful games and analyze their design patterns',
-                        'Create playable prototypes to demonstrate design skills',
-                        'Develop skills in user research and playtesting'
-                    ],
-                    salary: 'Game designers earn $55k-$85k annually, with lead designers reaching $100k-$130k.'
-                }
-            };
-            
-            const defaultData = {
-                score: 75,
-                insights: [
-                    'Your technical skills show strong potential for growth',
-                    'The market demand for your role is increasing steadily',
-                    'Additional certifications could accelerate your career'
-                ],
-                recommendations: [
-                    'Focus on building a strong portfolio of projects',
-                    'Network with professionals in your target role',
-                    'Consider contributing to open-source projects'
-                ],
-                salary: 'Based on your experience level, you have strong earning potential in the current market.'
-            };
-            
-            const analysis = isGamingCareer ? gamingData[formData.role] || defaultData : roleData[formData.role] || defaultData;
-            
-            displayAnalysisResults({
-                score: analysis.score,
-                scoreExplanation: `Your career profile shows strong potential. This score is based on your ${formData.experience} years of experience, current skills (${formData.goals}), and market demand for ${formData.role} roles.`,
-                insights: analysis.insights,
-                recommendations: analysis.recommendations,
-                salaryInsight: analysis.salary
-            });
-        }
 
-        function testDemoForm() {
-            console.log('Testing demo form submission...');
-            const formData = {
-                role: 'frontend',
-                experience: '2-4',
-                goals: 'I want to learn React and Node.js to become a full-stack developer'
-            };
-            console.log('Test form data:', formData);
-            performAIAnalysis(formData);
-        }
+```
 
-        function generateSampleGamingAnalysis(formData) {
-            const gamingAnalysis = {
-                'game-developer': {
-                    score: 85,
-                    insights: [
-                        'Game development market is growing at 8.7% annually with high demand',
-                        'Unity and C# skills are highly valued in the gaming industry',
-                        'Strong portfolio projects are essential for breaking into game development',
-                        'VR/AR gaming represents emerging high-growth opportunities'
-                    ],
-                    recommendations: [
-                        'Master Unity game engine and C# programming',
-                        'Build 2-3 complete game projects for your portfolio',
-                        'Learn game design principles and user experience',
-                        'Join game development communities and game jams'
-                    ],
-                    salary: 'Game developers typically earn $65k-$95k annually, with senior roles reaching $120k-$150k in major gaming hubs.'
-                },
-                'game-designer': {
-                    score: 80,
-                    insights: [
-                        'Game design roles focus on player experience and game mechanics',
-                        'Strong understanding of player psychology is crucial',
-                        'Portfolio should showcase level design and game flow',
-                        'Collaboration skills are essential in game development teams'
-                    ],
-                    recommendations: [
-                        'Learn game design tools like Unity, Unreal Engine',
-                        'Study successful games and analyze their design patterns',
-                        'Create playable prototypes to demonstrate design skills',
-                        'Develop skills in user research and playtesting'
-                    ],
-                    salary: 'Game designers earn $55k-$85k annually, with lead designers reaching $100k-$130k.'
-                },
-                'technical-artist': {
-                    score: 82,
-                    insights: [
-                        'Technical artists bridge the gap between art and programming',
-                        'High demand for technical artists in AAA game studios',
-                        'Skills in both 3D art and scripting are essential',
-                        'Pipeline optimization knowledge is highly valued'
-                    ],
-                    recommendations: [
-                        'Master 3D software like Maya, Blender, or 3ds Max',
-                        'Learn scripting languages like Python or MEL',
-                        'Understand game engine pipelines and optimization',
-                        'Build portfolio showing both artistic and technical skills'
-                    ],
-                    salary: 'Technical artists earn $70k-$100k annually, with senior positions reaching $130k-$160k.'
-                },
-                'esports-analyst': {
-                    score: 78,
-                    insights: [
-                        'Esports industry is rapidly growing with professional opportunities',
-                        'Data analysis and game knowledge are crucial skills',
-                        'Understanding of competitive gaming strategies is essential',
-                        'Communication skills for broadcasting and content creation'
-                    ],
-                    recommendations: [
-                        'Develop expertise in specific games and their competitive scenes',
-                        'Learn data analysis tools and statistical methods',
-                        'Build portfolio of game analysis and commentary',
-                        'Network with esports organizations and content creators'
-                    ],
-                    salary: 'Esports analysts earn $45k-$75k annually, with senior positions and broadcasting roles reaching $90k-$120k.'
-                },
-                'gaming-business': {
-                    score: 76,
-                    insights: [
-                        'Gaming business roles span marketing, publishing, and operations',
-                        'Understanding of gaming culture and player behavior is crucial',
-                        'Business acumen combined with gaming passion is valuable',
-                        'Digital marketing and community management skills are in demand'
-                    ],
-                    recommendations: [
-                        'Develop business skills in marketing, finance, or operations',
-                        'Gain deep understanding of gaming industry trends',
-                        'Build experience with community management and social media',
-                        'Network with gaming industry professionals and attend conferences'
-                    ],
-                    salary: 'Gaming business professionals earn $50k-$85k annually, with management roles reaching $100k-$140k.'
-                },
-                'indie-developer': {
-                    score: 83,
-                    insights: [
-                        'Indie game development offers creative freedom and entrepreneurial opportunities',
-                        'Multi-disciplinary skills are essential for solo or small team development',
-                        'Marketing and business skills are as important as technical abilities',
-                        'Community building and player engagement drive success'
-                    ],
-                    recommendations: [
-                        'Master game development tools like Unity or Godot',
-                        'Learn multiple disciplines: programming, art, design, audio',
-                        'Develop marketing and business skills for game publishing',
-                        'Build audience through social media and game development content'
-                    ],
-                    salary: 'Indie developers have variable income based on game success, ranging from $20k-$200k+ annually depending on project performance.'
-                }
-            };
-
-            const defaultGaming = {
-                score: 75,
-                insights: [
-                    'Gaming industry offers diverse career opportunities',
-                    'Portfolio and practical experience are key to success',
-                    'Industry values creativity combined with technical skills',
-                    'Networking and community involvement accelerate career growth'
-                ],
-                recommendations: [
-                    'Identify your specific area of interest within gaming',
-                    'Build relevant skills through online courses and practice',
-                    'Create portfolio projects that demonstrate your abilities',
-                    'Engage with gaming communities and attend industry events'
-                ],
-                salary: 'Gaming industry salaries vary widely based on role and experience, typically ranging from $50k-$120k annually.'
-            };
-
-            const analysis = gamingAnalysis[formData.role] || defaultGaming;
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SkillSync AI</h4>
+                    <p>AI-powered career intelligence platform helping professionals navigate their career journey with data-driven insights.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/market-intelligence">Market Intelligence</a></li>
+                        <li><a href="/career-paths">Career Paths</a></li>
+                        <li><a href="/tools">Tools</a></li>
+                        <li><a href="/community">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/gaming-careers">Gaming Careers</a></li>
+                        <li><a href="/ai-agent">AI Agent</a></li>
+                        <li><a href="#" onclick="showJobRecommendationsModal()">Job Opportunities</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#affiliate-disclosure">Affiliate Disclosure</a></li>
+                    </ul>
+                </div>
+            </div>
             
-            return {
-                score: analysis.score,
-                scoreExplanation: `Your gaming career profile shows strong potential. This score is based on your ${formData.experience} experience level, career goals (${formData.goals}), and market demand for ${formData.role} roles in the gaming industry.`,
-                insights: analysis.insights,
-                recommendations: analysis.recommendations,
-                salaryInsight: analysis.salary
-            };
-        }
-
-        function displayAnalysisResults(analysis, isGamingCareer) {
+            <div class="footer-bottom">
+                <div class="footer-disclaimer">
+                    <p><strong>Affiliate Disclosure:</strong> SkillSync AI Platform participates in affiliate programs with job boards and career services. We may earn commissions when you click on job listings or sign up for services through our platform. This helps us provide free career intelligence tools while maintaining our editorial independence. All job recommendations are based on our AI analysis of your career profile and market data.</p>
+                </div>
+                
+                <div class="footer-copyright">
+                    <p>&copy; 2025 SkillSync AI Platform. All rights reserved. | Empowering careers through AI intelligence.</p>
+                </div>
+            </div>
+        </div>
+    </footer>

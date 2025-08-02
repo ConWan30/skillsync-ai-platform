@@ -554,6 +554,111 @@
                 grid-template-columns: 1fr;
             }
         }
+        
+        /* NEW: Job Recommendations Styles */
+        .job-recommendations-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .job-recommendations-intro {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+        
+        .job-preview-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .job-preview-card {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .job-source-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-source-badge.flexjobs {
+            background: #ff69b4;
+        }
+        
+        .job-source-badge.remote-co {
+            background: #34c759;
+        }
+        
+        .job-preview-card h4 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-preview-card .company {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-preview-card .salary {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .match-score {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+        }
+        
+        .match-score .score {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .job-recommendations-cta {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        
+        .job-recommendations-cta .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .job-recommendations-cta .coming-soon-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -875,6 +980,60 @@
                 </div>
                 <div class="quick-actions">
                     <a href="/community" class="btn">Join Discussion</a>
+                </div>
+            </div>
+
+            <!-- NEW: Job Recommendations Section -->
+            <div class="dashboard-card job-recommendations-card">
+                <div class="card-header">
+                    <h3>🎯 Recommended Opportunities</h3>
+                    <span class="badge badge-new">Coming Soon</span>
+                </div>
+                <div class="card-content">
+                    <p class="job-recommendations-intro">
+                        Based on your career analysis and skills, we'll show you personalized job opportunities from our partner platforms.
+                    </p>
+                    
+                    <div class="job-preview-cards">
+                        <div class="job-preview-card">
+                            <div class="job-source-badge">ZipRecruiter</div>
+                            <h4>Senior Software Engineer</h4>
+                            <p class="company">Tech Company • Remote</p>
+                            <p class="salary">$90k - $130k</p>
+                            <div class="match-score">
+                                <span class="score">95% Match</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-preview-card">
+                            <div class="job-source-badge flexjobs">FlexJobs</div>
+                            <h4>Remote Game Developer</h4>
+                            <p class="company">Gaming Studio • Flexible</p>
+                            <p class="salary">$75k - $110k</p>
+                            <div class="match-score">
+                                <span class="score">88% Match</span>
+                            </div>
+                        </div>
+                        
+                        <div class="job-preview-card">
+                            <div class="job-source-badge remote-co">Remote.co</div>
+                            <h4>Full-Stack Developer</h4>
+                            <p class="company">Startup • 100% Remote</p>
+                            <p class="salary">$80k - $120k + Equity</p>
+                            <div class="match-score">
+                                <span class="score">92% Match</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="job-recommendations-cta">
+                        <button class="btn btn-primary" onclick="showJobRecommendationsModal()">
+                            Get Personalized Job Matches
+                        </button>
+                        <p class="coming-soon-text">
+                            Job recommendations powered by our affiliate partners launching soon!
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
