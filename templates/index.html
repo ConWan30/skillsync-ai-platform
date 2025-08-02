@@ -731,7 +731,7 @@
                 </div>
 
                 <div class="hero-cta">
-                    <button class="cta-primary" onclick="openSignupModal()">
+                    <button class="cta-primary" onclick="scrollToDemo()">
                         <i class="fas fa-rocket"></i> Start Free Career Analysis
                     </button>
                     <button class="cta-secondary" onclick="scrollToDemo()">
@@ -743,6 +743,90 @@
                     <span>✓ Free forever plan</span>
                     <span>✓ No credit card required</span>
                     <span>✓ 2-minute setup</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORKING DEMO SECTION - CLEARLY VISIBLE -->
+        <section style="background: #ff6b6b; color: white; padding: 60px 20px; text-align: center; min-height: 500px;" id="demo">
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">🚀 LIVE AI DEMO - TRY IT NOW!</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 40px;">Fill out this form and see our AI analyze your career in real-time!</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px;">
+                    <!-- Demo Form -->
+                    <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px;">
+                        <h3 style="margin-bottom: 20px;">Tell us about yourself:</h3>
+                        <form id="liveDemoForm">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Current Role</label>
+                                <select id="demoRole" required style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+                                    <option value="">Select your role</option>
+                                    <option value="frontend">Frontend Developer</option>
+                                    <option value="backend">Backend Developer</option>
+                                    <option value="fullstack">Full Stack Developer</option>
+                                    <option value="mobile">Mobile Developer</option>
+                                    <option value="devops">DevOps Engineer</option>
+                                    <option value="data-scientist">Data Scientist</option>
+                                </select>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Experience Level</label>
+                                <select id="demoExperience" required style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+                                    <option value="">Select experience</option>
+                                    <option value="0-1">0-1 years</option>
+                                    <option value="2-4">2-4 years</option>
+                                    <option value="5-7">5-7 years</option>
+                                    <option value="8+">8+ years</option>
+                                </select>
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Primary Skills</label>
+                                <input type="text" id="demoSkills" placeholder="e.g., React, JavaScript, Python" required style="width: 100%; padding: 10px; border: none; border-radius: 5px;">
+                            </div>
+                            
+                            <button type="submit" style="width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                                🧠 ANALYZE MY CAREER NOW!
+                            </button>
+                            
+                            <button type="button" onclick="testDemoForm()" style="width: 100%; padding: 15px; background: #ffc107; color: black; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px;">
+                                🔧 TEST DEMO (DEBUG)
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Demo Results -->
+                    <div id="demoResults" style="background: rgba(255,255,255,0.95); color: #333; padding: 30px; border-radius: 15px; min-height: 400px;">
+                        <div class="demo-placeholder" style="text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 20px;">🤖</div>
+                            <h3>AI Career Analysis</h3>
+                            <p>Fill out the form and click "ANALYZE MY CAREER NOW!" to see our AI in action!</p>
+                        </div>
+                        
+                        <div class="demo-loading" id="demoLoading" style="display: none; text-align: center;">
+                            <div style="font-size: 48px; color: #667eea; margin-bottom: 20px;">🧠</div>
+                            <h3>AI Analyzing Your Profile...</h3>
+                            <div class="analysis-steps">
+                                <div class="analysis-step" id="step1">🔍 Analyzing your skills and experience</div>
+                                <div class="analysis-step" id="step2">📊 Comparing with market data</div>
+                                <div class="analysis-step" id="step3">🎯 Generating personalized insights</div>
+                                <div class="analysis-step" id="step4">💡 Creating career recommendations</div>
+                            </div>
+                        </div>
+                        
+                        <div class="demo-analysis-results" id="analysisResults" style="display: none;">
+                            <!-- AI results will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 40px; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 15px;">
+                    <p style="font-size: 18px; margin-bottom: 20px;"><strong>Want the full experience?</strong> Get personalized roadmaps, real-time alerts, and advanced AI tools.</p>
+                    <button onclick="openSignupModal()" style="padding: 15px 30px; background: #007bff; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer;">
+                        🚀 Get Your Complete Career Analysis
+                    </button>
                 </div>
             </div>
         </section>
