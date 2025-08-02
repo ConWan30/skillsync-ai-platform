@@ -3904,5 +3904,3 @@ def generate_fallback_gaming_market_data():
         'growth_rate': '8.7%',
         'analysis': 'Gaming industry continues strong growth with diverse career opportunities across development, design, and business roles.'
     }
-
-```
