@@ -818,6 +818,7 @@
                 
                 if (response.ok) {
                     const result = await response.json();
+                    console.log('✅ Assessment result received:', result);
                     displayAssessmentResults(result);
                 } else {
                     displayFallbackAssessment(formData);
@@ -850,6 +851,7 @@
                 
                 if (response.ok) {
                     const result = await response.json();
+                    console.log('✅ Roadmap result received:', result);
                     displayRoadmapResults(result);
                 } else {
                     displayFallbackRoadmap(formData);
@@ -881,6 +883,7 @@
                 
                 if (response.ok) {
                     const result = await response.json();
+                    console.log('✅ Market result received:', result);
                     displayMarketResults(result);
                 } else {
                     displayFallbackMarketData();
@@ -895,7 +898,9 @@
 
         // Display assessment results
         function displayAssessmentResults(results) {
+            console.log('🎯 Displaying assessment results:', results);
             const container = document.getElementById('assessmentResults');
+            console.log('📍 Assessment container found:', !!container);
             container.innerHTML = `
                 <div class="results-card">
                     <h3>🎯 Gaming Skill Assessment Results</h3>
@@ -939,7 +944,9 @@
 
         // Display roadmap results
         function displayRoadmapResults(results) {
+            console.log('🗺️ Displaying roadmap results:', results);
             const container = document.getElementById('roadmapResults');
+            console.log('📍 Roadmap container found:', !!container);
             container.innerHTML = `
                 <div class="results-card">
                     <h3>🗺️ Personalized Gaming Career Roadmap</h3>
@@ -975,7 +982,9 @@
 
         // Display market results
         function displayMarketResults(results) {
+            console.log('📊 Displaying market results:', results);
             const container = document.getElementById('marketResults');
+            console.log('📍 Market container found:', !!container);
             container.innerHTML = `
                 <div class="results-card">
                     <h3>📊 Gaming Market Intelligence</h3>
