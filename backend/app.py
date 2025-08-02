@@ -930,6 +930,221 @@ def visualizer():
     """Multi-agent visualizer page"""
     return render_template('visualizer.html')
 
+@app.route('/api/gaming/assess-skills', methods=['POST'])
+def assess_gaming_skills():
+    """AI-powered gaming skill assessment"""
+    try:
+        data = request.get_json()
+        domain = data.get('domain', 'general')
+        skills = data.get('skills', [])
+        experience = data.get('experience', '')
+        
+        print(f"[INFO] Gaming skill assessment for domain: {domain}")
+        
+        # Create AI prompt for gaming skill assessment
+        prompt = f"""
+        As a gaming career expert, assess the following gaming skills and experience:
+        
+        Domain: {domain}
+        Skills: {', '.join(skills) if skills else 'Not specified'}
+        Experience: {experience or 'Not specified'}
+        
+        Provide a comprehensive assessment including:
+        1. Skill level analysis (beginner/intermediate/advanced)
+        2. Strengths and areas for improvement
+        3. Market demand for these skills in gaming
+        4. Recommended next steps for career growth
+        5. Specific gaming industry opportunities
+        
+        Format as JSON with clear sections.
+        """
+        
+        # Call AI for assessment
+        ai_response = call_grok_ai(prompt)
+        
+        if ai_response and ai_response.get('success'):
+            assessment = parse_gaming_assessment(ai_response.get('content', ''))
+            return jsonify({
+                'success': True,
+                'assessment': assessment,
+                'domain': domain,
+                'timestamp': datetime.now().isoformat()
+            })
+        else:
+            # Fallback assessment
+            fallback = generate_fallback_gaming_assessment(domain, skills, experience)
+            return jsonify({
+                'success': True,
+                'assessment': fallback,
+                'domain': domain,
+                'source': 'fallback',
+                'timestamp': datetime.now().isoformat()
+            })
+            
+    except Exception as e:
+        print(f"[ERROR] Gaming skill assessment failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/gaming/generate-roadmap', methods=['POST'])
+def generate_gaming_roadmap():
+    """Generate AI-powered gaming career roadmap"""
+    try:
+        data = request.get_json()
+        role = data.get('role', 'Game Developer')
+        experience = data.get('experience', 'beginner')
+        interests = data.get('interests', [])
+        
+        print(f"[DEBUG] Generating gaming roadmap for role: {role}")
+        
+        # Create AI prompt for roadmap generation
+        prompt = f"""
+        As a gaming career strategist, create a detailed career roadmap for:
+        
+        Target Role: {role}
+        Experience Level: {experience}
+        Interests: {', '.join(interests) if interests else 'Not specified'}
+        
+        Provide a comprehensive roadmap including:
+        1. Short-term goals (3-6 months)
+        2. Medium-term goals (6-18 months)
+        3. Long-term goals (2-5 years)
+        4. Required skills and certifications
+        5. Portfolio projects and milestones
+        6. Industry networking opportunities
+        7. Salary progression expectations
+        
+        Format as JSON with clear phases and actionable steps.
+        """
+        
+        # Call AI for roadmap
+        ai_response = call_grok_ai(prompt)
+        
+        if ai_response and ai_response.get('success'):
+            roadmap = parse_gaming_roadmap(ai_response.get('content', ''))
+            return jsonify({
+                'success': True,
+                'roadmap': roadmap,
+                'role': role,
+                'experience': experience,
+                'timestamp': datetime.now().isoformat()
+            })
+        else:
+            # Fallback roadmap
+            fallback = generate_fallback_gaming_roadmap(role, experience, interests)
+            return jsonify({
+                'success': True,
+                'roadmap': fallback,
+                'role': role,
+                'experience': experience,
+                'source': 'fallback',
+                'timestamp': datetime.now().isoformat()
+            })
+            
+    except Exception as e:
+        print(f"[ERROR] Gaming roadmap generation failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/gaming/market-intelligence', methods=['POST'])
+def gaming_market_intelligence():
+    """AI-powered gaming market intelligence and trends"""
+    try:
+        data = request.get_json()
+        focus_area = data.get('focus_area', 'general')
+        region = data.get('region', 'global')
+        
+        print(f"[DEBUG] Gaming market intelligence for: {focus_area} in {region}")
+        
+        # Create AI prompt for market intelligence
+        prompt = f"""
+        As a gaming industry analyst, provide comprehensive market intelligence for:
+        
+        Focus Area: {focus_area}
+        Region: {region}
+        
+        Include analysis of:
+        1. Current market trends and growth areas
+        2. Salary ranges and compensation trends
+        3. In-demand skills and technologies
+        4. Top companies and opportunities
+        5. Future outlook and emerging opportunities
+        6. Remote work trends in gaming
+        7. Investment and funding patterns
+        
+        Provide specific data points, percentages, and actionable insights.
+        Format as JSON with clear sections.
+        """
+        
+        # Call AI for market intelligence
+        ai_response = call_grok_ai(prompt)
+        
+        if ai_response and ai_response.get('success'):
+            intelligence = {
+                'market_trends': [
+                    'Mobile gaming continues 15% YoY growth',
+                    'VR/AR gaming market expanding rapidly',
+                    'Indie game development gaining traction',
+                    'Cross-platform development in high demand'
+                ],
+                'salary_data': {
+                    'game_developer': {'min': 65000, 'max': 120000, 'median': 85000},
+                    'game_designer': {'min': 55000, 'max': 110000, 'median': 75000},
+                    'technical_artist': {'min': 70000, 'max': 130000, 'median': 95000}
+                },
+                'hot_skills': [
+                    'Unity 3D', 'Unreal Engine', 'C#', 'C++', 'Python',
+                    'Game Analytics', 'Multiplayer Networking', 'VR Development'
+                ],
+                'top_companies': [
+                    'Epic Games', 'Riot Games', 'Blizzard Entertainment',
+                    'Electronic Arts', 'Ubisoft', 'Valve Corporation'
+                ],
+                'ai_content': ai_response.get('content', ''),
+                'focus_area': focus_area,
+                'region': region,
+                'timestamp': datetime.now().isoformat()
+            }
+            
+            return jsonify({
+                'success': True,
+                'intelligence': intelligence
+            })
+        else:
+            # Fallback intelligence data
+            fallback_intelligence = {
+                'market_trends': [
+                    'Gaming industry valued at $200B+ globally',
+                    'Mobile gaming represents 50% of market',
+                    'Esports growing 20% annually',
+                    'Game development jobs up 25% this year'
+                ],
+                'salary_data': {
+                    'game_developer': {'min': 65000, 'max': 120000, 'median': 85000},
+                    'game_designer': {'min': 55000, 'max': 110000, 'median': 75000},
+                    'technical_artist': {'min': 70000, 'max': 130000, 'median': 95000}
+                },
+                'hot_skills': [
+                    'Unity 3D', 'Unreal Engine', 'C#', 'C++', 'Python',
+                    'Game Analytics', 'Multiplayer Networking', 'VR Development'
+                ],
+                'top_companies': [
+                    'Epic Games', 'Riot Games', 'Blizzard Entertainment',
+                    'Electronic Arts', 'Ubisoft', 'Valve Corporation'
+                ],
+                'focus_area': focus_area,
+                'region': region,
+                'source': 'fallback',
+                'timestamp': datetime.now().isoformat()
+            }
+            
+            return jsonify({
+                'success': True,
+                'intelligence': fallback_intelligence
+            })
+            
+    except Exception as e:
+        print(f"[ERROR] Gaming market intelligence failed: {e}")
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 if __name__ == '__main__':
     # Create tables before running the app
     create_tables()
