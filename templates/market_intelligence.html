@@ -321,13 +321,29 @@
                     refreshIcon.style.animation = '';
                     overview.classList.remove('loading');
                     
-                    // Update with real AI-driven market data
-                    if (data.trends) {
-                        updateChartsWithRealData(data.trends);
+                    // Handle new enhanced API response format
+                    if (data.success) {
+                        // Update with real AI-driven market data
+                        if (data.market_analysis) {
+                            // Show AI analysis in a notification or modal
+                            console.log('AI Market Analysis:', data.market_analysis);
+                        }
+                        
+                        if (data.market_data) {
+                            updateChartsWithRealData(data.market_data);
+                        } else if (data.trends) {
+                            updateChartsWithRealData(data.trends);
+                        }
+                        
+                        // Show enhanced features if available
+                        let message = '✅ Live market data updated via AI intelligence!';
+                        if (data.specialist_agents_involved && data.specialist_agents_involved.length > 1) {
+                            message += ` (Analysis by: ${data.specialist_agents_involved.join(', ')})`;
+                        }
+                        
+                        showNotification(message, 'success');
+                        return;
                     }
-                    
-                    showNotification('✅ Live market data updated via AI intelligence!', 'success');
-                    return;
                 }
             } catch (error) {
                 console.log('Using simulation due to:', error);
@@ -435,24 +451,60 @@
             // Would show detailed industry analysis
         }
 
-        function updateChartsWithRealData(trends) {
+        function updateChartsWithRealData(data) {
             // Process real AI market intelligence data
-            if (trends.skills) {
-                // Update skill demand chart with real data
-                const skillLabels = trends.skills.map(s => s.name);
-                const skillGrowth = trends.skills.map(s => s.growth_rate);
+            if (data.top_skills) {
+                // Update skill demand display with real data
+                const container = document.getElementById('demandSkills');
+                container.innerHTML = data.top_skills.map(skill => `
+                    <div class="skill-demand-item">
+                        <span>${skill.skill}</span>
+                        <span class="trend-up">${skill.demand_growth} <small>(${skill.avg_salary})</small></span>
+                    </div>
+                `).join('');
                 
+                // Update charts if they exist
                 if (window.skillDemandChart) {
+                    const skillLabels = data.top_skills.map(s => s.skill);
+                    const skillGrowth = data.top_skills.map(s => parseInt(s.demand_growth.replace('%', '')));
+                    
                     window.skillDemandChart.data.labels = skillLabels;
                     window.skillDemandChart.data.datasets[0].data = skillGrowth;
                     window.skillDemandChart.update();
                 }
             }
             
-            if (trends.salaries) {
+            if (data.industry_trends) {
+                // Update industry trends display
+                const industryContainer = document.querySelector('#industryGrowth');
+                if (industryContainer && data.industry_trends.length > 0) {
+                    // Update industry trends display
+                    console.log('Updating industry trends:', data.industry_trends);
+                }
+            }
+            
+            if (data.salary_trends) {
                 // Update salary trends with real data
+                const salaryContainer = document.getElementById('salaryTrends');
+                if (salaryContainer) {
+                    const roles = ['Junior', 'Mid-Level', 'Senior'];
+                    const salaries = [data.salary_trends.junior, data.salary_trends.mid, data.salary_trends.senior];
+                    
+                    salaryContainer.innerHTML = roles.map((role, i) => `
+                        <div class="skill-demand-item">
+                            <span>${role} Developer</span>
+                            <span style="color: var(--success);">${salaries[i]} <small>↑ Market Rate</small></span>
+                        </div>
+                    `).join('');
+                }
+                
                 if (window.salaryTrendsChart) {
-                    window.salaryTrendsChart.data.datasets[0].data = trends.salaries;
+                    const salaryValues = [
+                        parseInt(data.salary_trends.junior.replace(/[^0-9]/g, '')),
+                        parseInt(data.salary_trends.mid.replace(/[^0-9]/g, '')),
+                        parseInt(data.salary_trends.senior.replace(/[^0-9]/g, ''))
+                    ];
+                    window.salaryTrendsChart.data.datasets[0].data = salaryValues;
                     window.salaryTrendsChart.update();
                 }
             }

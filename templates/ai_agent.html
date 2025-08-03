@@ -374,16 +374,31 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: originalMessage || responseKey,
-                        context: 'career_chat',
-                        user_skills: ['React', 'JavaScript', 'CSS'] // Could be dynamic
+                        career_goals: originalMessage || responseKey,
+                        current_role: 'User', 
+                        experience_level: 'Mid-Level',
+                        additional_context: 'AI Agent Chat'
                     })
                 });
                 
                 if (response.ok) {
                     const data = await response.json();
                     removeTypingIndicator();
-                    addMessage('ai', data.ai_response || data.guidance);
+                    
+                    // Handle new enhanced API response format
+                    if (data.success && data.guidance) {
+                        addMessage('ai', data.guidance);
+                        
+                        // Show enhanced features if available
+                        if (data.specialist_agents_involved && data.specialist_agents_involved.length > 1) {
+                            const agentInfo = `✨ Analysis by: ${data.specialist_agents_involved.join(', ')}`;
+                            addMessage('ai', agentInfo, 'system');
+                        }
+                    } else {
+                        // Fallback for older format
+                        addMessage('ai', data.ai_response || data.guidance || data.message || 'Analysis completed successfully!');
+                    }
+                    
                     setAgentStatus('online', 'Online & Ready');
                     return;
                 }
