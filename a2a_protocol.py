@@ -620,28 +620,13 @@ def get_a2a_protocol() -> A2AProtocol:
     return global_a2a_protocol
 
 def initialize_a2a_system():
-    """Initialize the A2A system with default agents"""
+    """Initialize the A2A system - agents will be registered by the main app"""
     protocol = get_a2a_protocol()
     
-    # Register default agents
-    default_agents = [
-        ("behavioral_agent", AgentType.BEHAVIORAL_INTELLIGENCE),
-        ("market_intelligence_agent", AgentType.MARKET_INTELLIGENCE),
-        ("motivation_agent", AgentType.MOTIVATION_ENERGY),
-        ("goal_setting_agent", AgentType.GOAL_SETTING),
-        ("gaming_assessment_agent", AgentType.GAMING_ASSESSMENT),
-        ("adaptive_roadmap_agent", AgentType.ADAPTIVE_ROADMAP),
-        ("career_intelligence_agent", AgentType.CAREER_INTELLIGENCE),
-        ("skill_analysis_agent", AgentType.SKILL_ANALYSIS)
-    ]
-    
-    for agent_id, agent_type in default_agents:
-        protocol.register_agent(agent_id, agent_type)
-    
-    # Start the protocol
+    # Start the protocol (agents will be registered separately by main app)
     protocol.start_protocol()
     
-    logger.info("[A2A] System initialized with all agents")
+    logger.info("[A2A] System initialized and ready for agent registration")
     return protocol
 
 if __name__ == "__main__":

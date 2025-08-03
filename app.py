@@ -305,8 +305,8 @@ def assess_skills():
             
             # Request collaboration between assessment agents
             session_id = a2a_protocol.request_collaboration(
-                "xai_skills_assessor",
-                ["xai_market_analyst", "xai_behavior_analyst", "xai_career_strategist"],
+                "ai_skills_specialist",
+                ["ai_market_intelligence", "ai_behavior_coach", "ai_career_strategist"],
                 "Comprehensive skill assessment with market alignment",
                 user_context
             )
@@ -315,7 +315,7 @@ def assess_skills():
             collaborative_recommendations = a2a_protocol.get_collaborative_recommendations(user_context)
             
             # Agent learns from this interaction
-            a2a_protocol.learn_from_interaction("xai_skills_assessor", {
+            a2a_protocol.learn_from_interaction("ai_skills_specialist", {
                 "user_input": skills_description,
                 "assessment_session": session_id,
                 "user_id": user_id
@@ -380,11 +380,11 @@ Generate comprehensive professional assessment."""
                 "collaborative_insights": collaborative_recommendations if a2a_protocol else None,
                 "assessment_confidence": 0.92,  # High confidence with A2A integration
                 "specialist_agents_involved": [
-                    "xAI Skills Assessor",
-                    "xAI Market Analyst", 
-                    "xAI Behavior Analyst",
-                    "xAI Career Strategist"
-                ] if a2a_protocol else ["xAI Skills Assessor"],
+                    "AI Skills Specialist",
+                    "AI Market Intelligence", 
+                    "AI Behavior Coach",
+                    "AI Career Strategist"
+                ] if a2a_protocol else ["AI Skills Specialist"],
                 "enhanced_features": {
                     "a2a_protocol_active": bool(a2a_protocol),
                     "real_time_market_data": True,
@@ -532,16 +532,16 @@ def initialize_ai_system():
         # Initialize A2A protocol
         a2a_protocol = initialize_a2a_system()
         
-        # Register specialized agents with their expertise
+        # Register 8 optimized specialist agents (combining default + xAI capabilities)
         specialized_agents = [
-            ("xai_skills_assessor", AgentType.SKILL_ANALYSIS, "Expert in comprehensive skill evaluation using xAI Grok"),
-            ("xai_market_analyst", AgentType.MARKET_INTELLIGENCE, "Real-time market trend analysis and salary insights"),
-            ("xai_career_strategist", AgentType.CAREER_INTELLIGENCE, "Personalized career path optimization"),
-            ("xai_gaming_specialist", AgentType.GAMING_ASSESSMENT, "Gaming industry career guidance and development"),
-            ("xai_behavior_analyst", AgentType.BEHAVIORAL_INTELLIGENCE, "User behavior pattern analysis and recommendations"),
-            ("xai_goal_optimizer", AgentType.GOAL_SETTING, "AI-powered goal setting and achievement tracking"),
-            ("xai_motivation_coach", AgentType.MOTIVATION_ENERGY, "Personalized motivation and energy management"),
-            ("xai_roadmap_generator", AgentType.ADAPTIVE_ROADMAP, "Dynamic career roadmap generation and optimization")
+            ("ai_skills_specialist", AgentType.SKILL_ANALYSIS, "Comprehensive skill evaluation and gap analysis using xAI Grok intelligence"),
+            ("ai_market_intelligence", AgentType.MARKET_INTELLIGENCE, "Real-time market trends, salary data, and industry insights with xAI analysis"),
+            ("ai_career_strategist", AgentType.CAREER_INTELLIGENCE, "Personalized career path optimization and strategic planning with xAI reasoning"),
+            ("ai_gaming_specialist", AgentType.GAMING_ASSESSMENT, "Gaming industry career guidance, skill assessment, and opportunity analysis"),
+            ("ai_behavior_coach", AgentType.BEHAVIORAL_INTELLIGENCE, "User behavior analysis, learning patterns, and personalized engagement strategies"),
+            ("ai_goal_master", AgentType.GOAL_SETTING, "SMART goal creation, progress tracking, and achievement optimization"),
+            ("ai_motivation_engine", AgentType.MOTIVATION_ENERGY, "Personalized motivation strategies, energy management, and momentum maintenance"),
+            ("ai_roadmap_architect", AgentType.ADAPTIVE_ROADMAP, "Dynamic career roadmap generation, milestone planning, and path optimization")
         ]
         
         for agent_id, agent_type, description in specialized_agents:
@@ -567,8 +567,8 @@ def trigger_career_intelligence():
         if a2a_protocol:
             # Request collaboration between all intelligence agents
             session_id = a2a_protocol.request_collaboration(
-                "xai_career_strategist",
-                ["xai_market_analyst", "xai_behavior_analyst", "xai_skills_assessor"],
+                "ai_career_strategist",
+                ["ai_market_intelligence", "ai_behavior_coach", "ai_skills_specialist"],
                 "Comprehensive career intelligence analysis",
                 {"trigger_type": "manual", "timestamp": datetime.now().isoformat()}
             )
@@ -760,8 +760,8 @@ def get_collaborative_analysis():
         
         # Request collaboration between all relevant agents
         session_id = a2a_protocol.request_collaboration(
-            "xai_career_strategist",
-            ["xai_skills_assessor", "xai_market_analyst", "xai_behavior_analyst", "xai_gaming_specialist"],
+            "ai_career_strategist",
+            ["ai_skills_specialist", "ai_market_intelligence", "ai_behavior_coach", "ai_gaming_specialist"],
             f"Collaborative {analysis_type} analysis",
             user_context
         )
@@ -775,11 +775,11 @@ def get_collaborative_analysis():
             'analysis_type': analysis_type,
             'recommendations': recommendations,
             'participating_agents': [
-                'xAI Career Strategist',
-                'xAI Skills Assessor', 
-                'xAI Market Analyst',
-                'xAI Behavior Analyst',
-                'xAI Gaming Specialist'
+                'AI Career Strategist',
+                'AI Skills Specialist', 
+                'AI Market Intelligence',
+                'AI Behavior Coach',
+                'AI Gaming Specialist'
             ],
             'timestamp': datetime.now().isoformat()
         })
