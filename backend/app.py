@@ -944,7 +944,7 @@ def generate_smart_goals():
         Keep responses under 150 words total. Be direct and actionable, not verbose.
         """
         
-        smart_goals_prompt = f"""
+        smart_goals_prompt = f"""th
         Create 2-3 concise SMART goals for:
         - Focus: {career_focus}
         - Level: {current_level}  

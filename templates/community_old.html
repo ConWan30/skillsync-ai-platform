@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - SkillSync AI Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .community-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .community-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+            color: #667eea;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-description {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .discussion-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .discussion-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .discussion-meta {
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mentor-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .mentor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .mentor-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .mentor-role {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .mentor-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+        }
+
+        .event-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #28a745;
+        }
+
+        .event-date {
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            width: auto;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            margin: 0.2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-brain"></i> SkillSync AI
+            </a>
+            <ul class="nav-links">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/market-intelligence">Market Intelligence</a></li>
+                <li><a href="/career-paths">Career Paths</a></li>
+                <li><a href="/tools">Tools</a></li>
+                <li><a href="/ai-agent">AI Agent</a></li>
+                <li><a href="/community">Community</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-users"></i> Developer Community</h1>
+            <p>Connect, learn, and grow with fellow developers worldwide</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">15.2k</div>
+                <div class="stat-label">Active Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2.8k</div>
+                <div class="stat-label">Discussions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">450</div>
+                <div class="stat-label">Mentors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        </div>
+
+        <div class="community-grid">
+            <!-- Discussion Forums -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-comments card-icon"></i>
+                    <h3 class="card-title">💬 Discussion Forums</h3>
+                </div>
+                <p class="card-description">
+                    Join conversations about career development, technical challenges, and industry trends.
+                </p>
+                
+                <div class="discussion-item">
+                    <div class="discussion-title">Best practices for React performance optimization</div>
+                    <div class="discussion-meta">
+                        <span>by @sarah_dev</span>
+                        <span>24 replies • 2h ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Transitioning from Frontend to Full Stack</div>
+                    <div class="discussion-meta">
+                        <span>by @mike_codes</span>
+                        <span>18 replies • 4h ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Remote work tips for new developers</div>
+                    <div class="discussion-meta">
+                        <span>by @alex_remote</span>
+                        <span>31 replies • 6h ago</span>
+                    </div>
+                </div>
+
+                <button onclick="openDiscussions()" class="btn">Join Discussions</button>
+            </div>
+
+            <!-- Mentorship Program -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-user-graduate card-icon"></i>
+                    <h3 class="card-title">🎓 Mentorship Program</h3>
+                </div>
+                <p class="card-description">
+                    Connect with experienced developers for personalized guidance and career advice.
+                </p>
+
+                <div class="mentor-card">
+                    <div class="mentor-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="mentor-name">Emily Chen</div>
+                    <div class="mentor-role">Senior Full Stack Engineer @ Google</div>
+                    <div class="mentor-skills">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">AWS</span>
+                    </div>
+                </div>
+
+                <div class="mentor-card">
+                    <div class="mentor-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="mentor-name">David Rodriguez</div>
+                    <div class="mentor-role">DevOps Lead @ Microsoft</div>
+                    <div class="mentor-skills">
+                        <span class="skill-tag">Kubernetes</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Azure</span>
+                    </div>
+                </div>
+
+                <button onclick="openMentorship()" class="btn">Find a Mentor</button>
+            </div>
+
+            <!-- Learning Groups -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-book-open card-icon"></i>
+                    <h3 class="card-title">📚 Study Groups</h3>
+                </div>
+                <p class="card-description">
+                    Join study groups to learn new technologies and prepare for interviews together.
+                </p>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">JavaScript Algorithms & Data Structures</div>
+                    <div class="discussion-meta">
+                        <span>42 members</span>
+                        <span>Daily challenges</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">System Design Interview Prep</div>
+                    <div class="discussion-meta">
+                        <span>38 members</span>
+                        <span>Weekly sessions</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">React Advanced Patterns</div>
+                    <div class="discussion-meta">
+                        <span>29 members</span>
+                        <span>Project-based</span>
+                    </div>
+                </div>
+
+                <button onclick="openStudyGroups()" class="btn">Join Study Group</button>
+            </div>
+
+            <!-- Events & Webinars -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt card-icon"></i>
+                    <h3 class="card-title">📅 Events & Webinars</h3>
+                </div>
+                <p class="card-description">
+                    Attend live events, workshops, and networking sessions with industry experts.
+                </p>
+
+                <div class="event-item">
+                    <div class="event-date">Dec 15, 2024</div>
+                    <div class="event-title">Building Scalable APIs with Node.js</div>
+                    <div class="event-description">
+                        Learn best practices for API design and performance optimization.
+                    </div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Dec 18, 2024</div>
+                    <div class="event-title">Career Panel: From Junior to Senior</div>
+                    <div class="event-description">
+                        Senior developers share their career journey and advice.
+                    </div>
+                </div>
+
+                <div class="event-item">
+                    <div class="event-date">Dec 22, 2024</div>
+                    <div class="event-title">AI Tools for Developers Workshop</div>
+                    <div class="event-description">
+                        Hands-on workshop on integrating AI into your workflow.
+                    </div>
+                </div>
+
+                <button onclick="openEvents()" class="btn">View All Events</button>
+            </div>
+
+            <!-- Job Board -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-briefcase card-icon"></i>
+                    <h3 class="card-title">💼 Community Job Board</h3>
+                </div>
+                <p class="card-description">
+                    Discover job opportunities shared by community members and partner companies.
+                </p>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Senior React Developer @ TechCorp</div>
+                    <div class="discussion-meta">
+                        <span>$120k-$150k</span>
+                        <span>Remote • Posted 1d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">Full Stack Engineer @ StartupXYZ</div>
+                    <div class="discussion-meta">
+                        <span>$90k-$130k + equity</span>
+                        <span>San Francisco • Posted 2d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">DevOps Engineer @ CloudTech</div>
+                    <div class="discussion-meta">
+                        <span>$110k-$140k</span>
+                        <span>Remote • Posted 3d ago</span>
+                    </div>
+                </div>
+
+                <button onclick="openJobBoard()" class="btn">Browse Jobs</button>
+            </div>
+
+            <!-- Success Stories -->
+            <div class="community-card">
+                <div class="card-header">
+                    <i class="fas fa-trophy card-icon"></i>
+                    <h3 class="card-title">🏆 Success Stories</h3>
+                </div>
+                <p class="card-description">
+                    Read inspiring stories from community members who achieved their career goals.
+                </p>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">"From Bootcamp to FAANG in 18 months"</div>
+                    <div class="discussion-meta">
+                        <span>by @jessica_codes</span>
+                        <span>156 likes • 3d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">"How I doubled my salary switching to DevOps"</div>
+                    <div class="discussion-meta">
+                        <span>by @tom_devops</span>
+                        <span>203 likes • 5d ago</span>
+                    </div>
+                </div>
+
+                <div class="discussion-item">
+                    <div class="discussion-title">"Building a successful freelance career"</div>
+                    <div class="discussion-meta">
+                        <span>by @maria_freelance</span>
+                        <span>89 likes • 1w ago</span>
+                    </div>
+                </div>
+
+                <button onclick="openSuccessStories()" class="btn">Read More Stories</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/ai-agent" class="btn-secondary btn">🤖 Get AI Career Advice</a>
+            <a href="/tools" class="btn-secondary btn">🛠️ Use Career Tools</a>
+            <a href="/career-paths" class="btn-secondary btn">🗺️ Explore Career Paths</a>
+        </div>
+    </div>
+
+    <script>
+        // Community functionality functions
+        function openDiscussions() {
+            const modal = createModal('💬 Discussion Forums', `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4>Popular Discussions</h4>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; cursor: pointer;" onclick="joinDiscussion('React Performance')">
+                            <strong>Best practices for React performance optimization</strong><br>
+                            <small>by @sarah_dev • 24 replies • Active discussion</small>
+                        </div>
+                        <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; cursor: pointer;" onclick="joinDiscussion('Career Transition')">
+                            <strong>Transitioning from Frontend to Full Stack</strong><br>
+                            <small>by @mike_codes • 18 replies • Career advice</small>
+                        </div>
+                        <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; cursor: pointer;" onclick="joinDiscussion('Remote Work')">
+                            <strong>Remote work tips for new developers</strong><br>
+                            <small>by @alex_remote • 31 replies • Work lifestyle</small>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button onclick="startNewDiscussion()" style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Start New Discussion
+                    </button>
+                </div>
+            `);
+        }
+
+        function openMentorship() {
+            const modal = createModal('🎓 Find a Mentor', `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4>Available Mentors</h4>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong>Emily Chen</strong><br>
+                                <small>Senior Full Stack Engineer @ Google<br>
+                                Specializes in: React, Node.js, AWS</small>
+                            </div>
+                            <button onclick="requestMentor('Emily Chen')" style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Connect</button>
+                        </div>
+                        <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px; display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: #667eea; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <strong>David Rodriguez</strong><br>
+                                <small>DevOps Lead @ Microsoft<br>
+                                Specializes in: Kubernetes, Docker, Azure</small>
+                            </div>
+                            <button onclick="requestMentor('David Rodriguez')" style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Connect</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Looking for help with:</label>
+                    <select id="mentorshipArea" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 1rem;">
+                        <option value="">Select area...</option>
+                        <option value="career_transition">Career Transition</option>
+                        <option value="technical_skills">Technical Skills</option>
+                        <option value="interview_prep">Interview Preparation</option>
+                        <option value="leadership">Leadership Development</option>
+                    </select>
+                    <button onclick="findMentors()" style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Find Matching Mentors
+                    </button>
+                </div>
+            `);
+        }
+
+        function openStudyGroups() {
+            const modal = createModal('📚 Study Groups', `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4>Active Study Groups</h4>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; border: 2px solid #28a745; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <strong>JavaScript Algorithms & Data Structures</strong>
+                                <span style="background: #28a745; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">42 members</span>
+                            </div>
+                            <small>Daily coding challenges, weekly discussions<br>
+                            Next session: Tomorrow 7PM EST</small><br>
+                            <button onclick="joinStudyGroup('JS Algorithms')" style="margin-top: 0.5rem; background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Join Group</button>
+                        </div>
+                        <div style="padding: 1rem; border: 2px solid #ffc107; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <strong>System Design Interview Prep</strong>
+                                <span style="background: #ffc107; color: #333; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">38 members</span>
+                            </div>
+                            <small>Weekly mock interviews, case studies<br>
+                            Next session: Friday 6PM EST</small><br>
+                            <button onclick="joinStudyGroup('System Design')" style="margin-top: 0.5rem; background: #ffc107; color: #333; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Join Group</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button onclick="createStudyGroup()" style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Create New Study Group
+                    </button>
+                </div>
+            `);
+        }
+
+        function openEvents() {
+            const modal = createModal('📅 Upcoming Events', `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4>This Month's Events</h4>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; border-left: 4px solid #28a745; background: #f8f9fa; border-radius: 8px;">
+                            <div style="background: #28a745; color: white; padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">Dec 15, 2024</div>
+                            <div style="font-weight: bold; margin-bottom: 0.5rem;">Building Scalable APIs with Node.js</div>
+                            <div style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">Learn best practices for API design and performance optimization.</div>
+                            <button onclick="registerEvent('APIs Workshop')" style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Register</button>
+                        </div>
+                        <div style="padding: 1rem; border-left: 4px solid #667eea; background: #f8f9fa; border-radius: 8px;">
+                            <div style="background: #667eea; color: white; padding: 0.3rem 0.6rem; border-radius: 15px; font-size: 0.8rem; display: inline-block; margin-bottom: 0.5rem;">Dec 18, 2024</div>
+                            <div style="font-weight: bold; margin-bottom: 0.5rem;">Career Panel: From Junior to Senior</div>
+                            <div style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">Senior developers share their career journey and advice.</div>
+                            <button onclick="registerEvent('Career Panel')" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Register</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button onclick="proposeEvent()" style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Propose an Event
+                    </button>
+                </div>
+            `);
+        }
+
+        function openJobBoard() {
+            const modal = createModal('💼 Community Job Board', `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4>Latest Job Postings</h4>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; border: 2px solid #667eea; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <strong>Senior React Developer @ TechCorp</strong>
+                                <span style="background: #28a745; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">$120k-$150k</span>
+                            </div>
+                            <small>Remote • Full-time • Posted 1 day ago<br>
+                            Requirements: 5+ years React, TypeScript, Node.js</small><br>
+                            <button onclick="applyJob('TechCorp React')" style="margin-top: 0.5rem; background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">View Details</button>
+                        </div>
+                        <div style="padding: 1rem; border: 2px solid #28a745; border-radius: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                <strong>Full Stack Engineer @ StartupXYZ</strong>
+                                <span style="background: #ffc107; color: #333; padding: 0.2rem 0.5rem; border-radius: 3px; font-size: 0.8rem;">$90k-$130k + equity</span>
+                            </div>
+                            <small>San Francisco • Full-time • Posted 2 days ago<br>
+                            Requirements: React, Python, AWS, startup experience</small><br>
+                            <button onclick="applyJob('StartupXYZ Fullstack')" style="margin-top: 0.5rem; background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <button onclick="postJob()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Post a Job
+                    </button>
+                    <button onclick="window.open('/tools', '_blank')" style="background: #6c757d; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Job Search Tools
+                    </button>
+                </div>
+            `);
+        }
+
+        function openSuccessStories() {
+            const modal = createModal('🏆 Success Stories', `
+                <div style="margin-bottom: 1.5rem;">
+                    <h4>Inspiring Career Journeys</h4>
+                    <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                        <div style="padding: 1rem; border-left: 4px solid #28a745; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-weight: bold; margin-bottom: 0.5rem;">"From Bootcamp to FAANG in 18 months"</div>
+                            <div style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">by @jessica_codes • 156 likes</div>
+                            <div style="font-style: italic; margin-bottom: 0.5rem;">"I started with zero programming experience and landed at Google. Here's my exact roadmap..."</div>
+                            <button onclick="readStory('Bootcamp to FAANG')" style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Read Full Story</button>
+                        </div>
+                        <div style="padding: 1rem; border-left: 4px solid #667eea; background: #f8f9fa; border-radius: 8px;">
+                            <div style="font-weight: bold; margin-bottom: 0.5rem;">"How I doubled my salary switching to DevOps"</div>
+                            <div style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">by @tom_devops • 203 likes</div>
+                            <div style="font-style: italic; margin-bottom: 0.5rem;">"Made the switch from frontend development to DevOps and increased my salary from $75k to $150k..."</div>
+                            <button onclick="readStory('DevOps Transition')" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Read Full Story</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button onclick="shareSuccess()" style="width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                        Share Your Success Story
+                    </button>
+                </div>
+            `);
+        }
+
+        // Action functions
+        function joinDiscussion(topic) {
+            document.querySelector('[style*="position: fixed"]').remove();
+            alert(`Joining discussion: "${topic}". You can now participate in this active conversation with the community!`);
+        }
+
+        function startNewDiscussion() {
+            document.querySelector('[style*="position: fixed"]').remove();
+            const topic = prompt('What would you like to discuss?');
+            if (topic) {
+                alert(`New discussion "${topic}" created! Community members will start responding soon.`);
+            }
+        }
+
+        function requestMentor(mentorName) {
+            alert(`Mentorship request sent to ${mentorName}! They'll review your profile and respond within 24 hours. Check your notifications for updates.`);
+        }
+
+        function findMentors() {
+            const area = document.getElementById('mentorshipArea').value;
+            document.querySelector('[style*="position: fixed"]').remove();
+            if (area) {
+                alert(`Finding mentors in ${area.replace('_', ' ')}... We'll send you a curated list of available mentors in this area!`);
+            }
+        }
+
+        function joinStudyGroup(groupName) {
+            alert(`Welcome to the ${groupName} study group! You'll receive an email with the group link and schedule. Next session starts soon!`);
+        }
+
+        function createStudyGroup() {
+            document.querySelector('[style*="position: fixed"]').remove();
+            const topic = prompt('What topic would you like to study?');
+            if (topic) {
+                alert(`Study group for "${topic}" created! We'll help you find members and set up a schedule. Check your notifications for updates.`);
+            }
+        }
+
+        function registerEvent(eventName) {
+            alert(`Registered for "${eventName}"! You'll receive a calendar invite and Zoom link 24 hours before the event. Looking forward to seeing you there!`);
+        }
+
+        function proposeEvent() {
+            document.querySelector('[style*="position: fixed"]').remove();
+            const topic = prompt('What event would you like to propose?');
+            if (topic) {
+                alert(`Event proposal "${topic}" submitted! Our community team will review it and help you organize if there's sufficient interest.`);
+            }
+        }
+
+        function applyJob(jobTitle) {
+            alert(`Opening job details for "${jobTitle}". You'll be redirected to the application page with pre-filled information from your SkillSync profile.`);
+        }
+
+        function postJob() {
+            document.querySelector('[style*="position: fixed"]').remove();
+            alert('Redirecting to job posting form... You can post jobs for free to our community of 15k+ developers!');
+        }
+
+        function readStory(storyTitle) {
+            alert(`Opening "${storyTitle}" success story. This detailed story includes the full journey, resources used, and actionable tips you can apply.`);
+        }
+
+        function shareSuccess() {
+            document.querySelector('[style*="position: fixed"]').remove();
+            alert('Opening success story submission form... Share your journey to inspire others! Stories get featured and help the entire community.');
+        }
+
+        // Modal creation helper
+        function createModal(title, content) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.5); z-index: 1000; display: flex; 
+                align-items: center; justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 600px; 
+                     width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; 
+                         margin-bottom: 1.5rem;">
+                        <h3>${title}</h3>
+                        <button onclick="this.closest('[style*=fixed]').remove()" 
+                                style="border: none; background: none; font-size: 1.5rem; cursor: pointer;">×</button>
+                    </div>
+                    ${content}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            return modal;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all community cards
+            document.querySelectorAll('.community-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s, transform 0.6s';
+                observer.observe(card);
+            });
+
+            // Animate stats on load
+            setTimeout(() => {
+                document.querySelectorAll('.stat-number').forEach(stat => {
+                    stat.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        stat.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

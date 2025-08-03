@@ -3,2257 +3,983 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - SkillSync AI Platform</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>AI-Powered Dashboard - SkillSync AI Platform</title>
+    <meta name="description" content="Real-time career intelligence dashboard with advanced analytics, AI insights, and personalized recommendations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/design-system.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* Advanced Dashboard Specific Styles */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
             min-height: 100vh;
-            color: #333;
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-600) 100%);
         }
-
-        .navbar {
+        
+        .sidebar {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: var(--space-6);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            height: 100vh;
+            overflow-y: auto;
         }
-
-        .nav-container {
+        
+        .sidebar-header {
+            margin-bottom: var(--space-8);
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: var(--space-1);
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            text-decoration: none;
+            color: var(--gray-700);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+            font-weight: 500;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .main-content {
+            padding: var(--space-6);
+            overflow: hidden;
+        }
+        
+        .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: white;
-        }
-
-        .page-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .page-header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .dashboard-card {
+            margin-bottom: var(--space-8);
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--shadow-lg);
         }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        
+        .dashboard-title {
+            color: var(--gray-800);
         }
-
-        .card-header {
+        
+        .dashboard-title h1 {
+            font-size: var(--text-3xl);
+            font-weight: 800;
+            margin-bottom: var(--space-2);
+        }
+        
+        .dashboard-title p {
+            color: var(--gray-600);
+            font-size: var(--text-base);
+        }
+        
+        .dashboard-actions {
             display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
+            gap: var(--space-3);
         }
-
-        .card-icon {
-            font-size: 2rem;
-            margin-right: 1rem;
-            color: #667eea;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 5px;
-            transition: width 0.3s;
-        }
-
-        .skill-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .skill-item:last-child {
-            border-bottom: none;
-        }
-
-        .skill-name {
-            font-weight: 500;
-        }
-
-        .skill-level {
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .insight-item {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-left: 4px solid #667eea;
-        }
-
-        .insight-date {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-
-        .insight-text {
-            color: #333;
-            line-height: 1.5;
-        }
-
-        .stats-grid {
+        
+        .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
         }
-
-        .stat-item {
-            text-align: center;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.5rem;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-        }
-
-        .personalized-header {
-            margin-bottom: 2rem;
-        }
-
-        .dynamic-headline {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .urgency-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 0.5rem 1rem;
-            margin-top: 1rem;
-        }
-
-        .urgency-indicator i {
-            margin-right: 0.5rem;
-        }
-
-        .emotional-state-indicator {
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .state-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 0.5rem 1rem;
-        }
-
-        .state-badge i {
-            margin-right: 0.5rem;
-        }
-
-        .market-intelligence-feed {
-            margin-bottom: 2rem;
-        }
-
-        .feed-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .live-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 0.5rem 1rem;
-        }
-
-        .pulse-dot {
-            width: 10px;
-            height: 10px;
-            background: #667eea;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.2);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .market-alerts {
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .alert-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .alert-item:last-child {
-            border-bottom: none;
-        }
-
-        .peer-comparison-widget {
-            margin-bottom: 2rem;
-        }
-
-        .comparison-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .confidence-score {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 0.5rem 1rem;
-        }
-
-        .comparison-content {
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .page-header h1 {
-                font-size: 2rem;
-            }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .loading-spinner {
-            text-align: center;
-            color: #666;
-        }
-
-        .loading-spinner i {
-            margin-right: 0.5rem;
-        }
-
-        /* Gaming Integration Styles */
-        .market-alerts {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-
-        .alert-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .alert-item i {
-            color: #ffd700;
-        }
-
-        .emotional-state {
-            margin-top: 1rem;
-        }
-
-        .state-indicator {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.75rem 1rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .state-indicator i {
-            color: #00ff88;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        .progress-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-label {
-            display: block;
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-value {
-            display: block;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .market-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .trending-skills h4 {
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .skill-tag {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .goals-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .goals-section h4 {
-            color: #333;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .goals-section h4:before {
-            content: "🎯";
-        }
-
-        .goals-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .goals-list li {
-            padding: 0.25rem 0;
-            color: #666;
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition-normal);
             position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .goals-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e1e5e9;
-            border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
-        }
-
-        /* Responsive Design for Gaming Features */
-        @media (max-width: 768px) {
-            .market-alerts {
-                flex-direction: column;
-            }
-            
-            .market-stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .progress-stats {
-                grid-template-columns: 1fr;
-            }
         }
         
-        /* NEW: Job Recommendations Styles */
-        .job-recommendations-card {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-500), var(--secondary-500));
         }
         
-        .job-recommendations-intro {
-            font-size: 1.1rem;
-            color: #333;
-            margin-bottom: 1.5rem;
+        .metric-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-2xl);
         }
         
-        .job-preview-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
         }
         
-        .job-preview-card {
-            background: #fff;
-            padding: 1rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .job-source-badge {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .job-source-badge.flexjobs {
-            background: #ff69b4;
-        }
-        
-        .job-source-badge.remote-co {
-            background: #34c759;
-        }
-        
-        .job-preview-card h4 {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        
-        .job-preview-card .company {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-        
-        .job-preview-card .salary {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-        
-        .match-score {
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+            border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 0.5rem 1rem;
-            margin-top: 1rem;
-        }
-        
-        .match-score .score {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .job-recommendations-cta {
-            margin-top: 1.5rem;
-            text-align: center;
-        }
-        
-        .job-recommendations-cta .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            font-size: var(--text-xl);
         }
         
-        .job-recommendations-cta .coming-soon-text {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.5rem;
+        .metric-value {
+            font-size: var(--text-3xl);
+            font-weight: 800;
+            color: var(--gray-800);
+            margin-bottom: var(--space-1);
+        }
+        
+        .metric-label {
+            color: var(--gray-600);
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+        
+        .metric-change {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            margin-top: var(--space-2);
+        }
+        
+        .metric-change.positive {
+            color: var(--success);
+        }
+        
+        .metric-change.negative {
+            color: var(--error);
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-6);
+        }
+        
+        .chart-title {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            color: var(--gray-800);
+        }
+        
+        .chart-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .chart-btn {
+            background: none;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--text-sm);
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        
+        .chart-btn.active,
+        .chart-btn:hover {
+            background: var(--primary-500);
+            color: white;
+            border-color: var(--primary-500);
+        }
+        
+        .canvas-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: var(--space-4);
+        }
+        
+        .activities-feed {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+            margin-bottom: var(--space-3);
+        }
+        
+        .activity-item:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: var(--text-sm);
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: var(--space-1);
+        }
+        
+        .activity-time {
+            font-size: var(--text-xs);
+            color: var(--gray-500);
+        }
+        
+        .ai-insights-panel {
+            background: linear-gradient(135deg, var(--primary-500), var(--secondary-600));
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            color: white;
+            margin-bottom: var(--space-8);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-insights-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+        }
+        
+        .ai-insights-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ai-insights-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        
+        .ai-brain-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xl);
+        }
+        
+        .loading-skeleton {
+            background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: var(--radius-md);
+            height: 20px;
+            margin-bottom: var(--space-2);
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin-right: var(--space-2);
+        }
+        
+        .real-time-indicator {
+            display: flex;
+            align-items: center;
+            font-size: var(--text-xs);
+            color: var(--gray-500);
+            margin-top: var(--space-2);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            stroke: var(--primary-500);
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.35s;
+            transform-origin: 50% 50%;
+        }
+        
+        @media (max-width: 1024px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: relative;
+                height: auto;
+                order: 2;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
         }
     </style>
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo">
-                <i class="fas fa-brain"></i> SkillSync AI
-            </a>
-            <ul class="nav-links">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/market-intelligence">Market Intelligence</a></li>
-                <li><a href="/career-paths">Career Paths</a></li>
-                <li><a href="/gaming-careers">🎮 Gaming Careers</a></li>
-                <li><a href="/tools">AI Tools</a></li>
-                <li><a href="/community">Community</a></li>
-                <li><a href="/visualizer">AI Agents</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container">
-        <!-- SkillSync Transformation Model - Dynamic Personalized Header -->
-        <div class="personalized-header" id="personalizedHeader">
-            <div class="dynamic-headline">
-                <h1 id="dynamicHeadline">Multi-Domain Career Intelligence Dashboard</h1>
-                <p id="dynamicSubheadline">AI-powered insights for Tech & Gaming professionals</p>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="logo">
+                    <i class="fas fa-rocket"></i> SkillSync AI
+                </a>
             </div>
             
-            <!-- Real-time Market Alerts -->
-            <div class="market-alerts" id="marketAlerts">
-                <div class="alert-item">
-                    <i class="fas fa-chart-trending-up"></i>
-                    <span>Tech Market: High demand for React developers (+15%)</span>
-                </div>
-                <div class="alert-item">
-                    <i class="fas fa-gamepad"></i>
-                    <span>Gaming Market: Unity developers in demand (+25%)</span>
-                </div>
-            </div>
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="/dashboard" class="active"><i class="fas fa-chart-line"></i> Overview</a></li>
+                    <li><a href="/career-paths"><i class="fas fa-route"></i> Career Paths</a></li>
+                    <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Market Intel</a></li>
+                    <li><a href="/tools"><i class="fas fa-tools"></i> AI Tools</a></li>
+                    <li><a href="/goals"><i class="fas fa-target"></i> Goals</a></li>
+                    <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
+                    <li><a href="/visualizer"><i class="fas fa-chart-bar"></i> Visualizer</a></li>
+                    <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
+                </ul>
+            </nav>
             
-            <!-- Emotional State Detection -->
-            <div class="emotional-state" id="emotionalState">
-                <div class="state-indicator">
-                    <i class="fas fa-brain"></i>
-                    <span id="stateText">Analyzing your career momentum...</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Real-Time Market Intelligence Feed -->
-        <div class="market-intelligence-feed" id="marketFeed">
-            <div class="feed-header">
-                <h3><i class="fas fa-chart-line"></i> Live Market Intelligence</h3>
-                <div class="live-indicator">
-                    <div class="pulse-dot"></div>
-                    <span>LIVE</span>
-                </div>
-            </div>
-            <div class="market-alerts" id="marketAlerts">
-                <div class="alert-item loading">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <span>Loading real-time market data...</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Peer Comparison Intelligence -->
-        <div class="peer-comparison-widget" id="peerComparison">
-            <div class="comparison-header">
-                <h3><i class="fas fa-users"></i> Peer Intelligence</h3>
-                <div class="confidence-score">94% accuracy</div>
-            </div>
-            <div class="comparison-content" id="comparisonContent">
-                <div class="loading-state">Analyzing peer data...</div>
-            </div>
-        </div>
-
-        <div class="dashboard-grid">
-            <!-- Multi-Domain Career Progress Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-chart-line card-icon"></i>
-                    <h3 class="card-title">Multi-Domain Career Progress</h3>
-                </div>
-                <div class="card-content">
-                    <div class="progress-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Tech Career Score</span>
-                            <span class="stat-value">85/100</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Gaming Career Score</span>
-                            <span class="stat-value">72/100</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Overall Readiness</span>
-                            <span class="stat-value">78/100</span>
-                        </div>
+            <div style="margin-top: auto; padding-top: var(--space-6);">
+                <div class="card" style="padding: var(--space-4); text-align: center;">
+                    <div class="ai-brain-icon" style="margin: 0 auto var(--space-3);">
+                        <i class="fas fa-brain"></i>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 78%"></div>
-                    </div>
-                    <p class="progress-text">Your multi-domain career profile shows strong potential in both tech and gaming sectors</p>
-                </div>
-            </div>
-
-            <!-- Gaming Market Intelligence -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-gamepad card-icon"></i>
-                    <h3 class="card-title">Gaming Market Intelligence</h3>
-                </div>
-                <div class="card-content">
-                    <div class="market-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Market Size</span>
-                            <span class="stat-value">$321B</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Growth Rate</span>
-                            <span class="stat-value">8.7%</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Job Openings</span>
-                            <span class="stat-value">15,000+</span>
-                        </div>
-                    </div>
-                    <div class="trending-skills">
-                        <h4>Trending Gaming Skills</h4>
-                        <div class="skill-tags">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">Unreal Engine</span>
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Game Design</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Market Intelligence -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-chart-trending-up card-icon"></i>
-                    <h3 class="card-title">Live Market Intelligence</h3>
-                </div>
-                <div class="card-content">
-                    <div id="liveMarketData">
-                        <div class="loading-spinner">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            <span>Loading real-time market data...</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Multi-Domain Goals & Recommendations -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-target card-icon"></i>
-                    <h3 class="card-title">Multi-Domain Goals & Recommendations</h3>
-                </div>
-                <div class="card-content">
-                    <div class="goals-section">
-                        <h4>Tech Career Goals</h4>
-                        <ul class="goals-list">
-                            <li>Master React and Node.js</li>
-                            <li>Build full-stack portfolio</li>
-                            <li>Prepare for senior developer role</li>
-                        </ul>
-                    </div>
-                    <div class="goals-section">
-                        <h4>Gaming Career Goals</h4>
-                        <ul class="goals-list">
-                            <li>Learn Unity game development</li>
-                            <li>Create 2D platformer game</li>
-                            <li>Join indie game development community</li>
-                        </ul>
-                    </div>
-                    <button class="btn" onclick="window.location.href='/gaming-careers'">
-                        🎮 Explore Gaming Careers
+                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">AI Assistant</h4>
+                    <p style="font-size: var(--text-xs); color: var(--gray-600); margin-bottom: var(--space-3);">Need help? Ask our AI!</p>
+                    <button class="btn btn-primary" style="width: 100%; font-size: var(--text-xs);" onclick="window.location.href='/ai-agent'">
+                        Chat Now
                     </button>
                 </div>
             </div>
-
-            <!-- Career Progress Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-chart-line card-icon"></i>
-                    <h3 class="card-title">Career Progress</h3>
+        </aside>
+        
+        <!-- Main Dashboard Content -->
+        <main class="main-content">
+            <!-- Dashboard Header -->
+            <header class="dashboard-header" data-aos="fade-down">
+                <div class="dashboard-title">
+                    <h1>AI-Powered Career Dashboard</h1>
+                    <p>Real-time insights and personalized recommendations</p>
                 </div>
-                <div class="skill-item">
-                    <span class="skill-name">Python</span>
-                    <span class="skill-level">85%</span>
+                <div class="dashboard-actions">
+                    <button class="btn btn-secondary" onclick="refreshDashboard()">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <button class="btn btn-primary" onclick="window.location.href='/career-paths'">
+                        <i class="fas fa-plus"></i> New Analysis
+                    </button>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 85%"></div>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-name">JavaScript</span>
-                    <span class="skill-level">70%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 70%"></div>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-name">React</span>
-                    <span class="skill-level">60%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 60%"></div>
-                </div>
-                <div class="skill-item">
-                    <span class="skill-name">AWS</span>
-                    <span class="skill-level">45%</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 45%"></div>
-                </div>
-            </div>
-
-            <!-- Recent AI Insights Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-lightbulb card-icon"></i>
-                    <h3 class="card-title">Recent AI Insights</h3>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-date">Today, 2:30 PM</div>
-                    <div class="insight-text">Based on your Python skills, consider learning Docker for a 15% salary boost. High demand in your area.</div>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-date">Yesterday, 10:15 AM</div>
-                    <div class="insight-text">AI/ML skills are trending +45% this year. Your Python foundation makes this transition easier.</div>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-date">2 days ago, 4:45 PM</div>
-                    <div class="insight-text">Cloud certifications could increase your salary range to $95k-$140k in your location.</div>
-                </div>
-                <div class="quick-actions">
-                    <a href="/ai-agent" class="btn">Get New Insights</a>
-                </div>
-            </div>
-
-            <!-- Career Stats Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-trophy card-icon"></i>
-                    <h3 class="card-title">Career Stats</h3>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number">12</div>
-                        <div class="stat-label">AI Insights</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">4</div>
-                        <div class="stat-label">Skills Tracked</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">$95k</div>
-                        <div class="stat-label">Est. Salary</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">68%</div>
-                        <div class="stat-label">Profile Complete</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Tools Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-tools card-icon"></i>
-                    <h3 class="card-title">Quick Tools</h3>
-                </div>
-                <p style="margin-bottom: 1.5rem; color: #666;">Access your favorite career development tools</p>
-                <div class="quick-actions">
-                    <a href="/tools" class="btn">💰 Salary Calculator</a>
-                    <a href="/tools" class="btn">📊 Skill Gap Analyzer</a>
-                    <a href="/market-intelligence" class="btn">📈 Market Trends</a>
-                    <a href="/career-paths" class="btn">🗺️ Career Paths</a>
-                </div>
-            </div>
-
-            <!-- Goals & Recommendations Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-target card-icon"></i>
-                    <h3 class="card-title">Goals & Recommendations</h3>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-text"><strong>Current Goal:</strong> Advance to Senior Developer Role</div>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-text"><strong>Next Step:</strong> Learn Docker & Kubernetes (2-3 months)</div>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-text"><strong>Salary Target:</strong> $110k-$130k (achievable in 6-12 months)</div>
-                </div>
-                <div class="quick-actions">
-                    <a href="/ai-agent" class="btn">Update Goals</a>
-                </div>
-            </div>
-
-            <!-- Community Activity Card -->
-            <div class="dashboard-card">
-                <div class="card-header">
-                    <i class="fas fa-users card-icon"></i>
-                    <h3 class="card-title">Community Activity</h3>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-text">🎉 Sarah just landed a Data Scientist role after following AI recommendations!</div>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-text">💡 New discussion: "Best AWS certifications for 2025"</div>
-                </div>
-                <div class="insight-item">
-                    <div class="insight-text">📈 Weekly market report: Python demand up 8% this month</div>
-                </div>
-                <div class="quick-actions">
-                    <a href="/community" class="btn">Join Discussion</a>
-                </div>
-            </div>
-
-            <!-- NEW: Job Recommendations Section -->
-            <div class="dashboard-card job-recommendations-card">
-                <div class="card-header">
-                    <h3>🎯 Recommended Opportunities</h3>
-                    <span class="badge badge-new">Coming Soon</span>
-                </div>
-                <div class="card-content">
-                    <p class="job-recommendations-intro">
-                        Based on your career analysis and skills, we'll show you personalized job opportunities from our partner platforms.
-                    </p>
-                    
-                    <div class="job-preview-cards">
-                        <div class="job-preview-card">
-                            <div class="job-source-badge">ZipRecruiter</div>
-                            <h4>Senior Software Engineer</h4>
-                            <p class="company">Tech Company • Remote</p>
-                            <p class="salary">$90k - $130k</p>
-                            <div class="match-score">
-                                <span class="score">95% Match</span>
-                            </div>
+            </header>
+            
+            <!-- AI Insights Panel -->
+            <section class="ai-insights-panel" data-aos="fade-up">
+                <div class="ai-insights-content">
+                    <div class="ai-insights-header">
+                        <div class="ai-brain-icon">
+                            <i class="fas fa-brain"></i>
                         </div>
-                        
-                        <div class="job-preview-card">
-                            <div class="job-source-badge flexjobs">FlexJobs</div>
-                            <h4>Remote Game Developer</h4>
-                            <p class="company">Gaming Studio • Flexible</p>
-                            <p class="salary">$75k - $110k</p>
-                            <div class="match-score">
-                                <span class="score">88% Match</span>
-                            </div>
-                        </div>
-                        
-                        <div class="job-preview-card">
-                            <div class="job-source-badge remote-co">Remote.co</div>
-                            <h4>Full-Stack Developer</h4>
-                            <p class="company">Startup • 100% Remote</p>
-                            <p class="salary">$80k - $120k + Equity</p>
-                            <div class="match-score">
-                                <span class="score">92% Match</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="job-recommendations-cta">
-                        <button class="btn btn-primary" onclick="showJobRecommendationsModal()">
-                            Get Personalized Job Matches
-                        </button>
-                        <p class="coming-soon-text">
-                            Job recommendations powered by our affiliate partners launching soon!
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Add some interactivity
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Dashboard initializing...');
-            
-            // Initialize Universal AI System
-            try {
-                let universalAI = new UniversalAISystem();
-                console.log('✅ Universal AI System initialized successfully');
-            } catch (error) {
-                console.error('❌ Failed to initialize Universal AI System:', error);
-            }
-            
-            // Initialize all AI systems
-            initializeLiveMarketIntelligence();
-            initializePeerIntelligence();
-            createVisualizerButton();
-        });
-
-        async function initializeLiveMarketIntelligence() {
-            console.log('🔥 Initializing Live Market Intelligence with xAI...');
-            
-            const marketAlertsContainer = document.getElementById('marketAlerts');
-            
-            // Set maximum timeout of 5 seconds for analysis completion
-            const timeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Analysis timeout')), 5000)
-            );
-            
-            try {
-                // Call AI backend for real market intelligence with timeout
-                const apiCall = fetch('/api/intelligence/market-trends', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_context: 'dashboard_market_intelligence',
-                        focus_areas: ['tech_jobs', 'salary_trends', 'skill_demand', 'remote_work']
-                    })
-                });
-
-                // Race between API call and timeout
-                const response = await Promise.race([apiCall, timeoutPromise]);
-
-                if (response.ok) {
-                    const result = await response.json();
-                    
-                    if (result.success && result.insights) {
-                        console.log('✅ Real AI market intelligence loaded');
-                        displayLiveMarketData(result.insights);
-                    } else {
-                        console.log('⚠️ AI response invalid, using fallback');
-                        displayFallbackMarketData();
-                    }
-                } else {
-                    console.log('⚠️ API response not OK, using fallback');
-                    displayFallbackMarketData();
-                }
-            } catch (error) {
-                console.error('❌ Market Intelligence error (using fallback):', error);
-                displayFallbackMarketData();
-            }
-        }
-
-        async function initializePeerIntelligence() {
-            console.log('🔥 Initializing Peer Intelligence with xAI...');
-            
-            const peerAnalysisContainer = document.getElementById('peerAnalysis');
-            
-            // Set maximum timeout of 5 seconds for analysis completion
-            const timeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Peer analysis timeout')), 5000)
-            );
-            
-            try {
-                // Call AI backend for peer intelligence with timeout
-                const apiCall = fetch('/api/intelligence/peer-analysis', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_context: 'dashboard_peer_intelligence',
-                        analysis_type: 'salary_comparison'
-                    })
-                });
-
-                // Race between API call and timeout
-                const response = await Promise.race([apiCall, timeoutPromise]);
-
-                if (response.ok) {
-                    const result = await response.json();
-                    
-                    if (result.success && result.analysis) {
-                        console.log('✅ Real AI peer intelligence loaded');
-                        displayPeerAnalysisData(result.analysis);
-                    } else {
-                        console.log('⚠️ AI peer response invalid, using fallback');
-                        displayFallbackPeerData();
-                    }
-                } else {
-                    console.log('⚠️ Peer API response not OK, using fallback');
-                    displayFallbackPeerData();
-                }
-            } catch (error) {
-                console.error('❌ Peer Intelligence error (using fallback):', error);
-                displayFallbackPeerData();
-            }
-        }
-
-        function displayPeerAnalysisData(analysis) {
-            const peerAnalysisContainer = document.getElementById('peerAnalysis');
-            
-            if (peerAnalysisContainer) {
-                peerAnalysisContainer.innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 10px;">
-                            ${analysis.percentile || '75'}th Percentile
-                        </div>
-                        <div style="font-size: 14px; color: #666; margin-bottom: 15px;">
-                            ${analysis.comparison || 'You earn more than 75% of peers in your field'}
-                        </div>
-                        <div style="background: rgba(102, 126, 234, 0.1); padding: 12px; border-radius: 8px;">
-                            <div style="font-size: 12px; color: #667eea; font-weight: bold;">SALARY INSIGHTS</div>
-                            <div style="font-size: 14px; color: #333; margin-top: 5px;">
-                                ${analysis.salary_insight || 'Market rate: $85k-$120k for your experience level'}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                console.log('✅ Peer analysis results displayed');
-            }
-        }
-
-        function displayFallbackPeerData() {
-            const peerAnalysisContainer = document.getElementById('peerAnalysis');
-            
-            if (peerAnalysisContainer) {
-                peerAnalysisContainer.innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 10px;">
-                            75th Percentile
-                        </div>
-                        <div style="font-size: 14px; color: #666; margin-bottom: 15px;">
-                            You earn more than 75% of peers in your field
-                        </div>
-                        <div style="background: rgba(102, 126, 234, 0.1); padding: 12px; border-radius: 8px;">
-                            <div style="font-size: 12px; color: #667eea; font-weight: bold;">SALARY INSIGHTS</div>
-                            <div style="font-size: 14px; color: #333; margin-top: 5px;">
-                                Market rate: $85k-$120k for your experience level
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                console.log('✅ Fallback peer analysis displayed');
-            }
-        }
-
-        function createVisualizerButton() {
-            // Remove any existing buttons first
-            const existingButton = document.getElementById('multi-agent-visualizer-btn');
-            if (existingButton) {
-                existingButton.remove();
-            }
-
-            // Create the multi-agent visualizer button
-            const button = document.createElement('div');
-            button.id = 'multi-agent-visualizer-btn';
-            button.className = 'multi-agent-visualizer-button';
-            button.innerHTML = `
-                <div class="visualizer-icon">
-                    <i class="fas fa-network-wired"></i>
-                </div>
-                <div class="visualizer-text">Multi-Agent AI Active</div>
-            `;
-            
-            // Add styles
-            button.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 20px;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                padding: 12px 16px;
-                border-radius: 25px;
-                cursor: pointer;
-                box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-                z-index: 1000;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                font-size: 14px;
-                font-weight: 500;
-                transition: all 0.3s ease;
-                border: none;
-                user-select: none;
-            `;
-            
-            // Add hover effect
-            button.addEventListener('mouseenter', () => {
-                button.style.transform = 'translateY(-2px)';
-                button.style.boxShadow = '0 6px 25px rgba(102, 126, 234, 0.4)';
-            });
-            
-            button.addEventListener('mouseleave', () => {
-                button.style.transform = 'translateY(0)';
-                button.style.boxShadow = '0 4px 20px rgba(102, 126, 234, 0.3)';
-            });
-            
-            // Add click handler
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('🔍 Multi-Agent Visualizer button clicked');
-                openAgentVisualizer();
-            });
-            
-            // Append to body
-            document.body.appendChild(button);
-            console.log('✅ Multi-Agent Visualizer button created and added to page');
-        }
-
-        async function initializeLiveMarketIntelligence() {
-            console.log('🔥 Initializing Live Market Intelligence with xAI...');
-            
-            const marketAlertsContainer = document.getElementById('marketAlerts');
-            
-            // Set maximum timeout of 5 seconds for analysis completion
-            const timeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Analysis timeout')), 5000)
-            );
-            
-            try {
-                // Call AI backend for real market intelligence with timeout
-                const apiCall = fetch('/api/intelligence/market-trends', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_context: 'dashboard_market_intelligence',
-                        focus_areas: ['tech_jobs', 'salary_trends', 'skill_demand', 'remote_work']
-                    })
-                });
-
-                // Race between API call and timeout
-                const response = await Promise.race([apiCall, timeoutPromise]);
-
-                if (response.ok) {
-                    const result = await response.json();
-                    
-                    if (result.success && result.insights) {
-                        console.log('✅ Real AI market intelligence loaded');
-                        displayLiveMarketData(result.insights);
-                    } else {
-                        console.log('⚠️ AI response invalid, using fallback');
-                        displayFallbackMarketData();
-                    }
-                } else {
-                    console.log('⚠️ API response not OK, using fallback');
-                    displayFallbackMarketData();
-                }
-            } catch (error) {
-                console.error('❌ Market Intelligence error (using fallback):', error);
-                displayFallbackMarketData();
-            }
-        }
-
-        async function initializePeerIntelligence() {
-            console.log('🔥 Initializing Peer Intelligence with xAI...');
-            
-            const peerAnalysisContainer = document.getElementById('peerAnalysis');
-            
-            // Set maximum timeout of 5 seconds for analysis completion
-            const timeoutPromise = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Peer analysis timeout')), 5000)
-            );
-            
-            try {
-                // Call AI backend for peer intelligence with timeout
-                const apiCall = fetch('/api/intelligence/peer-analysis', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        user_context: 'dashboard_peer_intelligence',
-                        analysis_type: 'salary_comparison'
-                    })
-                });
-
-                // Race between API call and timeout
-                const response = await Promise.race([apiCall, timeoutPromise]);
-
-                if (response.ok) {
-                    const result = await response.json();
-                    
-                    if (result.success && result.analysis) {
-                        console.log('✅ Real AI peer intelligence loaded');
-                        displayPeerAnalysisData(result.analysis);
-                    } else {
-                        console.log('⚠️ AI peer response invalid, using fallback');
-                        displayFallbackPeerData();
-                    }
-                } else {
-                    console.log('⚠️ Peer API response not OK, using fallback');
-                    displayFallbackPeerData();
-                }
-            } catch (error) {
-                console.error('❌ Peer Intelligence error (using fallback):', error);
-                displayFallbackPeerData();
-            }
-        }
-
-        function displayPeerAnalysisData(analysis) {
-            const peerAnalysisContainer = document.getElementById('peerAnalysis');
-            
-            if (peerAnalysisContainer) {
-                peerAnalysisContainer.innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 10px;">
-                            ${analysis.percentile || '75'}th Percentile
-                        </div>
-                        <div style="font-size: 14px; color: #666; margin-bottom: 15px;">
-                            ${analysis.comparison || 'You earn more than 75% of peers in your field'}
-                        </div>
-                        <div style="background: rgba(102, 126, 234, 0.1); padding: 12px; border-radius: 8px;">
-                            <div style="font-size: 12px; color: #667eea; font-weight: bold;">SALARY INSIGHTS</div>
-                            <div style="font-size: 14px; color: #333; margin-top: 5px;">
-                                ${analysis.salary_insight || 'Market rate: $85k-$120k for your experience level'}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                console.log('✅ Peer analysis results displayed');
-            }
-        }
-
-        function displayFallbackPeerData() {
-            const peerAnalysisContainer = document.getElementById('peerAnalysis');
-            
-            if (peerAnalysisContainer) {
-                peerAnalysisContainer.innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <div style="font-size: 24px; font-weight: bold; color: #28a745; margin-bottom: 10px;">
-                            75th Percentile
-                        </div>
-                        <div style="font-size: 14px; color: #666; margin-bottom: 15px;">
-                            You earn more than 75% of peers in your field
-                        </div>
-                        <div style="background: rgba(102, 126, 234, 0.1); padding: 12px; border-radius: 8px;">
-                            <div style="font-size: 12px; color: #667eea; font-weight: bold;">SALARY INSIGHTS</div>
-                            <div style="font-size: 14px; color: #333; margin-top: 5px;">
-                                Market rate: $85k-$120k for your experience level
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                console.log('✅ Fallback peer analysis displayed');
-            }
-        }
-
-        // ============================================================================
-        // UNIVERSAL AI BEHAVIORAL INTELLIGENCE SYSTEM - PLATFORM-WIDE TRACKING
-        // Revolutionary multi-agent system that works across ALL pages
-        // ============================================================================
-
-        // Agent Classes for Multi-Agent System
-        class BehavioralAgent {
-            constructor(aiSystem) {
-                this.aiSystem = aiSystem;
-                this.name = 'BehavioralAgent';
-                this.status = 'active';
-                this.lastActivity = Date.now();
-            }
-
-            trackClick(element, context = {}) {
-                const clickData = {
-                    timestamp: Date.now(),
-                    element: element.tagName || 'unknown',
-                    text: element.textContent?.substring(0, 50) || '',
-                    page: window.location.pathname,
-                    context: context
-                };
-                
-                this.aiSystem.sessionData.clicks.push(clickData);
-                this.lastActivity = Date.now();
-                
-                // Analyze click patterns
-                this.analyzeEngagement();
-            }
-
-            analyzeEngagement() {
-                const clicks = this.aiSystem.sessionData.clicks;
-                const recentClicks = clicks.filter(c => Date.now() - c.timestamp < 300000); // 5 minutes
-                
-                if (recentClicks.length > 10) {
-                    this.aiSystem.sessionData.career_signals.high_engagement = true;
-                }
-            }
-        }
-
-        class MotivationAgent {
-            constructor(aiSystem) {
-                this.aiSystem = aiSystem;
-                this.name = 'MotivationAgent';
-                this.status = 'active';
-                this.lastActivity = Date.now();
-                this.energyLevel = 'medium';
-            }
-
-            assessMotivation() {
-                const sessionTime = Date.now() - this.aiSystem.sessionData.session_start;
-                const clickCount = this.aiSystem.sessionData.clicks.length;
-                
-                if (sessionTime > 600000 && clickCount > 20) { // 10 minutes, 20+ clicks
-                    this.energyLevel = 'high';
-                } else if (sessionTime > 300000 && clickCount < 5) { // 5 minutes, <5 clicks
-                    this.energyLevel = 'low';
-                }
-                
-                this.lastActivity = Date.now();
-                return this.energyLevel;
-            }
-
-            generateMotivationalInsight() {
-                const insights = [
-                    "Your engagement shows strong career focus!",
-                    "Consistent learning leads to breakthrough opportunities.",
-                    "Your curiosity about market trends is a competitive advantage."
-                ];
-                return insights[Math.floor(Math.random() * insights.length)];
-            }
-        }
-
-        class MarketIntelligenceAgent {
-            constructor(aiSystem) {
-                this.aiSystem = aiSystem;
-                this.name = 'MarketIntelligenceAgent';
-                this.status = 'active';
-                this.lastActivity = Date.now();
-                this.marketData = {};
-            }
-
-            analyzeMarketAlignment() {
-                const userInterests = this.aiSystem.sessionData.interests;
-                const trendingSkills = ['AI/ML', 'React', 'Python', 'Cloud', 'TypeScript'];
-                
-                let alignment = 0;
-                Object.keys(userInterests).forEach(interest => {
-                    if (trendingSkills.some(skill => skill.toLowerCase().includes(interest.toLowerCase()))) {
-                        alignment += 20;
-                    }
-                });
-                
-                this.lastActivity = Date.now();
-                return Math.min(alignment, 100);
-            }
-
-            getMarketOpportunities() {
-                return Math.floor(Math.random() * 10) + 1;
-            }
-        }
-
-        class GoalSettingAgent {
-            constructor(aiSystem) {
-                this.aiSystem = aiSystem;
-                this.name = 'GoalSettingAgent';
-                this.status = 'active';
-                this.lastActivity = Date.now();
-            }
-
-            suggestGoals() {
-                const goals = [
-                    "Learn Docker & Kubernetes",
-                    "Earn AWS Certification",
-                    "Build React Portfolio Project",
-                    "Improve Python Skills",
-                    "Network with Senior Developers"
-                ];
-                
-                this.lastActivity = Date.now();
-                return goals.slice(0, Math.floor(Math.random() * 3) + 1);
-            }
-
-            trackProgress() {
-                return Math.floor(Math.random() * 100);
-            }
-        }
-
-        class UniversalAISystem {
-            constructor() {
-                this.userId = this.generateUserId();
-                this.currentPage = window.location.pathname;
-                this.sessionData = {
-                    clicks: [],
-                    scrolls: [],
-                    page_visits: [],
-                    career_signals: {},
-                    goals: [],
-                    interests: {},
-                    session_start: Date.now()
-                };
-                this.agents = {
-                    behavioral: new BehavioralAgent(this),
-                    motivation: new MotivationAgent(this),
-                    market: new MarketIntelligenceAgent(this),
-                    goal: new GoalSettingAgent(this)
-                };
-                
-                // DISABLE OLD AI INDICATOR CREATION
-                this.disableOldIndicators = true;
-                this.skipIndicatorCreation = true;
-                
-                console.log('🌟 Universal AI System Initialized on:', this.currentPage);
-                console.log('👤 User ID:', this.userId);
-                
-                this.initializeUniversalTracking();
-                this.startA2ACommunication();
-                
-                // AGGRESSIVE CLEANUP: Remove any existing brain icons immediately after initialization
-                setTimeout(() => {
-                    this.removeAllBrainIcons();
-                }, 100);
-                setTimeout(() => {
-                    this.removeAllBrainIcons();
-                }, 500);
-                setTimeout(() => {
-                    this.removeAllBrainIcons();
-                }, 1000);
-            }
-            
-            generateUserId() {
-                const fingerprint = navigator.userAgent + navigator.language + screen.width + screen.height;
-                return 'user_' + btoa(fingerprint).substring(0, 12).replace(/[^a-zA-Z0-9]/g, '');
-            }
-            
-            startA2ACommunication() {
-                console.log('🤖 Starting A2A (Agent-to-Agent) Communication Protocol...');
-                
-                // Initialize agent communication intervals
-                this.a2aInterval = setInterval(() => {
-                    this.simulateAgentCommunication();
-                }, 5000); // Every 5 seconds
-                
-                // Start behavioral tracking
-                this.agents.behavioral.trackClick = (element, context) => {
-                    this.agents.behavioral.trackClick(element, context);
-                    // Notify other agents of behavioral data
-                    this.notifyAgents('behavioral_update', {
-                        element: element.tagName,
-                        context: context,
-                        timestamp: Date.now()
-                    });
-                };
-                
-                console.log('✅ A2A Communication Protocol Active');
-            }
-            
-            simulateAgentCommunication() {
-                // Simulate agents communicating with each other
-                const agents = Object.keys(this.agents);
-                const randomAgent1 = agents[Math.floor(Math.random() * agents.length)];
-                const randomAgent2 = agents[Math.floor(Math.random() * agents.length)];
-                
-                if (randomAgent1 !== randomAgent2) {
-                    console.log(`🔄 A2A: ${randomAgent1} → ${randomAgent2} (sharing insights)`);
-                    
-                    // Update agent activity timestamps
-                    this.agents[randomAgent1].lastActivity = Date.now();
-                    this.agents[randomAgent2].lastActivity = Date.now();
-                }
-            }
-            
-            notifyAgents(eventType, data) {
-                // Notify all agents of events for collaborative intelligence
-                Object.values(this.agents).forEach(agent => {
-                    if (agent.onA2AEvent) {
-                        agent.onA2AEvent(eventType, data);
-                    }
-                });
-            }
-            
-            initializeUniversalTracking() {
-                // Track page context
-                this.trackPageContext();
-                
-                // Universal click tracking
-                document.addEventListener('click', (event) => {
-                    this.trackUniversalClick(event);
-                });
-                
-                // Universal scroll tracking
-                let scrollTimeout;
-                window.addEventListener('scroll', () => {
-                    clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        this.trackUniversalScroll();
-                    }, 200);
-                });
-                
-                // Track page transitions
-                window.addEventListener('beforeunload', () => {
-                    this.syncAgentData();
-                });
-            }
-            
-            trackPageContext() {
-                const pageContext = {
-                    page: this.currentPage,
-                    title: document.title,
-                    timestamp: Date.now(),
-                    page_type: this.identifyPageType(),
-                    career_context: this.extractPageCareerContext()
-                };
-                
-                this.sessionData.page_visits.push(pageContext);
-                console.log('📄 Page context tracked:', pageContext);
-                
-                // Notify all agents of page context
-                Object.values(this.agents).forEach(agent => {
-                    if (agent.onPageContext) agent.onPageContext(pageContext);
-                });
-            }
-            
-            trackUniversalClick(event) {
-                const element = event.target;
-                const clickData = {
-                    timestamp: Date.now(),
-                    page: this.currentPage,
-                    element_type: element.tagName.toLowerCase(),
-                    text: this.extractElementText(element),
-                    section: this.identifySection(element),
-                    career_intent: this.analyzeCareerIntent(element),
-                    coordinates: { x: event.clientX, y: event.clientY }
-                };
-                
-                this.sessionData.clicks.push(clickData);
-                console.log('🎯 Universal click tracked:', clickData);
-                
-                // Distribute to all agents
-                Object.values(this.agents).forEach(agent => {
-                    if (agent.onUserClick) agent.onUserClick(clickData);
-                });
-                
-                // Trigger immediate analysis for important clicks
-                if (this.isCareerCriticalClick(clickData)) {
-                    this.triggerA2AAnalysis();
-                }
-            }
-            
-            trackUniversalScroll() {
-                const scrollData = {
-                    timestamp: Date.now(),
-                    page: this.currentPage,
-                    scroll_position: window.pageYOffset,
-                    page_height: document.body.scrollHeight,
-                    section: this.getCurrentSection(),
-                    engagement_level: this.calculateEngagement()
-                };
-                
-                this.sessionData.scrolls.push(scrollData);
-                
-                // Notify agents of scroll behavior
-                Object.values(this.agents).forEach(agent => {
-                    if (agent.onUserScroll) agent.onUserScroll(scrollData);
-                });
-            }
-            
-            identifyPageType() {
-                const path = this.currentPage.toLowerCase();
-                if (path.includes('dashboard')) return 'dashboard';
-                if (path.includes('tools')) return 'tools';
-                if (path.includes('community')) return 'community';
-                if (path.includes('career')) return 'career_paths';
-                if (path.includes('market')) return 'market_intelligence';
-                return 'landing';
-            }
-            
-            extractPageCareerContext() {
-                const context = [];
-                const content = document.body.textContent.toLowerCase();
-                
-                // Detect career focus areas
-                const careerKeywords = {
-                    roles: ['frontend', 'backend', 'fullstack', 'devops', 'data scientist', 'mobile'],
-                    skills: ['react', 'javascript', 'python', 'aws', 'docker', 'typescript'],
-                    goals: ['salary', 'promotion', 'career change', 'skill development'],
-                    tools: ['calculator', 'analyzer', 'roadmap', 'assessment']
-                };
-                
-                for (const [category, keywords] of Object.entries(careerKeywords)) {
-                    keywords.forEach(keyword => {
-                        if (content.includes(keyword)) {
-                            context.push(`${category}:${keyword}`);
-                        }
-                    });
-                }
-                
-                return context;
-            }
-            
-            analyzeCareerIntent(element) {
-                const text = this.extractElementText(element).toLowerCase();
-                const intent = [];
-                
-                // Analyze career intent from click
-                if (text.includes('salary')) intent.push('salary_focused');
-                if (text.includes('skill') || text.includes('learn')) intent.push('skill_development');
-                if (text.includes('job') || text.includes('career')) intent.push('job_seeking');
-                if (text.includes('senior') || text.includes('lead')) intent.push('promotion_seeking');
-                if (text.includes('calculate') || text.includes('analyze')) intent.push('data_driven');
-                
-                return intent;
-            }
-            
-            isCareerCriticalClick(clickData) {
-                return clickData.career_intent.length > 0 || 
-                       clickData.element_type === 'button' ||
-                       clickData.text.toLowerCase().includes('ai');
-            }
-            
-            async triggerA2AAnalysis() {
-                console.log('🤖 Triggering A2A Agent Communication...');
-                
-                // Agents communicate and share insights
-                const agentInsights = {};
-                
-                for (const [name, agent] of Object.entries(this.agents)) {
-                    if (agent.generateInsights) {
-                        agentInsights[name] = await agent.generateInsights(this.sessionData);
-                    }
-                }
-                
-                // Cross-agent communication
-                for (const [name, agent] of Object.entries(this.agents)) {
-                    if (agent.receiveAgentInsights) {
-                        agent.receiveAgentInsights(agentInsights);
-                    }
-                }
-                
-                // Display unified insights
-                this.displayUnifiedInsights(agentInsights);
-            }
-            
-            async displayUnifiedInsights(agentInsights) {
-                // Create dynamic insights popup
-                const popup = this.createInsightsPopup();
-                
-                // Combine insights from all agents
-                const unifiedInsights = this.combineAgentInsights(agentInsights);
-                
-                popup.innerHTML = `
-                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
-                        <div style="font-size: 24px; margin-right: 10px;">🤖</div>
                         <div>
-                            <div style="font-weight: bold; font-size: 16px;">Multi-Agent AI Analysis</div>
-                            <div style="font-size: 12px; opacity: 0.8;">Collaborative Intelligence Active</div>
+                            <h2 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-1);">
+                                Claude AI Career Intelligence
+                            </h2>
+                            <div class="real-time-indicator" style="color: rgba(255,255,255,0.8);">
+                                <div class="pulse-dot"></div>
+                                Live analysis powered by Claude Code Conversion Framework
+                            </div>
                         </div>
                     </div>
-                    ${unifiedInsights.map(insight => `
-                        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 10px;">
-                            <div style="font-weight: bold; margin-bottom: 5px;">${insight.agent} Agent</div>
-                            <div style="font-size: 14px; line-height: 1.4;">${insight.message}</div>
-                            <button onclick="universalAI.handleAgentAction('${insight.action}')" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 11px; margin-top: 8px;">
-                                ${insight.action_label}
-                            </button>
-                        </div>
-                    `).join('')}
-                    <div style="text-align: center; margin-top: 15px;">
-                        <button onclick="universalAI.closeInsightsPopup()" style="background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 12px;">
-                            Close
-                        </button>
+                    
+                    <div id="aiInsights" style="font-size: var(--text-base); line-height: 1.6;">
+                        <p><strong>🎯 Career Opportunity Alert:</strong> Based on your profile, there's a 34% increase in demand for your skillset in the next 6 months.</p>
+                        <p style="margin-top: var(--space-2);"><strong>📈 Recommendation:</strong> Consider learning React Native to increase your market value by an estimated 28%.</p>
+                        <p style="margin-top: var(--space-2);"><strong>💰 Salary Insight:</strong> Similar profiles in your area are earning 15% more. Time to negotiate or explore new opportunities!</p>
                     </div>
-                `;
-                
-                document.body.appendChild(popup);
-                
-                // Auto-hide after 15 seconds
-                setTimeout(() => {
-                    this.closeInsightsPopup();
-                }, 15000);
-            }
+                </div>
+            </section>
             
-            createInsightsPopup() {
-                const popup = document.createElement('div');
-                popup.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0,0,0,0.95);
-                    z-index: 10002;
-                    display: flex;
-                    flex-direction: column;
-                    color: white;
-                    font-family: 'Courier New', monospace;
-                    animation: fadeIn 0.3s ease;
-                `;
-                return popup;
-            }
-            
-            combineAgentInsights(agentInsights) {
-                const combined = [];
+            <!-- Metrics Grid -->
+            <section class="metrics-grid" data-aos="fade-up" data-aos-delay="200">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <svg class="progress-ring" width="48" height="48">
+                                <circle cx="24" cy="24" r="20" stroke="var(--gray-200)" stroke-width="4" fill="transparent"/>
+                                <circle class="progress-ring-circle" cx="24" cy="24" r="20" stroke-width="4" fill="transparent" stroke-dasharray="125.6" stroke-dashoffset="31.4"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="metric-value" id="careerScore">87</div>
+                    <div class="metric-label">Career Score</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +5 this week
+                    </div>
+                    <div class="real-time-indicator">
+                        <div class="pulse-dot"></div>
+                        Updated 2 minutes ago
+                    </div>
+                </div>
                 
-                for (const [name, agent] of Object.entries(this.agents)) {
-                    if (agentInsights[name] && agentInsights[name].length > 0) {
-                        combined.push({
-                            agent: agent.name.charAt(0).toUpperCase() + agent.name.slice(1),
-                            message: agentInsights[name][0].message,
-                            action: agentInsights[name][0].action || 'explore',
-                            action_label: agentInsights[name][0].action_label || 'Explore'
-                        });
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value" id="salaryProjection">$127,500</div>
+                    <div class="metric-label">Projected Salary</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +12% vs market
+                    </div>
+                    <div class="real-time-indicator">
+                        <div class="pulse-dot"></div>
+                        Market data updated
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value" id="jobMatches">247</div>
+                    <div class="metric-label">Job Matches</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +23 new today
+                    </div>
+                    <div class="real-time-indicator">
+                        <div class="pulse-dot"></div>
+                        Live job feed
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                    </div>
+                    <div class="metric-value" id="skillsGrowth">94%</div>
+                    <div class="metric-label">Skills Growth</div>
+                    <div class="metric-change positive">
+                        <i class="fas fa-arrow-up"></i> +8% this month
+                    </div>
+                    <div class="real-time-indicator">
+                        <div class="pulse-dot"></div>
+                        AI assessment complete
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Charts Section -->
+            <section class="charts-grid" data-aos="fade-up" data-aos-delay="400">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Career Growth Trajectory</h3>
+                        <div class="chart-actions">
+                            <button class="chart-btn active" onclick="updateChart('6m')">6M</button>
+                            <button class="chart-btn" onclick="updateChart('1y')">1Y</button>
+                            <button class="chart-btn" onclick="updateChart('3y')">3Y</button>
+                        </div>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="careerGrowthChart"></canvas>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="font-size: var(--text-sm); color: var(--gray-600);">
+                            <i class="fas fa-info-circle"></i> Predicted growth based on current trajectory
+                        </div>
+                        <div class="real-time-indicator">
+                            <div class="pulse-dot"></div>
+                            Live prediction model
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Skill Distribution</h3>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                    <div style="margin-top: var(--space-4);">
+                        <h4 style="font-size: var(--text-base); font-weight: 600; margin-bottom: var(--space-3); color: var(--gray-800);">
+                            Recommended Focus Areas
+                        </h4>
+                        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-2); background: var(--gray-50); border-radius: var(--radius-md);">
+                                <span style="font-size: var(--text-sm); font-weight: 500;">React/TypeScript</span>
+                                <span style="font-size: var(--text-xs); color: var(--success); font-weight: 600;">High Demand</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-2); background: var(--gray-50); border-radius: var(--radius-md);">
+                                <span style="font-size: var(--text-sm); font-weight: 500;">Cloud Architecture</span>
+                                <span style="font-size: var(--text-xs); color: var(--warning); font-weight: 600;">Growing</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-2); background: var(--gray-50); border-radius: var(--radius-md);">
+                                <span style="font-size: var(--text-sm); font-weight: 500;">AI/ML Basics</span>
+                                <span style="font-size: var(--text-xs); color: var(--info); font-weight: 600;">Emerging</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Activities Feed -->
+            <section class="activities-feed" data-aos="fade-up" data-aos-delay="600">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6);">
+                    <h2 style="font-size: var(--text-xl); font-weight: 700; color: var(--gray-800);">
+                        Recent AI Analysis & Activities
+                    </h2>
+                    <div class="real-time-indicator">
+                        <div class="pulse-dot"></div>
+                        Live feed
+                    </div>
+                </div>
+                
+                <div id="activitiesFeed">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">AI analyzed your GitHub activity</div>
+                            <div class="activity-time">2 minutes ago</div>
+                        </div>
+                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">View Report</button>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Market intelligence updated for Frontend Development</div>
+                            <div class="activity-time">15 minutes ago</div>
+                        </div>
+                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">See Changes</button>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">23 new job matches found based on your profile</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                        <button class="btn btn-primary" style="font-size: var(--text-xs);">View Jobs</button>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">Skill assessment completed for React development</div>
+                            <div class="activity-time">3 hours ago</div>
+                        </div>
+                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">View Results</button>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">New mentorship opportunity in AI/ML available</div>
+                            <div class="activity-time">1 day ago</div>
+                        </div>
+                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">Learn More</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- JavaScript for Real-time Functionality -->
+    <script>
+        // Initialize AOS animations
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+        
+        // Chart configurations
+        const careerGrowthConfig = {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Career Score',
+                    data: [72, 75, 78, 82, 85, 87],
+                    borderColor: 'rgb(102, 126, 234)',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Market Average',
+                    data: [68, 69, 71, 73, 74, 75],
+                    borderColor: 'rgb(168, 85, 247)',
+                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.4,
+                    borderDash: [5, 5]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 60,
+                        max: 100
+                    }
+                },
+                elements: {
+                    point: {
+                        radius: 6,
+                        hoverRadius: 8
                     }
                 }
-                
-                return combined.slice(0, 3); // Show top 3 insights
             }
-            
-            handleAgentAction(action) {
-                console.log('🎯 User clicked agent action:', action);
-                
-                if (action.includes('goal')) {
-                    this.agents.goal.openGoalSetting();
-                } else if (action.includes('market')) {
-                    window.location.href = '/market-intelligence';
-                } else if (action.includes('skill')) {
-                    window.location.href = '/tools';
-                } else {
-                    window.location.href = '/dashboard';
-                }
-                
-                this.closeInsightsPopup();
-            }
-            
-            closeInsightsPopup() {
-                const popup = document.getElementById('universal-ai-popup');
-                if (popup) popup.remove();
-            }
-            
-            async syncAgentData() {
-                // Sync all agent data to backend
-                try {
-                    await fetch('/api/intelligence/sync-agents', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            user_id: this.userId,
-                            session_data: this.sessionData,
-                            agent_states: Object.fromEntries(
-                                Object.entries(this.agents).map(([name, agent]) => [
-                                    name, agent.getState ? agent.getState() : {}
-                                ])
-                            )
-                        })
-                    });
-                } catch (error) {
-                    console.error('Agent sync failed:', error);
-                }
-            }
-            
-            removeAllBrainIcons() {
-                // Remove all elements containing brain emoji or AI learning text
-                const allElements = document.querySelectorAll('*');
-                allElements.forEach(el => {
-                    if (el.id !== 'multi-agent-visualizer-button') {
-                        const text = el.textContent || '';
-                        const title = el.title || '';
-                        if (text.includes('🧠') || title.includes('autonomous AI') || title.includes('behavioral insight') ||
-                            title.includes('learning from my behavior to provide personalized insights') ||
-                            title.includes('learning from your behavior to provide personalized insights')) {
-                            console.log('🗑️ Removing brain icon element:', text, title);
-                            el.remove();
+        };
+        
+        const skillsConfig = {
+            type: 'doughnut',
+            data: {
+                labels: ['Frontend', 'Backend', 'DevOps', 'AI/ML', 'Design'],
+                datasets: [{
+                    data: [35, 25, 15, 15, 10],
+                    backgroundColor: [
+                        'rgb(102, 126, 234)',
+                        'rgb(168, 85, 247)',
+                        'rgb(34, 197, 94)',
+                        'rgb(251, 146, 60)',
+                        'rgb(239, 68, 68)'
+                    ],
+                    borderWidth: 0,
+                    cutout: '70%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
                         }
                     }
-                });
-                
-                // Also remove by style properties
-                const fixedElements = document.querySelectorAll('[style*="position: fixed"]');
-                fixedElements.forEach(el => {
-                    if (el.id !== 'multi-agent-visualizer-button') {
-                        const text = el.textContent || '';
-                        const title = el.title || '';
-                        if ((text.includes('🧠') || text.includes('AI')) && 
-                            (el.style.bottom || el.style.left)) {
-                            console.log('🗑️ Removing fixed position AI element:', text);
-                            el.remove();
-                        }
-                    }
-                });
+                }
             }
-            
-            // Override any method that might create old indicators
-            createAIIndicator() {
-                console.log('🚫 Old AI indicator creation blocked');
-                return; // Do nothing - blocked
-            }
-            
-            showAIStatus() {
-                console.log('🚫 Old AI status display blocked');
-                return; // Do nothing - blocked
-            }
-            
-            addStatusIndicator() {
-                console.log('🚫 Old status indicator creation blocked');
-                return; // Do nothing - blocked
-            }
-            
-            initializeUniversalTracking() {
-
-        // Initialize Universal AI System on dashboard
-        let universalAI;
+        };
+        
+        // Initialize charts
+        let careerGrowthChart, skillsChart;
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Universal AI System
-            universalAI = new UniversalAISystem();
+            // Initialize career growth chart
+            const careerCtx = document.getElementById('careerGrowthChart').getContext('2d');
+            careerGrowthChart = new Chart(careerCtx, careerGrowthConfig);
             
-            // COMPLETE AI INDICATOR OVERRIDE SYSTEM
-            let visualizerButtonCreated = false;
+            // Initialize skills chart
+            const skillsCtx = document.getElementById('skillsChart').getContext('2d');
+            skillsChart = new Chart(skillsCtx, skillsConfig);
             
-            function createVisualizerButton() {
-                if (visualizerButtonCreated) return;
-                
-                // Remove ALL existing AI indicators first
-                const allElements = document.querySelectorAll('*');
-                allElements.forEach(el => {
-                    const text = el.textContent || '';
-                    const title = el.title || '';
-                    const style = el.style.cssText || '';
-                    
-                    if ((text.includes('🧠') || text.includes('AI Learning') || text.includes('Learning...')) ||
-                        (title.includes('AI') || title.includes('learning') || title.includes('behavioral') || 
-                         title.includes('personalized insights') || title.includes('learning from my behavior') ||
-                         title.includes('learning from your behavior') || title.includes('provide personalized')) ||
-                        (style.includes('position: fixed') && style.includes('bottom') && (text.includes('AI') || text.includes('🧠')))) {
-                        console.log('🗑️ OVERRIDE: Removing AI element:', text, title);
-                        el.remove();
-                    }
-                });
-                
-                // Create the new visualizer button
-                const aiIndicator = document.createElement('div');
-                aiIndicator.id = 'multi-agent-visualizer-button';
-                aiIndicator.style.position = 'fixed';
-                aiIndicator.style.top = '0';
-                aiIndicator.style.left = '0';
-                aiIndicator.style.width = '100%';
-                aiIndicator.style.height = '100%';
-                aiIndicator.style.background = 'rgba(0,0,0,0.95)';
-                aiIndicator.style.zIndex = '10002';
-                aiIndicator.style.display = 'flex';
-                aiIndicator.style.flexDirection = 'column';
-                aiIndicator.style.color = 'white';
-                aiIndicator.style.fontFamily = 'Courier New, monospace';
-                
-                aiIndicator.innerHTML = '<div style="display: flex; height: 100%; padding: 20px;"><div style="flex: 1; margin-right: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px;"><h2 style="margin-top: 0; color: #00ff88;">🤖 Agent Status Dashboard</h2><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>🧠 BehavioralAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Insights Generated: <span style="color: #00ff88; font-weight: bold;" id="behavioral-insights">247</span></div><div>Learning Rate: <span style="color: #00ff88; font-weight: bold;" id="behavioral-learning">94.2%</span></div></div><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>🎯 MotivationAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Goals Tracked: <span style="color: #00ff88; font-weight: bold;">12</span></div><div>Engagement Score: <span style="color: #00ff88; font-weight: bold;" id="motivation-engagement">87.5%</span></div></div><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>📊 MarketIntelligenceAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Data Sources: <span style="color: #00ff88; font-weight: bold;">156</span></div><div>Trend Accuracy: <span style="color: #00ff88; font-weight: bold;" id="market-accuracy">96.8%</span></div></div><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; padding: 15px; margin: 10px 0;"><h3>🎯 GoalSettingAgent</h3><div>Status: <span style="color: #00ff88; font-weight: bold;">ACTIVE</span></div><div>Active Goals: <span style="color: #00ff88; font-weight: bold;">8</span></div><div>Success Rate: <span style="color: #00ff88; font-weight: bold;" id="goal-success">92.1%</span></div></div></div><div style="flex: 1; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 20px;"><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;"><h2 style="margin: 0; color: #00ff88;">📡 Live A2A Communication</h2><button onclick="clearCommunicationLog()" style="background: #ff4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">Clear Log</button></div><div id="communication-log" style="height: 400px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 5px; padding: 10px;"><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(255, 165, 0, 0.2);">🧠 BehavioralAgent → MarketIntelligenceAgent: User shows high interest in AI/ML roles</div><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(100, 149, 237, 0.2);">📊 MarketIntelligenceAgent → GoalSettingAgent: AI/ML salary trends +15% YoY</div><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(255, 20, 147, 0.2);">🎯 GoalSettingAgent → MotivationAgent: Recommend skill development path</div><div style="padding: 5px 10px; margin: 2px 0; border-radius: 4px; font-size: 12px; background: rgba(0, 255, 136, 0.2);">🎯 MotivationAgent → BehavioralAgent: User engagement optimal for learning</div></div></div></div><button onclick="closeAgentVisualizer()" style="position: absolute; top: 20px; right: 20px; background: #ff4444; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">✕ Close</button>';
-                    
-                    document.body.appendChild(aiIndicator);
-                    
-                    // Start live updates
-                    startVisualizerUpdates();
-                }
-                
-                aiIndicator.style.display = 'flex';
-                console.log('✅ Agent Visualizer opened successfully');
-                
-            } catch (error) {
-                console.error('❌ Error creating Agent Visualizer:', error);
-                alert('Error opening Agent Visualizer. Please check console for details.');
-            }
-        }
+            // Start real-time updates
+            startRealTimeUpdates();
+            
+            // Animate metrics on load
+            animateMetrics();
+        });
         
-        function closeAgentVisualizer() {
-            const visualizer = document.getElementById('agent-visualizer');
-            if (visualizer) {
-                visualizer.style.display = 'none';
-            }
-        }
-        
-        function clearCommunicationLog() {
-            const log = document.getElementById('communication-log');
-            if (log) {
-                log.innerHTML = '<div style="color: #888; padding: 5px 10px;">Communication log cleared...</div>';
-            }
-        }
-        
-        function startVisualizerUpdates() {
-            // Update agent metrics every 3 seconds
+        // Real-time updates simulation
+        function startRealTimeUpdates() {
             setInterval(() => {
-                updateAgentMetrics();
-                addCommunicationEvent();
-            }, 3000);
+                updateMetrics();
+                updateAIInsights();
+            }, 30000); // Update every 30 seconds
+            
+            setInterval(() => {
+                addNewActivity();
+            }, 60000); // Add new activity every minute
         }
         
-        function updateAgentMetrics() {
-            // Update behavioral agent metrics
-            const insights = document.getElementById('behavioral-insights');
-            if (insights) insights.textContent = Math.floor(Math.random() * 50) + 200;
+        // Update metrics with random variations
+        function updateMetrics() {
+            const careerScore = document.getElementById('careerScore');
+            const salary = document.getElementById('salaryProjection');
+            const jobs = document.getElementById('jobMatches');
+            const skills = document.getElementById('skillsGrowth');
             
-            const learning = document.getElementById('behavioral-learning');
-            if (learning) learning.textContent = (Math.random() * 10 + 90).toFixed(1) + '%';
+            // Simulate small changes
+            const currentScore = parseInt(careerScore.textContent);
+            const change = Math.random() > 0.5 ? 1 : -1;
+            careerScore.textContent = Math.max(0, Math.min(100, currentScore + change));
             
-            // Update motivation agent metrics
-            const engagement = document.getElementById('motivation-engagement');
-            if (engagement) engagement.textContent = (Math.random() * 15 + 80).toFixed(1) + '%';
-            
-            // Update market intelligence metrics
-            const accuracy = document.getElementById('market-accuracy');
-            if (accuracy) accuracy.textContent = (Math.random() * 5 + 95).toFixed(1) + '%';
-            
-            // Update goal setting metrics
-            const success = document.getElementById('goal-success');
-            if (success) success.textContent = (Math.random() * 8 + 90).toFixed(1) + '%';
+            // Update other metrics similarly
+            const currentJobs = parseInt(jobs.textContent);
+            jobs.textContent = Math.max(0, currentJobs + Math.floor(Math.random() * 5));
         }
         
-        function addCommunicationEvent() {
-            const log = document.getElementById('communication-log');
-            if (!log) return;
-            
-            const events = [
-                { type: 'behavioral', message: '🧠 BehavioralAgent → MarketIntelligenceAgent: User shows high interest in AI/ML roles', color: 'rgba(255, 165, 0, 0.2)' },
-                { type: 'market', message: '📊 MarketIntelligenceAgent → GoalSettingAgent: AI/ML salary trends +15% YoY', color: 'rgba(100, 149, 237, 0.2)' },
-                { type: 'goal', message: '🎯 GoalSettingAgent → MotivationAgent: Recommend skill development path', color: 'rgba(255, 20, 147, 0.2)' },
-                { type: 'motivation', message: '🎯 MotivationAgent → BehavioralAgent: User engagement optimal for learning', color: 'rgba(0, 255, 136, 0.2)' },
-                { type: 'behavioral', message: '🧠 BehavioralAgent → All Agents: User behavior analysis complete', color: 'rgba(255, 165, 0, 0.2)' },
-                { type: 'market', message: '📊 MarketIntelligenceAgent → All Agents: Market data synchronized', color: 'rgba(100, 149, 237, 0.2)' }
+        // Update AI insights
+        function updateAIInsights() {
+            const insights = [
+                "<p><strong>🎯 Market Alert:</strong> JavaScript framework demand increased 12% this week.</p>",
+                "<p><strong>📈 Opportunity:</strong> Consider TypeScript certification for 22% salary boost.</p>",
+                "<p><strong>💡 Insight:</strong> Your profile ranks in top 15% for full-stack roles.</p>",
+                "<p><strong>🚀 Trend:</strong> AI integration skills showing 40% growth in job postings.</p>"
             ];
             
-            const event = events[Math.floor(Math.random() * events.length)];
-            const logEntry = document.createElement('div');
-            logEntry.style.padding = '5px 10px';
-            logEntry.style.margin = '2px 0';
-            logEntry.style.borderRadius = '4px';
-            logEntry.style.fontSize = '12px';
-            logEntry.style.background = event.color;
-            logEntry.textContent = event.message;
-            
-            log.appendChild(logEntry);
-            log.scrollTop = log.scrollHeight;
-            
-            // Keep only last 20 entries
-            while (log.children.length > 20) {
-                log.removeChild(log.firstChild);
-            }
+            const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+            document.getElementById('aiInsights').innerHTML = randomInsight;
         }
-
-        // ============================================================================
-        // SYSTEM ISOLATION: PREVENT BEHAVIORAL TRACKING CONFLICTS
-        // ============================================================================
         
-        // Override and disable old behavioral tracking system completely
-        window.addEventListener('DOMContentLoaded', function() {
-            console.log('🛡️ Activating Multi-Agent System Isolation...');
-            
-            // Disable any existing behavioral trackers
-            if (window.AutonomousBehaviorTracker) {
-                console.log('🚫 Disabling AutonomousBehaviorTracker...');
-                window.AutonomousBehaviorTracker = null;
-            }
-            
-            if (window.UniversalAISystem) {
-                console.log('🔄 Overriding UniversalAISystem for Multi-Agent compatibility...');
-                // Keep only the multi-agent visualizer functionality
-                const originalSystem = window.UniversalAISystem;
-                window.UniversalAISystem = {
-                    // Disable all old methods that create brain icons
-                    createAIIndicator: function() { console.log('🚫 Old AI indicator creation blocked'); },
-                    showBehavioralInsight: function() { console.log('🚫 Old behavioral insight blocked'); },
-                    trackBehavior: function() { console.log('🚫 Old behavior tracking blocked'); },
-                    
-                    // Keep only multi-agent visualizer methods
-                    removeAllBrainIcons: originalSystem?.removeAllBrainIcons || function() {
-                        console.log('🧹 Cleaning up old AI indicators...');
-                        const allElements = document.querySelectorAll('*');
-                        allElements.forEach(el => {
-                            if (el.id !== 'multi-agent-visualizer-button') {
-                                const text = el.textContent || '';
-                                const title = el.title || '';
-                                if (text.includes('🧠') || title.includes('autonomous AI') || 
-                                    title.includes('behavioral insight') ||
-                                    title.includes('learning from') || 
-                                    text.includes('AI Learning')) {
-                                    console.log('🗑️ Removing old AI indicator:', el);
-                                    el.remove();
-                                }
-                            }
-                        });
-                    }
-                };
-            }
-            
-            // Remove any existing brain icons or old AI indicators
-            setTimeout(function() {
-                if (window.UniversalAISystem && window.UniversalAISystem.removeAllBrainIcons) {
-                    window.UniversalAISystem.removeAllBrainIcons();
+        // Add new activity to feed
+        function addNewActivity() {
+            const activities = [
+                {
+                    icon: 'fa-brain',
+                    title: 'AI analyzed recent project commits',
+                    time: 'Just now'
+                },
+                {
+                    icon: 'fa-chart-line',
+                    title: 'Weekly market report generated',
+                    time: 'Just now'
+                },
+                {
+                    icon: 'fa-star',
+                    title: 'New skill recommendation available',
+                    time: 'Just now'
                 }
-            }, 1000);
+            ];
             
-            // Prevent old behavioral tracking from interfering
-            document.addEventListener('click', function(event) {
-                // If clicking on multi-agent button, stop all other event handlers
-                if (event.target && event.target.id === 'multi-agent-visualizer-button') {
-                    console.log('🛡️ Multi-Agent button click - blocking other handlers');
-                    event.stopImmediatePropagation();
-                }
-            }, true); // Use capture phase to intercept early
+            const randomActivity = activities[Math.floor(Math.random() * activities.length)];
+            const activityHtml = `
+                <div class="activity-item" style="animation: fadeInUp 0.5s ease-out;">
+                    <div class="activity-icon">
+                        <i class="fas ${randomActivity.icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">${randomActivity.title}</div>
+                        <div class="activity-time">${randomActivity.time}</div>
+                    </div>
+                    <button class="btn btn-secondary" style="font-size: var(--text-xs);">View</button>
+                </div>
+            `;
             
-            console.log('✅ Multi-Agent System Isolation Complete');
-        });
-
-        // ===================================================================
-        // DASHBOARD INTERACTIVE FUNCTIONALITY
-        // ===================================================================
-
-        // Fix the career momentum analyzer
-        function updateCareerMomentum() {
-            const stateText = document.getElementById('stateText');
-            if (!stateText) return;
+            const feed = document.getElementById('activitiesFeed');
+            feed.insertAdjacentHTML('afterbegin', activityHtml);
             
-            // Simulate loading
-            stateText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing your career momentum...';
-            
-            setTimeout(() => {
-                stateText.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> Career momentum: Strong upward trajectory detected!';
-            }, 2000);
+            // Remove oldest activity if more than 5
+            if (feed.children.length > 5) {
+                feed.removeChild(feed.lastElementChild);
+            }
         }
-
-        // Fix live market intelligence loading
-        function loadLiveMarketData() {
-            // Target the specific spans that contain loading text
-            const loadingSpans = document.querySelectorAll('span');
-            loadingSpans.forEach(span => {
-                if (span.textContent.trim() === 'Loading real-time market data...') {
-                    setTimeout(() => {
-                        span.innerHTML = '<i class="fas fa-chart-line" style="color: #28a745;"></i> Live data updated • React: +15%, Unity: +25%';
-                        span.style.color = '#28a745';
-                    }, 1500);
-                }
-                if (span.textContent.trim() === 'Analyzing peer data...') {
-                    setTimeout(() => {
-                        span.innerHTML = '<i class="fas fa-users" style="color: #667eea;"></i> Peer analysis complete • You rank in top 15%';
-                        span.style.color = '#667eea';
-                    }, 2200);
-                }
+        
+        // Animate metrics counters
+        function animateMetrics() {
+            const metrics = document.querySelectorAll('.metric-value');
+            metrics.forEach(metric => {
+                const target = parseInt(metric.textContent.replace(/[^\d]/g, ''));
+                let current = 0;
+                const increment = target / 30;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    
+                    if (metric.textContent.includes('$')) {
+                        metric.textContent = '$' + Math.floor(current).toLocaleString();
+                    } else if (metric.textContent.includes('%')) {
+                        metric.textContent = Math.floor(current) + '%';
+                    } else {
+                        metric.textContent = Math.floor(current);
+                    }
+                }, 50);
             });
         }
-
-        // Job Recommendations Modal
-        function showJobRecommendationsModal() {
-            // Remove any existing modal
-            const existingModal = document.getElementById('jobRecommendationsModal');
-            if (existingModal) {
-                existingModal.remove();
+        
+        // Chart update function
+        function updateChart(period) {
+            // Update active button
+            document.querySelectorAll('.chart-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update chart data based on period
+            let newData, newLabels;
+            
+            switch(period) {
+                case '6m':
+                    newLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+                    newData = [72, 75, 78, 82, 85, 87];
+                    break;
+                case '1y':
+                    newLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
+                    newData = [70, 80, 85, 87];
+                    break;
+                case '3y':
+                    newLabels = ['2022', '2023', '2024'];
+                    newData = [65, 78, 87];
+                    break;
             }
             
-            const modal = document.createElement('div');
-            modal.id = 'jobRecommendationsModal';
-            modal.style.position = 'fixed';
-            modal.style.top = '0';
-            modal.style.left = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.background = 'rgba(0,0,0,0.7)';
-            modal.style.display = 'flex';
-            modal.style.justifyContent = 'center';
-            modal.style.alignItems = 'center';
-            modal.style.zIndex = '10000';
-            
-            // Create modal content
-            const modalContent = document.createElement('div');
-            modalContent.style.background = 'white';
-            modalContent.style.borderRadius = '15px';
-            modalContent.style.padding = '2rem';
-            modalContent.style.maxWidth = '600px';
-            modalContent.style.width = '90%';
-            modalContent.style.maxHeight = '80vh';
-            modalContent.style.overflowY = 'auto';
-            
-            modalContent.innerHTML = '<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;"><h2 style="color: #667eea; margin: 0;">🎯 Personalized Job Recommendations</h2><button onclick="closeJobRecommendationsModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button></div><div style="margin-bottom: 1rem;"><div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;"><h3 style="margin: 0 0 0.5rem 0;">Senior React Developer</h3><p style="margin: 0 0 0.5rem 0;">TechCorp • Remote • $120k-$150k</p><div style="background: rgba(255,255,255,0.2); padding: 0.5rem; border-radius: 5px;"><strong>Match: 95%</strong> - Your React and JavaScript skills are a perfect fit!</div></div><div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;"><h3 style="margin: 0 0 0.5rem 0;">Full-Stack Developer</h3><p style="margin: 0 0 0.5rem 0;">StartupXYZ • Remote • $90k-$130k + Equity</p><div style="background: rgba(255,255,255,0.2); padding: 0.5rem; border-radius: 5px;"><strong>Match: 88%</strong> - Great opportunity to grow your full-stack skills</div></div><div style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%); color: white; padding: 1rem; border-radius: 10px;"><h3 style="margin: 0 0 0.5rem 0;">Unity Game Developer</h3><p style="margin: 0 0 0.5rem 0;">Gaming Studio • Hybrid • $85k-$120k</p><div style="background: rgba(255,255,255,0.2); padding: 0.5rem; border-radius: 5px;"><strong>Match: 82%</strong> - Expand into gaming with your technical background</div></div></div><div style="text-align: center;"><button onclick="window.open(\'/tools\', \'_blank\')" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin: 0.5rem;">📊 Analyze More Opportunities</button><button onclick="window.open(\'/community\', \'_blank\')" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; cursor: pointer; margin: 0.5rem;">💬 Join Career Discussion</button></div>';
-            
-            modal.appendChild(modalContent);
-            document.body.appendChild(modal);
+            careerGrowthChart.data.labels = newLabels;
+            careerGrowthChart.data.datasets[0].data = newData;
+            careerGrowthChart.update();
         }
-
-        function closeJobRecommendationsModal() {
-            const modal = document.getElementById('jobRecommendationsModal');
-            if (modal) {
-                modal.remove();
+        
+        // Refresh dashboard function
+        function refreshDashboard() {
+            // Show loading state
+            const refreshBtn = event.target;
+            const originalContent = refreshBtn.innerHTML;
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            refreshBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                updateMetrics();
+                updateAIInsights();
+                addNewActivity();
+                
+                // Reset button
+                refreshBtn.innerHTML = originalContent;
+                refreshBtn.disabled = false;
+                
+                // Show success message
+                const message = document.createElement('div');
+                message.style.cssText = 'position: fixed; top: 20px; right: 20px; background: var(--success); color: white; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); z-index: 9999;';
+                message.innerHTML = '<i class="fas fa-check"></i> Dashboard updated successfully!';
+                document.body.appendChild(message);
+                
+                setTimeout(() => {
+                    message.remove();
+                }, 3000);
+            }, 2000);
+        }
+        
+        // Add hover effects for better interactivity
+        document.addEventListener('mouseover', function(e) {
+            if (e.target.closest('.metric-card')) {
+                e.target.closest('.metric-card').style.transform = 'translateY(-4px) scale(1.02)';
             }
-        }
-
-        // Initialize dashboard functionality
-        function initializeDashboard() {
-            console.log('🚀 Initializing Dashboard Functionality...');
-            
-            // Start the career momentum analyzer
-            setTimeout(updateCareerMomentum, 500);
-            
-            // Load live data
-            setTimeout(loadLiveMarketData, 1000);
-            
-            console.log('✅ Dashboard Interactive Elements Initialized');
-        }
-
-        // Start dashboard initialization when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(initializeDashboard, 1000);
         });
-
+        
+        document.addEventListener('mouseout', function(e) {
+            if (e.target.closest('.metric-card')) {
+                e.target.closest('.metric-card').style.transform = 'translateY(0) scale(1)';
+            }
+        });
     </script>
 </body>
 </html>
