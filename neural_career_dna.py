@@ -15,7 +15,8 @@ Features:
 """
 
 import json
-import numpy as np
+import statistics
+import math
 from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass, asdict
@@ -160,8 +161,8 @@ class NeuralCareerDNA:
         accuracy_scores = data.get('accuracy_progression', [])
         retention_tests = data.get('retention_scores', [])
         
-        speed_score = 1.0 - (np.mean(completion_times) if completion_times else 0.5)
-        retention_score = np.mean(retention_tests) if retention_tests else 0.5
+        speed_score = 1.0 - (statistics.mean(completion_times) if completion_times else 0.5)
+        retention_score = statistics.mean(retention_tests) if retention_tests else 0.5
         adaptation_score = self._calculate_adaptation_rate(accuracy_scores)
         
         return {
