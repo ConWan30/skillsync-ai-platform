@@ -39,6 +39,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     skills = db.relationship('Skill', backref='user', lazy=True)
+    career_dna = db.relationship('CareerDNA', backref='user', lazy=True)
 
 class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +56,35 @@ class Assessment(db.Model):
     ai_assessment = db.Column(db.Text, nullable=False)
     recommendations = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class CareerDNA(db.Model):
+    """Database model for Career DNA profiles"""
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    dna_id = db.Column(db.String(50), unique=True, nullable=False)
+    
+    # Core DNA Components (stored as JSON)
+    cognitive_style = db.Column(db.JSON, nullable=False)
+    learning_velocity = db.Column(db.JSON, nullable=False)
+    problem_solving = db.Column(db.JSON, nullable=False)
+    leadership_markers = db.Column(db.JSON, nullable=False)
+    innovation_quotient = db.Column(db.Float, nullable=False)
+    collaboration_chemistry = db.Column(db.JSON, nullable=False)
+    risk_tolerance = db.Column(db.Float, nullable=False)
+    adaptation_style = db.Column(db.JSON, nullable=False)
+    
+    # Evolution tracking
+    evolution_history = db.Column(db.JSON, default=list)
+    mutation_events = db.Column(db.JSON, default=list)
+    growth_trajectory = db.Column(db.JSON, default=dict)
+    
+    # Predictive elements
+    career_predictions = db.Column(db.JSON, default=dict)
+    skill_acquisition_probability = db.Column(db.JSON, default=dict)
+    success_indicators = db.Column(db.JSON, default=dict)
+    
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_updated = db.Column(db.DateTime, default=datetime.utcnow)
 
 # Helper function for xAI API calls
 def call_xai_api(messages, max_tokens=500):
@@ -538,6 +568,9 @@ from a2a_protocol import get_a2a_protocol, initialize_a2a_system, AgentType
 # AI Activity Tracker Integration
 from ai_activity_tracker import get_activity_tracker, track_user_ai_interaction
 
+# Neural Career DNA Integration
+from neural_career_dna import get_neural_dna_system, initialize_neural_dna_system, CareerDNAProfile
+
 # Initialize A2A system on startup
 a2a_protocol = None
 
@@ -990,6 +1023,82 @@ def get_collaborative_analysis():
                 'AI Behavior Coach',
                 'AI Gaming Specialist'
             ],
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+# Neural Career DNA Endpoints
+
+@app.route('/api/neural-dna/generate-profile', methods=['POST'])
+def generate_neural_dna_profile():
+    """Generate a new Neural Career DNA profile for a user"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', 'anonymous')
+        
+        neural_dna_system = get_neural_dna_system()
+        profile = neural_dna_system.generate_profile(user_id)
+        
+        return jsonify({
+            'success': True,
+            'profile': profile,
+            'user_id': user_id,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/neural-dna/analyze-profile', methods=['POST'])
+def analyze_neural_dna_profile():
+    """Analyze a Neural Career DNA profile for insights and recommendations"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', 'anonymous')
+        profile_id = data.get('profile_id', '')
+        
+        neural_dna_system = get_neural_dna_system()
+        analysis = neural_dna_system.analyze_profile(user_id, profile_id)
+        
+        return jsonify({
+            'success': True,
+            'analysis': analysis,
+            'user_id': user_id,
+            'profile_id': profile_id,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/neural-dna/update-profile', methods=['POST'])
+def update_neural_dna_profile():
+    """Update a Neural Career DNA profile with new data"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', 'anonymous')
+        profile_id = data.get('profile_id', '')
+        update_data = data.get('update_data', {})
+        
+        neural_dna_system = get_neural_dna_system()
+        updated_profile = neural_dna_system.update_profile(user_id, profile_id, update_data)
+        
+        return jsonify({
+            'success': True,
+            'updated_profile': updated_profile,
+            'user_id': user_id,
+            'profile_id': profile_id,
             'timestamp': datetime.now().isoformat()
         })
         
