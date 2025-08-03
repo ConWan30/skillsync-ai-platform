@@ -27,13 +27,13 @@
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11'; }
-        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-100); background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); position: relative; overflow: hidden; }
         .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-md); }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); }
         .btn-secondary { background: rgba(255, 255, 255, 0.9); color: var(--gray-700); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); }
         .btn-secondary:hover { background: rgba(255, 255, 255, 1); transform: translateY(-2px); }
-        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-glass); transition: all var(--transition-normal); position: relative; overflow: hidden; }
+        .card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-normal); position: relative; overflow: hidden; }
         .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-2xl); border-color: rgba(255, 255, 255, 0.3); }
         .pulse-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; margin-right: var(--space-2); }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }

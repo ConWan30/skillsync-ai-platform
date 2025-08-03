@@ -22,7 +22,7 @@
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-100); background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); min-height: 100vh; }
+        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
         .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; }
         .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
         .logo { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); text-decoration: none; }
@@ -35,17 +35,17 @@
         .btn-success { background: linear-gradient(135deg, var(--success), #38a169); color: white; }
         .btn-warning { background: linear-gradient(135deg, var(--warning), #c05621); color: white; }
         .btn:hover { transform: translateY(-2px); }
-        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-fast); }
+        .card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-fast); }
         .card:hover { transform: translateY(-4px); }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
         .grid { display: grid; gap: var(--space-6); }
         .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .hero { padding: var(--space-16) 0; text-align: center; }
-        .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: white; }
+        .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: var(--gray-800); }
         .interactive-controls { display: flex; gap: var(--space-4); margin-bottom: var(--space-6); justify-content: center; flex-wrap: wrap; }
         .data-section { margin: var(--space-8) 0; }
-        .section-title { color: white; font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-6); text-align: center; }
+        .section-title { color: var(--gray-800); font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-6); text-align: center; }
         .tool-card { position: relative; overflow: hidden; cursor: pointer; }
         .tool-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--info), var(--success)); }
         .textarea-input { width: 100%; min-height: 120px; padding: var(--space-4); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); font-family: var(--font-primary); font-size: var(--text-sm); resize: vertical; }
@@ -84,7 +84,7 @@
     <section class="hero">
         <div class="container">
             <h1><i class="fas fa-tools"></i> Professional Tools</h1>
-            <p style="font-size: var(--text-lg); opacity: 0.9; margin-bottom: var(--space-8);">
+            <p style="font-size: var(--text-lg); opacity: 0.8; margin-bottom: var(--space-8); color: var(--gray-700);">
                 AI-powered tools to accelerate your career development and professional growth
             </p>
             <div class="interactive-controls">
@@ -439,12 +439,12 @@
             
             document.getElementById('interviewContent').innerHTML = `
                 <p style="margin-bottom: var(--space-4);">Mock Interview for <strong>${role} (${level})</strong></p>
-                <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
-                    <h4 style="margin-bottom: var(--space-3);">Question 1:</h4>
-                    <p>${selectedQuestions[0]}</p>
+                <div style="background: var(--gray-100); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4); color: var(--gray-800);">
+                    <h4 style="margin-bottom: var(--space-3); color: var(--gray-800);">Question 1:</h4>
+                    <p style="color: var(--gray-700);">${selectedQuestions[0]}</p>
                 </div>
                 <div style="margin-bottom: var(--space-4);">
-                    <label style="display: block; margin-bottom: var(--space-2);">Your Answer:</label>
+                    <label style="display: block; margin-bottom: var(--space-2); color: var(--gray-800); font-weight: 600;">Your Answer:</label>
                     <textarea style="width: 100%; height: 120px; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);"></textarea>
                 </div>
                 <div style="text-align: center;">
