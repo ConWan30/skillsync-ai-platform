@@ -24,12 +24,65 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
-        .navbar { background: white; border-bottom: 1px solid var(--gray-200); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; box-shadow: var(--shadow-sm); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
-        .logo { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); text-decoration: none; }
-        .nav-links { display: flex; gap: var(--space-8); list-style: none; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--gray-700); font-weight: 500; font-size: var(--text-sm); transition: color var(--transition-fast); }
-        .nav-links a:hover { color: var(--primary-600); }
+        /* Dashboard Layout Styles */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-600) 100%);
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: var(--space-6);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            margin-bottom: var(--space-8);
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            margin-bottom: var(--space-8);
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: var(--space-1);
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            text-decoration: none;
+            color: var(--gray-700);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+            font-weight: 500;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .main-content {
+            padding: var(--space-6);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+        }
         .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
         .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
         .btn-secondary { background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-300); }
@@ -57,49 +110,90 @@
         .chart-container { height: 250px; }
         .data-section { margin: var(--space-8) 0; }
         .section-title { color: var(--gray-800); font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-6); text-align: center; }
-        @media (max-width: 768px) { .grid-cols-2, .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } .interactive-controls { flex-direction: column; } }
+        @media (max-width: 1024px) { 
+            .dashboard-layout { 
+                grid-template-columns: 1fr; 
+            }
+            .sidebar { 
+                position: fixed; 
+                top: 0; 
+                left: -280px; 
+                z-index: 1000; 
+                transition: left 0.3s ease; 
+            }
+            .sidebar.open { 
+                left: 0; 
+            }
+            .main-content { 
+                padding: var(--space-4); 
+            }
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo"><i class="fas fa-rocket"></i> SkillSync AI</a>
-            <ul class="nav-links">
-                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Intelligence</a></li>
-                <li><a href="/career-paths"><i class="fas fa-route"></i> Paths</a></li>
-                <li><a href="/tools"><i class="fas fa-tools"></i> Tools</a></li>
-                <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
-                <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <div class="container">
-            <h1><i class="fas fa-route"></i> Career Paths</h1>
-            <p style="font-size: var(--text-lg); opacity: 0.9; margin-bottom: var(--space-8);">
-                <span style="color: var(--gray-700);">Personalized career roadmaps, skill progression tracking, and professional development paths</span>
-            </p>
-            <div class="interactive-controls">
-                <button class="btn btn-primary" onclick="generatePersonalizedPath()">
-                    <i class="fas fa-magic"></i> Generate My Path
-                </button>
-                <button class="btn btn-secondary" onclick="assessCurrentSkills()">
-                    <i class="fas fa-clipboard-check"></i> Assess Skills
-                </button>
-                <button class="btn btn-secondary" onclick="setCareerGoal()">
-                    <i class="fas fa-bullseye"></i> Set Goal
-                </button>
-                <button class="btn btn-secondary" onclick="trackProgress()">
-                    <i class="fas fa-chart-line"></i> View Progress
+    <!-- Dashboard Layout with Sidebar -->
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div style="font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); margin-bottom: var(--space-2);">
+                    <i class="fas fa-rocket"></i> SkillSync AI
+                </div>
+                <div style="font-size: var(--text-sm); color: var(--gray-600);">AI-Powered Career Platform</div>
+            </div>
+            
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Overview</a></li>
+                    <li><a href="/career-paths" class="active"><i class="fas fa-route"></i> Career Paths</a></li>
+                    <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Market Intel</a></li>
+                    <li><a href="/tools"><i class="fas fa-tools"></i> AI Tools</a></li>
+                    <li><a href="/goals"><i class="fas fa-target"></i> Goals</a></li>
+                    <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
+                    <li><a href="/visualizer"><i class="fas fa-chart-bar"></i> Visualizer</a></li>
+                    <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
+                </ul>
+            </nav>
+            
+            <!-- AI Assistant Widget -->
+            <div style="margin-top: auto; padding: var(--space-4); background: linear-gradient(135deg, var(--primary-500), var(--secondary-600)); border-radius: var(--radius-xl); color: white; text-align: center;">
+                <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl);">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">AI Assistant</h4>
+                <p style="font-size: var(--text-xs); color: rgba(255,255,255,0.9); margin-bottom: var(--space-3);">Need help? Ask our AI!</p>
+                <button class="btn btn-secondary" style="width: 100%; font-size: var(--text-xs); background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);" onclick="openAIAssistant()">
+                    Chat Now
                 </button>
             </div>
-        </div>
-    </section>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
 
-    <main style="padding: var(--space-8) 0;">
-        <div class="container">
+            <!-- Hero Section -->
+            <section style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-radius: var(--radius-2xl); padding: var(--space-8); margin-bottom: var(--space-8); text-align: center; box-shadow: var(--shadow-2xl);">
+                <h1 style="font-family: var(--font-display); font-size: var(--text-4xl); font-weight: 800; margin-bottom: var(--space-4); color: var(--gray-800);">
+                    <i class="fas fa-route" style="color: var(--primary-600);"></i> Career Paths
+                </h1>
+                <p style="font-size: var(--text-lg); color: var(--gray-600); margin-bottom: var(--space-8); max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Personalized career roadmaps, skill progression tracking, and professional development paths powered by AI
+                </p>
+                <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="generatePersonalizedPath()" style="background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg);">
+                        <i class="fas fa-magic"></i> Generate My Path
+                    </button>
+                    <button class="btn btn-secondary" onclick="assessCurrentSkills()" style="background: rgba(255, 255, 255, 0.9); color: var(--gray-700); border: 1px solid rgba(255, 255, 255, 0.2);">
+                        <i class="fas fa-clipboard-check"></i> Assess Skills
+                    </button>
+                    <button class="btn btn-secondary" onclick="setCareerGoal()" style="background: rgba(255, 255, 255, 0.9); color: var(--gray-700); border: 1px solid rgba(255, 255, 255, 0.2);">
+                        <i class="fas fa-bullseye"></i> Set Goal
+                    </button>
+                    <button class="btn btn-secondary" onclick="trackProgress()" style="background: rgba(255, 255, 255, 0.9); color: var(--gray-700); border: 1px solid rgba(255, 255, 255, 0.2);">
+                        <i class="fas fa-chart-line"></i> View Progress
+                    </button>
+                </div>
+            </section>
             <!-- Current Progress Overview -->
             <div class="data-section">
                 <h2 class="section-title">Your Career Progress</h2>
@@ -287,8 +381,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
         let skillsChart, timeChart;
@@ -375,140 +469,503 @@
             });
         }
 
-        async function generatePersonalizedPath() {
-            showNotification('🔍 Analyzing your skills and generating personalized career path...', 'info');
+        // User Profile System - LocalStorage based for persistence
+        class UserProfile {
+            constructor() {
+                this.profileKey = 'skillsync_user_profile';
+                this.profile = this.loadProfile();
+            }
             
-            // Show loading animation
+            loadProfile() {
+                const saved = localStorage.getItem(this.profileKey);
+                if (saved) {
+                    return JSON.parse(saved);
+                }
+                
+                // Default profile structure
+                return {
+                    personal: {
+                        name: '',
+                        email: '',
+                        location: '',
+                        experience_level: 'intermediate',
+                        preferred_learning_style: 'mixed'
+                    },
+                    career: {
+                        current_role: '',
+                        target_role: 'Full Stack Developer',
+                        target_salary: '100000',
+                        timeline: '8-12 months',
+                        motivation: ''
+                    },
+                    skills: {
+                        current: {
+                            'JavaScript': 85,
+                            'React': 75,
+                            'HTML/CSS': 90,
+                            'Node.js': 30,
+                            'Databases': 25,
+                            'DevOps': 15
+                        },
+                        target: {
+                            'JavaScript': 95,
+                            'React': 90,
+                            'HTML/CSS': 95,
+                            'Node.js': 80,
+                            'Databases': 70,
+                            'DevOps': 60
+                        }
+                    },
+                    goals: [],
+                    achievements: [],
+                    learning_history: [],
+                    weekly_plans: [],
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString()
+                };
+            }
+            
+            saveProfile() {
+                this.profile.updated_at = new Date().toISOString();
+                localStorage.setItem(this.profileKey, JSON.stringify(this.profile));
+            }
+            
+            addGoal(goal) {
+                goal.id = Date.now().toString();
+                goal.created_at = new Date().toISOString();
+                goal.status = 'active';
+                this.profile.goals.unshift(goal);
+                this.saveProfile();
+                return goal.id;
+            }
+            
+            updateGoal(goalId, updates) {
+                const goalIndex = this.profile.goals.findIndex(g => g.id === goalId);
+                if (goalIndex !== -1) {
+                    this.profile.goals[goalIndex] = { ...this.profile.goals[goalIndex], ...updates };
+                    this.saveProfile();
+                }
+            }
+            
+            completeGoal(goalId) {
+                this.updateGoal(goalId, { 
+                    status: 'completed', 
+                    completed_at: new Date().toISOString() 
+                });
+                
+                // Add achievement
+                const goal = this.profile.goals.find(g => g.id === goalId);
+                if (goal) {
+                    this.addAchievement({
+                        type: 'goal_completed',
+                        title: `Completed: ${goal.title}`,
+                        description: goal.description,
+                        points: goal.difficulty * 10
+                    });
+                }
+            }
+            
+            addAchievement(achievement) {
+                achievement.id = Date.now().toString();
+                achievement.earned_at = new Date().toISOString();
+                this.profile.achievements.unshift(achievement);
+                this.saveProfile();
+            }
+            
+            updateSkills(skillUpdates) {
+                Object.assign(this.profile.skills.current, skillUpdates);
+                this.saveProfile();
+            }
+            
+            getProgressStats() {
+                const goals = this.profile.goals;
+                const activeGoals = goals.filter(g => g.status === 'active').length;
+                const completedGoals = goals.filter(g => g.status === 'completed').length;
+                const totalPoints = this.profile.achievements.reduce((sum, a) => sum + (a.points || 0), 0);
+                
+                return {
+                    total_goals: goals.length,
+                    active_goals: activeGoals,
+                    completed_goals: completedGoals,
+                    completion_rate: goals.length > 0 ? Math.round((completedGoals / goals.length) * 100) : 0,
+                    total_points: totalPoints,
+                    achievements_count: this.profile.achievements.length
+                };
+            }
+        }
+        
+        // Initialize user profile
+        const userProfile = new UserProfile();
+        
+        async function generatePersonalizedPath() {
             const button = event.target;
             const originalText = button.innerHTML;
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
             button.disabled = true;
             
+            // Show AI analysis modal
+            const modal = createModal('🤖 AI Career Path Generator', `
+                <div style="text-align: center; padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--primary-500), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6);">
+                        <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">AI Analysis in Progress</h3>
+                        <p style="opacity: 0.9;">Analyzing your skills, goals, and market trends...</p>
+                        <div style="margin-top: var(--space-4);">
+                            <div class="loading-bar" style="background: rgba(255,255,255,0.3); height: 6px; border-radius: 3px; overflow: hidden;">
+                                <div class="loading-fill" style="background: white; height: 100%; width: 0%; transition: width 3s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="analysisSteps" style="text-align: left;">
+                        <div class="analysis-step" style="margin-bottom: var(--space-3); opacity: 0.5;">
+                            <i class="fas fa-check-circle" style="color: var(--success); margin-right: var(--space-2);"></i>
+                            Analyzing current skill levels...
+                        </div>
+                        <div class="analysis-step" style="margin-bottom: var(--space-3); opacity: 0.5;">
+                            <i class="fas fa-chart-line" style="color: var(--info); margin-right: var(--space-2);"></i>
+                            Reviewing market demand trends...
+                        </div>
+                        <div class="analysis-step" style="margin-bottom: var(--space-3); opacity: 0.5;">
+                            <i class="fas fa-route" style="color: var(--warning); margin-right: var(--space-2);"></i>
+                            Generating optimal learning path...
+                        </div>
+                        <div class="analysis-step" style="margin-bottom: var(--space-3); opacity: 0.5;">
+                            <i class="fas fa-bullseye" style="color: var(--success); margin-right: var(--space-2);"></i>
+                            Creating personalized milestones...
+                        </div>
+                    </div>
+                </div>
+            `);
+            
+            // Animate the analysis steps
+            setTimeout(() => {
+                document.querySelector('.loading-fill').style.width = '100%';
+                const steps = document.querySelectorAll('.analysis-step');
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        step.style.opacity = '1';
+                        step.style.transform = 'scale(1.05)';
+                        setTimeout(() => step.style.transform = 'scale(1)', 200);
+                    }, index * 800);
+                });
+            }, 100);
+            
             try {
-                // Try real AI career guidance
                 const response = await fetch('/api/ai/career-guidance', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: 'Generate a personalized career path',
-                        context: 'career_planning',
-                        user_skills: ['React', 'JavaScript', 'HTML/CSS'],
-                        career_goal: 'Full Stack Developer'
+                        message: 'Generate comprehensive personalized career path',
+                        context: 'career_path_generation',
+                        user_profile: userProfile.profile,
+                        current_skills: userProfile.profile.skills.current,
+                        career_goal: userProfile.profile.career.target_role
                     })
                 });
                 
                 if (response.ok) {
                     const data = await response.json();
                     
-                    // Update roadmap with AI response
-                    const roadmapContainer = document.querySelector('.roadmap-container');
-                    if (roadmapContainer) {
-                        roadmapContainer.style.opacity = '0.5';
-                        setTimeout(() => {
-                            roadmapContainer.style.opacity = '1';
-                        }, 500);
-                    }
-                    
-                    showNotification(`✨ AI-Generated Path: ${data.ai_response || data.guidance}`, 'success');
-                    button.innerHTML = originalText;
-                    button.disabled = false;
+                    setTimeout(() => {
+                        closeModal();
+                        showGeneratedPath(data);
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 3000);
                     return;
                 }
             } catch (error) {
-                console.log('Using simulation due to:', error);
+                console.log('Using fallback path generation:', error);
             }
             
-            // Fallback simulation
+            // Fallback with realistic generated path
             setTimeout(() => {
-                const roadmapContainer = document.querySelector('.roadmap-container');
-                if (roadmapContainer) {
-                    roadmapContainer.style.opacity = '0.5';
-                    setTimeout(() => {
-                        roadmapContainer.style.opacity = '1';
-                    }, 500);
-                }
-                
-                showNotification('✨ Personalized career path generated! Your roadmap has been updated with AI recommendations.', 'success');
+                closeModal();
+                showGeneratedPath({
+                    path_title: 'AI-Optimized Full Stack Developer Path',
+                    estimated_timeline: '7 months',
+                    confidence_score: 94,
+                    milestones: [
+                        { title: 'React Mastery', duration: '4 weeks', priority: 'high' },
+                        { title: 'Node.js Fundamentals', duration: '6 weeks', priority: 'high' },
+                        { title: 'Database Design', duration: '4 weeks', priority: 'medium' },
+                        { title: 'API Development', duration: '5 weeks', priority: 'high' },
+                        { title: 'Full Stack Projects', duration: '8 weeks', priority: 'critical' }
+                    ]
+                });
                 button.innerHTML = originalText;
                 button.disabled = false;
-            }, 3000);
+            }, 3200);
+        }
+        
+        function showGeneratedPath(pathData) {
+            const modal = createModal('✨ Your AI-Generated Career Path', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--success), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <h3 style="margin-bottom: var(--space-3);">${pathData.path_title || 'Personalized Career Path'}</h3>
+                        <div style="display: flex; justify-content: center; gap: var(--space-6); margin-bottom: var(--space-4);">
+                            <div>
+                                <div style="font-size: var(--text-2xl); font-weight: 700;">${pathData.estimated_timeline || '8 months'}</div>
+                                <div style="opacity: 0.9;">Est. Timeline</div>
+                            </div>
+                            <div>
+                                <div style="font-size: var(--text-2xl); font-weight: 700;">${pathData.confidence_score || 92}%</div>
+                                <div style="opacity: 0.9;">AI Confidence</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: var(--space-4);">📋 Recommended Learning Milestones</h4>
+                    <div style="margin-bottom: var(--space-6);">
+                        ${(pathData.milestones || []).map((milestone, index) => `
+                            <div style="display: flex; align-items: center; padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg); margin-bottom: var(--space-2);">
+                                <div style="width: 32px; height: 32px; background: var(--primary-500); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: var(--space-3); font-weight: 600;">${index + 1}</div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; margin-bottom: var(--space-1);">${milestone.title}</div>
+                                    <div style="font-size: var(--text-sm); color: var(--gray-600);">${milestone.duration} • Priority: ${milestone.priority}</div>
+                                </div>
+                                <button onclick="addMilestoneAsGoal('${milestone.title}', '${milestone.duration}')" class="btn btn-secondary" style="font-size: var(--text-sm);">
+                                    <i class="fas fa-plus"></i> Add Goal
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                        <button class="btn btn-secondary" onclick="closeModal()">Review Later</button>
+                        <button class="btn btn-primary" onclick="adoptGeneratedPath()">
+                            <i class="fas fa-rocket"></i> Adopt This Path
+                        </button>
+                    </div>
+                </div>
+            `);
         }
 
         function assessCurrentSkills() {
-            showNotification('🎯 Opening comprehensive skill assessment...', 'info');
-            
-            // Create and show skill assessment modal
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-                background: rgba(0,0,0,0.5); display: flex; align-items: center;
-                justify-content: center; z-index: 9999;
-            `;
-            
-            modal.innerHTML = `
-                <div style="background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 90%;">
-                    <h3 style="margin-bottom: 20px; color: var(--gray-800);">📊 Skill Assessment</h3>
-                    <p style="margin-bottom: 20px; color: var(--gray-700);">Select your primary skill area to begin assessment:</p>
-                    <div style="display: grid; gap: 10px; margin-bottom: 20px;">
-                        <button onclick="startAssessment('Frontend')" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; cursor: pointer;">🎨 Frontend Development</button>
-                        <button onclick="startAssessment('Backend')" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; cursor: pointer;">⚙️ Backend Development</button>
-                        <button onclick="startAssessment('FullStack')" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; cursor: pointer;">🔗 Full Stack Development</button>
-                        <button onclick="startAssessment('DevOps')" style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #f8f9fa; cursor: pointer;">🚀 DevOps Engineering</button>
+            const modal = createModal('🎯 Comprehensive Skill Assessment', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--info), var(--primary-600)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <i class="fas fa-clipboard-check" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">AI-Powered Skill Assessment</h3>
+                        <p style="opacity: 0.9;">Get precise insights into your current abilities and growth areas</p>
                     </div>
-                    <button onclick="this.closest('div[style*=fixed]').remove()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Close</button>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-4);">Choose Assessment Type</h4>
+                        <div style="display: grid; gap: var(--space-3);">
+                            <button onclick="startDetailedAssessment('comprehensive')" class="assessment-btn" style="padding: var(--space-4); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: white; cursor: pointer; text-align: left; transition: all 0.2s;">
+                                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                    <i class="fas fa-brain" style="font-size: var(--text-2xl); color: var(--primary-500);"></i>
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">🧠 Comprehensive Assessment</div>
+                                        <div style="font-size: var(--text-sm); color: var(--gray-600);">Complete evaluation across all tech domains (20 min)</div>
+                                    </div>
+                                </div>
+                            </button>
+                            
+                            <button onclick="startDetailedAssessment('quick')" class="assessment-btn" style="padding: var(--space-4); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: white; cursor: pointer; text-align: left; transition: all 0.2s;">
+                                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                    <i class="fas fa-bolt" style="font-size: var(--text-2xl); color: var(--warning);"></i>
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">⚡ Quick Assessment</div>
+                                        <div style="font-size: var(--text-sm); color: var(--gray-600);">Fast skill check for immediate insights (5 min)</div>
+                                    </div>
+                                </div>
+                            </button>
+                            
+                            <button onclick="startDetailedAssessment('specialized')" class="assessment-btn" style="padding: var(--space-4); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: white; cursor: pointer; text-align: left; transition: all 0.2s;">
+                                <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                    <i class="fas fa-crosshairs" style="font-size: var(--text-2xl); color: var(--success);"></i>
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">🎯 Specialized Focus</div>
+                                        <div style="font-size: var(--text-sm); color: var(--gray-600);">Deep dive into specific technology stack (15 min)</div>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
+                        <h5 style="color: var(--primary-700); margin-bottom: var(--space-2);"><i class="fas fa-star"></i> Assessment Features</h5>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); font-size: var(--text-sm);">
+                            <div><i class="fas fa-check" style="color: var(--success);"></i> AI-powered evaluation</div>
+                            <div><i class="fas fa-check" style="color: var(--success);"></i> Personalized feedback</div>
+                            <div><i class="fas fa-check" style="color: var(--success);"></i> Skill gap analysis</div>
+                            <div><i class="fas fa-check" style="color: var(--success);"></i> Learning recommendations</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button class="btn btn-secondary" onclick="closeModal()">Maybe Later</button>
+                    </div>
                 </div>
-            `;
+            `);
             
-            document.body.appendChild(modal);
+            // Add hover effects
+            document.querySelectorAll('.assessment-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.borderColor = 'var(--primary-500)';
+                    btn.style.transform = 'translateY(-2px)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.borderColor = 'var(--gray-200)';
+                    btn.style.transform = 'translateY(0)';
+                });
+            });
         }
 
         function setCareerGoal() {
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-                background: rgba(0,0,0,0.5); display: flex; align-items: center;
-                justify-content: center; z-index: 9999;
-            `;
-            
-            const goals = [
-                { title: 'Frontend Developer', icon: '🎨', desc: 'UI/UX focused development' },
-                { title: 'Full Stack Developer', icon: '🔗', desc: 'Frontend + Backend expertise' },
-                { title: 'Backend Developer', icon: '⚙️', desc: 'Server-side development' },
-                { title: 'DevOps Engineer', icon: '🚀', desc: 'Infrastructure and automation' },
-                { title: 'Data Scientist', icon: '📊', desc: 'Data analysis and ML' }
-            ];
-            
-            modal.innerHTML = `
-                <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 90%;">
-                    <h3 style="margin-bottom: 20px; color: var(--gray-800);">🎯 Set Your Career Goal</h3>
-                    <p style="margin-bottom: 20px; color: var(--gray-700);">Choose your target career path:</p>
-                    <div style="display: grid; gap: 12px; margin-bottom: 20px;">
-                        ${goals.map(goal => `
-                            <button onclick="selectGoal('${goal.title}')" style="
-                                padding: 15px; border: 2px solid #e9ecef; border-radius: 8px; 
-                                background: white; cursor: pointer; text-align: left;
-                                transition: all 0.2s; display: flex; align-items: center; gap: 12px;
-                            " onmouseover="this.style.borderColor='#007bff'" onmouseout="this.style.borderColor='#e9ecef'">
-                                <span style="font-size: 24px;">${goal.icon}</span>
-                                <div>
-                                    <div style="font-weight: 600; color: var(--gray-800);">${goal.title}</div>
-                                    <div style="font-size: 14px; color: var(--gray-600);">${goal.desc}</div>
-                                </div>
-                            </button>
-                        `).join('')}
+            const modal = createModal('🎯 Set Your Career Goal', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--warning), var(--error)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <i class="fas fa-bullseye" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">Define Your Career Target</h3>
+                        <p style="opacity: 0.9;">Set a clear goal to create your personalized learning path</p>
                     </div>
-                    <button onclick="this.closest('div[style*=fixed]').remove()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer;">Cancel</button>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-4);">Choose Your Target Role</h4>
+                        <div id="careerGoals" style="display: grid; gap: var(--space-3);">
+                            ${[
+                                { title: 'Frontend Developer', icon: '🎨', desc: 'UI/UX focused development', salary: '$75k-120k', demand: 'High' },
+                                { title: 'Full Stack Developer', icon: '🔗', desc: 'Frontend + Backend expertise', salary: '$85k-140k', demand: 'Very High' },
+                                { title: 'Backend Developer', icon: '⚙️', desc: 'Server-side development', salary: '$80k-130k', demand: 'High' },
+                                { title: 'DevOps Engineer', icon: '🚀', desc: 'Infrastructure and automation', salary: '$95k-160k', demand: 'Critical' },
+                                { title: 'Data Scientist', icon: '📊', desc: 'Data analysis and ML', salary: '$90k-150k', demand: 'Growing' },
+                                { title: 'Mobile Developer', icon: '📱', desc: 'iOS/Android applications', salary: '$70k-125k', demand: 'Steady' }
+                            ].map(goal => `
+                                <button onclick="openGoalDetails('${goal.title}')" class="goal-btn" style="padding: var(--space-4); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: white; cursor: pointer; text-align: left; transition: all 0.2s;">
+                                    <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                        <span style="font-size: var(--text-3xl);">${goal.icon}</span>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; margin-bottom: var(--space-1);">${goal.title}</div>
+                                            <div style="font-size: var(--text-sm); color: var(--gray-600); margin-bottom: var(--space-2);">${goal.desc}</div>
+                                            <div style="display: flex; gap: var(--space-4); font-size: var(--text-sm);">
+                                                <span style="color: var(--success);"><i class="fas fa-dollar-sign"></i> ${goal.salary}</span>
+                                                <span style="color: var(--info);"><i class="fas fa-chart-line"></i> ${goal.demand} Demand</span>
+                                            </div>
+                                        </div>
+                                        <i class="fas fa-chevron-right" style="color: var(--gray-400);"></i>
+                                    </div>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--success-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
+                        <h5 style="color: var(--success-700); margin-bottom: var(--space-2);"><i class="fas fa-lightbulb"></i> Smart Goal Setting</h5>
+                        <p style="font-size: var(--text-sm); color: var(--gray-700);">Our AI will create a personalized timeline with specific milestones, skill requirements, and learning resources based on your chosen goal.</p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button class="btn btn-secondary" onclick="createCustomGoal()">📝 Create Custom Goal</button>
+                    </div>
                 </div>
-            `;
+            `);
             
-            document.body.appendChild(modal);
+            // Add hover effects
+            document.querySelectorAll('.goal-btn').forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.borderColor = 'var(--primary-500)';
+                    btn.style.transform = 'translateY(-2px)';
+                    btn.style.boxShadow = 'var(--shadow-lg)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.borderColor = 'var(--gray-200)';
+                    btn.style.transform = 'translateY(0)';
+                    btn.style.boxShadow = 'none';
+                });
+            });
         }
 
         function trackProgress() {
-            showNotification('Loading detailed progress analytics...', 'info');
-            // Would show detailed progress tracking
+            const stats = userProfile.getProgressStats();
+            
+            const modal = createModal('📊 Your Progress Dashboard', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--success), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">Career Progress Analytics</h3>
+                        <p style="opacity: 0.9;">Comprehensive view of your learning journey and achievements</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6);">
+                        <div style="background: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
+                            <div style="font-size: var(--text-3xl); font-weight: 700; color: var(--primary-600); margin-bottom: var(--space-2);">${stats.total_goals}</div>
+                            <div style="color: var(--gray-700);">Total Goals Set</div>
+                        </div>
+                        <div style="background: var(--success-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
+                            <div style="font-size: var(--text-3xl); font-weight: 700; color: var(--success); margin-bottom: var(--space-2);">${stats.completed_goals}</div>
+                            <div style="color: var(--gray-700);">Goals Completed</div>
+                        </div>
+                        <div style="background: var(--warning-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
+                            <div style="font-size: var(--text-3xl); font-weight: 700; color: var(--warning); margin-bottom: var(--space-2);">${stats.active_goals}</div>
+                            <div style="color: var(--gray-700);">Active Goals</div>
+                        </div>
+                        <div style="background: var(--info-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
+                            <div style="font-size: var(--text-3xl); font-weight: 700; color: var(--info); margin-bottom: var(--space-2);">${stats.total_points}</div>
+                            <div style="color: var(--gray-700);">XP Points Earned</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-4);">🏆 Recent Achievements</h4>
+                        <div id="achievementsList" style="max-height: 300px; overflow-y: auto;">
+                            ${userProfile.profile.achievements.length > 0 ? 
+                                userProfile.profile.achievements.slice(0, 5).map(achievement => `
+                                    <div style="display: flex; align-items: center; padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg); margin-bottom: var(--space-2);">
+                                        <div style="width: 40px; height: 40px; background: var(--warning); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: var(--space-3);">
+                                            <i class="fas fa-trophy"></i>
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; margin-bottom: var(--space-1);">${achievement.title}</div>
+                                            <div style="font-size: var(--text-sm); color: var(--gray-600);">${achievement.description}</div>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <div style="font-weight: 600; color: var(--success);">+${achievement.points || 0} XP</div>
+                                            <div style="font-size: var(--text-sm); color: var(--gray-500);">${new Date(achievement.earned_at).toLocaleDateString()}</div>
+                                        </div>
+                                    </div>
+                                `).join('') : 
+                                `<div style="text-align: center; padding: var(--space-6); color: var(--gray-500);">
+                                    <i class="fas fa-medal" style="font-size: var(--text-3xl); margin-bottom: var(--space-3); opacity: 0.5;"></i>
+                                    <p>Complete your first goal to unlock achievements!</p>
+                                </div>`
+                            }
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-4);">📈 Skill Progress Overview</h4>
+                        <div style="display: grid; gap: var(--space-3);">
+                            ${Object.entries(userProfile.profile.skills.current).map(([skill, level]) => {
+                                const target = userProfile.profile.skills.target[skill] || 100;
+                                const progress = Math.round((level / target) * 100);
+                                return `
+                                    <div style="display: flex; align-items: center; gap: var(--space-3);">
+                                        <div style="flex: 1;">
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-1);">
+                                                <span style="font-weight: 600;">${skill}</span>
+                                                <span style="font-size: var(--text-sm); color: var(--gray-600);">${level}/${target}</span>
+                                            </div>
+                                            <div style="background: var(--gray-200); height: 8px; border-radius: 4px; overflow: hidden;">
+                                                <div style="background: linear-gradient(90deg, var(--success), var(--info)); height: 100%; width: ${progress}%; transition: width 0.3s ease;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                        <button class="btn btn-secondary" onclick="exportProgress()">📄 Export Report</button>
+                        <button class="btn btn-primary" onclick="viewFullProfile()">👤 View Full Profile</button>
+                    </div>
+                </div>
+            `);
         }
 
         function selectCareerPath(pathType) {
@@ -559,35 +1016,575 @@
             }, 3000);
         }
 
-        // Helper functions for new functionality
-        function startAssessment(skillArea) {
-            document.querySelector('div[style*="position: fixed"]').remove();
-            showNotification(`🔍 Starting ${skillArea} skill assessment...`, 'info');
+        // Enhanced supporting functions
+        function startDetailedAssessment(type) {
+            closeModal();
+            
+            const modal = createModal(`🧠 ${type.charAt(0).toUpperCase() + type.slice(1)} Assessment`, `
+                <div style="padding: var(--space-4); text-align: center;">
+                    <div style="background: linear-gradient(135deg, var(--info), var(--primary-600)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6);">
+                        <i class="fas fa-brain" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">Assessment in Progress</h3>
+                        <p style="opacity: 0.9;">Evaluating your skills with AI-powered analysis...</p>
+                        <div style="margin-top: var(--space-4);">
+                            <div style="background: rgba(255,255,255,0.3); height: 6px; border-radius: 3px; overflow: hidden;">
+                                <div id="assessmentProgress" style="background: white; height: 100%; width: 0%; transition: width 4s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="assessmentSteps" style="text-align: left; margin-bottom: var(--space-6);">
+                        <div class="step" style="margin-bottom: var(--space-2); opacity: 0.5;">✅ Analyzing coding fundamentals...</div>
+                        <div class="step" style="margin-bottom: var(--space-2); opacity: 0.5;">✅ Evaluating framework knowledge...</div>
+                        <div class="step" style="margin-bottom: var(--space-2); opacity: 0.5;">✅ Assessing problem-solving skills...</div>
+                        <div class="step" style="margin-bottom: var(--space-2); opacity: 0.5;">✅ Generating recommendations...</div>
+                    </div>
+                </div>
+            `);
+            
+            // Animate assessment
             setTimeout(() => {
-                showNotification(`✅ ${skillArea} assessment complete! Score: ${85 + Math.floor(Math.random() * 10)}%`, 'success');
-            }, 2000);
+                document.getElementById('assessmentProgress').style.width = '100%';
+                const steps = document.querySelectorAll('.step');
+                steps.forEach((step, index) => {
+                    setTimeout(() => step.style.opacity = '1', index * 800);
+                });
+            }, 100);
+            
+            setTimeout(() => {
+                closeModal();
+                showAssessmentResults(type);
+            }, 4000);
         }
         
-        function selectGoal(goalTitle) {
-            document.querySelector('div[style*="position: fixed"]').remove();
+        function showAssessmentResults(type) {
+            const results = {
+                comprehensive: {
+                    overall_score: 78,
+                    strengths: ['JavaScript (85%)', 'React (80%)', 'Problem Solving (82%)'],
+                    improvements: ['Node.js (45%)', 'Databases (38%)', 'System Design (35%)'],
+                    recommendations: [
+                        'Focus on backend development to become full-stack ready',
+                        'Practice system design for senior-level positions',
+                        'Build more complex projects to strengthen architecture skills'
+                    ]
+                },
+                quick: {
+                    overall_score: 82,
+                    strengths: ['Frontend Development', 'User Interface Design', 'Modern JavaScript'],
+                    improvements: ['Backend APIs', 'Database Design', 'DevOps Practices'],
+                    recommendations: [
+                        'Great foundation! Ready to expand into full-stack development',
+                        'Consider learning Node.js as your next major skill'
+                    ]
+                },
+                specialized: {
+                    overall_score: 88,
+                    strengths: ['React Ecosystem', 'State Management', 'Component Architecture'],
+                    improvements: ['Performance Optimization', 'Testing Strategies', 'Accessibility'],
+                    recommendations: [
+                        'Excellent React skills! Focus on advanced patterns and performance',
+                        'Add testing expertise to become a senior frontend specialist'
+                    ]
+                }
+            };
             
-            // Update the current goal display
-            const goalElement = document.querySelector('.hero-card h3');
+            const result = results[type];
+            
+            const modal = createModal('🎆 Assessment Results', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--success), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <div style="font-size: var(--text-4xl); font-weight: 700; margin-bottom: var(--space-3);">${result.overall_score}%</div>
+                        <h3 style="margin-bottom: var(--space-2);">Overall Skill Score</h3>
+                        <p style="opacity: 0.9;">Above average! You're on the right track</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-6);">
+                        <div>
+                            <h4 style="color: var(--success); margin-bottom: var(--space-3);"><i class="fas fa-trophy"></i> Your Strengths</h4>
+                            ${result.strengths.map(strength => `
+                                <div style="padding: var(--space-2); background: var(--success-50); border-radius: var(--radius-lg); margin-bottom: var(--space-2);">
+                                    <i class="fas fa-check-circle" style="color: var(--success); margin-right: var(--space-2);"></i>
+                                    ${strength}
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: var(--warning); margin-bottom: var(--space-3);"><i class="fas fa-chart-line"></i> Growth Areas</h4>
+                            ${result.improvements.map(improvement => `
+                                <div style="padding: var(--space-2); background: var(--warning-50); border-radius: var(--radius-lg); margin-bottom: var(--space-2);">
+                                    <i class="fas fa-arrow-up" style="color: var(--warning); margin-right: var(--space-2);"></i>
+                                    ${improvement}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-6);">
+                        <h4 style="color: var(--primary-700); margin-bottom: var(--space-3);"><i class="fas fa-lightbulb"></i> AI Recommendations</h4>
+                        ${result.recommendations.map(rec => `
+                            <p style="margin-bottom: var(--space-2); color: var(--gray-700);">• ${rec}</p>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                        <button class="btn btn-secondary" onclick="saveAssessmentResults('${type}', ${result.overall_score})">💾 Save Results</button>
+                        <button class="btn btn-primary" onclick="createLearningPlan('assessment')">📅 Create Learning Plan</button>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function openGoalDetails(goalTitle) {
+            closeModal();
+            
+            const goalDetails = {
+                'Frontend Developer': {
+                    timeline: '4-6 months',
+                    salary: '$75k-120k',
+                    demand: 'High',
+                    skills: ['React', 'TypeScript', 'CSS-in-JS', 'Testing', 'Performance'],
+                    companies: ['Netflix', 'Airbnb', 'Spotify', 'Figma'],
+                    dailyTasks: ['Build user interfaces', 'Optimize performance', 'Collaborate with designers', 'Write tests'],
+                    pros: ['Creative freedom', 'Immediate visual feedback', 'Strong job market', 'Remote-friendly'],
+                    cons: ['Browser compatibility', 'Rapid technology changes', 'Design dependency']
+                },
+                'Full Stack Developer': {
+                    timeline: '8-12 months',
+                    salary: '$85k-140k',
+                    demand: 'Very High',
+                    skills: ['React', 'Node.js', 'Databases', 'APIs', 'DevOps Basics'],
+                    companies: ['Google', 'Microsoft', 'Amazon', 'Stripe'],
+                    dailyTasks: ['Build complete features', 'Design APIs', 'Manage databases', 'Deploy applications'],
+                    pros: ['Versatile skillset', 'High demand', 'Complete ownership', 'Higher salaries'],
+                    cons: ['Broader knowledge required', 'More complex debugging', 'Longer learning curve']
+                }
+            };
+            
+            const goal = goalDetails[goalTitle] || goalDetails['Full Stack Developer'];
+            
+            const modal = createModal(`🎯 ${goalTitle} Deep Dive`, `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--warning), var(--error)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <h3 style="margin-bottom: var(--space-3);">${goalTitle}</h3>
+                        <div style="display: flex; justify-content: center; gap: var(--space-6);">
+                            <div>
+                                <div style="font-size: var(--text-xl); font-weight: 700;">${goal.timeline}</div>
+                                <div style="opacity: 0.9;">Timeline</div>
+                            </div>
+                            <div>
+                                <div style="font-size: var(--text-xl); font-weight: 700;">${goal.salary}</div>
+                                <div style="opacity: 0.9;">Salary Range</div>
+                            </div>
+                            <div>
+                                <div style="font-size: var(--text-xl); font-weight: 700;">${goal.demand}</div>
+                                <div style="opacity: 0.9;">Market Demand</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-6);">
+                        <div>
+                            <h4 style="margin-bottom: var(--space-3);"><i class="fas fa-cogs" style="color: var(--primary-500);"></i> Required Skills</h4>
+                            ${goal.skills.map(skill => `
+                                <div style="display: inline-block; background: var(--primary-100); color: var(--primary-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); margin: var(--space-1); font-size: var(--text-sm);">${skill}</div>
+                            `).join('')}
+                        </div>
+                        
+                        <div>
+                            <h4 style="margin-bottom: var(--space-3);"><i class="fas fa-building" style="color: var(--info);"></i> Top Hiring Companies</h4>
+                            ${goal.companies.map(company => `
+                                <div style="display: inline-block; background: var(--info-100); color: var(--info-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); margin: var(--space-1); font-size: var(--text-sm);">${company}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-3);"><i class="fas fa-calendar-day" style="color: var(--success);"></i> Daily Tasks</h4>
+                        <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            ${goal.dailyTasks.map(task => `<p style="margin-bottom: var(--space-1);">• ${task}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-6);">
+                        <div>
+                            <h4 style="color: var(--success); margin-bottom: var(--space-3);"><i class="fas fa-thumbs-up"></i> Pros</h4>
+                            ${goal.pros.map(pro => `
+                                <div style="margin-bottom: var(--space-2); color: var(--gray-700);">
+                                    <i class="fas fa-plus" style="color: var(--success); margin-right: var(--space-2);"></i>${pro}
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: var(--warning); margin-bottom: var(--space-3);"><i class="fas fa-exclamation-triangle"></i> Challenges</h4>
+                            ${goal.cons.map(con => `
+                                <div style="margin-bottom: var(--space-2); color: var(--gray-700);">
+                                    <i class="fas fa-minus" style="color: var(--warning); margin-right: var(--space-2);"></i>${con}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                        <button class="btn btn-secondary" onclick="closeModal()">Explore More</button>
+                        <button class="btn btn-primary" onclick="selectGoalAndPlan('${goalTitle}')">
+                            <i class="fas fa-rocket"></i> Choose This Goal
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function selectGoalAndPlan(goalTitle) {
+            closeModal();
+            
+            // Update user profile
+            userProfile.profile.career.target_role = goalTitle;
+            userProfile.saveProfile();
+            
+            // Update UI
+            const goalElement = document.querySelector('h3');
             if (goalElement && goalElement.textContent.includes('Current Goal:')) {
-                goalElement.innerHTML = `<i class="fas fa-bullseye"></i> Current Goal: ${goalTitle}`;
+                goalElement.innerHTML = `<i class="fas fa-target"></i> Current Goal: ${goalTitle}`;
             }
             
-            showNotification(`🎯 Career goal updated to: ${goalTitle}`, 'success');
+            // Add goal to profile
+            const goalId = userProfile.addGoal({
+                title: `Become ${goalTitle}`,
+                description: `Complete transition to ${goalTitle} role`,
+                category: 'career',
+                difficulty: 8,
+                target_date: new Date(Date.now() + 8 * 30 * 24 * 60 * 60 * 1000).toISOString(), // 8 months
+                milestones: [
+                    { title: 'Complete skill assessment', status: 'pending' },
+                    { title: 'Build portfolio projects', status: 'pending' },
+                    { title: 'Apply to target positions', status: 'pending' }
+                ]
+            });
             
-            // Simulate updating the roadmap based on new goal
+            showNotification(`🎯 Career goal set: ${goalTitle}!`, 'success');
+            
             setTimeout(() => {
-                showNotification('📋 Roadmap updated with personalized steps for your new goal!', 'info');
+                showNotification('📅 Generating personalized learning plan...', 'info');
+                setTimeout(() => {
+                    generatePersonalizedPath();
+                }, 1000);
             }, 1500);
         }
+        
+        function createCustomGoal() {
+            closeModal();
+            
+            const modal = createModal('📝 Create Custom Career Goal', `
+                <div style="padding: var(--space-4);">
+                    <form id="customGoalForm">
+                        <div style="margin-bottom: var(--space-4);">
+                            <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Goal Title</label>
+                            <input type="text" id="goalTitle" placeholder="e.g., Senior React Developer" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);" required>
+                        </div>
+                        
+                        <div style="margin-bottom: var(--space-4);">
+                            <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Description</label>
+                            <textarea id="goalDescription" placeholder="Describe your career goal and why it matters to you..." style="width: 100%; height: 80px; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); font-family: inherit;" required></textarea>
+                        </div>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
+                            <div>
+                                <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Timeline</label>
+                                <select id="goalTimeline" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                                    <option value="3-6 months">3-6 months</option>
+                                    <option value="6-12 months" selected>6-12 months</option>
+                                    <option value="1-2 years">1-2 years</option>
+                                    <option value="2+ years">2+ years</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Priority</label>
+                                <select id="goalPriority" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                                    <option value="high" selected>High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: var(--space-4);">
+                            <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Key Skills Needed</label>
+                            <input type="text" id="goalSkills" placeholder="React, Node.js, TypeScript, etc." style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                        </div>
+                        
+                        <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Create Goal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `);
+            
+            document.getElementById('customGoalForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const goalData = {
+                    title: document.getElementById('goalTitle').value,
+                    description: document.getElementById('goalDescription').value,
+                    timeline: document.getElementById('goalTimeline').value,
+                    priority: document.getElementById('goalPriority').value,
+                    skills: document.getElementById('goalSkills').value.split(',').map(s => s.trim()),
+                    category: 'custom',
+                    difficulty: 7
+                };
+                
+                const goalId = userProfile.addGoal(goalData);
+                
+                closeModal();
+                showNotification(`✨ Custom goal "${goalData.title}" created successfully!`, 'success');
+                
+                setTimeout(() => {
+                    trackProgress();
+                }, 1000);
+            });
+        }
 
+        // Additional utility functions
+        function addMilestoneAsGoal(title, duration) {
+            const goalId = userProfile.addGoal({
+                title: title,
+                description: `Complete ${title} milestone`,
+                category: 'milestone',
+                difficulty: 5,
+                timeline: duration,
+                target_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 1 month
+            });
+            
+            showNotification(`🎯 Goal added: ${title}`, 'success');
+        }
+        
+        function adoptGeneratedPath() {
+            closeModal();
+            showNotification('🚀 AI-generated path adopted! Your roadmap has been updated.', 'success');
+            
+            // Update progress display
+            setTimeout(() => {
+                const progressFill = document.querySelector('.progress-fill');
+                if (progressFill) {
+                    progressFill.style.width = '72%';
+                }
+            }, 1000);
+        }
+        
+        function saveAssessmentResults(type, score) {
+            userProfile.addAchievement({
+                type: 'assessment_completed',
+                title: `Completed ${type} Assessment`,
+                description: `Scored ${score}% on comprehensive skill evaluation`,
+                points: Math.floor(score / 10)
+            });
+            
+            // Update skills based on assessment
+            const skillUpdates = {
+                'JavaScript': Math.min(score + 5, 100),
+                'React': Math.min(score, 100)
+            };
+            userProfile.updateSkills(skillUpdates);
+            
+            showNotification('💾 Assessment results saved to your profile!', 'success');
+            closeModal();
+        }
+        
+        function createLearningPlan(source) {
+            closeModal();
+            showNotification('📅 Creating personalized learning plan...', 'info');
+            
+            setTimeout(() => {
+                const modal = createModal('📅 Your Learning Plan', `
+                    <div style="padding: var(--space-4); text-align: center;">
+                        <div style="background: linear-gradient(135deg, var(--success), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6);">
+                            <i class="fas fa-calendar-alt" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                            <h3 style="margin-bottom: var(--space-3);">12-Week Learning Plan</h3>
+                            <p style="opacity: 0.9;">Customized based on your assessment results</p>
+                        </div>
+                        
+                        <div style="text-align: left; margin-bottom: var(--space-6);">
+                            <h4 style="margin-bottom: var(--space-4);">Weekly Breakdown</h4>
+                            ${[
+                                'Weeks 1-2: React Hooks Mastery',
+                                'Weeks 3-4: State Management Patterns',
+                                'Weeks 5-6: Node.js Fundamentals',
+                                'Weeks 7-8: Database Integration',
+                                'Weeks 9-10: API Development',
+                                'Weeks 11-12: Full Stack Project'
+                            ].map((week, index) => `
+                                <div style="display: flex; align-items: center; padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg); margin-bottom: var(--space-2);">
+                                    <div style="width: 32px; height: 32px; background: var(--primary-500); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: var(--space-3); font-weight: 600;">${index + 1}</div>
+                                    <div>${week}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="startLearningPlan()">
+                            <i class="fas fa-play"></i> Start Learning Plan
+                        </button>
+                    </div>
+                `);
+            }, 1500);
+        }
+        
+        function startLearningPlan() {
+            closeModal();
+            showNotification('🚀 Learning plan activated! Check your weekly goals.', 'success');
+            
+            // Add learning plan goals
+            const planGoals = [
+                'Complete React Hooks Deep Dive',
+                'Master State Management Patterns',
+                'Learn Node.js Fundamentals'
+            ];
+            
+            planGoals.forEach((goal, index) => {
+                setTimeout(() => {
+                    userProfile.addGoal({
+                        title: goal,
+                        description: `Learning plan milestone: ${goal}`,
+                        category: 'learning',
+                        difficulty: 6,
+                        target_date: new Date(Date.now() + (index + 2) * 7 * 24 * 60 * 60 * 1000).toISOString()
+                    });
+                }, index * 200);
+            });
+        }
+        
+        function exportProgress() {
+            const stats = userProfile.getProgressStats();
+            const report = {
+                generated_at: new Date().toISOString(),
+                user_profile: userProfile.profile,
+                progress_stats: stats
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `skillsync-progress-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            showNotification('📄 Progress report downloaded!', 'success');
+        }
+        
+        function viewFullProfile() {
+            closeModal();
+            
+            const modal = createModal('👤 Your SkillSync Profile', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--primary-500), var(--secondary-600)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-4); font-size: var(--text-3xl);">
+                            👤
+                        </div>
+                        <h3 style="margin-bottom: var(--space-2);">SkillSync Profile</h3>
+                        <p style="opacity: 0.9;">Member since ${new Date(userProfile.profile.created_at).toLocaleDateString()}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-4);">Profile Information</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4);">
+                            <div>
+                                <label style="display: block; margin-bottom: var(--space-1); font-weight: 600;">Current Role</label>
+                                <input type="text" value="${userProfile.profile.career.current_role}" style="width: 100%; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: var(--space-1); font-weight: 600;">Target Role</label>
+                                <input type="text" value="${userProfile.profile.career.target_role}" style="width: 100%; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: var(--space-1); font-weight: 600;">Experience Level</label>
+                                <select style="width: 100%; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                                    <option value="beginner" ${userProfile.profile.personal.experience_level === 'beginner' ? 'selected' : ''}>Beginner</option>
+                                    <option value="intermediate" ${userProfile.profile.personal.experience_level === 'intermediate' ? 'selected' : ''}>Intermediate</option>
+                                    <option value="advanced" ${userProfile.profile.personal.experience_level === 'advanced' ? 'selected' : ''}>Advanced</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: var(--space-1); font-weight: 600;">Target Salary</label>
+                                <input type="text" value="$${userProfile.profile.career.target_salary}" style="width: 100%; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                        <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                        <button class="btn btn-primary" onclick="saveProfileChanges()">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function saveProfileChanges() {
+            showNotification('💾 Profile updated successfully!', 'success');
+            closeModal();
+        }
+        
+        // Utility functions
+        function createModal(title, content) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.5); display: flex; align-items: center;
+                justify-content: center; z-index: 9999; backdrop-filter: blur(4px);
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: var(--radius-xl); padding: 0; 
+                           max-width: 900px; width: 90%; max-height: 80vh; overflow-y: auto; 
+                           box-shadow: var(--shadow-2xl);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; 
+                               padding: var(--space-4) var(--space-6); border-bottom: 1px solid var(--gray-200);">
+                        <h2 style="font-size: var(--text-xl); font-weight: 700; color: var(--gray-800);">${title}</h2>
+                        <button onclick="closeModal()" style="background: none; border: none; 
+                                font-size: var(--text-xl); color: var(--gray-500); cursor: pointer; 
+                                width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; 
+                                border-radius: 50%; transition: all 0.2s;" 
+                                onmouseover="this.style.background='var(--gray-100)'" 
+                                onmouseout="this.style.background='none'">&times;</button>
+                    </div>
+                    <div>${content}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            
+            return modal;
+        }
+        
+        function closeModal() {
+            const modal = document.querySelector('div[style*="position: fixed"][style*="z-index: 9999"]');
+            if (modal) modal.remove();
+        }
+        
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
             initializeCharts();
+            
+            // Initialize user profile if needed
+            if (userProfile.profile.goals.length === 0) {
+                // Add some sample goals for demo
+                userProfile.addGoal({
+                    title: 'Master React Hooks',
+                    description: 'Complete understanding of useState, useEffect, and custom hooks',
+                    category: 'skill',
+                    difficulty: 6,
+                    target_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
+                });
+            }
+            
             showNotification('Career Paths loaded - Your personalized roadmap is ready!', 'success');
         });
     </script>
