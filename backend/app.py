@@ -12,8 +12,12 @@ import json
 # Load environment variables
 load_dotenv()
 
-# Import shared AI utilities
+# Import shared AI utilities and A2A protocol
 from ai_utils import call_grok_ai as shared_call_grok_ai, CAREER_KNOWLEDGE_BASE
+import sys
+import os
+sys.path.append('..')
+from a2a_protocol import get_a2a_protocol, AgentType
 
 # xAI Configuration
 XAI_API_KEY = os.getenv('XAI_API_KEY', 'YOUR_XAI_API_KEY')  # Add your xAI API key here

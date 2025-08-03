@@ -333,16 +333,34 @@
 
     <script>
         // File upload handling
-        function handleResumeUpload(event) {
+        async function handleResumeUpload(event) {
             const file = event.target.files[0];
             if (file) {
                 document.getElementById('resumeProgress').style.display = 'block';
                 document.getElementById('optimizeBtn').disabled = false;
-                
-                // Simulate file processing
-                let progress = 0;
                 const progressBar = document.getElementById('resumeProgressBar');
                 
+                try {
+                    // Try real AI analysis
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    
+                    const response = await fetch('/api/files/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (response.ok) {
+                        progressBar.style.width = '100%';
+                        showNotification('✅ Resume uploaded and analyzed by AI!', 'success');
+                        return;
+                    }
+                } catch (error) {
+                    console.log('Using simulation due to:', error);
+                }
+                
+                // Fallback simulation
+                let progress = 0;
                 const interval = setInterval(() => {
                     progress += Math.random() * 15;
                     if (progress >= 100) {

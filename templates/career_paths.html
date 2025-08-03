@@ -375,7 +375,7 @@
             });
         }
 
-        function generatePersonalizedPath() {
+        async function generatePersonalizedPath() {
             showNotification('🔍 Analyzing your skills and generating personalized career path...', 'info');
             
             // Show loading animation
@@ -384,13 +384,48 @@
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
             button.disabled = true;
             
+            try {
+                // Try real AI career guidance
+                const response = await fetch('/api/ai/career-guidance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: 'Generate a personalized career path',
+                        context: 'career_planning',
+                        user_skills: ['React', 'JavaScript', 'HTML/CSS'],
+                        career_goal: 'Full Stack Developer'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Update roadmap with AI response
+                    const roadmapContainer = document.querySelector('.roadmap-container');
+                    if (roadmapContainer) {
+                        roadmapContainer.style.opacity = '0.5';
+                        setTimeout(() => {
+                            roadmapContainer.style.opacity = '1';
+                        }, 500);
+                    }
+                    
+                    showNotification(`✨ AI-Generated Path: ${data.ai_response || data.guidance}`, 'success');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    return;
+                }
+            } catch (error) {
+                console.log('Using simulation due to:', error);
+            }
+            
+            // Fallback simulation
             setTimeout(() => {
-                // Update the roadmap with generated content
                 const roadmapContainer = document.querySelector('.roadmap-container');
                 if (roadmapContainer) {
                     roadmapContainer.style.opacity = '0.5';
                     setTimeout(() => {
-                        // Simulate AI-generated content update
                         roadmapContainer.style.opacity = '1';
                     }, 500);
                 }

@@ -362,10 +362,36 @@
             handleAIResponse(responseKey, message);
         }
         
-        function handleAIResponse(responseKey, originalMessage = '') {
+        async function handleAIResponse(responseKey, originalMessage = '') {
             setAgentStatus('thinking', 'Thinking...');
             addTypingIndicator();
             
+            try {
+                // Try to get real AI response from backend
+                const response = await fetch('/api/ai/career-guidance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: originalMessage || responseKey,
+                        context: 'career_chat',
+                        user_skills: ['React', 'JavaScript', 'CSS'] // Could be dynamic
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    removeTypingIndicator();
+                    addMessage('ai', data.ai_response || data.guidance);
+                    setAgentStatus('online', 'Online & Ready');
+                    return;
+                }
+            } catch (error) {
+                console.log('Using fallback response due to:', error);
+            }
+            
+            // Fallback to local responses if API fails
             setTimeout(() => {
                 removeTypingIndicator();
                 
