@@ -4,560 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Intelligence - SkillSync AI Platform</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="description" content="Real-time market intelligence, skill demand analytics, and industry trends powered by AI.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
+          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
+          --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
+          --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
+          --font-primary: 'Inter', sans-serif; --font-display: 'Plus Jakarta Sans', sans-serif;
+          --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 1.875rem;
+          --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem;
+          --radius-lg: 0.75rem; --radius-xl: 1rem; --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1); --transition-fast: 150ms ease-in-out;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: white;
-        }
-
-        .page-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .page-header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .market-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .market-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .market-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-icon {
-            font-size: 2rem;
-            margin-right: 1rem;
-            color: #667eea;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .language-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .language-info {
-            flex: 1;
-        }
-
-        .language-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        .language-trend {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.2rem;
-        }
-
-        .language-stats {
-            text-align: right;
-        }
-
-        .salary-range {
-            font-weight: bold;
-            color: #28a745;
-        }
-
-        .growth-badge {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .role-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #764ba2;
-        }
-
-        .role-info {
-            flex: 1;
-        }
-
-        .role-name {
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #333;
-        }
-
-        .role-description {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 0.2rem;
-        }
-
-        .role-stats {
-            text-align: right;
-        }
-
-        .trend-item {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #ffc107;
-        }
-
-        .trend-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .trend-name {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .trend-growth {
-            background: linear-gradient(135deg, #ffc107, #fd7e14);
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .trend-description {
-            font-size: 0.9rem;
-            color: #666;
-            line-height: 1.4;
-        }
-
-        .data-source {
-            text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-            justify-content: center;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .page-header h1 {
-                font-size: 2rem;
-            }
-            
-            .market-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-100); background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); min-height: 100vh; }
+        .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
+        .logo { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); text-decoration: none; }
+        .nav-links { display: flex; gap: var(--space-8); list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--gray-700); font-weight: 500; font-size: var(--text-sm); transition: color var(--transition-fast); }
+        .nav-links a:hover { color: var(--primary-600); }
+        .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
+        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
+        .grid { display: grid; gap: var(--space-6); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .hero { padding: var(--space-16) 0; text-align: center; }
+        .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: white; }
+        .trend-card { position: relative; overflow: hidden; }
+        .trend-up { color: var(--success); }
+        .trend-down { color: var(--error); }
+        @media (max-width: 768px) { .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">
-                <i class="fas fa-brain"></i> SkillSync AI
-            </a>
+            <a href="/" class="logo"><i class="fas fa-rocket"></i> SkillSync AI</a>
             <ul class="nav-links">
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/market-intelligence">Market Intelligence</a></li>
-                <li><a href="/career-paths">Career Paths</a></li>
-                <li><a href="/tools">Tools</a></li>
-                <li><a href="/ai-agent">AI Agent</a></li>
-                <li><a href="/community">Community</a></li>
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Intelligence</a></li>
+                <li><a href="/career-paths"><i class="fas fa-route"></i> Paths</a></li>
+                <li><a href="/tools"><i class="fas fa-tools"></i> Tools</a></li>
+                <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
+                <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
             </ul>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="page-header">
-            <h1><i class="fas fa-chart-line"></i> Market Intelligence Hub</h1>
-            <p>Real-time insights from 65,000+ developers and global market data</p>
+    <section class="hero">
+        <div class="container">
+            <h1><i class="fas fa-brain"></i> Market Intelligence</h1>
+            <p style="font-size: var(--text-lg); opacity: 0.9; margin-bottom: var(--space-8);">
+                Real-time market trends, skill demand analytics, and industry insights powered by AI
+            </p>
         </div>
+    </section>
 
-        <div class="market-grid">
-            <!-- Trending Programming Languages -->
-            <div class="market-card">
-                <div class="card-header">
-                    <i class="fas fa-code card-icon"></i>
-                    <h3 class="card-title">🔥 Trending Programming Languages</h3>
-                </div>
-                
-                <div class="language-item">
-                    <div class="language-info">
-                        <div class="language-name">Python</div>
-                        <div class="language-trend">Overtook JavaScript as #1 language</div>
-                    </div>
-                    <div class="language-stats">
-                        <div class="salary-range">$70k-$150k</div>
-                        <span class="growth-badge">+35%</span>
-                    </div>
-                </div>
-
-                <div class="language-item">
-                    <div class="language-info">
-                        <div class="language-name">JavaScript</div>
-                        <div class="language-trend">Still #1 for code pushes</div>
-                    </div>
-                    <div class="language-stats">
-                        <div class="salary-range">$65k-$140k</div>
-                        <span class="growth-badge">Stable</span>
+    <main style="padding: var(--space-8) 0;">
+        <div class="container">
+            <div class="grid grid-cols-3">
+                <div class="card trend-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-trending-up trend-up"></i> High Demand Skills</h3>
+                    <div style="margin-bottom: var(--space-3);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>AI/Machine Learning</span>
+                            <span class="trend-up">+25%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Cloud Architecture</span>
+                            <span class="trend-up">+22%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Cybersecurity</span>
+                            <span class="trend-up">+18%</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="language-item">
-                    <div class="language-info">
-                        <div class="language-name">TypeScript</div>
-                        <div class="language-trend">Rising rapidly, overtook Java</div>
-                    </div>
-                    <div class="language-stats">
-                        <div class="salary-range">$75k-$155k</div>
-                        <span class="growth-badge">+28%</span>
-                    </div>
-                </div>
-
-                <div class="language-item">
-                    <div class="language-info">
-                        <div class="language-name">Rust</div>
-                        <div class="language-trend">Most admired (83% satisfaction)</div>
-                    </div>
-                    <div class="language-stats">
-                        <div class="salary-range">$90k-$170k</div>
-                        <span class="growth-badge">+22%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Highest Paying Roles -->
-            <div class="market-card">
-                <div class="card-header">
-                    <i class="fas fa-dollar-sign card-icon"></i>
-                    <h3 class="card-title">💰 Highest Paying Roles</h3>
-                </div>
-
-                <div class="role-item">
-                    <div class="role-info">
-                        <div class="role-name">Site Reliability Engineer</div>
-                        <div class="role-description">Keeps digital services running</div>
-                    </div>
-                    <div class="role-stats">
-                        <div class="salary-range">$140k-$200k</div>
+                <div class="card trend-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-line"></i> Salary Trends</h3>
+                    <div style="margin-bottom: var(--space-3);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>DevOps Engineer</span>
+                            <span style="color: var(--success);">$95k-140k</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Data Scientist</span>
+                            <span style="color: var(--success);">$85k-130k</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Full Stack Dev</span>
+                            <span style="color: var(--success);">$75k-120k</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="role-item">
-                    <div class="role-info">
-                        <div class="role-name">Cloud Infrastructure Engineer</div>
-                        <div class="role-description">Designs and maintains cloud systems</div>
-                    </div>
-                    <div class="role-stats">
-                        <div class="salary-range">$130k-$190k</div>
-                    </div>
-                </div>
-
-                <div class="role-item">
-                    <div class="role-info">
-                        <div class="role-name">Senior Executive</div>
-                        <div class="role-description">Technical leadership roles</div>
-                    </div>
-                    <div class="role-stats">
-                        <div class="salary-range">$180k-$300k+</div>
-                    </div>
-                </div>
-
-                <div class="role-item">
-                    <div class="role-info">
-                        <div class="role-name">Developer Advocate</div>
-                        <div class="role-description">Bridge between developers and products</div>
-                    </div>
-                    <div class="role-stats">
-                        <div class="salary-range">$120k-$180k</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Technology Trends -->
-            <div class="market-card">
-                <div class="card-header">
-                    <i class="fas fa-rocket card-icon"></i>
-                    <h3 class="card-title">🚀 Technology Trends</h3>
-                </div>
-
-                <div class="trend-item">
-                    <div class="trend-header">
-                        <div class="trend-name">AI/Machine Learning</div>
-                        <span class="trend-growth">+45%</span>
-                    </div>
-                    <div class="trend-description">
-                        76% using or planning to use AI tools. Salary premium: +25-40%. 
-                        Key technologies: ChatGPT, GitHub Copilot, TensorFlow, PyTorch.
-                    </div>
-                </div>
-
-                <div class="trend-item">
-                    <div class="trend-header">
-                        <div class="trend-name">Cloud Computing</div>
-                        <span class="trend-growth">+38%</span>
-                    </div>
-                    <div class="trend-description">
-                        85% of companies using cloud. Salary premium: +15-30%. 
-                        Key technologies: AWS, Azure, GCP, Docker, Kubernetes.
-                    </div>
-                </div>
-
-                <div class="trend-item">
-                    <div class="trend-header">
-                        <div class="trend-name">Database Technologies</div>
-                        <span class="trend-growth">+25%</span>
-                    </div>
-                    <div class="trend-description">
-                        PostgreSQL is #1 database for 2nd year. Salary premium: +10-20%. 
-                        Key technologies: PostgreSQL, MongoDB, Redis, Elasticsearch.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Market Insights -->
-            <div class="market-card">
-                <div class="card-header">
-                    <i class="fas fa-lightbulb card-icon"></i>
-                    <h3 class="card-title">💡 Key Market Insights</h3>
-                </div>
-
-                <div class="trend-item">
-                    <div class="trend-header">
-                        <div class="trend-name">Work Environment Shift</div>
-                    </div>
-                    <div class="trend-description">
-                        42% hybrid, 38% remote, 20% in-person. Flexibility is most valued by developers.
-                    </div>
-                </div>
-
-                <div class="trend-item">
-                    <div class="trend-header">
-                        <div class="trend-name">AI Adoption Surge</div>
-                    </div>
-                    <div class="trend-description">
-                        62% currently using AI tools (up from 44%). 70% don't see AI as a job threat.
-                    </div>
-                </div>
-
-                <div class="trend-item">
-                    <div class="trend-header">
-                        <div class="trend-name">Learning Preferences</div>
-                    </div>
-                    <div class="trend-description">
-                        82% prefer online learning. 90% use API/SDK documentation. Continuous learning is essential.
-                    </div>
-                </div>
-
-                <div class="trend-item">
-                    <div class="trend-header">
-                        <div class="trend-name">Docker Dominance</div>
-                    </div>
-                    <div class="trend-description">
-                        59% of professional developers use Docker. +40% demand growth, +15% salary impact.
+                <div class="card trend-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-industry"></i> Industry Growth</h3>
+                    <div style="margin-bottom: var(--space-3);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>FinTech</span>
+                            <span class="trend-up">+30%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>HealthTech</span>
+                            <span class="trend-up">+28%</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>EdTech</span>
+                            <span class="trend-up">+24%</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="quick-actions">
-            <a href="/ai-agent" class="btn">🤖 Get AI Analysis</a>
-            <a href="/tools" class="btn">💰 Salary Calculator</a>
-            <a href="/career-paths" class="btn">🗺️ Career Paths</a>
-            <a href="/dashboard" class="btn">📊 My Dashboard</a>
-        </div>
-
-        <div class="data-source">
-            <i class="fas fa-database"></i>
-            <strong>Data Sources:</strong> Stack Overflow Developer Survey 2024 (65,000+ responses) • GitHub Octoverse 2024 • Public Market Research
-            <br>
-            <small>Updated weekly with the latest market intelligence</small>
-        </div>
-    </div>
-
-    <script>
-        // Add some interactivity and animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate cards on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all market cards
-            document.querySelectorAll('.market-card').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'opacity 0.6s, transform 0.6s';
-                observer.observe(card);
-            });
-
-            // Add click tracking for analytics
-            document.querySelectorAll('.btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    console.log('Market Intelligence action:', this.textContent);
-                });
-            });
-
-            // Add hover effects for language items
-            document.querySelectorAll('.language-item, .role-item, .trend-item').forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateX(5px)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateX(0)';
-                });
-            });
-        });
-    </script>
+    </main>
 </body>
 </html>

@@ -406,6 +406,31 @@ def ai_agent_overview():
     """AI Agent overview and capabilities page"""
     return render_template('ai_agent.html')
 
+@app.route('/dashboard')
+def dashboard():
+    """Advanced AI-powered dashboard"""
+    return render_template('dashboard.html')
+
+@app.route('/community')
+def community():
+    """AI-powered community platform"""
+    return render_template('community.html')
+
+@app.route('/market-intelligence')
+def market_intelligence():
+    """Market intelligence and trends page"""
+    return render_template('market_intelligence.html')
+
+@app.route('/career-paths')
+def career_paths():
+    """Career paths and progression tracking"""
+    return render_template('career_paths.html')
+
+@app.route('/tools')
+def tools():
+    """Professional development tools"""
+    return render_template('tools.html')
+
 # Career Intelligence Agent Routes
 @app.route('/api/intelligence/trigger', methods=['POST'])
 def trigger_career_intelligence():

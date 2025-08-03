@@ -12,8 +12,8 @@
     <!-- Embedded Design System CSS -->
     <style>
         :root {
-          --primary-50: #f0f4ff; --primary-100: #e0e9ff; --primary-200: #c7d8ff; --primary-300: #a5bfff; --primary-400: #829bff; --primary-500: #667eea; --primary-600: #5a67d8; --primary-700: #4c51bf; --primary-800: #434190; --primary-900: #3c366b;
-          --secondary-50: #faf5ff; --secondary-100: #f3e8ff; --secondary-200: #e9d5ff; --secondary-300: #d8b4fe; --secondary-400: #c084fc; --secondary-500: #a855f7; --secondary-600: #9333ea; --secondary-700: #7c3aed; --secondary-800: #6b21a8; --secondary-900: #581c87;
+          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
+          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
           --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
           --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
           --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; --font-secondary: 'JetBrains Mono', 'Fira Code', monospace; --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
@@ -27,7 +27,7 @@
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11'; }
-        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-600) 100%); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-100); background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
         .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); position: relative; overflow: hidden; }
         .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-md); }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); }
