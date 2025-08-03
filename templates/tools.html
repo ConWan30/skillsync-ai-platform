@@ -23,7 +23,7 @@
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
-        .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; }
+        .navbar { background: white; border-bottom: 1px solid var(--gray-200); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; box-shadow: var(--shadow-sm); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
         .logo { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); text-decoration: none; }
         .nav-links { display: flex; gap: var(--space-8); list-style: none; align-items: center; }
@@ -31,7 +31,7 @@
         .nav-links a:hover { color: var(--primary-600); }
         .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
         .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .btn-secondary { background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-300); }
         .btn-success { background: linear-gradient(135deg, var(--success), #38a169); color: white; }
         .btn-warning { background: linear-gradient(135deg, var(--warning), #c05621); color: white; }
         .btn:hover { transform: translateY(-2px); }
@@ -85,7 +85,7 @@
         <div class="container">
             <h1><i class="fas fa-tools"></i> Professional Tools</h1>
             <p style="font-size: var(--text-lg); opacity: 0.8; margin-bottom: var(--space-8); color: var(--gray-700);">
-                AI-powered tools to accelerate your career development and professional growth
+                <span style="color: var(--gray-700);">AI-powered tools to accelerate your career development and professional growth</span>
             </p>
             <div class="interactive-controls">
                 <button class="btn btn-primary" onclick="scrollToTool('resume')">
