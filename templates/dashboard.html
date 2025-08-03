@@ -658,60 +658,18 @@
                 </div>
                 
                 <div id="activitiesFeed">
-                    <div class="activity-item">
+                    <div class="activity-item" style="text-align: center; opacity: 0.7;">
                         <div class="activity-icon">
-                            <i class="fas fa-brain"></i>
+                            <i class="fas fa-robot" style="color: var(--info);"></i>
                         </div>
                         <div class="activity-content">
-                            <div class="activity-title">AI analyzed your GitHub activity</div>
-                            <div class="activity-time">2 minutes ago</div>
+                            <div class="activity-title">Loading Real AI Activities...</div>
+                            <div class="activity-time">Analyzing your interactions</div>
                         </div>
-                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">View Report</button>
+                        <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="loadRealActivities()">Load Activities</button>
                     </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Market intelligence updated for Frontend Development</div>
-                            <div class="activity-time">15 minutes ago</div>
-                        </div>
-                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">See Changes</button>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">23 new job matches found based on your profile</div>
-                            <div class="activity-time">1 hour ago</div>
-                        </div>
-                        <button class="btn btn-primary" style="font-size: var(--text-xs);">View Jobs</button>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Skill assessment completed for React development</div>
-                            <div class="activity-time">3 hours ago</div>
-                        </div>
-                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">View Results</button>
-                    </div>
-                    
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">New mentorship opportunity in AI/ML available</div>
-                            <div class="activity-time">1 day ago</div>
-                        </div>
-                        <button class="btn btn-secondary" style="font-size: var(--text-xs);">Learn More</button>
-                    </div>
+
+                    <!-- Dynamic activities will be inserted here -->
                 </div>
             </section>
         </main>
@@ -1008,6 +966,209 @@
             if (e.target.closest('.metric-card')) {
                 e.target.closest('.metric-card').style.transform = 'translateY(0) scale(1)';
             }
+        });
+
+        // Load real AI activities from the activity tracker
+        async function loadRealActivities() {
+            const activitiesFeed = document.getElementById('activitiesFeed');
+            const userId = 'current_user'; // In production, get from user session
+            
+            // Show loading state
+            activitiesFeed.innerHTML = `
+                <div class="activity-item" style="text-align: center;">
+                    <div class="activity-icon">
+                        <i class="fas fa-spinner fa-spin" style="color: var(--info);"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">AI Agents Analyzing...</div>
+                        <div class="activity-time">Generating personalized activities</div>
+                    </div>
+                </div>
+            `;
+
+            try {
+                // Fetch real activities from the API
+                const response = await fetch(`/api/activities/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    if (data.success && data.activities && data.activities.length > 0) {
+                        displayRealActivities(data.activities);
+                    } else {
+                        displayInteractivePrompts();
+                    }
+                } else {
+                    displayInteractivePrompts();
+                }
+
+            } catch (error) {
+                console.log('Using interactive prompts due to:', error);
+                displayInteractivePrompts();
+            }
+        }
+
+        function displayRealActivities(activities) {
+            const activitiesFeed = document.getElementById('activitiesFeed');
+            
+            const activitiesHTML = activities.map(activity => {
+                const iconMap = {
+                    'skill_assessment': 'fas fa-graduation-cap',
+                    'career_guidance': 'fas fa-route',
+                    'market_analysis': 'fas fa-chart-line',
+                    'job_matching': 'fas fa-briefcase',
+                    'goal_setting': 'fas fa-bullseye',
+                    'learning_recommendation': 'fas fa-book',
+                    'mentorship_opportunity': 'fas fa-users',
+                    'progress_update': 'fas fa-trophy'
+                };
+
+                const colorMap = {
+                    'skill_assessment': 'var(--error)',
+                    'career_guidance': 'var(--info)',
+                    'market_analysis': 'var(--warning)',
+                    'job_matching': 'var(--success)',
+                    'goal_setting': 'var(--primary-600)',
+                    'learning_recommendation': 'var(--secondary-600)',
+                    'mentorship_opportunity': 'var(--info)',
+                    'progress_update': 'var(--success)'
+                };
+
+                const icon = iconMap[activity.activity_type] || 'fas fa-robot';
+                const color = colorMap[activity.activity_type] || 'var(--gray-600)';
+                const primaryResource = activity.resources && activity.resources[0];
+
+                return `
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="${icon}" style="color: ${color};"></i>
+                        </div>
+                        <div class="activity-content">
+                            <div class="activity-title">${activity.title}</div>
+                            <div class="activity-time">${activity.time_ago}</div>
+                            <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
+                                by ${activity.agent_source}
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="font-size: var(--text-xs);" 
+                                onclick="handleActivityAction('${activity.id}', '${primaryResource ? primaryResource.url : '/ai-agent'}')">
+                            ${primaryResource ? primaryResource.type === 'job_board' ? 'View Jobs' : 
+                              primaryResource.type === 'learning_path' ? 'Start Learning' : 'View Details' : 'View Details'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            activitiesFeed.innerHTML = activitiesHTML;
+        }
+
+        function displayInteractivePrompts() {
+            const activitiesFeed = document.getElementById('activitiesFeed');
+            
+            // Show interactive prompts to encourage AI interaction
+            activitiesFeed.innerHTML = `
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-magic" style="color: var(--info);"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Get Your AI Skill Assessment</div>
+                        <div class="activity-time">Comprehensive evaluation in 5 minutes</div>
+                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
+                            by AI Skills Specialist
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="startAssessment()">
+                        Start Assessment
+                    </button>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-chart-line" style="color: var(--warning);"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Live Market Intelligence Update</div>
+                        <div class="activity-time">Real-time trends and salary data</div>
+                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
+                            by AI Market Intelligence
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="getMarketUpdate()">
+                        View Trends
+                    </button>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-robot" style="color: var(--success);"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Chat with AI Career Agent</div>
+                        <div class="activity-time">Instant personalized career guidance</div>
+                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
+                            by AI Career Strategist
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="startCareerChat()">
+                        Start Chat
+                    </button>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-gamepad" style="color: var(--error);"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-title">Gaming Career Analysis</div>
+                        <div class="activity-time">Explore gaming industry opportunities</div>
+                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
+                            by AI Gaming Specialist
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="exploreGaming()">
+                        Explore Gaming
+                    </button>
+                </div>
+            `;
+        }
+
+        function handleActivityAction(activityId, url) {
+            // Navigate to the appropriate resource
+            if (url.startsWith('http')) {
+                window.open(url, '_blank');
+            } else {
+                window.location.href = url;
+            }
+        }
+
+        function startAssessment() {
+            window.location.href = '/ai-agent?action=assess_skills';
+        }
+
+        function getMarketUpdate() {
+            window.location.href = '/market-intelligence';
+        }
+
+        function startCareerChat() {
+            window.location.href = '/ai-agent';
+        }
+
+        function exploreGaming() {
+            window.location.href = '/career-paths?focus=gaming';
+        }
+
+        // Auto-load activities when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Small delay to show the loading state briefly
+            setTimeout(() => {
+                loadRealActivities();
+            }, 1500);
         });
     </script>
 </body>

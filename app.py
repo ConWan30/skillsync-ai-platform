@@ -320,6 +320,14 @@ def assess_skills():
                 "assessment_session": session_id,
                 "user_id": user_id
             })
+            
+            # Track this interaction as an AI activity
+            activity_tracker = get_activity_tracker()
+            activity_tracker.track_user_interaction(user_id, "skill_assessment", {
+                "skills_description": skills_description,
+                "assessment_results": enhanced_assessment,
+                "session_id": session_id
+            })
         
         # Prepare enhanced messages for xAI Grok with agent specialization
         messages = [
@@ -526,6 +534,9 @@ def tools():
 
 # A2A Protocol Integration
 from a2a_protocol import get_a2a_protocol, initialize_a2a_system, AgentType
+
+# AI Activity Tracker Integration
+from ai_activity_tracker import get_activity_tracker, track_user_ai_interaction
 
 # Initialize A2A system on startup
 a2a_protocol = None
@@ -816,6 +827,86 @@ def analyze_skills():
         
     except Exception as e:
         return jsonify({'error': 'Skills analysis failed', 'details': str(e)}), 500
+
+# AI Activity Tracking Endpoints
+
+@app.route('/api/activities/<user_id>', methods=['GET'])
+def get_user_activities(user_id):
+    """Get real-time AI activities for a user"""
+    try:
+        activity_tracker = get_activity_tracker()
+        limit = request.args.get('limit', 10, type=int)
+        
+        activities = activity_tracker.get_user_activities(user_id, limit)
+        
+        return jsonify({
+            'success': True,
+            'activities': activities,
+            'total_count': len(activities),
+            'user_id': user_id,
+            'last_updated': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/activities/track', methods=['POST'])
+def track_ai_interaction():
+    """Track a user AI interaction and generate activity"""
+    try:
+        data = request.get_json() or {}
+        
+        user_id = data.get('user_id', 'anonymous')
+        interaction_type = data.get('interaction_type', 'general')
+        interaction_data = data.get('interaction_data', {})
+        
+        # Track the interaction and generate activity
+        activity = track_user_ai_interaction(user_id, interaction_type, interaction_data)
+        
+        return jsonify({
+            'success': True,
+            'activity': activity,
+            'message': 'Activity tracked and generated successfully'
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/activities/generate-jobs/<user_id>', methods=['POST'])
+def generate_job_matches(user_id):
+    """Generate job matching activity for user"""
+    try:
+        data = request.get_json() or {}
+        user_skills = data.get('skills', [])
+        target_roles = data.get('target_roles', [])
+        
+        activity_tracker = get_activity_tracker()
+        activity = activity_tracker.generate_job_matches(user_id, user_skills, target_roles)
+        
+        return jsonify({
+            'success': True,
+            'activity': {
+                'id': activity.id,
+                'title': activity.title,
+                'description': activity.description,
+                'ai_insights': activity.ai_insights,
+                'next_steps': activity.next_steps,
+                'resources': activity.resources,
+                'actionable_data': activity.actionable_data
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
 
 # A2A Protocol Status and Management Endpoints
 @app.route('/api/a2a/status', methods=['GET'])
