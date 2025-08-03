@@ -299,8 +299,23 @@
         };
         
         function startChat() {
-            document.getElementById('chatInput').focus();
-            showNotification('AI Agent is ready to chat! Ask me anything about your career.', 'success');
+            const button = event.target;
+            const originalText = button.innerHTML;
+            
+            // Show loading animation
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // Focus chat input and add welcome message
+                document.getElementById('chatInput').focus();
+                addMessage('ai', '🚀 Great! I\\'m now fully activated and ready to help with your career. Try asking me about:\\n\\n• Career advice and planning\\n• Skill development recommendations\\n• Job search strategies\\n• Salary negotiation tips\\n\\nWhat would you like to discuss first?');
+                
+                showNotification('✅ AI Agent fully activated! Start typing your questions.', 'success');
+            }, 1500);
         }
         
         function showCapabilities() {

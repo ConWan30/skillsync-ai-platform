@@ -415,6 +415,20 @@
             const role = document.getElementById('targetRole').value;
             const level = document.getElementById('experienceLevel').value;
             
+            // Show loading state
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing Interview...';
+            button.disabled = true;
+            
+            showNotification(`🎯 Preparing ${role} interview for ${level} level...`, 'info');
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                document.getElementById('interviewModal').classList.add('active');
+            }, 2000);
+            
             const questions = {
                 frontend: {
                     entry: [
