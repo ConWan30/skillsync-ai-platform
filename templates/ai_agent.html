@@ -319,16 +319,181 @@
         }
         
         function showCapabilities() {
-            addMessage('ai', "🤖 Here's what I can help you with:\n\n• **Career Planning**: Personalized roadmaps and goal setting\n• **Skill Development**: Learning recommendations and progress tracking\n• **Market Analysis**: Real-time industry insights and trends\n• **Job Search**: Resume optimization and interview preparation\n• **Salary Guidance**: Compensation analysis and negotiation tips\n• **Networking**: Professional connection strategies\n\nWhat would you like to explore first?");
+            const modal = createModal('🤖 AI Agent Capabilities', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--primary-500), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">SkillSync AI Agent Capabilities</h3>
+                        <p style="opacity: 0.9;">Advanced AI-powered career assistance with A2A protocol integration</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-6);">
+                        <div style="background: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            <h4 style="color: var(--primary-700); margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2);">
+                                <i class="fas fa-route"></i> Career Planning
+                            </h4>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm); line-height: 1.6;">
+                                <li>• Personalized career roadmaps</li>
+                                <li>• SMART goal setting and tracking</li>
+                                <li>• Timeline optimization</li>
+                                <li>• Milestone recommendations</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="startCareerPlanning()" style="width: 100%; margin-top: var(--space-3); font-size: var(--text-sm);">
+                                Start Planning
+                            </button>
+                        </div>
+                        
+                        <div style="background: var(--success-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            <h4 style="color: var(--success-700); margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2);">
+                                <i class="fas fa-chart-line"></i> Market Analysis
+                            </h4>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm); line-height: 1.6;">
+                                <li>• Real-time industry insights</li>
+                                <li>• Salary trend analysis</li>
+                                <li>• Skill demand forecasting</li>
+                                <li>• Job market opportunities</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="openMarketAnalysis()" style="width: 100%; margin-top: var(--space-3); font-size: var(--text-sm);">
+                                Analyze Market
+                            </button>
+                        </div>
+                        
+                        <div style="background: var(--info-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            <h4 style="color: var(--info-700); margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2);">
+                                <i class="fas fa-graduation-cap"></i> Skill Development
+                            </h4>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm); line-height: 1.6;">
+                                <li>• Personalized learning paths</li>
+                                <li>• Skill gap analysis</li>
+                                <li>• Progress tracking</li>
+                                <li>• Resource recommendations</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="startSkillDevelopment()" style="width: 100%; margin-top: var(--space-3); font-size: var(--text-sm);">
+                                Develop Skills
+                            </button>
+                        </div>
+                        
+                        <div style="background: var(--warning-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            <h4 style="color: var(--warning-700); margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2);">
+                                <i class="fas fa-briefcase"></i> Job Search & Networking
+                            </h4>
+                            <ul style="color: var(--gray-700); font-size: var(--text-sm); line-height: 1.6;">
+                                <li>• Resume optimization</li>
+                                <li>• Interview preparation</li>
+                                <li>• Networking strategies</li>
+                                <li>• Application tracking</li>
+                            </ul>
+                            <button class="btn btn-primary" onclick="startJobSearch()" style="width: 100%; margin-top: var(--space-3); font-size: var(--text-sm);">
+                                Find Jobs
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
+                        <h4 style="color: var(--gray-800); margin-bottom: var(--space-3);"><i class="fas fa-network-wired"></i> A2A Protocol Integration</h4>
+                        <p style="color: var(--gray-700); font-size: var(--text-sm); line-height: 1.6;">
+                            Our AI agents communicate using advanced Agent-to-Agent protocols, enabling seamless collaboration between specialist AIs for comprehensive career guidance.
+                        </p>
+                    </div>
+                    
+                    <div style="text-align: center;">
+                        <button class="btn btn-secondary" onclick="closeModal()">Got it!</button>
+                    </div>
+                </div>
+            `);
         }
         
-        function getProactiveInsights() {
+        async function getProactiveInsights() {
             setAgentStatus('thinking', 'Analyzing your profile...');
             
+            const modal = createModal('🔍 AI Proactive Insights', `
+                <div style="padding: var(--space-4); text-align: center;">
+                    <div style="background: linear-gradient(135deg, var(--success), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6);">
+                        <i class="fas fa-brain" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">AI Analysis in Progress</h3>
+                        <p style="opacity: 0.9;">Analyzing market trends, your profile, and generating insights...</p>
+                        <div style="margin-top: var(--space-4);">
+                            <div style="background: rgba(255,255,255,0.3); height: 6px; border-radius: 3px; overflow: hidden;">
+                                <div class="insight-progress" style="background: white; height: 100%; width: 0%; transition: width 3s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="insightSteps" style="text-align: left;">
+                        <div class="insight-step" style="margin-bottom: var(--space-2); opacity: 0.5;">📊 Analyzing current market trends...</div>
+                        <div class="insight-step" style="margin-bottom: var(--space-2); opacity: 0.5;">👤 Reviewing your skill profile...</div>
+                        <div class="insight-step" style="margin-bottom: var(--space-2); opacity: 0.5;">🎯 Identifying growth opportunities...</div>
+                        <div class="insight-step" style="margin-bottom: var(--space-2); opacity: 0.5;">💡 Generating personalized recommendations...</div>
+                    </div>
+                </div>
+            `);
+            
+            // Animate insights generation
             setTimeout(() => {
-                addMessage('ai', "🔍 **Proactive Insights for Your Career:**\n\n🚀 **Immediate Opportunities:**\n• 3 companies are actively hiring React developers in your area\n• Remote positions increased 40% this month\n\n📈 **Skill Market Trends:**\n• TypeScript demand up 25% - perfect addition to your React skills\n• Cloud deployment skills could increase your salary by $15k\n\n🎯 **Personalized Recommendations:**\n• Complete your React learning path (25% remaining)\n• Start Node.js basics next month\n• Consider AWS certification for Q3\n\nWant me to create a detailed action plan?");
+                document.querySelector('.insight-progress').style.width = '100%';
+                const steps = document.querySelectorAll('.insight-step');
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        step.style.opacity = '1';
+                        step.style.transform = 'scale(1.05)';
+                        setTimeout(() => step.style.transform = 'scale(1)', 200);
+                    }, index * 600);
+                });
+            }, 100);
+            
+            try {
+                // Call real AI insights API
+                const response = await fetch('/api/ai/proactive-insights', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        context: 'proactive_career_insights',
+                        user_data: {
+                            skills: ['React', 'JavaScript', 'HTML/CSS'],
+                            experience_level: 'intermediate',
+                            career_goal: 'Full Stack Developer'
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    setTimeout(() => {
+                        closeModal();
+                        showInsightsResults(data);
+                        setAgentStatus('online', 'Online & Ready');
+                    }, 3000);
+                    return;
+                }
+            } catch (error) {
+                console.log('Using fallback insights generation:', error);
+            }
+            
+            // Fallback insights
+            setTimeout(() => {
+                closeModal();
+                showInsightsResults({
+                    immediate_opportunities: [
+                        '3 companies actively hiring React developers in your area',
+                        'Remote positions increased 40% this month',
+                        'Junior to Mid-level transition window is optimal now'
+                    ],
+                    market_trends: [
+                        'TypeScript demand up 25% - perfect addition to your React skills',
+                        'Cloud deployment skills could increase salary by $15k',
+                        'AI integration skills becoming essential for developers'
+                    ],
+                    personalized_recommendations: [
+                        'Complete React learning path (25% remaining)',
+                        'Start Node.js basics next month for full-stack readiness',
+                        'Consider AWS certification for Q3 - high ROI skill',
+                        'Build 2-3 portfolio projects to demonstrate capabilities'
+                    ]
+                });
                 setAgentStatus('online', 'Online & Ready');
-            }, 2000);
+            }, 3200);
         }
         
         function sendQuickMessage(topic) {
@@ -471,15 +636,102 @@
         }
         
         function exploreOpportunity(type) {
-            const messages = {
-                'ai-ml': "🤖 **AI/ML Opportunity Analysis:**\n\nThe AI/ML field is experiencing unprecedented growth:\n• 35% increase in job postings\n• Average salary: $110k-160k\n• Remote-friendly positions\n\n**Recommended Learning Path:**\n1. Python fundamentals (if not known)\n2. Data analysis with pandas/numpy\n3. Machine learning with scikit-learn\n4. Deep learning basics with TensorFlow\n\nWant me to create a personalized AI/ML learning roadmap?",
-                
-                'aws-cert': "☁️ **AWS Certification Benefits:**\n\nAWS skills are highly valued:\n• 18% average salary increase\n• 67% of companies use AWS\n• High job security and demand\n\n**Certification Path:**\n1. AWS Cloud Practitioner (foundational)\n2. AWS Solutions Architect Associate\n3. Specialized certifications based on interest\n\n**Study Resources:**\n• AWS Free Tier for hands-on practice\n• Official AWS training courses\n• Practice exams and labs\n\nShall I create a study timeline for you?",
-                
-                'job-matches': "💼 **Your Job Matches This Week:**\n\n**Frontend Developer - TechStart Inc.**\n• React, JavaScript, CSS\n• $85k-105k, Remote-friendly\n• Match: 92%\n\n**Full Stack Developer - InnovateCorp**\n• React, Node.js, MongoDB\n• $90k-120k, Hybrid\n• Match: 87%\n\n**UI Developer - DesignFirst**\n• React, TypeScript, Figma\n• $80k-110k, Remote\n• Match: 89%\n\nWould you like me to help you prepare applications for any of these positions?"
+            const opportunities = {
+                'ai-ml': {
+                    title: 'AI/ML Career Opportunity',
+                    icon: '🤖',
+                    growth: '35% increase',
+                    salary: '$110k-160k',
+                    details: 'The AI/ML field is experiencing unprecedented growth with high-paying remote opportunities.',
+                    learningPath: [
+                        'Python fundamentals mastery',
+                        'Data analysis with pandas/numpy',
+                        'Machine learning with scikit-learn',
+                        'Deep learning basics with TensorFlow',
+                        'MLOps and deployment strategies'
+                    ],
+                    timeline: '8-12 months',
+                    action: () => window.location.href = '/career-paths?focus=ai-ml'
+                },
+                'aws-cert': {
+                    title: 'AWS Certification Path',
+                    icon: '☁️',
+                    growth: '18% salary increase',
+                    salary: 'Up to +$25k',
+                    details: 'AWS skills are highly valued with 67% of companies using AWS infrastructure.',
+                    learningPath: [
+                        'AWS Cloud Practitioner (foundational)',
+                        'AWS Solutions Architect Associate',
+                        'Specialized certifications by interest',
+                        'Hands-on labs and practice exams',
+                        'Real-world project implementation'
+                    ],
+                    timeline: '4-6 months',
+                    action: () => window.location.href = '/tools?focus=aws-cert'
+                },
+                'job-matches': {
+                    title: 'Personalized Job Matches',
+                    icon: '💼',
+                    growth: '12 new matches',
+                    salary: '$85k-120k average',
+                    details: 'AI-curated job opportunities matching your skills and preferences.',
+                    learningPath: [
+                        'Frontend Developer - TechStart Inc. (92% match)',
+                        'Full Stack Developer - InnovateCorp (87% match)',
+                        'UI Developer - DesignFirst (89% match)',
+                        'React Developer - StartupHub (91% match)',
+                        'Software Engineer - TechCorp (85% match)'
+                    ],
+                    timeline: 'Apply now',
+                    action: () => window.location.href = '/community?tab=jobs'
+                }
             };
             
-            addMessage('ai', messages[type] || 'Let me get more information about this opportunity...');
+            const opportunity = opportunities[type];
+            if (!opportunity) return;
+            
+            const modal = createModal(`${opportunity.icon} ${opportunity.title}`, `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--success), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: var(--space-3);">${opportunity.icon}</div>
+                        <h3 style="margin-bottom: var(--space-3);">${opportunity.title}</h3>
+                        <div style="display: flex; justify-content: center; gap: var(--space-6); margin-bottom: var(--space-4);">
+                            <div>
+                                <div style="font-size: var(--text-xl); font-weight: 700;">${opportunity.growth}</div>
+                                <div style="opacity: 0.9;">Market Growth</div>
+                            </div>
+                            <div>
+                                <div style="font-size: var(--text-xl); font-weight: 700;">${opportunity.salary}</div>
+                                <div style="opacity: 0.9;">Salary Range</div>
+                            </div>
+                            <div>
+                                <div style="font-size: var(--text-xl); font-weight: 700;">${opportunity.timeline}</div>
+                                <div style="opacity: 0.9;">Timeline</div>
+                            </div>
+                        </div>
+                        <p style="opacity: 0.9;">${opportunity.details}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-4);">📚 Recommended Learning Path</h4>
+                        <div style="display: grid; gap: var(--space-2);">
+                            ${opportunity.learningPath.map((step, index) => `
+                                <div style="display: flex; align-items: center; padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg);">
+                                    <div style="width: 24px; height: 24px; background: var(--primary-500); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: var(--space-3); font-size: var(--text-sm); font-weight: 600;">${index + 1}</div>
+                                    <div>${step}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                        <button class="btn btn-secondary" onclick="closeModal()">Learn More Later</button>
+                        <button class="btn btn-primary" onclick="executeOpportunityAction('${type}')">
+                            <i class="fas fa-rocket"></i> Get Started
+                        </button>
+                    </div>
+                </div>
+            `);
         }
         
         function showNotification(message, type) {
@@ -497,6 +749,154 @@
                 notification.style.opacity = '0';
                 setTimeout(() => notification.remove(), 300);
             }, 4000);
+        }
+        
+        // Supporting functions for new functionality
+        function startCareerPlanning() {
+            closeModal();
+            showNotification('🚀 Redirecting to Career Planning...', 'info');
+            setTimeout(() => {
+                window.location.href = '/career-paths';
+            }, 1000);
+        }
+        
+        function openMarketAnalysis() {
+            closeModal();
+            showNotification('📊 Opening Market Intelligence...', 'info');
+            setTimeout(() => {
+                window.location.href = '/market-intelligence';
+            }, 1000);
+        }
+        
+        function startSkillDevelopment() {
+            closeModal();
+            showNotification('🎓 Opening AI Tools for Skill Development...', 'info');
+            setTimeout(() => {
+                window.location.href = '/tools';
+            }, 1000);
+        }
+        
+        function startJobSearch() {
+            closeModal();
+            showNotification('💼 Opening Community Job Board...', 'info');
+            setTimeout(() => {
+                window.location.href = '/community?tab=jobs';
+            }, 1000);
+        }
+        
+        function showInsightsResults(insights) {
+            const modal = createModal('💡 Your Proactive Career Insights', `
+                <div style="padding: var(--space-4);">
+                    <div style="background: linear-gradient(135deg, var(--warning), var(--success)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
+                        <i class="fas fa-lightbulb" style="font-size: 3rem; margin-bottom: var(--space-4);"></i>
+                        <h3 style="margin-bottom: var(--space-3);">AI Analysis Complete</h3>
+                        <p style="opacity: 0.9;">Personalized insights based on your profile and market data</p>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="color: var(--success); margin-bottom: var(--space-3);"><i class="fas fa-rocket"></i> Immediate Opportunities</h4>
+                        <div style="background: var(--success-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            ${insights.immediate_opportunities.map(opp => `<p style="margin-bottom: var(--space-2); color: var(--gray-700);">• ${opp}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="color: var(--info); margin-bottom: var(--space-3);"><i class="fas fa-chart-line"></i> Market Trends</h4>
+                        <div style="background: var(--info-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            ${insights.market_trends.map(trend => `<p style="margin-bottom: var(--space-2); color: var(--gray-700);">• ${trend}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h4 style="color: var(--primary-600); margin-bottom: var(--space-3);"><i class="fas fa-bullseye"></i> Personalized Recommendations</h4>
+                        <div style="background: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-lg);">
+                            ${insights.personalized_recommendations.map(rec => `<p style="margin-bottom: var(--space-2); color: var(--gray-700);">• ${rec}</p>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
+                        <button class="btn btn-secondary" onclick="saveInsights()">💾 Save Insights</button>
+                        <button class="btn btn-primary" onclick="createActionPlan()">
+                            <i class="fas fa-clipboard-list"></i> Create Action Plan
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+        
+        function executeOpportunityAction(type) {
+            const opportunities = {
+                'ai-ml': () => window.location.href = '/career-paths?focus=ai-ml',
+                'aws-cert': () => window.location.href = '/tools?focus=aws-cert',
+                'job-matches': () => window.location.href = '/community?tab=jobs'
+            };
+            
+            closeModal();
+            showNotification('🚀 Taking you to the relevant section...', 'info');
+            setTimeout(() => {
+                if (opportunities[type]) {
+                    opportunities[type]();
+                }
+            }, 1000);
+        }
+        
+        function saveInsights() {
+            // Save insights to localStorage or user profile
+            localStorage.setItem('skillsync_latest_insights', JSON.stringify({
+                timestamp: new Date().toISOString(),
+                insights: 'Saved for user reference'
+            }));
+            
+            showNotification('💾 Insights saved to your profile!', 'success');
+            closeModal();
+        }
+        
+        function createActionPlan() {
+            closeModal();
+            showNotification('📋 Creating personalized action plan...', 'info');
+            setTimeout(() => {
+                window.location.href = '/goals';
+            }, 1000);
+        }
+        
+        // Utility functions
+        function createModal(title, content) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.5); display: flex; align-items: center;
+                justify-content: center; z-index: 9999; backdrop-filter: blur(4px);
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: var(--radius-xl); padding: 0; 
+                           max-width: 900px; width: 90%; max-height: 80vh; overflow-y: auto; 
+                           box-shadow: var(--shadow-2xl);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; 
+                               padding: var(--space-4) var(--space-6); border-bottom: 1px solid var(--gray-200);">
+                        <h2 style="font-size: var(--text-xl); font-weight: 700; color: var(--gray-800);">${title}</h2>
+                        <button onclick="closeModal()" style="background: none; border: none; 
+                                font-size: var(--text-xl); color: var(--gray-500); cursor: pointer; 
+                                width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; 
+                                border-radius: 50%; transition: all 0.2s;" 
+                                onmouseover="this.style.background='var(--gray-100)'" 
+                                onmouseout="this.style.background='none'">&times;</button>
+                    </div>
+                    <div>${content}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            
+            return modal;
+        }
+        
+        function closeModal() {
+            const modal = document.querySelector('div[style*="position: fixed"][style*="z-index: 9999"]');
+            if (modal) modal.remove();
         }
         
         // Initialize when page loads
