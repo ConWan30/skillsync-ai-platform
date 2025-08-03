@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Tools - SkillSync AI Platform</title>
+    <meta name="description" content="AI-powered tools for resume optimization, interview preparation, and skill assessment.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
+          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
+          --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
+          --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
+          --font-primary: 'Inter', sans-serif; --font-display: 'Plus Jakarta Sans', sans-serif;
+          --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 1.875rem;
+          --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem;
+          --radius-lg: 0.75rem; --radius-xl: 1rem; --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1); --transition-fast: 150ms ease-in-out;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-100); background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); min-height: 100vh; }
+        .navbar { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
+        .logo { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); text-decoration: none; }
+        .nav-links { display: flex; gap: var(--space-8); list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--gray-700); font-weight: 500; font-size: var(--text-sm); transition: color var(--transition-fast); }
+        .nav-links a:hover { color: var(--primary-600); }
+        .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
+        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
+        .grid { display: grid; gap: var(--space-6); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .hero { padding: var(--space-16) 0; text-align: center; }
+        .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: white; }
+        .trend-card { position: relative; overflow: hidden; }
+        .trend-up { color: var(--success); }
+        .trend-down { color: var(--error); }
+        @media (max-width: 768px) { .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo"><i class="fas fa-rocket"></i> SkillSync AI</a>
+            <ul class="nav-links">
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Intelligence</a></li>
+                <li><a href="/career-paths"><i class="fas fa-route"></i> Paths</a></li>
+                <li><a href="/tools"><i class="fas fa-tools"></i> Tools</a></li>
+                <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
+                <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1><i class="fas fa-tools"></i> Professional Tools</h1>
+            <p style="font-size: var(--text-lg); opacity: 0.9; margin-bottom: var(--space-8);">
+                AI-powered tools to accelerate your career development and professional growth
+            </p>
+        </div>
+    </section>
+
+    <main style="padding: var(--space-8) 0;">
+        <div class="container">
+            <div class="grid grid-cols-3">
+                <div class="card trend-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-file-alt"></i> Resume Optimizer</h3>
+                    <div style="margin-bottom: var(--space-3);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>ATS Optimization</span>
+                            <span style="color: var(--success);">Active</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Keyword Matching</span>
+                            <span style="color: var(--success);">95% Score</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Format Analysis</span>
+                            <span style="color: var(--info);">Ready</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card trend-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-comments"></i> Interview Prep</h3>
+                    <div style="margin-bottom: var(--space-3);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Mock Interviews</span>
+                            <span style="color: var(--success);">Available</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Question Bank</span>
+                            <span style="color: var(--success);">500+ Questions</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Video Practice</span>
+                            <span style="color: var(--info);">Beta</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card trend-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-bar"></i> Skill Assessment</h3>
+                    <div style="margin-bottom: var(--space-3);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Technical Tests</span>
+                            <span style="color: var(--info);">25 Available</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Coding Challenges</span>
+                            <span style="color: var(--success);">Live</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                            <span>Progress Tracking</span>
+                            <span style="color: var(--success);">Real-time</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

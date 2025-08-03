@@ -31,16 +31,39 @@
         .nav-links a:hover { color: var(--primary-600); }
         .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
         .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
-        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .btn-success { background: linear-gradient(135deg, var(--success), #38a169); color: white; }
+        .btn-warning { background: linear-gradient(135deg, var(--warning), #c05621); color: white; }
+        .btn:hover { transform: translateY(-2px); }
+        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-fast); }
+        .card:hover { transform: translateY(-4px); }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
         .grid { display: grid; gap: var(--space-6); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .hero { padding: var(--space-16) 0; text-align: center; }
         .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: white; }
-        .trend-card { position: relative; overflow: hidden; }
-        .trend-up { color: var(--success); }
-        .trend-down { color: var(--error); }
-        @media (max-width: 768px) { .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } }
+        .interactive-controls { display: flex; gap: var(--space-4); margin-bottom: var(--space-6); justify-content: center; flex-wrap: wrap; }
+        .data-section { margin: var(--space-8) 0; }
+        .section-title { color: white; font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-6); text-align: center; }
+        .tool-card { position: relative; overflow: hidden; cursor: pointer; }
+        .tool-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--info), var(--success)); }
+        .textarea-input { width: 100%; min-height: 120px; padding: var(--space-4); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); font-family: var(--font-primary); font-size: var(--text-sm); resize: vertical; }
+        .file-upload { border: 2px dashed var(--gray-300); border-radius: var(--radius-lg); padding: var(--space-8); text-align: center; transition: all var(--transition-fast); cursor: pointer; }
+        .file-upload:hover { border-color: var(--info); background: rgba(66, 153, 225, 0.05); }
+        .file-upload.dragover { border-color: var(--success); background: rgba(72, 187, 120, 0.1); }
+        .progress-indicator { width: 100%; height: 4px; background: var(--gray-200); border-radius: 2px; overflow: hidden; margin: var(--space-4) 0; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--info), var(--success)); transition: width 0.3s ease; }
+        .result-panel { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: var(--space-4); margin-top: var(--space-4); }
+        .score-badge { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-radius: var(--radius-lg); font-weight: 600; font-size: var(--text-sm); }
+        .score-excellent { background: rgba(72, 187, 120, 0.1); color: var(--success); }
+        .score-good { background: rgba(66, 153, 225, 0.1); color: var(--info); }
+        .score-needs-work { background: rgba(237, 137, 54, 0.1); color: var(--warning); }
+        .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1050; display: none; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; border-radius: var(--radius-xl); padding: var(--space-8); max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; font-size: var(--text-xl); cursor: pointer; }
+        @media (max-width: 768px) { .grid-cols-2, .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } .interactive-controls { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -64,67 +87,567 @@
             <p style="font-size: var(--text-lg); opacity: 0.9; margin-bottom: var(--space-8);">
                 AI-powered tools to accelerate your career development and professional growth
             </p>
+            <div class="interactive-controls">
+                <button class="btn btn-primary" onclick="scrollToTool('resume')">
+                    <i class="fas fa-file-alt"></i> Resume Optimizer
+                </button>
+                <button class="btn btn-secondary" onclick="scrollToTool('interview')">
+                    <i class="fas fa-comments"></i> Interview Prep
+                </button>
+                <button class="btn btn-secondary" onclick="scrollToTool('assessment')">
+                    <i class="fas fa-chart-bar"></i> Skill Assessment
+                </button>
+                <button class="btn btn-secondary" onclick="scrollToTool('salary')">
+                    <i class="fas fa-dollar-sign"></i> Salary Calculator
+                </button>
+            </div>
         </div>
     </section>
 
     <main style="padding: var(--space-8) 0;">
         <div class="container">
-            <div class="grid grid-cols-3">
-                <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-file-alt"></i> Resume Optimizer</h3>
-                    <div style="margin-bottom: var(--space-3);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>ATS Optimization</span>
-                            <span style="color: var(--success);">Active</span>
+            <!-- Resume Optimizer Tool -->
+            <div class="data-section" id="resume">
+                <h2 class="section-title">AI Resume Optimizer</h2>
+                <div class="card tool-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-file-alt"></i> Optimize Your Resume for ATS</h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-6);">
+                        Upload your resume and get AI-powered optimization suggestions to improve ATS compatibility and increase your chances of landing interviews.
+                    </p>
+                    
+                    <div class="file-upload" id="resumeUpload" onclick="document.getElementById('resumeFile').click()">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: var(--text-3xl); color: var(--info); margin-bottom: var(--space-4);"></i>
+                        <h4>Upload Your Resume</h4>
+                        <p style="color: var(--gray-600); margin-top: var(--space-2);">Drag & drop or click to select (PDF, DOC, DOCX)</p>
+                        <input type="file" id="resumeFile" accept=".pdf,.doc,.docx" style="display: none;" onchange="handleResumeUpload(event)">
+                    </div>
+                    
+                    <div id="resumeProgress" style="display: none;">
+                        <div class="progress-indicator">
+                            <div class="progress-bar" id="resumeProgressBar" style="width: 0%;"></div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Keyword Matching</span>
-                            <span style="color: var(--success);">95% Score</span>
+                        <p style="text-align: center; color: var(--gray-600);">Analyzing resume...</p>
+                    </div>
+                    
+                    <div id="resumeResults" style="display: none;" class="result-panel">
+                        <!-- Results will be populated by JavaScript -->
+                    </div>
+                    
+                    <div style="margin-top: var(--space-6); text-align: center;">
+                        <button class="btn btn-primary" onclick="optimizeResume()" id="optimizeBtn" disabled>
+                            <i class="fas fa-magic"></i> Optimize Resume
+                        </button>
+                        <button class="btn btn-secondary" onclick="downloadOptimized()" id="downloadBtn" style="display: none;">
+                            <i class="fas fa-download"></i> Download Optimized
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interview Preparation Tool -->
+            <div class="data-section" id="interview">
+                <h2 class="section-title">AI Interview Preparation</h2>
+                <div class="grid grid-cols-2">
+                    <div class="card tool-card">
+                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-comments"></i> Mock Interview</h3>
+                        <p style="color: var(--gray-600); margin-bottom: var(--space-6);">
+                            Practice with AI-powered mock interviews tailored to your target role and experience level.
+                        </p>
+                        
+                        <div style="margin-bottom: var(--space-4);">
+                            <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Target Role:</label>
+                            <select id="targetRole" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                                <option value="frontend">Frontend Developer</option>
+                                <option value="backend">Backend Developer</option>
+                                <option value="fullstack">Full Stack Developer</option>
+                                <option value="devops">DevOps Engineer</option>
+                                <option value="data">Data Scientist</option>
+                                <option value="mobile">Mobile Developer</option>
+                            </select>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Format Analysis</span>
-                            <span style="color: var(--info);">Ready</span>
+                        
+                        <div style="margin-bottom: var(--space-6);">
+                            <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Experience Level:</label>
+                            <select id="experienceLevel" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                                <option value="entry">Entry Level (0-2 years)</option>
+                                <option value="mid">Mid Level (3-5 years)</option>
+                                <option value="senior">Senior Level (5+ years)</option>
+                            </select>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;" onclick="startMockInterview()">
+                            <i class="fas fa-play"></i> Start Mock Interview
+                        </button>
+                    </div>
+                    
+                    <div class="card tool-card">
+                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-lightbulb"></i> Question Bank</h3>
+                        <p style="color: var(--gray-600); margin-bottom: var(--space-6);">
+                            Access our comprehensive database of interview questions organized by category and difficulty.
+                        </p>
+                        
+                        <div style="margin-bottom: var(--space-4);">
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: var(--space-3);" onclick="loadQuestions('technical')">
+                                <i class="fas fa-code"></i> Technical Questions (250+)
+                            </button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: var(--space-3);" onclick="loadQuestions('behavioral')">
+                                <i class="fas fa-users"></i> Behavioral Questions (180+)
+                            </button>
+                            <button class="btn btn-secondary" style="width: 100%; margin-bottom: var(--space-3);" onclick="loadQuestions('system')">
+                                <i class="fas fa-server"></i> System Design (75+)
+                            </button>
+                        </div>
+                        
+                        <div id="questionDisplay" style="display: none;" class="result-panel">
+                            <!-- Questions will be populated here -->
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-comments"></i> Interview Prep</h3>
-                    <div style="margin-bottom: var(--space-3);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Mock Interviews</span>
-                            <span style="color: var(--success);">Available</span>
+            <!-- Skill Assessment Tool -->
+            <div class="data-section" id="assessment">
+                <h2 class="section-title">AI Skill Assessment</h2>
+                <div class="card tool-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-bar"></i> Comprehensive Skills Evaluation</h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-6);">
+                        Take our AI-powered assessment to evaluate your technical skills, identify strengths, and discover areas for improvement.
+                    </p>
+                    
+                    <div class="grid grid-cols-3">
+                        <div style="text-align: center; padding: var(--space-4);">
+                            <i class="fas fa-clock" style="font-size: var(--text-2xl); color: var(--info); margin-bottom: var(--space-2);"></i>
+                            <h4>15-20 Minutes</h4>
+                            <p style="color: var(--gray-600); font-size: var(--text-sm);">Adaptive testing</p>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Question Bank</span>
-                            <span style="color: var(--success);">500+ Questions</span>
+                        <div style="text-align: center; padding: var(--space-4);">
+                            <i class="fas fa-brain" style="font-size: var(--text-2xl); color: var(--success); margin-bottom: var(--space-2);"></i>
+                            <h4>AI-Powered</h4>
+                            <p style="color: var(--gray-600); font-size: var(--text-sm);">Intelligent evaluation</p>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Video Practice</span>
-                            <span style="color: var(--info);">Beta</span>
+                        <div style="text-align: center; padding: var(--space-4);">
+                            <i class="fas fa-certificate" style="font-size: var(--text-2xl); color: var(--warning); margin-bottom: var(--space-2);"></i>
+                            <h4>Certification</h4>
+                            <p style="color: var(--gray-600); font-size: var(--text-sm);">Shareable results</p>
                         </div>
                     </div>
+                    
+                    <div style="margin-top: var(--space-6);">
+                        <h4 style="margin-bottom: var(--space-4);">Select Assessment Categories:</h4>
+                        <div class="grid grid-cols-2">
+                            <label style="display: flex; align-items: center; margin-bottom: var(--space-3);">
+                                <input type="checkbox" checked style="margin-right: var(--space-2);"> Frontend Development
+                            </label>
+                            <label style="display: flex; align-items: center; margin-bottom: var(--space-3);">
+                                <input type="checkbox" style="margin-right: var(--space-2);"> Backend Development
+                            </label>
+                            <label style="display: flex; align-items: center; margin-bottom: var(--space-3);">
+                                <input type="checkbox" style="margin-right: var(--space-2);"> Database Management
+                            </label>
+                            <label style="display: flex; align-items: center; margin-bottom: var(--space-3);">
+                                <input type="checkbox" style="margin-right: var(--space-2);"> DevOps & Cloud
+                            </label>
+                            <label style="display: flex; align-items: center; margin-bottom: var(--space-3);">
+                                <input type="checkbox" style="margin-right: var(--space-2);"> Problem Solving
+                            </label>
+                            <label style="display: flex; align-items: center; margin-bottom: var(--space-3);">
+                                <input type="checkbox" style="margin-right: var(--space-2);"> System Design
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: var(--space-6);">
+                        <button class="btn btn-success" style="font-size: var(--text-lg); padding: var(--space-4) var(--space-8);" onclick="startAssessment()">
+                            <i class="fas fa-play-circle"></i> Start Assessment
+                        </button>
+                    </div>
                 </div>
+            </div>
 
-                <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-bar"></i> Skill Assessment</h3>
-                    <div style="margin-bottom: var(--space-3);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Technical Tests</span>
-                            <span style="color: var(--info);">25 Available</span>
+            <!-- Real-time Salary Calculator -->
+            <div class="data-section" id="salary">
+                <h2 class="section-title">AI Salary Calculator</h2>
+                <div class="card tool-card">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-calculator"></i> Market-Based Salary Estimation</h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-6);">
+                        Get real-time salary estimates based on your skills, experience, location, and current market data.
+                    </p>
+                    
+                    <div class="grid grid-cols-2">
+                        <div>
+                            <div style="margin-bottom: var(--space-4);">
+                                <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Job Title:</label>
+                                <input type="text" id="jobTitle" placeholder="e.g., Frontend Developer" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                            </div>
+                            
+                            <div style="margin-bottom: var(--space-4);">
+                                <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Experience (Years):</label>
+                                <input type="number" id="experience" min="0" max="20" value="3" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                            </div>
+                            
+                            <div style="margin-bottom: var(--space-4);">
+                                <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Location:</label>
+                                <select id="location" style="width: 100%; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
+                                    <option value="san-francisco">San Francisco, CA</option>
+                                    <option value="new-york">New York, NY</option>
+                                    <option value="seattle">Seattle, WA</option>
+                                    <option value="austin">Austin, TX</option>
+                                    <option value="denver">Denver, CO</option>
+                                    <option value="chicago">Chicago, IL</option>
+                                    <option value="remote">Remote</option>
+                                </select>
+                            </div>
+                            
+                            <div style="margin-bottom: var(--space-6);">
+                                <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Key Skills (comma separated):</label>
+                                <textarea id="skills" placeholder="React, JavaScript, Node.js, Python..." style="width: 100%; height: 80px; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); resize: vertical;"></textarea>
+                            </div>
+                            
+                            <button class="btn btn-primary" style="width: 100%;" onclick="calculateSalary()">
+                                <i class="fas fa-calculator"></i> Calculate Salary
+                            </button>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Coding Challenges</span>
-                            <span style="color: var(--success);">Live</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Progress Tracking</span>
-                            <span style="color: var(--success);">Real-time</span>
+                        
+                        <div id="salaryResults" style="padding-left: var(--space-6);">
+                            <div style="text-align: center; color: var(--gray-500); margin-top: var(--space-8);">
+                                <i class="fas fa-chart-line" style="font-size: var(--text-3xl); margin-bottom: var(--space-4);"></i>
+                                <p>Enter your details to see salary estimates</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Mock Interview Modal -->
+    <div id="interviewModal" class="modal">
+        <div class="modal-content" style="position: relative;">
+            <button class="close-modal" onclick="closeModal('interviewModal')">&times;</button>
+            <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-video"></i> Mock Interview Session</h3>
+            <div id="interviewContent">
+                <!-- Interview content will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File upload handling
+        function handleResumeUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('resumeProgress').style.display = 'block';
+                document.getElementById('optimizeBtn').disabled = false;
+                
+                // Simulate file processing
+                let progress = 0;
+                const progressBar = document.getElementById('resumeProgressBar');
+                
+                const interval = setInterval(() => {
+                    progress += Math.random() * 15;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        showResumeAnalysis();
+                    }
+                    progressBar.style.width = progress + '%';
+                }, 200);
+                
+                showNotification(`Resume "${file.name}" uploaded successfully!`, 'success');
+            }
+        }
+
+        function showResumeAnalysis() {
+            const resultsDiv = document.getElementById('resumeResults');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <h4 style="margin-bottom: var(--space-4);">Resume Analysis Complete</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-4);">
+                    <div style="text-align: center;">
+                        <div class="score-badge score-good">
+                            <i class="fas fa-robot"></i> ATS Score: 78%
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="score-badge score-excellent">
+                            <i class="fas fa-eye"></i> Readability: 92%
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="score-badge score-needs-work">
+                            <i class="fas fa-keywords"></i> Keywords: 65%
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: var(--space-4);">
+                    <h5 style="color: var(--success); margin-bottom: var(--space-2);">✅ Strengths:</h5>
+                    <ul style="margin-left: var(--space-4); color: var(--gray-600);">
+                        <li>Clean, professional formatting</li>
+                        <li>Relevant technical skills highlighted</li>
+                        <li>Quantified achievements in previous roles</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 style="color: var(--warning); margin-bottom: var(--space-2);">⚠️ Recommendations:</h5>
+                    <ul style="margin-left: var(--space-4); color: var(--gray-600);">
+                        <li>Add more industry-specific keywords</li>
+                        <li>Include a professional summary section</li>
+                        <li>Optimize for common ATS systems</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        function optimizeResume() {
+            showNotification('Optimizing resume with AI recommendations...', 'info');
+            setTimeout(() => {
+                document.getElementById('downloadBtn').style.display = 'inline-flex';
+                showNotification('✨ Resume optimized! Download your improved version.', 'success');
+            }, 3000);
+        }
+
+        function downloadOptimized() {
+            showNotification('Downloading optimized resume...', 'info');
+            // Would trigger actual download
+        }
+
+        function startMockInterview() {
+            const role = document.getElementById('targetRole').value;
+            const level = document.getElementById('experienceLevel').value;
+            
+            const questions = {
+                frontend: {
+                    entry: [
+                        "What is the difference between let, const, and var in JavaScript?",
+                        "Explain the box model in CSS.",
+                        "How do React hooks work?"
+                    ],
+                    mid: [
+                        "How would you optimize a React application's performance?",
+                        "Explain the concept of closures in JavaScript.",
+                        "What are the different ways to center a div?"
+                    ],
+                    senior: [
+                        "Design a scalable frontend architecture for a large application.",
+                        "How would you implement micro-frontends?",
+                        "Explain your approach to code review and mentoring."
+                    ]
+                }
+            };
+            
+            const selectedQuestions = questions[role]?.[level] || questions.frontend.entry;
+            
+            document.getElementById('interviewContent').innerHTML = `
+                <p style="margin-bottom: var(--space-4);">Mock Interview for <strong>${role} (${level})</strong></p>
+                <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
+                    <h4 style="margin-bottom: var(--space-3);">Question 1:</h4>
+                    <p>${selectedQuestions[0]}</p>
+                </div>
+                <div style="margin-bottom: var(--space-4);">
+                    <label style="display: block; margin-bottom: var(--space-2);">Your Answer:</label>
+                    <textarea style="width: 100%; height: 120px; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);"></textarea>
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn btn-primary" onclick="nextQuestion()">
+                        <i class="fas fa-arrow-right"></i> Next Question
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('interviewModal').classList.add('active');
+        }
+
+        function nextQuestion() {
+            showNotification('Great answer! Moving to next question...', 'success');
+            // Would load next question
+        }
+
+        function loadQuestions(category) {
+            const questions = {
+                technical: [
+                    "Explain the difference between HTTP and HTTPS.",
+                    "What is the time complexity of binary search?",
+                    "How do you handle asynchronous operations in JavaScript?"
+                ],
+                behavioral: [
+                    "Tell me about a time you had to learn a new technology quickly.",
+                    "Describe a challenging project you worked on.",
+                    "How do you handle conflicting priorities?"
+                ],
+                system: [
+                    "Design a URL shortener like bit.ly",
+                    "How would you design a chat application?",
+                    "Explain how you would scale a web application."
+                ]
+            };
+            
+            const questionList = questions[category] || [];
+            const displayDiv = document.getElementById('questionDisplay');
+            displayDiv.style.display = 'block';
+            displayDiv.innerHTML = `
+                <h4 style="margin-bottom: var(--space-4);">${category.charAt(0).toUpperCase() + category.slice(1)} Questions</h4>
+                ${questionList.map((q, i) => `
+                    <div style="padding: var(--space-3); border-bottom: 1px solid var(--gray-200); ${i === questionList.length - 1 ? 'border-bottom: none;' : ''}">
+                        <strong>Q${i + 1}:</strong> ${q}
+                    </div>
+                `).join('')}
+                <div style="text-align: center; margin-top: var(--space-4);">
+                    <button class="btn btn-secondary" onclick="practiceQuestion('${category}')">
+                        <i class="fas fa-play"></i> Practice These Questions
+                    </button>
+                </div>
+            `;
+        }
+
+        function practiceQuestion(category) {
+            showNotification(`Starting practice session for ${category} questions...`, 'info');
+            // Would start practice session
+        }
+
+        function startAssessment() {
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const categories = Array.from(checkedBoxes).map(cb => cb.parentNode.textContent.trim());
+            
+            if (categories.length === 0) {
+                showNotification('Please select at least one assessment category.', 'warning');
+                return;
+            }
+            
+            showNotification(`Starting assessment for: ${categories.join(', ')}...`, 'info');
+            setTimeout(() => {
+                showNotification('Assessment started! You will be redirected to the test interface.', 'success');
+                // Would redirect to assessment interface
+            }, 2000);
+        }
+
+        function calculateSalary() {
+            const jobTitle = document.getElementById('jobTitle').value;
+            const experience = document.getElementById('experience').value;
+            const location = document.getElementById('location').value;
+            const skills = document.getElementById('skills').value;
+            
+            if (!jobTitle) {
+                showNotification('Please enter a job title.', 'warning');
+                return;
+            }
+            
+            // Simulate salary calculation
+            const baseSalary = 75000;
+            const experienceMultiplier = 1 + (experience * 0.08);
+            const locationMultipliers = {
+                'san-francisco': 1.4,
+                'new-york': 1.3,
+                'seattle': 1.25,
+                'austin': 1.1,
+                'denver': 1.05,
+                'chicago': 1.1,
+                'remote': 1.15
+            };
+            
+            const skillsBonus = skills.split(',').length * 2000;
+            const finalSalary = Math.round((baseSalary * experienceMultiplier * (locationMultipliers[location] || 1)) + skillsBonus);
+            const range = {
+                min: Math.round(finalSalary * 0.85),
+                max: Math.round(finalSalary * 1.25)
+            };
+            
+            document.getElementById('salaryResults').innerHTML = `
+                <div style="text-align: center; margin-bottom: var(--space-6);">
+                    <h4 style="color: var(--success); margin-bottom: var(--space-2);">Estimated Salary Range</h4>
+                    <div style="font-size: var(--text-3xl); font-weight: 800; color: var(--primary-600); margin-bottom: var(--space-2);">
+                        $${range.min.toLocaleString()} - $${range.max.toLocaleString()}
+                    </div>
+                    <p style="color: var(--gray-600);">per year</p>
+                </div>
+                
+                <div style="margin-bottom: var(--space-4);">
+                    <h5 style="margin-bottom: var(--space-3);">Salary Breakdown:</h5>
+                    <div style="margin-bottom: var(--space-2);">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Base Salary:</span>
+                            <span>$${baseSalary.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: var(--space-2);">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Experience Bonus:</span>
+                            <span>+${Math.round((experienceMultiplier - 1) * 100)}%</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: var(--space-2);">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Location Factor:</span>
+                            <span>+${Math.round(((locationMultipliers[location] || 1) - 1) * 100)}%</span>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: var(--space-4);">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Skills Bonus:</span>
+                            <span>+$${skillsBonus.toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: var(--info); color: white; padding: var(--space-3); border-radius: var(--radius-lg); text-align: center;">
+                    <small><i class="fas fa-info-circle"></i> Based on current market data and industry standards</small>
+                </div>
+            `;
+            
+            showNotification('Salary calculation complete!', 'success');
+        }
+
+        function scrollToTool(toolId) {
+            document.getElementById(toolId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 9999;
+                padding: 12px 24px; border-radius: 8px; color: white;
+                background: ${type === 'success' ? '#48bb78' : type === 'error' ? '#f56565' : type === 'warning' ? '#ed8936' : '#4299e1'};
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Drag and drop functionality
+        const uploadArea = document.getElementById('resumeUpload');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                document.getElementById('resumeFile').files = files;
+                handleResumeUpload({ target: { files } });
+            }
+        });
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            showNotification('Professional Tools loaded - All AI tools are ready!', 'success');
+        });
+    </script>
 </body>
 </html>
