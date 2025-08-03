@@ -8,6 +8,11 @@ from dotenv import load_dotenv
 import requests
 import json
 from career_intelligence_agent import ProactiveCareerAgent, trigger_intelligence_cycle
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load environment variables
 load_dotenv()
@@ -602,10 +607,13 @@ def tools():
 from a2a_protocol import get_a2a_protocol, initialize_a2a_system, AgentType
 
 # AI Activity Tracker Integration
-from ai_activity_tracker import get_activity_tracker, track_user_ai_interaction
+from ai_activity_tracker import get_activity_tracker, track_user_ai_interaction, initialize_activity_tracker
 
 # Neural Career DNA Integration
 from neural_career_dna import get_neural_dna_system, initialize_neural_dna_system, CareerDNAProfile
+
+# Career Intelligence Agent Integration
+from career_intelligence_agent import initialize_career_intelligence
 
 # Initialize A2A system on startup
 a2a_protocol = None
