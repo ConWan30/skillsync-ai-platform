@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
           --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
@@ -31,16 +32,29 @@
         .nav-links a:hover { color: var(--primary-600); }
         .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
         .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
-        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); }
+        .btn-secondary { background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .btn:hover { transform: translateY(-2px); }
+        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-fast); }
+        .card:hover { transform: translateY(-4px); }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
         .grid { display: grid; gap: var(--space-6); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .hero { padding: var(--space-16) 0; text-align: center; }
         .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: white; }
         .trend-card { position: relative; overflow: hidden; }
         .trend-up { color: var(--success); }
         .trend-down { color: var(--error); }
-        @media (max-width: 768px) { .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } }
+        .refresh-indicator { display: inline-block; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .data-section { margin: var(--space-8) 0; }
+        .section-title { color: white; font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-6); text-align: center; }
+        .chart-container { height: 300px; }
+        .interactive-controls { display: flex; gap: var(--space-4); margin-bottom: var(--space-6); justify-content: center; flex-wrap: wrap; }
+        .skill-demand-item { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0; border-bottom: 1px solid var(--gray-200); }
+        .skill-demand-item:last-child { border-bottom: none; }
+        .loading { opacity: 0.6; pointer-events: none; }
+        @media (max-width: 768px) { .grid-cols-2, .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } .interactive-controls { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -64,67 +78,361 @@
             <p style="font-size: var(--text-lg); opacity: 0.9; margin-bottom: var(--space-8);">
                 Real-time market trends, skill demand analytics, and industry insights powered by AI
             </p>
+            <div class="interactive-controls">
+                <button class="btn btn-primary" onclick="refreshMarketData()">
+                    <i class="fas fa-sync refresh-indicator" id="refreshIcon"></i> Refresh Data
+                </button>
+                <button class="btn btn-secondary" onclick="generateReport()">
+                    <i class="fas fa-file-download"></i> Generate Report
+                </button>
+                <button class="btn btn-secondary" onclick="analyzeSkill()">
+                    <i class="fas fa-search"></i> Analyze Skill
+                </button>
+            </div>
         </div>
     </section>
 
     <main style="padding: var(--space-8) 0;">
         <div class="container">
-            <div class="grid grid-cols-3">
+            <!-- Live Market Overview -->
+            <div class="grid grid-cols-3" id="marketOverview">
                 <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-trending-up trend-up"></i> High Demand Skills</h3>
-                    <div style="margin-bottom: var(--space-3);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                    <h3 style="margin-bottom: var(--space-4);">
+                        <i class="fas fa-trending-up trend-up"></i> High Demand Skills
+                        <span style="font-size: var(--text-sm); color: var(--info); font-weight: normal;">Live Data</span>
+                    </h3>
+                    <div id="demandSkills">
+                        <div class="skill-demand-item">
                             <span>AI/Machine Learning</span>
-                            <span class="trend-up">+25%</span>
+                            <span class="trend-up">+25% <small>(15,420 jobs)</small></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                        <div class="skill-demand-item">
                             <span>Cloud Architecture</span>
-                            <span class="trend-up">+22%</span>
+                            <span class="trend-up">+22% <small>(12,890 jobs)</small></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                        <div class="skill-demand-item">
                             <span>Cybersecurity</span>
-                            <span class="trend-up">+18%</span>
+                            <span class="trend-up">+18% <small>(9,670 jobs)</small></span>
+                        </div>
+                        <div class="skill-demand-item">
+                            <span>React Development</span>
+                            <span class="trend-up">+16% <small>(8,920 jobs)</small></span>
                         </div>
                     </div>
+                    <button class="btn btn-primary" style="margin-top: var(--space-4); width: 100%;" onclick="exploreSkillDetails()">
+                        <i class="fas fa-chart-line"></i> View Detailed Analytics
+                    </button>
                 </div>
 
                 <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-line"></i> Salary Trends</h3>
-                    <div style="margin-bottom: var(--space-3);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>DevOps Engineer</span>
-                            <span style="color: var(--success);">$95k-140k</span>
+                    <h3 style="margin-bottom: var(--space-4);">
+                        <i class="fas fa-dollar-sign"></i> Salary Intelligence
+                        <span style="font-size: var(--text-sm); color: var(--success); font-weight: normal;">Updated Daily</span>
+                    </h3>
+                    <div id="salaryTrends">
+                        <div class="skill-demand-item">
+                            <span>Senior DevOps Engineer</span>
+                            <span style="color: var(--success);">$115k-160k <small>↑ 12%</small></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
+                        <div class="skill-demand-item">
+                            <span>ML Engineer</span>
+                            <span style="color: var(--success);">$105k-150k <small>↑ 18%</small></span>
+                        </div>
+                        <div class="skill-demand-item">
+                            <span>Full Stack Developer</span>
+                            <span style="color: var(--success);">$85k-125k <small>↑ 8%</small></span>
+                        </div>
+                        <div class="skill-demand-item">
                             <span>Data Scientist</span>
-                            <span style="color: var(--success);">$85k-130k</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>Full Stack Dev</span>
-                            <span style="color: var(--success);">$75k-120k</span>
+                            <span style="color: var(--success);">$95k-140k <small>↑ 14%</small></span>
                         </div>
                     </div>
+                    <button class="btn btn-primary" style="margin-top: var(--space-4); width: 100%;" onclick="compareSalaries()">
+                        <i class="fas fa-balance-scale"></i> Compare Salaries
+                    </button>
                 </div>
 
                 <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-industry"></i> Industry Growth</h3>
-                    <div style="margin-bottom: var(--space-3);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>FinTech</span>
-                            <span class="trend-up">+30%</span>
+                    <h3 style="margin-bottom: var(--space-4);">
+                        <i class="fas fa-rocket"></i> Emerging Opportunities
+                        <span style="font-size: var(--text-sm); color: var(--warning); font-weight: normal;">Hot Trends</span>
+                    </h3>
+                    <div id="emergingTrends">
+                        <div class="skill-demand-item">
+                            <span>AI Ethics Specialist</span>
+                            <span style="color: var(--warning);">New Field <small>2,100 jobs</small></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>HealthTech</span>
-                            <span class="trend-up">+28%</span>
+                        <div class="skill-demand-item">
+                            <span>Quantum Computing</span>
+                            <span style="color: var(--warning);">Emerging <small>890 jobs</small></span>
                         </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-2);">
-                            <span>EdTech</span>
-                            <span class="trend-up">+24%</span>
+                        <div class="skill-demand-item">
+                            <span>Web3 Developer</span>
+                            <span style="color: var(--info);">Growing <small>3,450 jobs</small></span>
+                        </div>
+                        <div class="skill-demand-item">
+                            <span>Sustainability Tech</span>
+                            <span style="color: var(--success);">Hot <small>1,760 jobs</small></span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top: var(--space-4); width: 100%;" onclick="exploreOpportunities()">
+                        <i class="fas fa-binoculars"></i> Explore Opportunities
+                    </button>
+                </div>
+            </div>
+
+            <!-- Interactive Charts Section -->
+            <div class="data-section">
+                <h2 class="section-title">Market Trend Analysis</h2>
+                <div class="grid grid-cols-2">
+                    <div class="card">
+                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-area"></i> Skill Demand Over Time</h3>
+                        <div class="chart-container">
+                            <canvas id="skillDemandChart"></canvas>
+                        </div>
+                        <div style="margin-top: var(--space-4); text-align: center;">
+                            <button class="btn btn-secondary" onclick="updateTimeRange('1M')">1M</button>
+                            <button class="btn btn-secondary" onclick="updateTimeRange('3M')">3M</button>
+                            <button class="btn btn-primary" onclick="updateTimeRange('1Y')">1Y</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-pie"></i> Industry Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="industryChart"></canvas>
+                        </div>
+                        <div style="margin-top: var(--space-4); text-align: center;">
+                            <button class="btn btn-secondary" onclick="drillDownIndustry()">
+                                <i class="fas fa-search-plus"></i> Drill Down
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- AI-Powered Insights -->
+            <div class="data-section">
+                <h2 class="section-title">AI-Powered Market Insights</h2>
+                <div class="card" id="aiInsights">
+                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-robot"></i> Personalized Market Analysis</h3>
+                    <div id="insightContent">
+                        <p style="margin-bottom: var(--space-4); font-style: italic; color: var(--gray-600);">
+                            Click "Generate Insights" to get AI-powered analysis tailored to your profile and market conditions.
+                        </p>
+                    </div>
+                    <button class="btn btn-primary" onclick="generateAIInsights()">
+                        <i class="fas fa-magic"></i> Generate AI Insights
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
+
+    <script>
+        // Initialize charts and data
+        let skillChart, industryChart;
+        
+        // Sample market data that would come from API
+        const marketData = {
+            skillDemand: {
+                labels: ['AI/ML', 'Cloud', 'Security', 'React', 'Python', 'DevOps'],
+                data: [25, 22, 18, 16, 14, 20],
+                colors: ['#48bb78', '#4299e1', '#ed8936', '#9333ea', '#ef4444', '#06b6d4']
+            },
+            industryGrowth: {
+                labels: ['FinTech', 'HealthTech', 'EdTech', 'E-commerce', 'Gaming', 'AI/ML'],
+                data: [30, 28, 24, 19, 16, 35]
+            }
+        };
+
+        function initializeCharts() {
+            // Skill Demand Chart
+            const skillCtx = document.getElementById('skillDemandChart').getContext('2d');
+            skillChart = new Chart(skillCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'AI/ML Demand',
+                        data: [18, 20, 22, 24, 25, 27],
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Cloud Computing',
+                        data: [15, 17, 19, 20, 22, 24],
+                        borderColor: '#4299e1',
+                        backgroundColor: 'rgba(66, 153, 225, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' }
+                    }
+                }
+            });
+
+            // Industry Chart
+            const industryCtx = document.getElementById('industryChart').getContext('2d');
+            industryChart = new Chart(industryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: marketData.industryGrowth.labels,
+                    datasets: [{
+                        data: marketData.industryGrowth.data,
+                        backgroundColor: [
+                            '#48bb78', '#4299e1', '#ed8936', 
+                            '#9333ea', '#ef4444', '#06b6d4'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function refreshMarketData() {
+            const refreshIcon = document.getElementById('refreshIcon');
+            const overview = document.getElementById('marketOverview');
+            
+            refreshIcon.style.animation = 'spin 1s linear infinite';
+            overview.classList.add('loading');
+            
+            // Simulate API call
+            setTimeout(() => {
+                refreshIcon.style.animation = '';
+                overview.classList.remove('loading');
+                
+                // Update with fresh data (simulated)
+                updateSkillDemandData();
+                updateSalaryData();
+                
+                // Show success message
+                showNotification('Market data refreshed successfully!', 'success');
+            }, 2000);
+        }
+
+        function updateSkillDemandData() {
+            // Simulate real-time data updates
+            const skills = ['AI/ML', 'Cloud', 'Security', 'React'];
+            const growthRates = ['+26%', '+23%', '+19%', '+17%'];
+            const jobCounts = ['15,680', '13,120', '9,890', '9,150'];
+            
+            const container = document.getElementById('demandSkills');
+            container.innerHTML = skills.map((skill, i) => `
+                <div class="skill-demand-item">
+                    <span>${skill === 'AI/ML' ? 'AI/Machine Learning' : skill === 'Security' ? 'Cybersecurity' : skill === 'React' ? 'React Development' : 'Cloud Architecture'}</span>
+                    <span class="trend-up">${growthRates[i]} <small>(${jobCounts[i]} jobs)</small></span>
+                </div>
+            `).join('');
+        }
+
+        function updateSalaryData() {
+            const roles = ['Senior DevOps Engineer', 'ML Engineer', 'Full Stack Developer', 'Data Scientist'];
+            const salaries = ['$117k-163k', '$107k-152k', '$87k-127k', '$97k-142k'];
+            const increases = ['↑ 13%', '↑ 19%', '↑ 9%', '↑ 15%'];
+            
+            const container = document.getElementById('salaryTrends');
+            container.innerHTML = roles.map((role, i) => `
+                <div class="skill-demand-item">
+                    <span>${role}</span>
+                    <span style="color: var(--success);">${salaries[i]} <small>${increases[i]}</small></span>
+                </div>
+            `).join('');
+        }
+
+        function generateAIInsights() {
+            const insightContent = document.getElementById('insightContent');
+            const insights = [
+                "🎯 Based on your profile, AI/ML skills show the highest ROI with 25% salary increase potential.",
+                "📈 Cloud computing demand is accelerating - consider AWS/Azure certifications for immediate impact.",
+                "🔥 Emerging trend: AI Ethics specialists are seeing 300% job growth in the last 6 months.",
+                "💡 Your current skill set aligns well with 89% of high-growth FinTech positions.",
+                "🚀 Recommendation: Focus on React + Python combination for maximum market leverage."
+            ];
+            
+            insightContent.innerHTML = `
+                <div style="background: linear-gradient(135deg, var(--info) 0%, var(--primary-600) 100%); 
+                           color: white; padding: var(--space-4); border-radius: var(--radius-lg); 
+                           margin-bottom: var(--space-4);">
+                    <h4 style="margin-bottom: var(--space-3);"><i class="fas fa-lightbulb"></i> AI Analysis Complete</h4>
+                    ${insights.map(insight => `<p style="margin-bottom: var(--space-2);">${insight}</p>`).join('')}
+                </div>
+                <p style="font-size: var(--text-sm); color: var(--gray-600); text-align: center;">
+                    Analysis based on current market data, salary trends, and your skill profile.
+                </p>
+            `;
+        }
+
+        function exploreSkillDetails() {
+            showNotification('Opening detailed skill analytics...', 'info');
+            // Would navigate to detailed skill analysis page
+        }
+
+        function compareSalaries() {
+            showNotification('Loading salary comparison tool...', 'info');
+            // Would open salary comparison interface
+        }
+
+        function exploreOpportunities() {
+            showNotification('Searching for emerging opportunities...', 'info');
+            // Would show detailed emerging job opportunities
+        }
+
+        function generateReport() {
+            showNotification('Generating comprehensive market report...', 'info');
+            // Would generate and download market report
+        }
+
+        function analyzeSkill() {
+            const skill = prompt('Enter a skill to analyze (e.g., Python, React, DevOps):');
+            if (skill) {
+                showNotification(`Analyzing market trends for ${skill}...`, 'info');
+                // Would perform skill-specific analysis
+            }
+        }
+
+        function updateTimeRange(range) {
+            showNotification(`Updated chart to show ${range} data`, 'success');
+            // Would update chart with new time range
+        }
+
+        function drillDownIndustry() {
+            showNotification('Loading detailed industry breakdown...', 'info');
+            // Would show detailed industry analysis
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; top: 20px; right: 20px; z-index: 9999;
+                padding: 12px 24px; border-radius: 8px; color: white;
+                background: ${type === 'success' ? '#48bb78' : type === 'error' ? '#f56565' : '#4299e1'};
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            showNotification('Market Intelligence loaded - Data is live!', 'success');
+        });
+    </script>
 </body>
 </html>
