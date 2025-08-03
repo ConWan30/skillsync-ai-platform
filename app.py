@@ -312,150 +312,186 @@ def create_user():
 
 @app.route('/api/ai/assess-skills', methods=['POST'])
 def assess_skills():
-    """Enhanced AI-powered skills assessment with A2A protocol integration"""
-    data = request.get_json()
-    
-    if not data or 'skills_description' not in data:
-        return jsonify({'error': 'Skills description is required'}), 400
-    
+    """Enhanced AI-powered skills assessment with A2A protocol integration and Neural Career DNA"""
     try:
-        global a2a_protocol
+        data = request.get_json() or {}
+        skills_description = data.get('skills_description', '')
         user_id = data.get('user_id', 'anonymous')
-        skills_description = data['skills_description']
+        assessment_data = data.get('assessment_data', {})
+        generate_dna = data.get('generate_dna', False)
         
-        # Enhanced assessment using A2A protocol
-        if a2a_protocol:
-            # Share user context with behavior analyst
-            user_context = {
-                "skills_description": skills_description,
-                "user_id": user_id,
-                "assessment_type": "comprehensive",
-                "timestamp": datetime.now().isoformat()
-            }
-            
-            # Request collaboration between assessment agents
-            session_id = a2a_protocol.request_collaboration(
-                "ai_skills_specialist",
-                ["ai_market_intelligence", "ai_behavior_coach", "ai_career_strategist"],
-                "Comprehensive skill assessment with market alignment",
-                user_context
-            )
-            
-            # Get collaborative insights
-            collaborative_recommendations = a2a_protocol.get_collaborative_recommendations(user_context)
-            
-            # Agent learns from this interaction
-            a2a_protocol.learn_from_interaction("ai_skills_specialist", {
-                "user_input": skills_description,
-                "assessment_session": session_id,
-                "user_id": user_id
-            })
-            
-            # Track this interaction as an AI activity
-            activity_tracker = get_activity_tracker()
-            activity_tracker.track_user_interaction(user_id, "skill_assessment", {
-                "skills_description": skills_description,
-                "assessment_results": enhanced_assessment,
-                "session_id": session_id
-            })
+        if not skills_description and not generate_dna:
+            return jsonify({
+                'success': False,
+                'error': 'Skills description is required'
+            }), 400
         
-        # Prepare enhanced messages for xAI Grok with agent specialization
+        # Initialize Neural Career DNA system if generating DNA
+        neural_dna_system = None
+        dna_profile = None
+        
+        if generate_dna:
+            try:
+                neural_dna_system = get_neural_dna_system()
+                # Generate DNA profile from assessment data
+                dna_profile = neural_dna_system.analyze_career_dna(user_id, assessment_data)
+                
+                # Store DNA profile in database
+                existing_dna = CareerDNA.query.filter_by(user_id=user_id if user_id != 'anonymous' else None).first()
+                
+                if existing_dna:
+                    # Update existing DNA profile
+                    existing_dna.cognitive_style = dna_profile.cognitive_style
+                    existing_dna.learning_velocity = dna_profile.learning_velocity
+                    existing_dna.problem_solving = dna_profile.problem_solving
+                    existing_dna.leadership_markers = dna_profile.leadership_markers
+                    existing_dna.innovation_quotient = dna_profile.innovation_quotient
+                    existing_dna.collaboration_chemistry = dna_profile.collaboration_chemistry
+                    existing_dna.risk_tolerance = dna_profile.risk_tolerance
+                    existing_dna.adaptation_style = dna_profile.adaptation_style
+                    existing_dna.career_predictions = dna_profile.career_predictions
+                    existing_dna.skill_acquisition_probability = dna_profile.skill_acquisition_probability
+                    existing_dna.success_indicators = dna_profile.success_indicators
+                    existing_dna.last_updated = datetime.utcnow()
+                else:
+                    # Create new DNA profile
+                    new_dna = CareerDNA(
+                        user_id=user_id if user_id != 'anonymous' else None,
+                        dna_id=dna_profile.dna_id,
+                        cognitive_style=dna_profile.cognitive_style,
+                        learning_velocity=dna_profile.learning_velocity,
+                        problem_solving=dna_profile.problem_solving,
+                        leadership_markers=dna_profile.leadership_markers,
+                        innovation_quotient=dna_profile.innovation_quotient,
+                        collaboration_chemistry=dna_profile.collaboration_chemistry,
+                        risk_tolerance=dna_profile.risk_tolerance,
+                        adaptation_style=dna_profile.adaptation_style,
+                        career_predictions=dna_profile.career_predictions,
+                        skill_acquisition_probability=dna_profile.skill_acquisition_probability,
+                        success_indicators=dna_profile.success_indicators
+                    )
+                    db.session.add(new_dna)
+                
+                db.session.commit()
+                
+            except Exception as dna_error:
+                logger.error(f"DNA Generation Error: {dna_error}")
+                # Continue with regular assessment if DNA generation fails
+        
+        # Enhanced prompt for xAI with A2A integration
+        enhanced_prompt = f"""
+        As an expert AI career advisor with access to advanced behavioral analysis, please assess the following skills and provide comprehensive insights:
+
+        Skills Description: {skills_description}
+        
+        Please provide:
+        1. Detailed skill assessment with specific levels (1-10 scale)
+        2. Strengths and areas for improvement
+        3. Career recommendations based on skill profile
+        4. Learning path suggestions
+        5. Market demand analysis for these skills
+        
+        {f"Additional Context: Neural Career DNA analysis indicates cognitive style preferences and learning patterns that should inform your recommendations." if dna_profile else ""}
+        
+        Format your response as a comprehensive career development plan.
+        """
+        
+        # Call xAI API
         messages = [
             {
                 "role": "system",
-                "content": """You are the lead Skills Assessment Agent in the SkillSync AI ecosystem, powered by xAI's Grok with advanced A2A protocol integration. 
-
-                Your expertise includes:
-                - Comprehensive skill evaluation across all technical domains
-                - Real-time market demand correlation 
-                - Behavioral pattern recognition for personalized recommendations
-                - Cross-agent collaborative intelligence synthesis
-                - Gaming industry specialization integration
-                
-                Provide DETAILED analysis with:
-                1. Technical Skill Matrix (1-10 scale with specific strengths)
-                2. Market Alignment Score (current demand trends)
-                3. Career Path Recommendations (multiple options with probability scores)
-                4. Learning Roadmap (prioritized skill development)
-                5. Industry Intelligence (salary ranges, growth projections)
-                6. Collaborative Insights (integrated from other specialist agents)
-                
-                Format as comprehensive professional assessment."""
+                "content": "You are an expert AI career advisor specializing in skill assessment and career development. Provide detailed, actionable insights."
             },
             {
                 "role": "user", 
-                "content": f"""ENHANCED SKILL ASSESSMENT REQUEST:
-
-Skills Description: {skills_description}
-User Context: {data.get('additional_context', 'Standard assessment')}
-Assessment Focus: {data.get('focus_area', 'Comprehensive career analysis')}
-
-Please provide detailed analysis integrating:
-- Technical competency evaluation
-- Market opportunity alignment  
-- Behavioral learning patterns
-- Gaming industry potential (if applicable)
-- Cross-domain skill transferability
-- Personalized development strategy
-
-Generate comprehensive professional assessment."""
+                "content": enhanced_prompt
             }
         ]
         
-        # Call enhanced xAI API
-        response = call_xai_api(messages, max_tokens=1200)
+        ai_response = call_xai_api(messages, max_tokens=1000)
         
-        if "error" in response:
-            return jsonify({'error': 'Failed to assess skills', 'details': response['error']}), 500
-        
-        try:
-            assessment_text = response['choices'][0]['message']['content']
-            
-            # Enhanced assessment result with A2A integration
-            enhanced_assessment = {
-                "ai_assessment": assessment_text,
-                "collaboration_session": session_id if a2a_protocol else None,
-                "collaborative_insights": collaborative_recommendations if a2a_protocol else None,
-                "assessment_confidence": 0.92,  # High confidence with A2A integration
-                "specialist_agents_involved": [
-                    "AI Skills Specialist",
-                    "AI Market Intelligence", 
-                    "AI Behavior Coach",
-                    "AI Career Strategist"
-                ] if a2a_protocol else ["AI Skills Specialist"],
-                "enhanced_features": {
-                    "a2a_protocol_active": bool(a2a_protocol),
-                    "real_time_market_data": True,
-                    "behavioral_analysis": True,
-                    "cross_agent_learning": bool(a2a_protocol)
-                }
-            }
-            
-            # Save enhanced assessment to database if user_id provided
-            if 'user_id' in data:
-                assessment = Assessment(
-                    user_id=data['user_id'],
-                    skills_description=skills_description,
-                    ai_assessment=json.dumps(enhanced_assessment),
-                    recommendations=collaborative_recommendations.get('primary_recommendations') if collaborative_recommendations else None
-                )
-                db.session.add(assessment)
-                db.session.commit()
-            
-            # Return JSON response instead of template for API consistency
+        if not ai_response:
             return jsonify({
-                'success': True,
-                'assessment': enhanced_assessment,
-                'raw_assessment': assessment_text,
-                'user_id': user_id,
-                'timestamp': datetime.now().isoformat()
+                'success': False,
+                'error': 'Failed to get AI assessment'
+            }), 500
+        
+        # Get A2A protocol insights
+        a2a_insights = {}
+        try:
+            if a2a_protocol:
+                a2a_insights = a2a_protocol.get_collaborative_recommendations({
+                    'user_id': user_id,
+                    'skills_description': skills_description,
+                    'assessment_type': 'skill_analysis',
+                    'dna_profile': asdict(dna_profile) if dna_profile else None
+                })
+        except Exception as a2a_error:
+            logger.error(f"A2A Protocol Error: {a2a_error}")
+        
+        # Track AI interaction
+        try:
+            activity_tracker = get_activity_tracker()
+            activity_tracker.track_interaction(
+                user_id=user_id,
+                interaction_type='skill_assessment',
+                interaction_data={
+                    'skills_description': skills_description,
+                    'ai_response_length': len(ai_response),
+                    'dna_generated': generate_dna,
+                    'assessment_data_provided': bool(assessment_data)
+                },
+                ai_response=ai_response
+            )
+            
+            # Track DNA evolution if profile exists
+            if neural_dna_system and dna_profile:
+                neural_dna_system.track_dna_evolution(user_id, {
+                    'interaction_type': 'skill_assessment',
+                    'skills_focus': skills_description,
+                    'assessment_completion': True,
+                    'risk_taking_instances': assessment_data.get('experimental_approaches', 5)
+                })
+                
+        except Exception as tracking_error:
+            logger.error(f"Activity Tracking Error: {tracking_error}")
+        
+        # Prepare response
+        response_data = {
+            'success': True,
+            'assessment': ai_response,
+            'user_id': user_id,
+            'timestamp': datetime.utcnow().isoformat(),
+            'a2a_insights': a2a_insights
+        }
+        
+        # Add DNA profile data if generated
+        if dna_profile:
+            response_data.update({
+                'dna_profile_generated': True,
+                'dna_id': dna_profile.dna_id,
+                'cognitive_analysis': dna_profile.cognitive_style,
+                'learning_analysis': dna_profile.learning_velocity,
+                'problem_solving_style': dna_profile.problem_solving,
+                'leadership_potential': dna_profile.leadership_markers,
+                'innovation_quotient': dna_profile.innovation_quotient,
+                'collaboration_chemistry': dna_profile.collaboration_chemistry,
+                'risk_tolerance': dna_profile.risk_tolerance,
+                'adaptation_style': dna_profile.adaptation_style,
+                'career_predictions': dna_profile.career_predictions,
+                'skill_acquisition_probability': dna_profile.skill_acquisition_probability,
+                'success_indicators': dna_profile.success_indicators,
+                'mentor_personality': neural_dna_system._generate_mentor_personality(dna_profile) if neural_dna_system else None
             })
-            
-        except (KeyError, IndexError) as e:
-            return jsonify({'error': 'Invalid response from xAI API', 'details': str(e)}), 500
-            
+        
+        return jsonify(response_data)
+        
     except Exception as e:
-        return jsonify({'error': 'Assessment processing failed', 'details': str(e)}), 500
+        logger.error(f"Skills Assessment Error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
 
 @app.route('/api/ai/career-guidance', methods=['POST'])
 def career_guidance():
@@ -1108,11 +1144,145 @@ def update_neural_dna_profile():
             'error': str(e)
         }), 500
 
+@app.route('/neural-dna')
+def neural_dna_page():
+    """Serve the Neural Career DNA interface"""
+    return render_template('neural_dna.html')
+
+@app.route('/api/neural-dna/profile/<user_id>')
+def get_neural_dna_profile(user_id):
+    """Get Neural Career DNA profile for a user"""
+    try:
+        neural_dna_system = get_neural_dna_system()
+        profile = neural_dna_system.get_dna_profile(user_id)
+        
+        if not profile:
+            return jsonify({
+                'success': False,
+                'error': 'DNA profile not found'
+            }), 404
+        
+        return jsonify({
+            'success': True,
+            'profile': asdict(profile),
+            'user_id': user_id,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/neural-dna/recommendations/<user_id>')
+def get_dna_recommendations(user_id):
+    """Get DNA-based recommendations for a user"""
+    try:
+        context = request.args.to_dict()
+        neural_dna_system = get_neural_dna_system()
+        recommendations = neural_dna_system.get_dna_based_recommendations(user_id, context)
+        
+        return jsonify({
+            'success': True,
+            'recommendations': recommendations,
+            'user_id': user_id,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/neural-dna/evolution/<user_id>')
+def get_dna_evolution(user_id):
+    """Get DNA evolution history for a user"""
+    try:
+        neural_dna_system = get_neural_dna_system()
+        profile = neural_dna_system.get_dna_profile(user_id)
+        
+        if not profile:
+            return jsonify({
+                'success': False,
+                'error': 'DNA profile not found'
+            }), 404
+        
+        return jsonify({
+            'success': True,
+            'evolution_history': profile.evolution_history,
+            'mutation_events': profile.mutation_events,
+            'growth_trajectory': profile.growth_trajectory,
+            'user_id': user_id,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/neural-dna/mentor/<user_id>')
+def get_ai_mentor_personality(user_id):
+    """Get personalized AI mentor personality based on DNA"""
+    try:
+        neural_dna_system = get_neural_dna_system()
+        profile = neural_dna_system.get_dna_profile(user_id)
+        
+        if not profile:
+            return jsonify({
+                'success': False,
+                'error': 'DNA profile not found'
+            }), 404
+        
+        mentor_personality = neural_dna_system._generate_mentor_personality(profile)
+        
+        return jsonify({
+            'success': True,
+            'mentor_personality': mentor_personality,
+            'user_id': user_id,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/neural-dna/status')
+def neural_dna_system_status():
+    """Get Neural Career DNA system status"""
+    try:
+        neural_dna_system = get_neural_dna_system()
+        status = neural_dna_system.get_system_status()
+        
+        return jsonify({
+            'success': True,
+            'system_status': status,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
 # Initialize database and AI system
 with app.app_context():
     db.create_all()
     # Initialize the comprehensive AI system with A2A protocol
-    initialize_ai_system()
+    try:
+        a2a_protocol = initialize_a2a_system()
+        activity_tracker = initialize_activity_tracker()
+        neural_dna_system = initialize_neural_dna_system()
+        career_agent = initialize_career_intelligence()
+        logger.info("All AI systems initialized successfully")
+    except Exception as e:
+        logger.error(f"AI System Initialization Error: {e}")
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
