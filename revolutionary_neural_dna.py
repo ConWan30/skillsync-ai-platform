@@ -27,12 +27,19 @@ from enum import Enum
 import logging
 from collections import defaultdict
 import uuid
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 import base64
 import os
 import random
+
+# Try to import cryptography, fall back to simple encryption if not available
+try:
+    from cryptography.fernet import Fernet
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+    CRYPTOGRAPHY_AVAILABLE = True
+except ImportError:
+    print("Warning: cryptography not available, using fallback encryption")
+    CRYPTOGRAPHY_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
@@ -611,6 +618,18 @@ class RevolutionaryNeuralDNASystem:
                                        privacy_preferences: Dict[str, Any]) -> Dict[str, Any]:
         """Create revolutionary DNA profile with all advanced features"""
         
+        # Simple encryption function for demo
+        def simple_encrypt(data):
+            if CRYPTOGRAPHY_AVAILABLE:
+                # Use proper encryption when available
+                key = hashlib.sha256(f"{user_id}_secret".encode()).digest()
+                fernet_key = base64.urlsafe_b64encode(key)
+                fernet = Fernet(fernet_key)
+                return fernet.encrypt(json.dumps(data).encode()).decode()
+            else:
+                # Fallback encoding for demo
+                return base64.b64encode(json.dumps(data).encode()).decode()
+        
         # Create quantum-resistant profile
         profile = QuantumResistantDNAProfile(
             user_id=user_id,
@@ -619,9 +638,9 @@ class RevolutionaryNeuralDNASystem:
             
             # Initialize encrypted traits (simplified for demo)
             homomorphic_encrypted_traits={
-                "cognitive_style": base64.b64encode(json.dumps(assessment_data.get('cognitive', {})).encode()).decode(),
-                "learning_velocity": base64.b64encode(json.dumps(assessment_data.get('learning', {})).encode()).decode(),
-                "innovation_potential": base64.b64encode(json.dumps(assessment_data.get('innovation', {})).encode()).decode()
+                "cognitive_style": simple_encrypt(assessment_data.get('cognitive', {})),
+                "learning_velocity": simple_encrypt(assessment_data.get('learning', {})),
+                "innovation_potential": simple_encrypt(assessment_data.get('innovation', {}))
             },
             
             zero_knowledge_proofs=[f"zk_proof_{uuid.uuid4().hex[:8]}" for _ in range(3)],

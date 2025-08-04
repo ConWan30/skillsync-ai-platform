@@ -613,7 +613,12 @@ from ai_activity_tracker import get_activity_tracker, track_user_ai_interaction,
 from neural_career_dna import get_neural_dna_system, initialize_neural_dna_system, CareerDNAProfile
 
 # Revolutionary Neural DNA Integration
-from revolutionary_neural_dna import get_revolutionary_neural_dna_system, initialize_revolutionary_neural_dna_system
+try:
+    from revolutionary_neural_dna import get_revolutionary_neural_dna_system, initialize_revolutionary_neural_dna_system
+    REVOLUTIONARY_DNA_AVAILABLE = True
+except ImportError as e:
+    logger.error(f"Revolutionary DNA system not available: {e}")
+    REVOLUTIONARY_DNA_AVAILABLE = False
 
 # Career Intelligence Agent Integration
 from career_intelligence_agent import ProactiveCareerAgent
@@ -1293,6 +1298,12 @@ def neural_dna_system_status():
 def create_revolutionary_dna_profile():
     """Create Revolutionary Neural Career DNA profile"""
     try:
+        if not REVOLUTIONARY_DNA_AVAILABLE:
+            return jsonify({
+                'success': False,
+                'error': 'Revolutionary DNA system not available - cryptography module required'
+            }), 503
+        
         data = request.get_json() or {}
         user_id = data.get('user_id', f'user_{uuid.uuid4().hex[:8]}')
         assessment_data = data.get('assessment_data', {})
@@ -1448,9 +1459,14 @@ with app.app_context():
         a2a_protocol = initialize_a2a_system()
         activity_tracker = global_activity_tracker
         neural_dna_system = initialize_neural_dna_system()
-        revolutionary_dna_system = initialize_revolutionary_neural_dna_system()
+        
+        if REVOLUTIONARY_DNA_AVAILABLE:
+            revolutionary_dna_system = initialize_revolutionary_neural_dna_system()
+            logger.info("All AI systems initialized successfully including Revolutionary DNA system")
+        else:
+            logger.info("All AI systems initialized successfully (Revolutionary DNA system unavailable)")
+            
         career_agent = ProactiveCareerAgent()
-        logger.info("All AI systems initialized successfully including Revolutionary DNA system")
     except Exception as e:
         logger.error(f"AI System Initialization Error: {e}")
 
