@@ -15,7 +15,16 @@ except ImportError:
     AIOHTTP_AVAILABLE = False
 import sqlite3
 from dataclasses import dataclass
-from flask import current_app
+try:
+    from flask import current_app
+except ImportError:
+    current_app = None
+
+try:
+    import pandas as pd
+    PANDAS_AVAILABLE = True
+except ImportError:
+    PANDAS_AVAILABLE = False
 
 @dataclass
 class CareerInsight:

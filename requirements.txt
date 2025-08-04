@@ -1,3 +1,4 @@
+# Core Flask Dependencies - Essential
 Flask==2.3.3
 Flask-CORS==4.0.0
 Flask-SQLAlchemy==3.0.5
@@ -5,18 +6,16 @@ python-dotenv==1.0.0
 Werkzeug==2.3.7
 SQLAlchemy==2.0.21
 gunicorn==21.2.0
-pytest==7.4.2
 requests==2.31.0
-cryptography==41.0.7
 
-# MCP (Model Context Protocol) Dependencies - Essential only
-aiohttp==3.9.1
+# Railway-compatible dependencies
+aiohttp==3.8.6
 python-dateutil==2.8.2
-pandas==2.1.4
-numpy==1.24.3
 
-# GitHub API Integration - Optional, graceful fallback
-PyGithub==1.59.1
-
-# Essential for basic functionality
-schedule==1.2.0
+# Optional dependencies - removed to prevent build failures
+# pandas==2.1.4  # Heavy dependency - removed for Railway deployment
+# numpy==1.24.3  # Heavy dependency - removed for Railway deployment
+# PyGithub==1.59.1  # Optional - removed to reduce build time
+# schedule==1.2.0  # Optional - can be re-added if needed
+# cryptography==41.0.7  # Can cause build issues - removed
+# pytest==7.4.2  # Development only - removed for production
