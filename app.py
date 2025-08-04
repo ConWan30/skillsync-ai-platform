@@ -150,7 +150,7 @@ def call_xai_api(messages, max_tokens=500):
         response = requests.post(f"{XAI_BASE_URL}/chat/completions", 
                                headers=headers, 
                                json=data, 
-                               timeout=10)
+                               timeout=20)
         
         # Check for specific error codes
         if response.status_code == 404:
@@ -159,7 +159,7 @@ def call_xai_api(messages, max_tokens=500):
             response = requests.post(f"{XAI_BASE_URL}/chat/completions", 
                                    headers=headers, 
                                    json=data, 
-                                   timeout=10)
+                                   timeout=20)
         
         if response.status_code == 401:
             return {"error": "Invalid xAI API key. Please check your API key in Railway variables."}
