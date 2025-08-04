@@ -17,6 +17,15 @@ try:
 except ImportError as e:
     logging.warning(f"MCP integrations not available: {e}")
     MCP_AVAILABLE = False
+
+# Revolutionary AI Systems
+try:
+    from ai_opportunity_radar import AIOpportunityRadar
+    from ai_career_pivot import AICareerPivotPathfinder
+    REVOLUTIONARY_AI_AVAILABLE = True
+except ImportError as e:
+    logging.warning(f"Revolutionary AI systems not available: {e}")
+    REVOLUTIONARY_AI_AVAILABLE = False
     
 try:
     from novel_a2a_system import (
@@ -60,6 +69,21 @@ if MCP_AVAILABLE:
         MCP_AVAILABLE = False
 else:
     mcp_manager = None
+
+# Initialize Revolutionary AI Systems
+opportunity_radar = None
+career_pivot_pathfinder = None
+
+if REVOLUTIONARY_AI_AVAILABLE:
+    try:
+        opportunity_radar = AIOpportunityRadar()
+        career_pivot_pathfinder = AICareerPivotPathfinder()
+        logging.info("Revolutionary AI systems initialized successfully")
+    except Exception as e:
+        logging.error(f"Failed to initialize Revolutionary AI systems: {e}")
+        opportunity_radar = None
+        career_pivot_pathfinder = None
+        REVOLUTIONARY_AI_AVAILABLE = False
 
 # Initialize Revolutionary A2A Career Intelligence Swarm (if available)
 if A2A_AVAILABLE:
@@ -488,6 +512,17 @@ def get_user_assessments(user_id):
 def ai_agent_overview():
     """AI Agent overview and capabilities page"""
     return render_template('ai_agent.html')
+
+# Revolutionary AI Feature Routes - Replacing Traditional Chatbox
+@app.route('/ai-opportunity-radar')
+def ai_opportunity_radar_page():
+    """🎯 AI Opportunity Radar - Revolutionary job market intelligence"""
+    return render_template('ai_opportunity_radar.html')
+
+@app.route('/ai-career-pivot') 
+def ai_career_pivot_page():
+    """🔄 AI Career Pivot Pathfinder - Revolutionary career transition planning"""
+    return render_template('ai_career_pivot.html')
 
 @app.route('/dashboard')
 def dashboard():
@@ -1053,6 +1088,208 @@ def get_system_status():
             'error': str(e),
             'timestamp': datetime.now().isoformat()
         }), 500
+
+# ============================================================================
+# 🎯 REVOLUTIONARY AI FEATURES - Replacing Traditional Chatbox
+# ============================================================================
+
+@app.route('/api/ai/opportunity-radar', methods=['POST'])
+def ai_opportunity_radar():
+    """🎯 AI Opportunity Radar - Revolutionary job market intelligence"""
+    try:
+        if not REVOLUTIONARY_AI_AVAILABLE or not opportunity_radar:
+            return jsonify({
+                'success': False,
+                'error': 'Revolutionary AI Opportunity Radar not available',
+                'fallback_data': {
+                    'message': 'AI Opportunity Radar is currently initializing',
+                    'suggested_action': 'Try again in a few minutes'
+                }
+            })
+        
+        data = request.get_json() or {}
+        user_profile = {
+            'skills': data.get('skills', ['Python', 'JavaScript']),
+            'interests': data.get('interests', ['technology']),
+            'experience_years': data.get('experience_years', 3),
+            'target_salary': data.get('target_salary', 100000),
+            'location_preference': data.get('location', 'Remote')
+        }
+        
+        # Revolutionary AI market scanning
+        opportunities = opportunity_radar.scan_job_market(user_profile)
+        
+        # Get market intelligence
+        industry = data.get('industry', 'Technology')
+        location = data.get('location', 'Remote')
+        market_intel = opportunity_radar.generate_market_intelligence(industry, location)
+        
+        return jsonify({
+            'success': True,
+            'radar_active': True,
+            'timestamp': datetime.now().isoformat(),
+            'opportunities': [
+                {
+                    'signal_type': opp.signal_type,
+                    'role_title': opp.role_title,
+                    'company': opp.company,
+                    'location': opp.location,
+                    'confidence_score': opp.confidence_score,
+                    'urgency_level': opp.urgency_level,
+                    'salary_range': opp.salary_range,
+                    'required_skills': opp.required_skills,
+                    'market_trend': opp.market_trend,
+                    'prediction_horizon': opp.prediction_horizon,
+                    'source_indicators': opp.source_indicators
+                } for opp in opportunities
+            ],
+            'market_intelligence': {
+                'industry': market_intel.industry,
+                'location': market_intel.location,
+                'total_opportunities': market_intel.total_opportunities,
+                'emerging_roles': market_intel.emerging_roles,
+                'hot_skills': market_intel.hot_skills,
+                'salary_trends': market_intel.salary_trends,
+                'company_growth_signals': market_intel.company_growth_signals,
+                'market_saturation': market_intel.market_saturation,
+                'prediction_accuracy': market_intel.prediction_accuracy
+            },
+            'ai_insights': [
+                f"🎯 Detected {len(opportunities)} high-value opportunities",
+                f"🔥 {len([o for o in opportunities if o.urgency_level == 'high'])} urgent opportunities require immediate action",
+                f"📈 Market shows {market_intel.salary_trends.get('AI Engineer', 0)}% salary increase for AI roles",
+                f"🚀 {len(market_intel.emerging_roles)} emerging roles identified"
+            ]
+        })
+        
+    except Exception as e:
+        app.logger.error(f"AI Opportunity Radar error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'fallback_data': {
+                'message': 'AI analysis temporarily unavailable',
+                'opportunities': [{
+                    'role_title': 'Software Developer',
+                    'company': 'TechCorp',
+                    'urgency_level': 'medium',
+                    'salary_range': {'min': 80000, 'max': 120000}
+                }]
+            }
+        })
+
+@app.route('/api/ai/career-pivot-pathfinder', methods=['POST'])
+def ai_career_pivot_pathfinder():
+    """🔄 AI Career Pivot Pathfinder - Revolutionary career transition planning"""
+    try:
+        if not REVOLUTIONARY_AI_AVAILABLE or not career_pivot_pathfinder:
+            return jsonify({
+                'success': False,
+                'error': 'Revolutionary AI Career Pivot Pathfinder not available',
+                'fallback_data': {
+                    'message': 'AI Career Pivot Pathfinder is currently initializing',
+                    'suggested_action': 'Try again in a few minutes'
+                }
+            })
+        
+        data = request.get_json() or {}
+        
+        # Extract user profile
+        user_profile = {
+            'user_id': data.get('user_id', 1),
+            'current_role': data.get('current_role', 'Software Developer'),
+            'skills': data.get('skills', ['Python', 'JavaScript', 'SQL']),
+            'experience_years': data.get('experience_years', 3),
+            'current_salary': data.get('current_salary', 80000),
+            'interests': data.get('interests', ['technology']),
+            'risk_tolerance': data.get('risk_tolerance', 'medium')
+        }
+        
+        target_career = data.get('target_career', 'Product Manager')
+        
+        # Revolutionary AI career pivot analysis
+        pivot_path = career_pivot_pathfinder.analyze_career_pivot(user_profile, target_career)
+        
+        return jsonify({
+            'success': True,
+            'pivot_analysis_complete': True,
+            'timestamp': datetime.now().isoformat(),
+            'pivot_path': {
+                'source_career': pivot_path.source_career,
+                'target_career': pivot_path.target_career,
+                'total_duration_months': pivot_path.total_duration_months,
+                'success_probability': pivot_path.success_probability,
+                'bridge_roles': [
+                    {
+                        'role_title': br.role_title,
+                        'company_type': br.company_type,
+                        'duration_months': br.duration_months,
+                        'skill_bridge_value': br.skill_bridge_value,
+                        'salary_range': br.salary_range,
+                        'required_skills': br.required_skills,
+                        'skills_you_will_gain': br.skills_you_will_gain,
+                        'next_step_roles': br.next_step_roles,
+                        'risk_level': br.risk_level,
+                        'success_probability': br.success_probability
+                    } for br in pivot_path.bridge_roles
+                ],
+                'skill_gaps': pivot_path.skill_gaps,
+                'learning_plan': pivot_path.learning_plan,
+                'financial_impact': pivot_path.financial_impact,
+                'risk_assessment': pivot_path.risk_assessment,
+                'timeline_milestones': pivot_path.timeline_milestones
+            },
+            'ai_recommendations': [
+                f"🎯 {pivot_path.success_probability:.0%} probability of successful transition",
+                f"💰 ${pivot_path.financial_impact.get('salary_increase_potential', 0):,} potential salary increase",
+                f"⏱️ {pivot_path.total_duration_months} months total transition time",
+                f"🛣️ {len(pivot_path.bridge_roles)} optimal bridge roles identified",
+                f"📚 {len(pivot_path.skill_gaps)} critical skills to develop",
+                f"💵 ROI achieved in {pivot_path.financial_impact.get('roi_months', 12)} months"
+            ],
+            'next_steps': [
+                "Review bridge role opportunities",
+                "Begin skill development plan",
+                "Start networking in target industry",
+                "Update resume and LinkedIn profile"
+            ]
+        })
+        
+    except Exception as e:
+        app.logger.error(f"AI Career Pivot analysis error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'fallback_data': {
+                'message': 'AI career pivot analysis temporarily unavailable',
+                'basic_suggestion': 'Consider gradual transition through related roles'
+            }
+        })
+
+@app.route('/api/ai/personalized-radar/<int:user_id>', methods=['GET'])
+def get_personalized_radar(user_id):
+    """Get personalized opportunity radar for specific user"""
+    try:
+        if not REVOLUTIONARY_AI_AVAILABLE or not opportunity_radar:
+            return jsonify({
+                'success': False,
+                'message': 'Personalized radar not available'
+            })
+        
+        radar_data = opportunity_radar.get_personalized_radar(user_id)
+        
+        return jsonify({
+            'success': True,
+            'user_radar': radar_data,
+            'timestamp': datetime.now().isoformat()
+        })
+        
+    except Exception as e:
+        app.logger.error(f"Personalized radar error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        })
 
 @app.route('/api/test/all-systems', methods=['POST'])
 def test_all_systems():
