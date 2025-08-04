@@ -534,6 +534,8 @@
 
     <script>
         async function analyzePivot() {
+            console.log('Analyze Pivot button clicked');
+            
             const analyzeBtn = document.querySelector('.analyze-btn');
             const loadingSpinner = document.getElementById('loadingSpinner');
             const pivotResults = document.getElementById('pivotResults');
@@ -747,12 +749,11 @@
             pivotResults.style.display = 'grid';
         }
 
-        // Demo mode - auto-analyze on page load
+        // Demo mode - auto-analyze disabled for debugging
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                // Auto-analyze with default values for demo
-                analyzePivot();
-            }, 1500);
+            console.log('AI Career Pivot page loaded successfully');
+            // Uncomment next line to auto-analyze on load
+            // setTimeout(analyzePivot, 2000);
         });
     </script>
 </body>

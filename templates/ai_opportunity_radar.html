@@ -430,6 +430,8 @@
 
     <script>
         async function scanOpportunities() {
+            console.log('Scan Opportunities button clicked');
+            
             const scanBtn = document.querySelector('.scan-btn');
             const loadingSpinner = document.getElementById('loadingSpinner');
             const radarDisplay = document.getElementById('radarDisplay');
@@ -453,6 +455,8 @@
             };
 
             try {
+                console.log('Sending request to API with data:', requestData);
+                
                 // Call AI Opportunity Radar API
                 const response = await fetch('/api/ai/opportunity-radar', {
                     method: 'POST',
@@ -462,7 +466,9 @@
                     body: JSON.stringify(requestData)
                 });
 
+                console.log('API response status:', response.status);
                 const data = await response.json();
+                console.log('API response data:', data);
 
                 if (data.success) {
                     displayOpportunities(data.opportunities);
@@ -597,9 +603,11 @@
             document.getElementById('radarDisplay').style.display = 'grid';
         }
 
-        // Auto-scan on page load with default values
+        // Auto-scan on page load with default values (disabled for debugging)
         window.addEventListener('load', () => {
-            setTimeout(scanOpportunities, 1000);
+            console.log('AI Opportunity Radar page loaded successfully');
+            // Uncomment next line to auto-scan on load
+            // setTimeout(scanOpportunities, 2000);
         });
     </script>
 </body>
