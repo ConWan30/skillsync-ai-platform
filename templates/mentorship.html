@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship - SkillSync AI</title>
+    <meta name="description" content="Connect with industry mentors and accelerate your career growth through AI-powered mentorship matching.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Color System */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            
+            --blue-50: #eff6ff;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            
+            --violet-50: #f5f3ff;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+            
+            --orange-50: #fff7ed;
+            --orange-500: #f59e0b;
+            --orange-600: #d97706;
+            
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-4);
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-8);
+            margin-bottom: var(--space-12);
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            padding: var(--space-8);
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+            margin-bottom: var(--space-4);
+        }
+        
+        .card-icon-blue { background: var(--blue-500); }
+        .card-icon-emerald { background: var(--emerald-500); }
+        .card-icon-violet { background: var(--violet-500); }
+        .card-icon-orange { background: var(--orange-500); }
+        
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: var(--space-3);
+        }
+        
+        .card p {
+            color: var(--gray-600);
+            margin-bottom: var(--space-6);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: var(--blue-600);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--blue-700);
+            transform: translateY(-1px);
+        }
+        
+        .nav-back {
+            margin-bottom: var(--space-8);
+        }
+        
+        .nav-back a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-back a:hover {
+            color: var(--gray-900);
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: var(--space-4);
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+            color: var(--gray-600);
+        }
+        
+        .feature-list i {
+            color: var(--emerald-500);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-back">
+            <a href="/dashboard">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+        
+        <div class="header">
+            <h1>AI-Powered Mentorship</h1>
+            <p>Connect with industry experts and accelerate your career growth through intelligent mentor matching and personalized guidance.</p>
+        </div>
+        
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon card-icon-blue">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>Find Your Mentor</h3>
+                <p>Our AI matches you with mentors based on your career goals, skill gaps, and industry interests.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Personalized matching algorithm</li>
+                    <li><i class="fas fa-check"></i> Industry expert network</li>
+                    <li><i class="fas fa-check"></i> Skills-based pairing</li>
+                </ul>
+                <button class="btn btn-primary" onclick="findMentor()">
+                    <i class="fas fa-search"></i> Find Mentors
+                </button>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon card-icon-emerald">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Schedule Sessions</h3>
+                <p>Book mentorship sessions with integrated scheduling and video conferencing capabilities.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Integrated calendar</li>
+                    <li><i class="fas fa-check"></i> Video conferencing</li>
+                    <li><i class="fas fa-check"></i> Session tracking</li>
+                </ul>
+                <button class="btn btn-primary" onclick="scheduleSessions()">
+                    <i class="fas fa-calendar-plus"></i> Schedule Session
+                </button>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon card-icon-violet">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Track Progress</h3>
+                <p>Monitor your mentorship journey with AI-powered insights and progress tracking.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Progress analytics</li>
+                    <li><i class="fas fa-check"></i> Goal tracking</li>
+                    <li><i class="fas fa-check"></i> Achievement milestones</li>
+                </ul>
+                <button class="btn btn-primary" onclick="trackProgress()">
+                    <i class="fas fa-chart-bar"></i> View Progress
+                </button>
+            </div>
+            
+            <div class="card">
+                <div class="card-icon card-icon-orange">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Become a Mentor</h3>
+                <p>Share your expertise and help others grow while building your leadership skills.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check"></i> Mentor application</li>
+                    <li><i class="fas fa-check"></i> Profile creation</li>
+                    <li><i class="fas fa-check"></i> Impact tracking</li>
+                </ul>
+                <button class="btn btn-primary" onclick="becomeMentor()">
+                    <i class="fas fa-user-plus"></i> Apply to Mentor
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function findMentor() {
+            alert('Mentor matching feature coming soon! Our AI will analyze your profile and suggest the best mentors for your career goals.');
+        }
+        
+        function scheduleSessions() {
+            alert('Session scheduling feature coming soon! You\'ll be able to book mentorship sessions directly through the platform.');
+        }
+        
+        function trackProgress() {
+            alert('Progress tracking feature coming soon! Monitor your mentorship journey with detailed analytics and insights.');
+        }
+        
+        function becomeMentor() {
+            alert('Mentor application feature coming soon! Share your expertise and help others grow in their careers.');
+        }
+    </script>
+</body>
+</html>

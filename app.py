@@ -475,6 +475,21 @@ def tools():
     """Professional development tools"""
     return render_template('tools.html')
 
+@app.route('/mentorship')
+def mentorship():
+    """AI-powered mentorship platform"""
+    return render_template('mentorship.html')
+
+@app.route('/events')
+def events():
+    """Community events and networking"""
+    return render_template('events.html')
+
+@app.route('/analytics')
+def analytics():
+    """AI-powered career analytics dashboard"""
+    return render_template('analytics.html')
+
 # Basic functionality imports - DNA systems removed for simplification
 
 # Basic AI system initialization - complex DNA/A2A protocols removed for simplification

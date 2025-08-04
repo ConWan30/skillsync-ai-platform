@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - SkillSync AI</title>
+    <meta name="description" content="Discover networking events, workshops, and career development opportunities tailored to your professional goals.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Modern Color System */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            
+            --blue-50: #eff6ff;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            
+            --violet-50: #f5f3ff;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+            
+            --orange-50: #fff7ed;
+            --orange-500: #f59e0b;
+            --orange-600: #d97706;
+            
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-4);
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .nav-back {
+            margin-bottom: var(--space-8);
+        }
+        
+        .nav-back a {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .nav-back a:hover {
+            color: var(--gray-900);
+        }
+        
+        .filters {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: var(--space-2) var(--space-4);
+            border: 1px solid var(--gray-300);
+            background: white;
+            border-radius: var(--radius-md);
+            color: var(--gray-700);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--blue-600);
+            color: white;
+            border-color: var(--blue-600);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .event-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .event-date {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--blue-600);
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: var(--space-2);
+        }
+        
+        .event-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: var(--space-2);
+        }
+        
+        .event-meta {
+            display: flex;
+            gap: var(--space-4);
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+        
+        .event-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        
+        .event-content {
+            padding: var(--space-6);
+        }
+        
+        .event-description {
+            color: var(--gray-600);
+            margin-bottom: var(--space-4);
+        }
+        
+        .event-tags {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            padding: var(--space-1) var(--space-2);
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: var(--blue-600);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--blue-700);
+            transform: translateY(-1px);
+        }
+        
+        .btn-outline {
+            background: white;
+            color: var(--blue-600);
+            border: 1px solid var(--blue-600);
+        }
+        
+        .btn-outline:hover {
+            background: var(--blue-50);
+        }
+        
+        .event-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-back">
+            <a href="/dashboard">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </a>
+        </div>
+        
+        <div class="header">
+            <h1>Career Events & Networking</h1>
+            <p>Discover networking events, workshops, and career development opportunities tailored to your professional goals.</p>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterEvents('all')">All Events</button>
+            <button class="filter-btn" onclick="filterEvents('networking')">Networking</button>
+            <button class="filter-btn" onclick="filterEvents('workshops')">Workshops</button>
+            <button class="filter-btn" onclick="filterEvents('webinars')">Webinars</button>
+            <button class="filter-btn" onclick="filterEvents('conferences')">Conferences</button>
+        </div>
+        
+        <div class="events-grid">
+            <div class="event-card" data-category="networking">
+                <div class="event-header">
+                    <div class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        Dec 15, 2024 • 6:00 PM PST
+                    </div>
+                    <h3 class="event-title">Tech Professionals Networking Mixer</h3>
+                    <div class="event-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> San Francisco, CA</span>
+                        <span><i class="fas fa-users"></i> 120 attending</span>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">Connect with fellow tech professionals in a relaxed networking environment. Perfect for expanding your professional network and discovering new opportunities.</p>
+                    <div class="event-tags">
+                        <span class="tag">Networking</span>
+                        <span class="tag">Technology</span>
+                        <span class="tag">Career Growth</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary" onclick="registerEvent('networking-mixer')">
+                            <i class="fas fa-check"></i> Register
+                        </button>
+                        <button class="btn btn-outline" onclick="saveEvent('networking-mixer')">
+                            <i class="fas fa-bookmark"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-card" data-category="workshops">
+                <div class="event-header">
+                    <div class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        Dec 18, 2024 • 2:00 PM PST
+                    </div>
+                    <h3 class="event-title">AI & Machine Learning Workshop</h3>
+                    <div class="event-meta">
+                        <span><i class="fas fa-globe"></i> Virtual Event</span>
+                        <span><i class="fas fa-users"></i> 85 attending</span>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">Hands-on workshop covering the latest AI and ML techniques. Learn from industry experts and build practical skills in machine learning.</p>
+                    <div class="event-tags">
+                        <span class="tag">Workshop</span>
+                        <span class="tag">AI/ML</span>
+                        <span class="tag">Hands-on</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary" onclick="registerEvent('ai-workshop')">
+                            <i class="fas fa-check"></i> Register
+                        </button>
+                        <button class="btn btn-outline" onclick="saveEvent('ai-workshop')">
+                            <i class="fas fa-bookmark"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-card" data-category="webinars">
+                <div class="event-header">
+                    <div class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        Dec 20, 2024 • 12:00 PM PST
+                    </div>
+                    <h3 class="event-title">Career Transition Strategies</h3>
+                    <div class="event-meta">
+                        <span><i class="fas fa-globe"></i> Virtual Event</span>
+                        <span><i class="fas fa-users"></i> 200+ attending</span>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">Expert panel discussion on navigating career transitions successfully. Learn strategies for changing industries and advancing your career.</p>
+                    <div class="event-tags">
+                        <span class="tag">Webinar</span>
+                        <span class="tag">Career Change</span>
+                        <span class="tag">Expert Panel</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary" onclick="registerEvent('career-webinar')">
+                            <i class="fas fa-check"></i> Register
+                        </button>
+                        <button class="btn btn-outline" onclick="saveEvent('career-webinar')">
+                            <i class="fas fa-bookmark"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-card" data-category="conferences">
+                <div class="event-header">
+                    <div class="event-date">
+                        <i class="fas fa-calendar"></i>
+                        Jan 5-7, 2025 • All Day
+                    </div>
+                    <h3 class="event-title">Future of Work Summit 2025</h3>
+                    <div class="event-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> New York, NY</span>
+                        <span><i class="fas fa-users"></i> 1,500+ attending</span>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">Three-day conference exploring the future of work, remote collaboration, and emerging career opportunities in the digital age.</p>
+                    <div class="event-tags">
+                        <span class="tag">Conference</span>
+                        <span class="tag">Future of Work</span>
+                        <span class="tag">3 Days</span>
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn btn-primary" onclick="registerEvent('future-summit')">
+                            <i class="fas fa-check"></i> Register
+                        </button>
+                        <button class="btn btn-outline" onclick="saveEvent('future-summit')">
+                            <i class="fas fa-bookmark"></i> Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function filterEvents(category) {
+            const cards = document.querySelectorAll('.event-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function registerEvent(eventId) {
+            alert(`Registration feature coming soon! You'll be able to register for events and receive calendar invites.`);
+        }
+        
+        function saveEvent(eventId) {
+            alert(`Save event feature coming soon! You'll be able to save events to your personal calendar and get reminders.`);
+        }
+    </script>
+</body>
+</html>
