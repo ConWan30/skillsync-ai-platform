@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "skillsync-web-intelligence": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "your-brave-api-key-here"
+      }
+    },
+    "skillsync-database": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sqlite"],
+      "env": {
+        "DATABASE_PATH": "./skillsync.db"
+      }
+    },
+    "skillsync-memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "skillsync-filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "args": ["./uploads", "./user-data"]
+    },
+    "skillsync-github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "your-github-token-here"
+      }
+    },
+    "skillsync-time-analytics": {
+      "command": "npx", 
+      "args": ["-y", "@modelcontextprotocol/server-time"]
+    }
+  }
+}

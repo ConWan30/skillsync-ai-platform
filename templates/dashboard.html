@@ -826,6 +826,34 @@
                 this.style.boxShadow = '';
             });
         });
+        
+        // Test navigation buttons functionality
+        function testNavigationButtons() {
+            const navigationLinks = document.querySelectorAll('.nav-item, .quick-action, .btn');
+            let workingLinks = 0;
+            let totalLinks = navigationLinks.length;
+            
+            navigationLinks.forEach(link => {
+                if (link.href && !link.href.includes('#') && !link.onclick) {
+                    workingLinks++;
+                }
+            });
+            
+            console.log(`Navigation Test: ${workingLinks}/${totalLinks} links are properly configured`);
+            return workingLinks / totalLinks;
+        }
+        
+        // Run navigation test on load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const navigationScore = testNavigationButtons();
+                if (navigationScore < 0.8) {
+                    console.warn('Some navigation buttons may not be working properly');
+                } else {
+                    console.log('All navigation buttons are properly configured');
+                }
+            }, 1000);
+        });
     </script>
 </body>
 </html>

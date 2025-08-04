@@ -8,3 +8,15 @@ gunicorn==21.2.0
 pytest==7.4.2
 requests==2.31.0
 cryptography==41.0.7
+
+# MCP (Model Context Protocol) Dependencies - Essential only
+aiohttp==3.9.1
+python-dateutil==2.8.2
+pandas==2.1.4
+numpy==1.24.3
+
+# GitHub API Integration - Optional, graceful fallback
+PyGithub==1.59.1
+
+# Essential for basic functionality
+schedule==1.2.0
