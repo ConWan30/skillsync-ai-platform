@@ -3,309 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Powered Dashboard - SkillSync AI Platform</title>
-    <meta name="description" content="Real-time career intelligence dashboard with advanced analytics, AI insights, and personalized recommendations.">
+    <title>Dashboard - SkillSync AI</title>
+    <meta name="description" content="Your personalized AI-powered career dashboard with insights, analytics, and recommendations.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <!-- Embedded Design System CSS -->
     <style>
         :root {
-          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
-          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
-          --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
-          --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
-          --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; --font-secondary: 'JetBrains Mono', 'Fira Code', monospace; --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
-          --text-xs: clamp(0.75rem, 0.7rem + 0.1vw, 0.8rem); --text-sm: clamp(0.875rem, 0.8rem + 0.2vw, 0.95rem); --text-base: clamp(1rem, 0.9rem + 0.3vw, 1.1rem); --text-lg: clamp(1.125rem, 1rem + 0.4vw, 1.25rem); --text-xl: clamp(1.25rem, 1.1rem + 0.5vw, 1.4rem); --text-2xl: clamp(1.5rem, 1.3rem + 0.7vw, 1.75rem); --text-3xl: clamp(1.875rem, 1.6rem + 1vw, 2.25rem); --text-4xl: clamp(2.25rem, 2rem + 1.5vw, 3rem); --text-5xl: clamp(3rem, 2.5rem + 2vw, 4rem);
-          --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem; --space-20: 5rem; --space-24: 6rem;
-          --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-2xl: 1.5rem; --radius-full: 9999px;
-          --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25); --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-          --transition-fast: 150ms ease-in-out; --transition-normal: 250ms ease-in-out; --transition-slow: 350ms ease-in-out;
-          --z-dropdown: 1000; --z-sticky: 1020; --z-fixed: 1030; --z-modal-backdrop: 1040; --z-modal: 1050; --z-popover: 1060; --z-tooltip: 1070; --z-toast: 1080;
-          --container-sm: 640px; --container-md: 768px; --container-lg: 1024px; --container-xl: 1280px; --container-2xl: 1536px;
+            /* Modern Color System */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            
+            --blue-50: #eff6ff;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            
+            --violet-50: #f5f3ff;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+            
+            --orange-50: #fff7ed;
+            --orange-500: #f59e0b;
+            --orange-600: #d97706;
+            
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11'; }
-        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-md); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.9); color: var(--gray-700); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 1); transform: translateY(-2px); }
-        .card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-normal); position: relative; overflow: hidden; }
-        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-2xl); border-color: rgba(255, 255, 255, 0.3); }
-        .pulse-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; margin-right: var(--space-2); }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <style>
-        /* Advanced Dashboard Specific Styles */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Layout */
         .dashboard-layout {
             display: grid;
             grid-template-columns: 280px 1fr;
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-600) 100%);
         }
         
+        /* Sidebar */
         .sidebar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            background: white;
+            border-right: 1px solid var(--gray-200);
             padding: var(--space-6);
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
         
         .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
             margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue-500), var(--violet-500));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+        }
+        
+        .nav {
+            flex: 1;
+        }
+        
+        .nav-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-3);
+        }
+        
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+        
+        .nav-item.active {
+            background: var(--blue-50);
+            color: var(--blue-700);
+        }
+        
+        .nav-item i {
+            width: 16px;
             text-align: center;
         }
         
-        .sidebar-menu {
-            list-style: none;
-        }
-        
-        .sidebar-menu li {
-            margin-bottom: var(--space-1);
-        }
-        
-        .sidebar-menu a {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3) var(--space-4);
-            text-decoration: none;
-            color: var(--gray-700);
-            border-radius: var(--radius-lg);
-            transition: all var(--transition-fast);
-            font-weight: 500;
-        }
-        
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-            color: white;
-            transform: translateX(4px);
-        }
-        
+        /* Main Content */
         .main-content {
-            padding: var(--space-6);
-            overflow: hidden;
+            padding: var(--space-8);
+            overflow-y: auto;
         }
         
-        .dashboard-header {
+        .main-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: between;
             align-items: center;
             margin-bottom: var(--space-8);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: var(--shadow-lg);
         }
         
-        .dashboard-title {
-            color: var(--gray-800);
+        .main-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
         }
         
-        .dashboard-title h1 {
-            font-size: var(--text-3xl);
-            font-weight: 800;
-            margin-bottom: var(--space-2);
-        }
-        
-        .dashboard-title p {
+        .main-subtitle {
             color: var(--gray-600);
-            font-size: var(--text-base);
+            margin-top: var(--space-1);
         }
         
-        .dashboard-actions {
+        .header-actions {
             display: flex;
             gap: var(--space-3);
         }
         
-        .metrics-grid {
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: var(--gray-900);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--gray-800);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: var(--space-6);
             margin-bottom: var(--space-8);
         }
         
-        .metric-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--radius-xl);
+        .stat-card {
+            background: white;
             padding: var(--space-6);
-            box-shadow: var(--shadow-lg);
-            transition: all var(--transition-normal);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
             position: relative;
             overflow: hidden;
         }
         
-        .metric-card::before {
+        .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-500), var(--secondary-500));
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-500), var(--violet-500));
         }
         
-        .metric-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-2xl);
-        }
-        
-        .metric-header {
+        .stat-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: between;
             align-items: center;
             margin-bottom: var(--space-4);
         }
         
-        .metric-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
-            border-radius: var(--radius-lg);
+        .stat-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+        
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 0.875rem;
             color: white;
-            font-size: var(--text-xl);
         }
         
-        .metric-value {
-            font-size: var(--text-3xl);
-            font-weight: 800;
-            color: var(--gray-800);
+        .stat-icon-blue { background: var(--blue-500); }
+        .stat-icon-emerald { background: var(--emerald-500); }
+        .stat-icon-violet { background: var(--violet-500); }
+        .stat-icon-orange { background: var(--orange-500); }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
             margin-bottom: var(--space-1);
         }
         
-        .metric-label {
-            color: var(--gray-600);
-            font-size: var(--text-sm);
-            font-weight: 500;
-        }
-        
-        .metric-change {
+        .stat-change {
             display: flex;
             align-items: center;
             gap: var(--space-1);
-            font-size: var(--text-sm);
-            font-weight: 600;
-            margin-top: var(--space-2);
+            font-size: 0.875rem;
+            font-weight: 500;
         }
         
-        .metric-change.positive {
-            color: var(--success);
+        .stat-change.positive {
+            color: var(--emerald-600);
         }
         
-        .metric-change.negative {
-            color: var(--error);
+        .stat-change.negative {
+            color: var(--red-600);
         }
         
-        .charts-grid {
+        /* Content Grid */
+        .content-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: var(--space-6);
-            margin-bottom: var(--space-8);
+            gap: var(--space-8);
         }
         
-        .chart-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .card {
+            background: white;
             border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
         }
         
-        .chart-header {
+        .card-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
             display: flex;
-            justify-content: space-between;
+            justify-content: between;
             align-items: center;
-            margin-bottom: var(--space-6);
         }
         
-        .chart-title {
-            font-size: var(--text-xl);
-            font-weight: 700;
-            color: var(--gray-800);
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
         }
         
-        .chart-actions {
-            display: flex;
-            gap: var(--space-2);
-        }
-        
-        .chart-btn {
-            background: none;
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            padding: var(--space-2) var(--space-3);
-            font-size: var(--text-sm);
-            color: var(--gray-600);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        
-        .chart-btn.active,
-        .chart-btn:hover {
-            background: var(--primary-500);
-            color: white;
-            border-color: var(--primary-500);
-        }
-        
-        .canvas-container {
-            position: relative;
-            height: 300px;
-            margin-bottom: var(--space-4);
-        }
-        
-        .activities-feed {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: var(--radius-xl);
+        .card-content {
             padding: var(--space-6);
-            box-shadow: var(--shadow-lg);
         }
         
+        /* Activity Feed */
         .activity-item {
             display: flex;
-            align-items: center;
-            gap: var(--space-4);
-            padding: var(--space-4);
-            border-radius: var(--radius-lg);
-            transition: all var(--transition-fast);
-            margin-bottom: var(--space-3);
+            gap: var(--space-3);
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--gray-100);
         }
         
-        .activity-item:hover {
-            background: rgba(102, 126, 234, 0.05);
+        .activity-item:last-child {
+            border-bottom: none;
         }
         
         .activity-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
-            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 0.75rem;
             color: white;
-            font-size: var(--text-sm);
+            flex-shrink: 0;
         }
         
         .activity-content {
@@ -313,862 +389,442 @@
         }
         
         .activity-title {
-            font-weight: 600;
-            color: var(--gray-800);
+            font-weight: 500;
+            color: var(--gray-900);
             margin-bottom: var(--space-1);
         }
         
-        .activity-time {
-            font-size: var(--text-xs);
+        .activity-meta {
+            font-size: 0.875rem;
             color: var(--gray-500);
         }
         
-        .ai-insights-panel {
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-600));
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            color: white;
-            margin-bottom: var(--space-8);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ai-insights-panel::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
-            pointer-events: none;
-        }
-        
-        .ai-insights-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .ai-insights-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            margin-bottom: var(--space-4);
-        }
-        
-        .ai-brain-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: var(--radius-lg);
+        /* Chart Container */
+        .chart-container {
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: var(--text-xl);
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
         }
         
-        .loading-skeleton {
-            background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: var(--radius-md);
-            height: 20px;
-            margin-bottom: var(--space-2);
+        .chart-placeholder {
+            color: var(--gray-400);
+            text-align: center;
         }
         
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-            margin-right: var(--space-2);
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
         }
         
-        .real-time-indicator {
+        .quick-action {
             display: flex;
             align-items: center;
-            font-size: var(--text-xs);
-            color: var(--gray-500);
-            margin-top: var(--space-2);
+            gap: var(--space-3);
+            padding: var(--space-4);
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--gray-700);
+            transition: all 0.2s ease;
         }
         
-        .progress-ring {
-            transform: rotate(-90deg);
+        .quick-action:hover {
+            background: var(--gray-100);
+            transform: translateY(-1px);
         }
         
-        .progress-ring-circle {
-            stroke: var(--primary-500);
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.35s;
-            transform-origin: 50% 50%;
+        .quick-action-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: white;
         }
         
+        .quick-action-text {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        /* Mobile Responsive */
         @media (max-width: 1024px) {
             .dashboard-layout {
                 grid-template-columns: 1fr;
             }
             
             .sidebar {
-                position: relative;
-                height: auto;
-                order: 2;
+                display: none;
             }
             
-            .charts-grid {
-                grid-template-columns: 1fr;
+            .main-content {
+                padding: var(--space-6) var(--space-4);
             }
-        }
-        
-        @media (max-width: 768px) {
-            .metrics-grid {
+            
+            .content-grid {
                 grid-template-columns: 1fr;
             }
             
-            .dashboard-header {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .main-header {
                 flex-direction: column;
+                align-items: flex-start;
                 gap: var(--space-4);
             }
         }
+        
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        .animate-delay {
+            animation-delay: 0.1s;
+            animation-fill-mode: both;
+        }
     </style>
 </head>
-
 <body>
     <div class="dashboard-layout">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <a href="/" class="logo">
-                    <i class="fas fa-rocket"></i> SkillSync AI
-                </a>
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">SkillSync AI</div>
             </div>
             
-            <nav>
-                <ul class="sidebar-menu">
-                    <li><a href="/dashboard" class="active"><i class="fas fa-chart-line"></i> Overview</a></li>
-                    <li><a href="/career-paths"><i class="fas fa-route"></i> Career Paths</a></li>
-                    <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Market Intel</a></li>
-                    <li><a href="/tools"><i class="fas fa-tools"></i> AI Tools</a></li>
-                    <li><a href="/goals"><i class="fas fa-target"></i> Goals</a></li>
-                    <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
-                    <li><a href="/visualizer"><i class="fas fa-chart-bar"></i> Visualizer</a></li>
-                    <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
-                </ul>
+            <nav class="nav">
+                <div class="nav-section">
+                    <div class="nav-title">Overview</div>
+                    <ul class="nav-list">
+                        <li><a href="/dashboard" class="nav-item active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                        <li><a href="/career-paths" class="nav-item"><i class="fas fa-route"></i> Career Paths</a></li>
+                        <li><a href="#analytics" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Tools</div>
+                    <ul class="nav-list">
+                        <li><a href="/market-intelligence" class="nav-item"><i class="fas fa-brain"></i> Market Intel</a></li>
+                        <li><a href="/tools" class="nav-item"><i class="fas fa-tools"></i> AI Tools</a></li>
+                        <li><a href="/ai-agent" class="nav-item"><i class="fas fa-robot"></i> AI Agent</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Community</div>
+                    <ul class="nav-list">
+                        <li><a href="/community" class="nav-item"><i class="fas fa-users"></i> Network</a></li>
+                        <li><a href="#mentorship" class="nav-item"><i class="fas fa-graduation-cap"></i> Mentorship</a></li>
+                        <li><a href="#events" class="nav-item"><i class="fas fa-calendar"></i> Events</a></li>
+                    </ul>
+                </div>
             </nav>
             
-            <div style="margin-top: auto; padding-top: var(--space-6);">
-                <div class="card" style="padding: var(--space-4); text-align: center;">
-                    <div class="ai-brain-icon" style="margin: 0 auto var(--space-3);">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">AI Assistant</h4>
-                    <p style="font-size: var(--text-xs); color: var(--gray-600); margin-bottom: var(--space-3);">Need help? Ask our AI!</p>
-                    <button class="btn btn-primary" style="width: 100%; font-size: var(--text-xs);" onclick="window.location.href='/ai-agent'">
-                        Chat Now
-                    </button>
-                </div>
+            <div style="margin-top: auto; padding: var(--space-4); background: var(--gray-50); border-radius: var(--radius-lg); text-align: center;">
+                <div style="font-size: 0.875rem; font-weight: 500; color: var(--gray-700); margin-bottom: var(--space-2);">AI Assistant</div>
+                <div style="font-size: 0.75rem; color: var(--gray-500); margin-bottom: var(--space-3);">Get personalized insights</div>
+                <button onclick="openAIChat()" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                    <i class="fas fa-comments"></i> Chat
+                </button>
             </div>
         </aside>
         
-        <!-- Main Dashboard Content -->
+        <!-- Main Content -->
         <main class="main-content">
-            <!-- Dashboard Header -->
-            <header class="dashboard-header" data-aos="fade-down">
-                <div class="dashboard-title">
-                    <h1>AI-Powered Career Dashboard</h1>
-                    <p>Real-time insights and personalized recommendations</p>
+            <div class="main-header">
+                <div>
+                    <h1 class="main-title animate-slide-up">Welcome back!</h1>
+                    <p class="main-subtitle animate-slide-up animate-delay">Here's what's happening with your career development.</p>
                 </div>
-                <div class="dashboard-actions">
-                    <button class="btn btn-secondary" onclick="refreshDashboard()">
-                        <i class="fas fa-sync-alt"></i> Refresh
+                <div class="header-actions animate-slide-up animate-delay">
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Export
                     </button>
-                    <button class="btn btn-primary" onclick="window.location.href='/career-paths'">
-                        <i class="fas fa-plus"></i> New Analysis
-                    </button>
+                    <a href="/career-paths" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Assessment
+                    </a>
                 </div>
-            </header>
+            </div>
             
-            <!-- AI Insights Panel -->
-            <section class="ai-insights-panel" data-aos="fade-up">
-                <div class="ai-insights-content">
-                    <div class="ai-insights-header">
-                        <div class="ai-brain-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <div>
-                            <h2 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-1);">
-                                Claude AI Career Intelligence
-                            </h2>
-                            <div class="real-time-indicator" style="color: rgba(255,255,255,0.8);">
-                                <div class="pulse-dot"></div>
-                                Live analysis powered by Claude Code Conversion Framework
-                            </div>
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card animate-slide-up">
+                    <div class="stat-header">
+                        <div class="stat-title">Career Score</div>
+                        <div class="stat-icon stat-icon-blue">
+                            <i class="fas fa-trophy"></i>
                         </div>
                     </div>
-                    
-                    <div id="aiInsights" style="font-size: var(--text-base); line-height: 1.6;">
-                        <p><strong>🎯 Career Opportunity Alert:</strong> Based on your profile, there's a 34% increase in demand for your skillset in the next 6 months.</p>
-                        <p style="margin-top: var(--space-2);"><strong>📈 Recommendation:</strong> Consider learning React Native to increase your market value by an estimated 28%.</p>
-                        <p style="margin-top: var(--space-2);"><strong>💰 Salary Insight:</strong> Similar profiles in your area are earning 15% more. Time to negotiate or explore new opportunities!</p>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Metrics Grid -->
-            <section class="metrics-grid" data-aos="fade-up" data-aos-delay="200">
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div>
-                            <svg class="progress-ring" width="48" height="48">
-                                <circle cx="24" cy="24" r="20" stroke="var(--gray-200)" stroke-width="4" fill="transparent"/>
-                                <circle class="progress-ring-circle" cx="24" cy="24" r="20" stroke-width="4" fill="transparent" stroke-dasharray="125.6" stroke-dashoffset="31.4"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="metric-value" id="careerScore">87</div>
-                    <div class="metric-label">Career Score</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i> +5 this week
-                    </div>
-                    <div class="real-time-indicator">
-                        <div class="pulse-dot"></div>
-                        Updated 2 minutes ago
+                    <div class="stat-value">8.4</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +12% from last month
                     </div>
                 </div>
                 
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                    </div>
-                    <div class="metric-value" id="salaryProjection">$127,500</div>
-                    <div class="metric-label">Projected Salary</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i> +12% vs market
-                    </div>
-                    <div class="real-time-indicator">
-                        <div class="pulse-dot"></div>
-                        Market data updated
-                    </div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                    </div>
-                    <div class="metric-value" id="jobMatches">247</div>
-                    <div class="metric-label">Job Matches</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i> +23 new today
-                    </div>
-                    <div class="real-time-indicator">
-                        <div class="pulse-dot"></div>
-                        Live job feed
-                    </div>
-                </div>
-                
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon">
+                <div class="stat-card animate-slide-up animate-delay">
+                    <div class="stat-header">
+                        <div class="stat-title">Skills Mastered</div>
+                        <div class="stat-icon stat-icon-emerald">
                             <i class="fas fa-graduation-cap"></i>
                         </div>
                     </div>
-                    <div class="metric-value" id="skillsGrowth">94%</div>
-                    <div class="metric-label">Skills Growth</div>
-                    <div class="metric-change positive">
-                        <i class="fas fa-arrow-up"></i> +8% this month
-                    </div>
-                    <div class="real-time-indicator">
-                        <div class="pulse-dot"></div>
-                        AI assessment complete
+                    <div class="stat-value">47</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +3 this week
                     </div>
                 </div>
-            </section>
+                
+                <div class="stat-card animate-slide-up animate-delay">
+                    <div class="stat-header">
+                        <div class="stat-title">Market Rank</div>
+                        <div class="stat-icon stat-icon-violet">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">Top 15%</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +5% improvement
+                    </div>
+                </div>
+                
+                <div class="stat-card animate-slide-up animate-delay">
+                    <div class="stat-header">
+                        <div class="stat-title">Opportunities</div>
+                        <div class="stat-icon stat-icon-orange">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">23</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +7 new matches
+                    </div>
+                </div>
+            </div>
             
-            <!-- Charts Section -->
-            <section class="charts-grid" data-aos="fade-up" data-aos-delay="400">
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">Career Growth Trajectory</h3>
-                        <div class="chart-actions">
-                            <button class="chart-btn active" onclick="updateChart('6m')">6M</button>
-                            <button class="chart-btn" onclick="updateChart('1y')">1Y</button>
-                            <button class="chart-btn" onclick="updateChart('3y')">3Y</button>
-                        </div>
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <div class="card animate-slide-up animate-delay">
+                    <div class="card-header">
+                        <h3 class="card-title">Career Progress</h3>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-external-link-alt"></i> View Details
+                        </button>
                     </div>
-                    <div class="canvas-container">
-                        <canvas id="careerGrowthChart"></canvas>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: var(--text-sm); color: var(--gray-600);">
-                            <i class="fas fa-info-circle"></i> Predicted growth based on current trajectory
-                        </div>
-                        <div class="real-time-indicator">
-                            <div class="pulse-dot"></div>
-                            Live prediction model
+                    <div class="card-content">
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-area" style="font-size: 2rem; margin-bottom: var(--space-2);"></i>
+                                <div>Career progression chart</div>
+                                <div style="font-size: 0.875rem;">Interactive analytics coming soon</div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3 class="chart-title">Skill Distribution</h3>
-                    </div>
-                    <div class="canvas-container">
-                        <canvas id="skillsChart"></canvas>
-                    </div>
-                    <div style="margin-top: var(--space-4);">
-                        <h4 style="font-size: var(--text-base); font-weight: 600; margin-bottom: var(--space-3); color: var(--gray-800);">
-                            Recommended Focus Areas
-                        </h4>
-                        <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-2); background: var(--gray-50); border-radius: var(--radius-md);">
-                                <span style="font-size: var(--text-sm); font-weight: 500;">React/TypeScript</span>
-                                <span style="font-size: var(--text-xs); color: var(--success); font-weight: 600;">High Demand</span>
+                <div style="display: flex; flex-direction: column; gap: var(--space-6);">
+                    <!-- Activity Feed -->
+                    <div class="card animate-slide-up animate-delay">
+                        <div class="card-header">
+                            <h3 class="card-title">Recent Activity</h3>
+                            <button class="btn btn-secondary">View All</button>
+                        </div>
+                        <div class="card-content">
+                            <div class="activity-item">
+                                <div class="activity-icon stat-icon-blue">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">AI Assessment Completed</div>
+                                    <div class="activity-meta">2 hours ago</div>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-2); background: var(--gray-50); border-radius: var(--radius-md);">
-                                <span style="font-size: var(--text-sm); font-weight: 500;">Cloud Architecture</span>
-                                <span style="font-size: var(--text-xs); color: var(--warning); font-weight: 600;">Growing</span>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon stat-icon-emerald">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">New Skill Milestone</div>
+                                    <div class="activity-meta">1 day ago</div>
+                                </div>
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-2); background: var(--gray-50); border-radius: var(--radius-md);">
-                                <span style="font-size: var(--text-sm); font-weight: 500;">AI/ML Basics</span>
-                                <span style="font-size: var(--text-xs); color: var(--info); font-weight: 600;">Emerging</span>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon stat-icon-violet">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Mentor Connection</div>
+                                    <div class="activity-meta">3 days ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-icon stat-icon-orange">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Job Match Found</div>
+                                    <div class="activity-meta">1 week ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="card animate-slide-up animate-delay">
+                        <div class="card-header">
+                            <h3 class="card-title">Quick Actions</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="quick-actions">
+                                <a href="/career-paths" class="quick-action">
+                                    <div class="quick-action-icon stat-icon-blue">
+                                        <i class="fas fa-route"></i>
+                                    </div>
+                                    <div class="quick-action-text">Career Path</div>
+                                </a>
+                                
+                                <a href="/market-intelligence" class="quick-action">
+                                    <div class="quick-action-icon stat-icon-emerald">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="quick-action-text">Market Intel</div>
+                                </a>
+                                
+                                <a href="/ai-agent" class="quick-action">
+                                    <div class="quick-action-icon stat-icon-violet">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="quick-action-text">AI Assistant</div>
+                                </a>
+                                
+                                <a href="/community" class="quick-action">
+                                    <div class="quick-action-icon stat-icon-orange">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="quick-action-text">Community</div>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-            
-            <!-- Activities Feed -->
-            <section class="activities-feed" data-aos="fade-up" data-aos-delay="600">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6);">
-                    <h2 style="font-size: var(--text-xl); font-weight: 700; color: var(--gray-800);">
-                        Recent AI Analysis & Activities
-                    </h2>
-                    <div class="real-time-indicator">
-                        <div class="pulse-dot"></div>
-                        Live feed
-                    </div>
-                </div>
-                
-                <div id="activitiesFeed">
-                    <div class="activity-item" style="text-align: center; opacity: 0.7;">
-                        <div class="activity-icon">
-                            <i class="fas fa-robot" style="color: var(--info);"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Loading Real AI Activities...</div>
-                            <div class="activity-time">Analyzing your interactions</div>
-                        </div>
-                        <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="loadRealActivities()">Load Activities</button>
-                    </div>
-
-                    <!-- Dynamic activities will be inserted here -->
-                </div>
-            </section>
+            </div>
         </main>
     </div>
     
-    <!-- JavaScript for Real-time Functionality -->
     <script>
-        // Initialize AOS animations
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
-        });
-        
-        // Chart configurations
-        const careerGrowthConfig = {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Career Score',
-                    data: [72, 75, 78, 82, 85, 87],
-                    borderColor: 'rgb(102, 126, 234)',
-                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                }, {
-                    label: 'Market Average',
-                    data: [68, 69, 71, 73, 74, 75],
-                    borderColor: 'rgb(168, 85, 247)',
-                    backgroundColor: 'rgba(168, 85, 247, 0.1)',
-                    borderWidth: 2,
-                    fill: false,
-                    tension: 0.4,
-                    borderDash: [5, 5]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        min: 60,
-                        max: 100
-                    }
-                },
-                elements: {
-                    point: {
-                        radius: 6,
-                        hoverRadius: 8
-                    }
-                }
-            }
-        };
-        
-        const skillsConfig = {
-            type: 'doughnut',
-            data: {
-                labels: ['Frontend', 'Backend', 'DevOps', 'AI/ML', 'Design'],
-                datasets: [{
-                    data: [35, 25, 15, 15, 10],
-                    backgroundColor: [
-                        'rgb(102, 126, 234)',
-                        'rgb(168, 85, 247)',
-                        'rgb(34, 197, 94)',
-                        'rgb(251, 146, 60)',
-                        'rgb(239, 68, 68)'
-                    ],
-                    borderWidth: 0,
-                    cutout: '70%'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            padding: 20
-                        }
-                    }
-                }
-            }
-        };
-        
-        // Initialize charts
-        let careerGrowthChart, skillsChart;
-        
+        // Add loading animation delays
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize career growth chart
-            const careerCtx = document.getElementById('careerGrowthChart').getContext('2d');
-            careerGrowthChart = new Chart(careerCtx, careerGrowthConfig);
-            
-            // Initialize skills chart
-            const skillsCtx = document.getElementById('skillsChart').getContext('2d');
-            skillsChart = new Chart(skillsCtx, skillsConfig);
-            
-            // Start real-time updates
-            startRealTimeUpdates();
-            
-            // Animate metrics on load
-            animateMetrics();
+            const animatedElements = document.querySelectorAll('.animate-slide-up');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+                el.style.animationFillMode = 'both';
+            });
         });
         
-        // Real-time updates simulation
-        function startRealTimeUpdates() {
-            setInterval(() => {
-                updateMetrics();
-                updateAIInsights();
-            }, 30000); // Update every 30 seconds
-            
-            setInterval(() => {
-                addNewActivity();
-            }, 60000); // Add new activity every minute
+        // Simulated data updates
+        function updateStats() {
+            // Simulate real-time stat updates
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                // Add subtle animation on update
+                stat.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    stat.style.transform = 'scale(1)';
+                }, 200);
+            });
         }
         
-        // Update metrics with random variations
-        function updateMetrics() {
-            const careerScore = document.getElementById('careerScore');
-            const salary = document.getElementById('salaryProjection');
-            const jobs = document.getElementById('jobMatches');
-            const skills = document.getElementById('skillsGrowth');
-            
-            // Simulate small changes
-            const currentScore = parseInt(careerScore.textContent);
-            const change = Math.random() > 0.5 ? 1 : -1;
-            careerScore.textContent = Math.max(0, Math.min(100, currentScore + change));
-            
-            // Update other metrics similarly
-            const currentJobs = parseInt(jobs.textContent);
-            jobs.textContent = Math.max(0, currentJobs + Math.floor(Math.random() * 5));
-        }
+        // Update stats every 30 seconds
+        setInterval(updateStats, 30000);
         
-        // Update AI insights
-        function updateAIInsights() {
-            const insights = [
-                "<p><strong>🎯 Market Alert:</strong> JavaScript framework demand increased 12% this week.</p>",
-                "<p><strong>📈 Opportunity:</strong> Consider TypeScript certification for 22% salary boost.</p>",
-                "<p><strong>💡 Insight:</strong> Your profile ranks in top 15% for full-stack roles.</p>",
-                "<p><strong>🚀 Trend:</strong> AI integration skills showing 40% growth in job postings.</p>"
-            ];
-            
-            const randomInsight = insights[Math.floor(Math.random() * insights.length)];
-            document.getElementById('aiInsights').innerHTML = randomInsight;
-        }
-        
-        // Add new activity to feed
-        function addNewActivity() {
-            const activities = [
-                {
-                    icon: 'fa-brain',
-                    title: 'AI analyzed recent project commits',
-                    time: 'Just now'
-                },
-                {
-                    icon: 'fa-chart-line',
-                    title: 'Weekly market report generated',
-                    time: 'Just now'
-                },
-                {
-                    icon: 'fa-star',
-                    title: 'New skill recommendation available',
-                    time: 'Just now'
-                }
-            ];
-            
-            const randomActivity = activities[Math.floor(Math.random() * activities.length)];
-            const activityHtml = `
-                <div class="activity-item" style="animation: fadeInUp 0.5s ease-out;">
-                    <div class="activity-icon">
-                        <i class="fas ${randomActivity.icon}"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">${randomActivity.title}</div>
-                        <div class="activity-time">${randomActivity.time}</div>
-                    </div>
-                    <button class="btn btn-secondary" style="font-size: var(--text-xs);">View</button>
+        // Interactive functions
+        function openAIChat() {
+            // Simulate opening AI chat
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+                border: 1px solid #e5e5e5;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            `;
+            notification.innerHTML = `
+                <div style="width: 24px; height: 24px; background: #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <div style="font-weight: 500; color: #171717;">AI Assistant</div>
+                    <div style="font-size: 0.875rem; color: #737373;">Opening chat interface...</div>
                 </div>
             `;
             
-            const feed = document.getElementById('activitiesFeed');
-            feed.insertAdjacentHTML('afterbegin', activityHtml);
+            document.body.appendChild(notification);
             
-            // Remove oldest activity if more than 5
-            if (feed.children.length > 5) {
-                feed.removeChild(feed.lastElementChild);
-            }
-        }
-        
-        // Animate metrics counters
-        function animateMetrics() {
-            const metrics = document.querySelectorAll('.metric-value');
-            metrics.forEach(metric => {
-                const target = parseInt(metric.textContent.replace(/[^\d]/g, ''));
-                let current = 0;
-                const increment = target / 30;
-                
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    
-                    if (metric.textContent.includes('$')) {
-                        metric.textContent = '$' + Math.floor(current).toLocaleString();
-                    } else if (metric.textContent.includes('%')) {
-                        metric.textContent = Math.floor(current) + '%';
-                    } else {
-                        metric.textContent = Math.floor(current);
-                    }
-                }, 50);
-            });
-        }
-        
-        // Chart update function
-        function updateChart(period) {
-            // Update active button
-            document.querySelectorAll('.chart-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update chart data based on period
-            let newData, newLabels;
-            
-            switch(period) {
-                case '6m':
-                    newLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-                    newData = [72, 75, 78, 82, 85, 87];
-                    break;
-                case '1y':
-                    newLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
-                    newData = [70, 80, 85, 87];
-                    break;
-                case '3y':
-                    newLabels = ['2022', '2023', '2024'];
-                    newData = [65, 78, 87];
-                    break;
-            }
-            
-            careerGrowthChart.data.labels = newLabels;
-            careerGrowthChart.data.datasets[0].data = newData;
-            careerGrowthChart.update();
-        }
-        
-        // Refresh dashboard function
-        function refreshDashboard() {
-            // Show loading state
-            const refreshBtn = event.target;
-            const originalContent = refreshBtn.innerHTML;
-            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
-            refreshBtn.disabled = true;
-            
-            // Simulate API call
             setTimeout(() => {
-                updateMetrics();
-                updateAIInsights();
-                addNewActivity();
-                
-                // Reset button
-                refreshBtn.innerHTML = originalContent;
-                refreshBtn.disabled = false;
-                
-                // Show success message
-                const message = document.createElement('div');
-                message.style.cssText = 'position: fixed; top: 20px; right: 20px; background: var(--success); color: white; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); z-index: 9999;';
-                message.innerHTML = '<i class="fas fa-check"></i> Dashboard updated successfully!';
-                document.body.appendChild(message);
-                
-                setTimeout(() => {
-                    message.remove();
-                }, 3000);
+                notification.remove();
+                window.location.href = '/ai-agent';
             }, 2000);
         }
         
-        // Add hover effects for better interactivity
-        document.addEventListener('mouseover', function(e) {
-            if (e.target.closest('.metric-card')) {
-                e.target.closest('.metric-card').style.transform = 'translateY(-4px) scale(1.02)';
-            }
-        });
-        
-        document.addEventListener('mouseout', function(e) {
-            if (e.target.closest('.metric-card')) {
-                e.target.closest('.metric-card').style.transform = 'translateY(0) scale(1)';
-            }
-        });
-
-        // Load real AI activities from the activity tracker
-        async function loadRealActivities() {
-            const activitiesFeed = document.getElementById('activitiesFeed');
-            const userId = 'current_user'; // In production, get from user session
+        // Add hover effects to cards
+        document.querySelectorAll('.stat-card, .card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+            });
             
-            // Show loading state
-            activitiesFeed.innerHTML = `
-                <div class="activity-item" style="text-align: center;">
-                    <div class="activity-icon">
-                        <i class="fas fa-spinner fa-spin" style="color: var(--info);"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">AI Agents Analyzing...</div>
-                        <div class="activity-time">Generating personalized activities</div>
-                    </div>
-                </div>
-            `;
-
-            try {
-                // Fetch real activities from the API
-                const response = await fetch(`/api/activities/${userId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    
-                    if (data.success && data.activities && data.activities.length > 0) {
-                        displayRealActivities(data.activities);
-                    } else {
-                        displayInteractivePrompts();
-                    }
-                } else {
-                    displayInteractivePrompts();
-                }
-
-            } catch (error) {
-                console.log('Using interactive prompts due to:', error);
-                displayInteractivePrompts();
-            }
-        }
-
-        function displayRealActivities(activities) {
-            const activitiesFeed = document.getElementById('activitiesFeed');
-            
-            const activitiesHTML = activities.map(activity => {
-                const iconMap = {
-                    'skill_assessment': 'fas fa-graduation-cap',
-                    'career_guidance': 'fas fa-route',
-                    'market_analysis': 'fas fa-chart-line',
-                    'job_matching': 'fas fa-briefcase',
-                    'goal_setting': 'fas fa-bullseye',
-                    'learning_recommendation': 'fas fa-book',
-                    'mentorship_opportunity': 'fas fa-users',
-                    'progress_update': 'fas fa-trophy'
-                };
-
-                const colorMap = {
-                    'skill_assessment': 'var(--error)',
-                    'career_guidance': 'var(--info)',
-                    'market_analysis': 'var(--warning)',
-                    'job_matching': 'var(--success)',
-                    'goal_setting': 'var(--primary-600)',
-                    'learning_recommendation': 'var(--secondary-600)',
-                    'mentorship_opportunity': 'var(--info)',
-                    'progress_update': 'var(--success)'
-                };
-
-                const icon = iconMap[activity.activity_type] || 'fas fa-robot';
-                const color = colorMap[activity.activity_type] || 'var(--gray-600)';
-                const primaryResource = activity.resources && activity.resources[0];
-
-                return `
-                    <div class="activity-item">
-                        <div class="activity-icon">
-                            <i class="${icon}" style="color: ${color};"></i>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">${activity.title}</div>
-                            <div class="activity-time">${activity.time_ago}</div>
-                            <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
-                                by ${activity.agent_source}
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" style="font-size: var(--text-xs);" 
-                                onclick="handleActivityAction('${activity.id}', '${primaryResource ? primaryResource.url : '/ai-agent'}')">
-                            ${primaryResource ? primaryResource.type === 'job_board' ? 'View Jobs' : 
-                              primaryResource.type === 'learning_path' ? 'Start Learning' : 'View Details' : 'View Details'}
-                        </button>
-                    </div>
-                `;
-            }).join('');
-
-            activitiesFeed.innerHTML = activitiesHTML;
-        }
-
-        function displayInteractivePrompts() {
-            const activitiesFeed = document.getElementById('activitiesFeed');
-            
-            // Show interactive prompts to encourage AI interaction
-            activitiesFeed.innerHTML = `
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-magic" style="color: var(--info);"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Get Your AI Skill Assessment</div>
-                        <div class="activity-time">Comprehensive evaluation in 5 minutes</div>
-                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
-                            by AI Skills Specialist
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="startAssessment()">
-                        Start Assessment
-                    </button>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-chart-line" style="color: var(--warning);"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Live Market Intelligence Update</div>
-                        <div class="activity-time">Real-time trends and salary data</div>
-                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
-                            by AI Market Intelligence
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="getMarketUpdate()">
-                        View Trends
-                    </button>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-robot" style="color: var(--success);"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Chat with AI Career Agent</div>
-                        <div class="activity-time">Instant personalized career guidance</div>
-                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
-                            by AI Career Strategist
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="startCareerChat()">
-                        Start Chat
-                    </button>
-                </div>
-
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-gamepad" style="color: var(--error);"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-title">Gaming Career Analysis</div>
-                        <div class="activity-time">Explore gaming industry opportunities</div>
-                        <div style="font-size: var(--text-sm); opacity: 0.8; margin-top: var(--space-1);">
-                            by AI Gaming Specialist
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" style="font-size: var(--text-xs);" onclick="exploreGaming()">
-                        Explore Gaming
-                    </button>
-                </div>
-            `;
-        }
-
-        function handleActivityAction(activityId, url) {
-            // Navigate to the appropriate resource
-            if (url.startsWith('http')) {
-                window.open(url, '_blank');
-            } else {
-                window.location.href = url;
-            }
-        }
-
-        function startAssessment() {
-            window.location.href = '/ai-agent?action=assess_skills';
-        }
-
-        function getMarketUpdate() {
-            window.location.href = '/market-intelligence';
-        }
-
-        function startCareerChat() {
-            window.location.href = '/ai-agent';
-        }
-
-        function exploreGaming() {
-            window.location.href = '/career-paths?focus=gaming';
-        }
-
-        // Auto-load activities when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Small delay to show the loading state briefly
-            setTimeout(() => {
-                loadRealActivities();
-            }, 1500);
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
         });
     </script>
 </body>

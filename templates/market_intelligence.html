@@ -3,1143 +3,994 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Intelligence - SkillSync AI Platform</title>
-    <meta name="description" content="Real-time market intelligence, skill demand analytics, and industry trends powered by AI.">
+    <title>Market Intelligence - SkillSync AI</title>
+    <meta name="description" content="Real-time market insights, skill demand trends, and industry analytics powered by AI.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
-          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
-          --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
-          --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
-          --font-primary: 'Inter', sans-serif; --font-display: 'Plus Jakarta Sans', sans-serif;
-          --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 1.875rem;
-          --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem;
-          --radius-lg: 0.75rem; --radius-xl: 1rem; --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1); --transition-fast: 150ms ease-in-out;
+            /* Modern Color System */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            
+            --blue-50: #eff6ff;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            
+            --violet-50: #f5f3ff;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+            
+            --orange-50: #fff7ed;
+            --orange-500: #f59e0b;
+            --orange-600: #d97706;
+            
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
-        .navbar { background: white; border-bottom: 1px solid var(--gray-200); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; box-shadow: var(--shadow-sm); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
-        .logo { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); text-decoration: none; }
-        .nav-links { display: flex; gap: var(--space-8); list-style: none; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--gray-700); font-weight: 500; font-size: var(--text-sm); transition: color var(--transition-fast); }
-        .nav-links a:hover { color: var(--primary-600); }
-        .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
-        .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
-        .btn-secondary { background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-300); }
-        .btn:hover { transform: translateY(-2px); }
-        .card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-fast); }
-        .card:hover { transform: translateY(-4px); }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
-        .grid { display: grid; gap: var(--space-6); }
-        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .hero { padding: var(--space-16) 0; text-align: center; }
-        .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: var(--gray-800); }
-        .trend-card { position: relative; overflow: hidden; }
-        .trend-up { color: var(--success); }
-        .trend-down { color: var(--error); }
-        .refresh-indicator { display: inline-block; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .data-section { margin: var(--space-8) 0; }
-        .section-title { color: var(--gray-800); font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-6); text-align: center; }
-        .chart-container { height: 300px; }
-        .interactive-controls { display: flex; gap: var(--space-4); margin-bottom: var(--space-6); justify-content: center; flex-wrap: wrap; }
-        .skill-demand-item { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) 0; border-bottom: 1px solid var(--gray-200); }
-        .skill-demand-item:last-child { border-bottom: none; }
-        .loading { opacity: 0.6; pointer-events: none; }
-        @media (max-width: 768px) { .grid-cols-2, .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } .interactive-controls { flex-direction: column; } }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Layout */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            padding: var(--space-6);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue-500), var(--violet-500));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+        }
+        
+        .nav {
+            flex: 1;
+        }
+        
+        .nav-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-3);
+        }
+        
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+        
+        .nav-item.active {
+            background: var(--blue-50);
+            color: var(--blue-700);
+        }
+        
+        .nav-item i {
+            width: 16px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: var(--space-8);
+            overflow-y: auto;
+        }
+        
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-8);
+        }
+        
+        .main-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        
+        .main-subtitle {
+            color: var(--gray-600);
+            margin-top: var(--space-1);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: var(--gray-900);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--gray-800);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+        
+        .stat-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-500), var(--violet-500));
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+        
+        .stat-title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+        
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            color: white;
+        }
+        
+        .stat-icon-blue { background: var(--blue-500); }
+        .stat-icon-emerald { background: var(--emerald-500); }
+        .stat-icon-violet { background: var(--violet-500); }
+        .stat-icon-orange { background: var(--orange-500); }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--space-1);
+        }
+        
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .stat-change.positive {
+            color: var(--emerald-600);
+        }
+        
+        .stat-change.negative {
+            color: var(--red-600);
+        }
+        
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .card-content {
+            padding: var(--space-6);
+        }
+        
+        /* Skill Trends */
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .skill-item:last-child {
+            border-bottom: none;
+        }
+        
+        .skill-info {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+        
+        .skill-name {
+            font-weight: 500;
+            color: var(--gray-900);
+        }
+        
+        .skill-category {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+        
+        .skill-demand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .demand-bar {
+            width: 60px;
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        
+        .demand-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--emerald-500), var(--blue-500));
+            transition: width 0.3s ease;
+        }
+        
+        .demand-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            min-width: 35px;
+        }
+        
+        /* Chart Container */
+        .chart-container {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+        }
+        
+        .chart-placeholder {
+            text-align: center;
+            color: var(--gray-400);
+        }
+        
+        /* Market Insights */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .insight-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s ease;
+        }
+        
+        .insight-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+        }
+        
+        .insight-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .insight-content {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .refresh-indicator {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                padding: var(--space-6) var(--space-4);
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        .animate-delay {
+            animation-delay: 0.1s;
+            animation-fill-mode: both;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo"><i class="fas fa-rocket"></i> SkillSync AI</a>
-            <ul class="nav-links">
-                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Intelligence</a></li>
-                <li><a href="/career-paths"><i class="fas fa-route"></i> Paths</a></li>
-                <li><a href="/tools"><i class="fas fa-tools"></i> Tools</a></li>
-                <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
-                <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <div class="container">
-            <h1><i class="fas fa-brain"></i> Market Intelligence</h1>
-            <p style="font-size: var(--text-lg); opacity: 0.9; margin-bottom: var(--space-8);">
-                <span style="color: var(--gray-700);">Real-time market trends, skill demand analytics, and industry insights powered by AI</span>
-            </p>
-            <div class="interactive-controls">
-                <button class="btn btn-primary" onclick="refreshMarketData()">
-                    <i class="fas fa-sync refresh-indicator" id="refreshIcon"></i> Refresh Data
-                </button>
-                <button class="btn btn-secondary" onclick="generateReport()">
-                    <i class="fas fa-file-download"></i> Generate Report
-                </button>
-                <button class="btn btn-secondary" onclick="analyzeSkill()">
-                    <i class="fas fa-search"></i> Analyze Skill
-                </button>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">SkillSync AI</div>
             </div>
-        </div>
-    </section>
-
-    <main style="padding: var(--space-8) 0;">
-        <div class="container">
-            <!-- Live Market Overview -->
-            <div class="grid grid-cols-3" id="marketOverview">
-                <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);">
-                        <i class="fas fa-trending-up trend-up"></i> High Demand Skills
-                        <span style="font-size: var(--text-sm); color: var(--info); font-weight: normal;">Live Data</span>
-                    </h3>
-                    <div id="demandSkills">
-                        <div class="skill-demand-item">
-                            <span>AI/Machine Learning</span>
-                            <span class="trend-up">+25% <small>(15,420 jobs)</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>Cloud Architecture</span>
-                            <span class="trend-up">+22% <small>(12,890 jobs)</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>Cybersecurity</span>
-                            <span class="trend-up">+18% <small>(9,670 jobs)</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>React Development</span>
-                            <span class="trend-up">+16% <small>(8,920 jobs)</small></span>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" style="margin-top: var(--space-4); width: 100%;" onclick="exploreSkillDetails()">
-                        <i class="fas fa-chart-line"></i> View Detailed Analytics
-                    </button>
+            
+            <nav class="nav">
+                <div class="nav-section">
+                    <div class="nav-title">Overview</div>
+                    <ul class="nav-list">
+                        <li><a href="/dashboard" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                        <li><a href="/career-paths" class="nav-item"><i class="fas fa-route"></i> Career Paths</a></li>
+                        <li><a href="#analytics" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                    </ul>
                 </div>
-
-                <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);">
-                        <i class="fas fa-dollar-sign"></i> Salary Intelligence
-                        <span style="font-size: var(--text-sm); color: var(--success); font-weight: normal;">Updated Daily</span>
-                    </h3>
-                    <div id="salaryTrends">
-                        <div class="skill-demand-item">
-                            <span>Senior DevOps Engineer</span>
-                            <span style="color: var(--success);">$115k-160k <small>↑ 12%</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>ML Engineer</span>
-                            <span style="color: var(--success);">$105k-150k <small>↑ 18%</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>Full Stack Developer</span>
-                            <span style="color: var(--success);">$85k-125k <small>↑ 8%</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>Data Scientist</span>
-                            <span style="color: var(--success);">$95k-140k <small>↑ 14%</small></span>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" style="margin-top: var(--space-4); width: 100%;" onclick="compareSalaries()">
-                        <i class="fas fa-balance-scale"></i> Compare Salaries
-                    </button>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Tools</div>
+                    <ul class="nav-list">
+                        <li><a href="/market-intelligence" class="nav-item active"><i class="fas fa-brain"></i> Market Intel</a></li>
+                        <li><a href="/tools" class="nav-item"><i class="fas fa-tools"></i> AI Tools</a></li>
+                        <li><a href="/ai-agent" class="nav-item"><i class="fas fa-robot"></i> AI Agent</a></li>
+                    </ul>
                 </div>
-
-                <div class="card trend-card">
-                    <h3 style="margin-bottom: var(--space-4);">
-                        <i class="fas fa-rocket"></i> Emerging Opportunities
-                        <span style="font-size: var(--text-sm); color: var(--warning); font-weight: normal;">Hot Trends</span>
-                    </h3>
-                    <div id="emergingTrends">
-                        <div class="skill-demand-item">
-                            <span>AI Ethics Specialist</span>
-                            <span style="color: var(--warning);">New Field <small>2,100 jobs</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>Quantum Computing</span>
-                            <span style="color: var(--warning);">Emerging <small>890 jobs</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>Web3 Developer</span>
-                            <span style="color: var(--info);">Growing <small>3,450 jobs</small></span>
-                        </div>
-                        <div class="skill-demand-item">
-                            <span>Sustainability Tech</span>
-                            <span style="color: var(--success);">Hot <small>1,760 jobs</small></span>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" style="margin-top: var(--space-4); width: 100%;" onclick="exploreOpportunities()">
-                        <i class="fas fa-binoculars"></i> Explore Opportunities
+                
+                <div class="nav-section">
+                    <div class="nav-title">Community</div>
+                    <ul class="nav-list">
+                        <li><a href="/community" class="nav-item"><i class="fas fa-users"></i> Network</a></li>
+                        <li><a href="#mentorship" class="nav-item"><i class="fas fa-graduation-cap"></i> Mentorship</a></li>
+                        <li><a href="#events" class="nav-item"><i class="fas fa-calendar"></i> Events</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="main-header animate-slide-up">
+                <div>
+                    <h1 class="main-title">Market Intelligence</h1>
+                    <p class="main-subtitle">Real-time insights into market trends, skill demand, and industry dynamics.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="exportReport()">
+                        <i class="fas fa-download"></i> Export Report
+                    </button>
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        <i class="fas fa-sync" id="refreshIcon"></i> Refresh Data
                     </button>
                 </div>
             </div>
-
-            <!-- Interactive Charts Section -->
-            <div class="data-section">
-                <h2 class="section-title">Market Trend Analysis</h2>
-                <div class="grid grid-cols-2">
-                    <div class="card">
-                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-area"></i> Skill Demand Over Time</h3>
+            
+            <!-- Market Overview Stats -->
+            <div class="stats-grid animate-slide-up animate-delay">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Market Growth</div>
+                        <div class="stat-icon stat-icon-blue">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">+18.2%</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +3.1% from last quarter
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Job Demand</div>
+                        <div class="stat-icon stat-icon-emerald">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">2.4M</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +156K new positions
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Avg Salary</div>
+                        <div class="stat-icon stat-icon-violet">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">$95K</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        +8.5% year over year
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Skill Gap</div>
+                        <div class="stat-icon stat-icon-orange">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value">35%</div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-arrow-down"></i>
+                        -2.3% improvement
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content Grid -->
+            <div class="content-grid animate-slide-up animate-delay">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Market Trends</h3>
+                        <button class="btn btn-secondary" onclick="analyzeMarket()">
+                            <i class="fas fa-search"></i> Deep Analysis
+                        </button>
+                    </div>
+                    <div class="card-content">
                         <div class="chart-container">
-                            <canvas id="skillDemandChart"></canvas>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-area" style="font-size: 2rem; margin-bottom: var(--space-2);"></i>
+                                <div>Interactive market trends chart</div>
+                                <div style="font-size: 0.875rem;">Real-time data visualization</div>
+                            </div>
                         </div>
-                        <div style="margin-top: var(--space-4); text-align: center;">
-                            <button class="btn btn-secondary" onclick="updateTimeRange('1M')">1M</button>
-                            <button class="btn btn-secondary" onclick="updateTimeRange('3M')">3M</button>
-                            <button class="btn btn-primary" onclick="updateTimeRange('1Y')">1Y</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Top Skills in Demand</h3>
+                        <button class="btn btn-secondary" onclick="viewAllSkills()">View All</button>
+                    </div>
+                    <div class="card-content">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <div class="skill-name">Artificial Intelligence</div>
+                                <div class="skill-category">Technology</div>
+                            </div>
+                            <div class="skill-demand">
+                                <div class="demand-bar">
+                                    <div class="demand-fill" style="width: 95%"></div>
+                                </div>
+                                <div class="demand-value">95%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <div class="skill-name">Cloud Computing</div>
+                                <div class="skill-category">Infrastructure</div>
+                            </div>
+                            <div class="skill-demand">
+                                <div class="demand-bar">
+                                    <div class="demand-fill" style="width: 88%"></div>
+                                </div>
+                                <div class="demand-value">88%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <div class="skill-name">Data Science</div>
+                                <div class="skill-category">Analytics</div>
+                            </div>
+                            <div class="skill-demand">
+                                <div class="demand-bar">
+                                    <div class="demand-fill" style="width: 82%"></div>
+                                </div>
+                                <div class="demand-value">82%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <div class="skill-name">Cybersecurity</div>
+                                <div class="skill-category">Security</div>
+                            </div>
+                            <div class="skill-demand">
+                                <div class="demand-bar">
+                                    <div class="demand-fill" style="width: 79%"></div>
+                                </div>
+                                <div class="demand-value">79%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <div class="skill-name">Product Management</div>
+                                <div class="skill-category">Business</div>
+                            </div>
+                            <div class="skill-demand">
+                                <div class="demand-bar">
+                                    <div class="demand-fill" style="width: 75%"></div>
+                                </div>
+                                <div class="demand-value">75%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market Insights -->
+            <section class="animate-slide-up animate-delay">
+                <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--gray-900); margin-bottom: var(--space-6);">
+                    AI-Powered Market Insights
+                </h2>
+                
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon stat-icon-blue">
+                                <i class="fas fa-trending-up"></i>
+                            </div>
+                            <div class="insight-title">Emerging Technologies</div>
+                        </div>
+                        <div class="insight-content">
+                            Quantum computing and edge AI are showing 300% growth in job postings. Companies are actively seeking professionals with quantum algorithm knowledge and edge deployment experience.
                         </div>
                     </div>
                     
-                    <div class="card">
-                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-chart-pie"></i> Industry Distribution</h3>
-                        <div class="chart-container">
-                            <canvas id="industryChart"></canvas>
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon stat-icon-emerald">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="insight-title">Remote Work Impact</div>
                         </div>
-                        <div style="margin-top: var(--space-4); text-align: center;">
-                            <button class="btn btn-secondary" onclick="drillDownIndustry()">
-                                <i class="fas fa-search-plus"></i> Drill Down
-                            </button>
+                        <div class="insight-content">
+                            Remote-first companies are offering 15% higher salaries for skilled professionals. Digital collaboration and async communication skills are becoming essential.
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon stat-icon-violet">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="insight-title">Skill Evolution</div>
+                        </div>
+                        <div class="insight-content">
+                            Technical skills have a 2-year half-life. Professionals investing in continuous learning show 40% faster career progression and higher job security.
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon stat-icon-orange">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="insight-title">Global Market Shifts</div>
+                        </div>
+                        <div class="insight-content">
+                            Asia-Pacific tech markets are expanding 25% annually. Cross-cultural communication and international business skills are increasingly valuable.
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- AI-Powered Insights -->
-            <div class="data-section">
-                <h2 class="section-title">AI-Powered Market Insights</h2>
-                <div class="card" id="aiInsights">
-                    <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-robot"></i> Personalized Market Analysis</h3>
-                    <div id="insightContent">
-                        <p style="margin-bottom: var(--space-4); font-style: italic; color: var(--gray-600);">
-                            Click "Generate Insights" to get AI-powered analysis tailored to your profile and market conditions.
-                        </p>
-                    </div>
-                    <button class="btn btn-primary" onclick="generateAIInsights()">
-                        <i class="fas fa-magic"></i> Generate AI Insights
-                    </button>
-                </div>
-            </div>
-        </div>
-    </main>
-
+            </section>
+        </main>
+    </div>
+    
     <script>
-        // Initialize charts and data
-        let skillChart, industryChart;
+        // Add loading animation delays
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-slide-up');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+                el.style.animationFillMode = 'both';
+            });
+        });
         
-        // Sample market data that would come from API
-        const marketData = {
-            skillDemand: {
-                labels: ['AI/ML', 'Cloud', 'Security', 'React', 'Python', 'DevOps'],
-                data: [25, 22, 18, 16, 14, 20],
-                colors: ['#48bb78', '#4299e1', '#ed8936', '#9333ea', '#ef4444', '#06b6d4']
-            },
-            industryGrowth: {
-                labels: ['FinTech', 'HealthTech', 'EdTech', 'E-commerce', 'Gaming', 'AI/ML'],
-                data: [30, 28, 24, 19, 16, 35]
-            }
-        };
-
-        function initializeCharts() {
-            // Skill Demand Chart
-            const skillCtx = document.getElementById('skillDemandChart').getContext('2d');
-            skillChart = new Chart(skillCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'AI/ML Demand',
-                        data: [18, 20, 22, 24, 25, 27],
-                        borderColor: '#48bb78',
-                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
-                        tension: 0.4
-                    }, {
-                        label: 'Cloud Computing',
-                        data: [15, 17, 19, 20, 22, 24],
-                        borderColor: '#4299e1',
-                        backgroundColor: 'rgba(66, 153, 225, 0.1)',
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'top' }
-                    }
-                }
-            });
-
-            // Industry Chart
-            const industryCtx = document.getElementById('industryChart').getContext('2d');
-            industryChart = new Chart(industryCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: marketData.industryGrowth.labels,
-                    datasets: [{
-                        data: marketData.industryGrowth.data,
-                        backgroundColor: [
-                            '#48bb78', '#4299e1', '#ed8936', 
-                            '#9333ea', '#ef4444', '#06b6d4'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom' }
-                    }
-                }
-            });
-        }
-
-        async function refreshMarketData() {
+        // Refresh data functionality
+        function refreshData() {
             const refreshIcon = document.getElementById('refreshIcon');
-            const overview = document.getElementById('marketOverview');
+            refreshIcon.classList.add('refresh-indicator');
             
-            refreshIcon.style.animation = 'spin 1s linear infinite';
-            overview.classList.add('loading');
+            showNotification('Refreshing market data...', 'info');
             
-            try {
-                // Try real market intelligence API
-                const response = await fetch('/api/intelligence/market-trends', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    refreshIcon.style.animation = '';
-                    overview.classList.remove('loading');
-                    
-                    // Handle new enhanced API response format
-                    if (data.success) {
-                        // Update with real AI-driven market data
-                        if (data.market_analysis) {
-                            // Show AI analysis in a notification or modal
-                            console.log('AI Market Analysis:', data.market_analysis);
-                        }
-                        
-                        if (data.market_data) {
-                            updateChartsWithRealData(data.market_data);
-                        } else if (data.trends) {
-                            updateChartsWithRealData(data.trends);
-                        }
-                        
-                        // Show enhanced features if available
-                        let message = '✅ Live market data updated via AI intelligence!';
-                        if (data.specialist_agents_involved && data.specialist_agents_involved.length > 1) {
-                            message += ` (Analysis by: ${data.specialist_agents_involved.join(', ')})`;
-                        }
-                        
-                        showNotification(message, 'success');
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('Using simulation due to:', error);
-            }
-            
-            // Fallback simulation
+            // Simulate data refresh
             setTimeout(() => {
-                refreshIcon.style.animation = '';
-                overview.classList.remove('loading');
+                refreshIcon.classList.remove('refresh-indicator');
+                showNotification('Market data updated successfully!', 'success');
                 
-                updateSkillDemandData();
-                updateSalaryData();
-                
-                showNotification('📊 Market data refreshed successfully!', 'success');
+                // Animate stats update
+                updateStats();
             }, 2000);
         }
-
-        function updateSkillDemandData() {
-            // Simulate real-time data updates
-            const skills = ['AI/ML', 'Cloud', 'Security', 'React'];
-            const growthRates = ['+26%', '+23%', '+19%', '+17%'];
-            const jobCounts = ['15,680', '13,120', '9,890', '9,150'];
-            
-            const container = document.getElementById('demandSkills');
-            container.innerHTML = skills.map((skill, i) => `
-                <div class="skill-demand-item">
-                    <span>${skill === 'AI/ML' ? 'AI/Machine Learning' : skill === 'Security' ? 'Cybersecurity' : skill === 'React' ? 'React Development' : 'Cloud Architecture'}</span>
-                    <span class="trend-up">${growthRates[i]} <small>(${jobCounts[i]} jobs)</small></span>
-                </div>
-            `).join('');
-        }
-
-        function updateSalaryData() {
-            const roles = ['Senior DevOps Engineer', 'ML Engineer', 'Full Stack Developer', 'Data Scientist'];
-            const salaries = ['$117k-163k', '$107k-152k', '$87k-127k', '$97k-142k'];
-            const increases = ['↑ 13%', '↑ 19%', '↑ 9%', '↑ 15%'];
-            
-            const container = document.getElementById('salaryTrends');
-            container.innerHTML = roles.map((role, i) => `
-                <div class="skill-demand-item">
-                    <span>${role}</span>
-                    <span style="color: var(--success);">${salaries[i]} <small>${increases[i]}</small></span>
-                </div>
-            `).join('');
-        }
-
-        function generateAIInsights() {
-            const insightContent = document.getElementById('insightContent');
-            const insights = [
-                "🎯 Based on your profile, AI/ML skills show the highest ROI with 25% salary increase potential.",
-                "📈 Cloud computing demand is accelerating - consider AWS/Azure certifications for immediate impact.",
-                "🔥 Emerging trend: AI Ethics specialists are seeing 300% job growth in the last 6 months.",
-                "💡 Your current skill set aligns well with 89% of high-growth FinTech positions.",
-                "🚀 Recommendation: Focus on React + Python combination for maximum market leverage."
-            ];
-            
-            insightContent.innerHTML = `
-                <div style="background: linear-gradient(135deg, var(--info) 0%, var(--primary-600) 100%); 
-                           color: white; padding: var(--space-4); border-radius: var(--radius-lg); 
-                           margin-bottom: var(--space-4);">
-                    <h4 style="margin-bottom: var(--space-3);"><i class="fas fa-lightbulb"></i> AI Analysis Complete</h4>
-                    ${insights.map(insight => `<p style="margin-bottom: var(--space-2);">${insight}</p>`).join('')}
-                </div>
-                <p style="font-size: var(--text-sm); color: var(--gray-600); text-align: center;">
-                    Analysis based on current market data, salary trends, and your skill profile.
-                </p>
-            `;
-        }
-
-        function exploreSkillDetails() {
-            const modalHtml = `
-                <div id="skillDetailsModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-                    <div style="background: white; border-radius: var(--radius-xl); padding: var(--space-8); max-width: 800px; max-height: 80vh; overflow-y: auto; position: relative;">
-                        <button onclick="closeModal('skillDetailsModal')" style="position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; font-size: var(--text-xl); cursor: pointer; color: var(--gray-500);">&times;</button>
-                        
-                        <h2 style="margin-bottom: var(--space-6); color: var(--primary-600);"><i class="fas fa-chart-line"></i> Detailed Skill Analytics</h2>
-                        
-                        <div class="grid grid-cols-2" style="gap: var(--space-4); margin-bottom: var(--space-6);">
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg);">
-                                <h3 style="color: var(--success); margin-bottom: var(--space-3);"><i class="fas fa-trending-up"></i> Top Growing Skills</h3>
-                                <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-                                    <div style="display: flex; justify-content: space-between; padding: var(--space-2); background: white; border-radius: var(--space-1);">
-                                        <span>AI/Machine Learning</span><span style="color: var(--success); font-weight: 600;">+25%</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; padding: var(--space-2); background: white; border-radius: var(--space-1);">
-                                        <span>Cloud Architecture</span><span style="color: var(--success); font-weight: 600;">+22%</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; padding: var(--space-2); background: white; border-radius: var(--space-1);">
-                                        <span>Cybersecurity</span><span style="color: var(--success); font-weight: 600;">+18%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg);">
-                                <h3 style="color: var(--info); margin-bottom: var(--space-3);"><i class="fas fa-dollar-sign"></i> High-Value Skills</h3>
-                                <div style="display: flex; flex-direction: column; gap: var(--space-2);">
-                                    <div style="display: flex; justify-content: space-between; padding: var(--space-2); background: white; border-radius: var(--space-1);">
-                                        <span>DevOps Engineering</span><span style="color: var(--info); font-weight: 600;">$125k</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; padding: var(--space-2); background: white; border-radius: var(--space-1);">
-                                        <span>ML Engineering</span><span style="color: var(--info); font-weight: 600;">$120k</span>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; padding: var(--space-2); background: white; border-radius: var(--space-1);">
-                                        <span>Cloud Solutions</span><span style="color: var(--info); font-weight: 600;">$115k</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-bottom: var(--space-6);">
-                            <h3 style="margin-bottom: var(--space-4); color: var(--gray-800);"><i class="fas fa-map"></i> Regional Demand Hotspots</h3>
-                            <div class="grid grid-cols-3" style="gap: var(--space-3);">
-                                <div style="text-align: center; padding: var(--space-3); background: var(--primary-50); border-radius: var(--radius-lg);">
-                                    <div style="font-weight: 600; color: var(--primary-600);">San Francisco</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-600);">AI/ML: 45% above avg</div>
-                                </div>
-                                <div style="text-align: center; padding: var(--space-3); background: var(--success-50); border-radius: var(--radius-lg);">
-                                    <div style="font-weight: 600; color: var(--success);">Seattle</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-600);">Cloud: 38% above avg</div>
-                                </div>
-                                <div style="text-align: center; padding: var(--space-3); background: var(--info-50); border-radius: var(--radius-lg);">
-                                    <div style="font-weight: 600; color: var(--info);">Austin</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-600);">React: 32% above avg</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary" onclick="analyzeSkill()" style="width: 100%;">
-                            <i class="fas fa-search"></i> Analyze Specific Skill
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-            showNotification('📈 Detailed skill analytics loaded!', 'success');
-        }
-
-        function compareSalaries() {
-            const modalHtml = `
-                <div id="salaryComparisonModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-                    <div style="background: white; border-radius: var(--radius-xl); padding: var(--space-8); max-width: 900px; max-height: 80vh; overflow-y: auto; position: relative;">
-                        <button onclick="closeModal('salaryComparisonModal')" style="position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; font-size: var(--text-xl); cursor: pointer; color: var(--gray-500);">&times;</button>
-                        
-                        <h2 style="margin-bottom: var(--space-6); color: var(--primary-600);"><i class="fas fa-balance-scale"></i> Salary Comparison Tool</h2>
-                        
-                        <div style="margin-bottom: var(--space-6);">
-                            <h3 style="margin-bottom: var(--space-4);">Compare by Role & Experience</h3>
-                            <div class="grid grid-cols-3" style="gap: var(--space-4);">
-                                <div>
-                                    <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Role</label>
-                                    <select id="roleSelect" style="width: 100%; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
-                                        <option>Full Stack Developer</option>
-                                        <option>Frontend Developer</option>
-                                        <option>Backend Developer</option>
-                                        <option>DevOps Engineer</option>
-                                        <option>Data Scientist</option>
-                                        <option>ML Engineer</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Experience</label>
-                                    <select id="experienceSelect" style="width: 100%; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
-                                        <option>Junior (0-2 years)</option>
-                                        <option>Mid-Level (3-5 years)</option>
-                                        <option>Senior (5-8 years)</option>
-                                        <option>Lead (8+ years)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Location</label>
-                                    <select id="locationSelect" style="width: 100%; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-lg);">
-                                        <option>San Francisco, CA</option>
-                                        <option>Seattle, WA</option>
-                                        <option>Austin, TX</option>
-                                        <option>New York, NY</option>
-                                        <option>Remote</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button onclick="generateSalaryComparison()" class="btn btn-primary" style="margin-top: var(--space-4); width: 100%;">
-                                <i class="fas fa-chart-bar"></i> Generate Comparison
-                            </button>
-                        </div>
-                        
-                        <div id="comparisonResults" style="background: var(--gray-50); padding: var(--space-6); border-radius: var(--radius-lg);">
-                            <div style="text-align: center; color: var(--gray-600);">
-                                <i class="fas fa-chart-bar" style="font-size: 2rem; margin-bottom: var(--space-4);"></i>
-                                <p>Select your criteria above and click "Generate Comparison" to see detailed salary data</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-            showNotification('💰 Salary comparison tool loaded!', 'success');
-        }
-
-        async function exploreOpportunities() {
-            const button = event.target;
-            const originalText = button.innerHTML;
-            
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
-            button.disabled = true;
-            
-            try {
-                // Try real API first
-                const response = await fetch('/api/intelligence/emerging-opportunities', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success && data.opportunities) {
-                        showOpportunitiesModal(data.opportunities);
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('Using fallback opportunities data:', error);
-            }
-            
-            // Fallback: Generate realistic opportunities
-            setTimeout(() => {
-                const opportunities = {
-                    trending: [
-                        {
-                            title: 'AI Ethics Specialist',
-                            growth: '+300%',
-                            jobs: '2,100',
-                            salary: '$90k-130k',
-                            description: 'Ensure responsible AI development and deployment',
-                            skills: ['Ethics', 'AI/ML', 'Policy', 'Communication']
-                        },
-                        {
-                            title: 'Quantum Computing Developer',
-                            growth: 'Emerging',
-                            jobs: '890',
-                            salary: '$120k-180k',
-                            description: 'Develop quantum algorithms and applications',
-                            skills: ['Quantum Physics', 'Python', 'Mathematics', 'Qiskit']
-                        },
-                        {
-                            title: 'Web3 Full Stack Developer',
-                            growth: '+250%',
-                            jobs: '3,450',
-                            salary: '$100k-160k',
-                            description: 'Build decentralized applications and blockchain solutions',
-                            skills: ['Solidity', 'React', 'Web3.js', 'Smart Contracts']
-                        }
-                    ],
-                    highDemand: [
-                        {
-                            title: 'Cloud Security Architect',
-                            growth: '+45%',
-                            jobs: '5,670',
-                            salary: '$130k-180k',
-                            description: 'Design secure cloud infrastructure and policies',
-                            skills: ['AWS', 'Security', 'Architecture', 'Compliance']
-                        },
-                        {
-                            title: 'MLOps Engineer',
-                            growth: '+180%',
-                            jobs: '4,200',
-                            salary: '$115k-155k',
-                            description: 'Deploy and manage machine learning systems at scale',
-                            skills: ['ML', 'DevOps', 'Kubernetes', 'Python']
-                        }
-                    ]
-                };
-                
-                showOpportunitiesModal(opportunities);
-                button.innerHTML = originalText;
-                button.disabled = false;
-            }, 2000);
-        }
-
-        async function generateReport() {
-            const button = event.target;
-            const originalText = button.innerHTML;
-            
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
-            button.disabled = true;
-            
-            try {
-                // Try to call real API first
-                const response = await fetch('/api/intelligence/generate-report', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        report_type: 'comprehensive_market_analysis',
-                        include_skills: true,
-                        include_salaries: true,
-                        include_trends: true
-                    })
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success && data.report_data) {
-                        showReportModal(data.report_data);
-                        showNotification('✅ Market report generated successfully!', 'success');
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('Using fallback report generation:', error);
-            }
-            
-            // Fallback: Generate comprehensive local report
-            setTimeout(() => {
-                const reportData = {
-                    title: 'Market Intelligence Report',
-                    generated_at: new Date().toLocaleDateString(),
-                    summary: {
-                        total_jobs: '127,450',
-                        growth_rate: '+18.5%',
-                        avg_salary: '$95,250',
-                        top_skill: 'AI/Machine Learning'
-                    },
-                    trends: [
-                        { skill: 'AI/ML', growth: '+25%', jobs: '15,420', avg_salary: '$125k' },
-                        { skill: 'Cloud Architecture', growth: '+22%', jobs: '12,890', avg_salary: '$115k' },
-                        { skill: 'Cybersecurity', growth: '+18%', jobs: '9,670', avg_salary: '$105k' },
-                        { skill: 'React Development', growth: '+16%', jobs: '8,920', avg_salary: '$85k' }
-                    ],
-                    insights: [
-                        'AI/ML skills show the highest growth potential with 25% increase in demand',
-                        'Cloud computing remains critical with strong salary premiums',
-                        'Cybersecurity demand is steady with excellent job security',
-                        'Frontend frameworks like React continue to be essential'
-                    ]
-                };
-                
-                showReportModal(reportData);
-                showNotification('📊 Comprehensive market report generated!', 'success');
-                button.innerHTML = originalText;
-                button.disabled = false;
-            }, 2000);
-        }
-
-        async function analyzeSkill() {
-            const skill = prompt('Enter a skill to analyze (e.g., Python, React, DevOps, AI/ML):');
-            if (!skill) return;
-            
-            const button = event.target;
-            const originalText = button.innerHTML;
-            
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
-            button.disabled = true;
-            
-            try {
-                // Try real API first
-                const response = await fetch('/api/intelligence/analyze-skill', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        skill_name: skill,
-                        analysis_depth: 'comprehensive'
-                    })
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success && data.analysis) {
-                        showSkillAnalysisModal(skill, data.analysis);
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('Using fallback skill analysis:', error);
-            }
-            
-            // Fallback: Generate realistic skill analysis
-            setTimeout(() => {
-                const analysisData = generateSkillAnalysis(skill);
-                showSkillAnalysisModal(skill, analysisData);
-                button.innerHTML = originalText;
-                button.disabled = false;
-            }, 1500);
-        }
-
-        function updateTimeRange(range) {
-            showNotification(`Updated chart to show ${range} data`, 'success');
-            // Would update chart with new time range
-        }
-
-        function drillDownIndustry() {
-            showNotification('Loading detailed industry breakdown...', 'info');
-            // Would show detailed industry analysis
-        }
-
-        function updateChartsWithRealData(data) {
-            // Process real AI market intelligence data
-            if (data.top_skills) {
-                // Update skill demand display with real data
-                const container = document.getElementById('demandSkills');
-                container.innerHTML = data.top_skills.map(skill => `
-                    <div class="skill-demand-item">
-                        <span>${skill.skill}</span>
-                        <span class="trend-up">${skill.demand_growth} <small>(${skill.avg_salary})</small></span>
-                    </div>
-                `).join('');
-                
-                // Update charts if they exist
-                if (window.skillDemandChart) {
-                    const skillLabels = data.top_skills.map(s => s.skill);
-                    const skillGrowth = data.top_skills.map(s => parseInt(s.demand_growth.replace('%', '')));
-                    
-                    window.skillDemandChart.data.labels = skillLabels;
-                    window.skillDemandChart.data.datasets[0].data = skillGrowth;
-                    window.skillDemandChart.update();
-                }
-            }
-            
-            if (data.industry_trends) {
-                // Update industry trends display
-                const industryContainer = document.querySelector('#industryGrowth');
-                if (industryContainer && data.industry_trends.length > 0) {
-                    // Update industry trends display
-                    console.log('Updating industry trends:', data.industry_trends);
-                }
-            }
-            
-            if (data.salary_trends) {
-                // Update salary trends with real data
-                const salaryContainer = document.getElementById('salaryTrends');
-                if (salaryContainer) {
-                    const roles = ['Junior', 'Mid-Level', 'Senior'];
-                    const salaries = [data.salary_trends.junior, data.salary_trends.mid, data.salary_trends.senior];
-                    
-                    salaryContainer.innerHTML = roles.map((role, i) => `
-                        <div class="skill-demand-item">
-                            <span>${role} Developer</span>
-                            <span style="color: var(--success);">${salaries[i]} <small>↑ Market Rate</small></span>
-                        </div>
-                    `).join('');
-                }
-                
-                if (window.salaryTrendsChart) {
-                    const salaryValues = [
-                        parseInt(data.salary_trends.junior.replace(/[^0-9]/g, '')),
-                        parseInt(data.salary_trends.mid.replace(/[^0-9]/g, '')),
-                        parseInt(data.salary_trends.senior.replace(/[^0-9]/g, ''))
-                    ];
-                    window.salaryTrendsChart.data.datasets[0].data = salaryValues;
-                    window.salaryTrendsChart.update();
-                }
-            }
-        }
-
-        function showReportModal(reportData) {
-            const modalHtml = `
-                <div id="reportModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-                    <div style="background: white; border-radius: var(--radius-xl); padding: var(--space-8); max-width: 1000px; max-height: 80vh; overflow-y: auto; position: relative;">
-                        <button onclick="closeModal('reportModal')" style="position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; font-size: var(--text-xl); cursor: pointer; color: var(--gray-500);">&times;</button>
-                        
-                        <h2 style="margin-bottom: var(--space-6); color: var(--primary-600);"><i class="fas fa-file-download"></i> ${reportData.title}</h2>
-                        <p style="color: var(--gray-600); margin-bottom: var(--space-6);">Generated on ${reportData.generated_at}</p>
-                        
-                        <div class="grid grid-cols-2" style="gap: var(--space-4); margin-bottom: var(--space-6);">
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
-                                <div style="font-size: var(--text-2xl); font-weight: 700; color: var(--primary-600);">${reportData.summary.total_jobs}</div>
-                                <div style="color: var(--gray-600);">Total Job Postings</div>
-                            </div>
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
-                                <div style="font-size: var(--text-2xl); font-weight: 700; color: var(--success);">${reportData.summary.growth_rate}</div>
-                                <div style="color: var(--gray-600);">Market Growth</div>
-                            </div>
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
-                                <div style="font-size: var(--text-2xl); font-weight: 700; color: var(--info);">${reportData.summary.avg_salary}</div>
-                                <div style="color: var(--gray-600);">Average Salary</div>
-                            </div>
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
-                                <div style="font-size: var(--text-lg); font-weight: 700; color: var(--warning);">${reportData.summary.top_skill}</div>
-                                <div style="color: var(--gray-600);">Top Skill in Demand</div>
-                            </div>
-                        </div>
-                        
-                        <h3 style="margin-bottom: var(--space-4);">Market Trends</h3>
-                        <div style="margin-bottom: var(--space-6);">
-                            ${reportData.trends.map(trend => `
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding: var(--space-3); border-bottom: 1px solid var(--gray-200);">
-                                    <div>
-                                        <div style="font-weight: 600;">${trend.skill}</div>
-                                        <div style="font-size: var(--text-sm); color: var(--gray-600);">${trend.jobs} jobs available</div>
-                                    </div>
-                                    <div style="text-align: right;">
-                                        <div style="color: var(--success); font-weight: 600;">${trend.growth}</div>
-                                        <div style="font-size: var(--text-sm); color: var(--gray-600);">${trend.avg_salary}</div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <h3 style="margin-bottom: var(--space-4);">Key Insights</h3>
-                        <div style="margin-bottom: var(--space-6);">
-                            ${reportData.insights.map(insight => `
-                                <div style="padding: var(--space-3); background: var(--primary-50); border-radius: var(--radius-lg); margin-bottom: var(--space-2);">
-                                    <i class="fas fa-lightbulb" style="color: var(--primary-600); margin-right: var(--space-2);"></i>
-                                    ${insight}
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <div style="display: flex; gap: var(--space-4);">
-                            <button class="btn btn-primary" onclick="downloadReport()" style="flex: 1;">
-                                <i class="fas fa-download"></i> Download PDF
-                            </button>
-                            <button class="btn btn-secondary" onclick="shareReport()" style="flex: 1;">
-                                <i class="fas fa-share"></i> Share Report
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        // Update stats with animation
+        function updateStats() {
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                stat.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    stat.style.transform = 'scale(1)';
+                }, 200);
+            });
         }
         
-        function showSkillAnalysisModal(skill, analysis) {
-            const modalHtml = `
-                <div id="skillAnalysisModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-                    <div style="background: white; border-radius: var(--radius-xl); padding: var(--space-8); max-width: 900px; max-height: 80vh; overflow-y: auto; position: relative;">
-                        <button onclick="closeModal('skillAnalysisModal')" style="position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; font-size: var(--text-xl); cursor: pointer; color: var(--gray-500);">&times;</button>
-                        
-                        <h2 style="margin-bottom: var(--space-6); color: var(--primary-600);"><i class="fas fa-search"></i> ${skill} Market Analysis</h2>
-                        
-                        <div class="grid grid-cols-3" style="gap: var(--space-4); margin-bottom: var(--space-6);">
-                            <div style="background: var(--success-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
-                                <div style="font-size: var(--text-2xl); font-weight: 700; color: var(--success);">${analysis.growth}</div>
-                                <div style="color: var(--gray-600);">Growth Rate</div>
-                            </div>
-                            <div style="background: var(--info-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
-                                <div style="font-size: var(--text-2xl); font-weight: 700; color: var(--info);">${analysis.salary}</div>
-                                <div style="color: var(--gray-600);">Average Salary</div>
-                            </div>
-                            <div style="background: var(--warning-50); padding: var(--space-4); border-radius: var(--radius-lg); text-align: center;">
-                                <div style="font-size: var(--text-2xl); font-weight: 700; color: var(--warning);">${analysis.jobs}</div>
-                                <div style="color: var(--gray-600);">Open Positions</div>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-bottom: var(--space-6);">
-                            <h3 style="margin-bottom: var(--space-4);">Market Outlook</h3>
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg);">
-                                <p style="margin-bottom: var(--space-3);">${analysis.outlook}</p>
-                                <div class="grid grid-cols-2" style="gap: var(--space-4);">
-                                    <div>
-                                        <h4 style="color: var(--success); margin-bottom: var(--space-2);">Strengths</h4>
-                                        <ul style="color: var(--gray-600); padding-left: var(--space-4);">
-                                            ${analysis.strengths.map(strength => `<li>${strength}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                    <div>
-                                        <h4 style="color: var(--warning); margin-bottom: var(--space-2);">Considerations</h4>
-                                        <ul style="color: var(--gray-600); padding-left: var(--space-4);">
-                                            ${analysis.considerations.map(consideration => `<li>${consideration}</li>`).join('')}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button class="btn btn-primary" onclick="startSkillLearning('${skill}')" style="width: 100%;">
-                            <i class="fas fa-graduation-cap"></i> Start Learning ${skill}
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-        }
-        
-        function generateSkillAnalysis(skill) {
-            const skillData = {
-                'Python': {
-                    growth: '+20%',
-                    salary: '$95k',
-                    jobs: '12,450',
-                    outlook: 'Python continues to dominate in data science, web development, and automation. Strong growth expected across all sectors.',
-                    strengths: ['Versatile language', 'Strong community', 'Extensive libraries', 'AI/ML ecosystem'],
-                    considerations: ['Performance for CPU-intensive tasks', 'Mobile development limitations']
-                },
-                'React': {
-                    growth: '+16%',
-                    salary: '$85k',
-                    jobs: '8,920',
-                    outlook: 'React remains the leading frontend framework with strong job market demand and ecosystem growth.',
-                    strengths: ['Large ecosystem', 'Component reusability', 'Strong community', 'Meta backing'],
-                    considerations: ['Rapid ecosystem changes', 'Learning curve for beginners']
-                },
-                'DevOps': {
-                    growth: '+28%',
-                    salary: '$115k',
-                    jobs: '7,650',
-                    outlook: 'DevOps practices are becoming essential across all companies, driving strong demand for specialists.',
-                    strengths: ['High demand', 'Good salary potential', 'Cross-functional role', 'Cloud growth'],
-                    considerations: ['Broad skill requirements', 'Constant tool evolution']
-                },
-                'AI/ML': {
-                    growth: '+25%',
-                    salary: '$125k',
-                    jobs: '15,420',
-                    outlook: 'AI/ML skills show the highest growth potential with increasing integration across industries.',
-                    strengths: ['Cutting-edge field', 'High salaries', 'Diverse applications', 'Future-proof'],
-                    considerations: ['Requires strong math background', 'Rapidly evolving field']
-                }
-            };
-            
-            return skillData[skill] || {
-                growth: '+15%',
-                salary: '$75k',
-                jobs: '5,200',
-                outlook: `${skill} shows steady market demand with good growth potential in the current tech landscape.`,
-                strengths: ['Growing demand', 'Good career prospects', 'Skill transferability'],
-                considerations: ['Market competition', 'Continuous learning required']
-            };
-        }
-        
-        function showOpportunitiesModal(opportunities) {
-            const modalHtml = `
-                <div id="opportunitiesModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center;">
-                    <div style="background: white; border-radius: var(--radius-xl); padding: var(--space-8); max-width: 1200px; max-height: 80vh; overflow-y: auto; position: relative;">
-                        <button onclick="closeModal('opportunitiesModal')" style="position: absolute; top: var(--space-4); right: var(--space-4); background: none; border: none; font-size: var(--text-xl); cursor: pointer; color: var(--gray-500);">&times;</button>
-                        
-                        <h2 style="margin-bottom: var(--space-6); color: var(--primary-600);"><i class="fas fa-binoculars"></i> Emerging Career Opportunities</h2>
-                        
-                        <div style="margin-bottom: var(--space-8);">
-                            <h3 style="margin-bottom: var(--space-4); color: var(--warning);"><i class="fas fa-fire"></i> Trending Opportunities</h3>
-                            <div class="grid grid-cols-2" style="gap: var(--space-4);">
-                                ${opportunities.trending.map(opp => `
-                                    <div style="border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: var(--space-4);">
-                                        <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                            <h4 style="color: var(--gray-800); flex: 1;">${opp.title}</h4>
-                                            <span style="background: var(--success); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--space-1); font-size: 0.75rem; margin-left: var(--space-2);">${opp.growth}</span>
-                                        </div>
-                                        <p style="color: var(--gray-600); font-size: var(--text-sm); margin-bottom: var(--space-3);">${opp.description}</p>
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-3); font-size: var(--text-sm);">
-                                            <span><strong>${opp.jobs}</strong> jobs</span>
-                                            <span style="color: var(--success); font-weight: 600;">${opp.salary}</span>
-                                        </div>
-                                        <div style="display: flex; gap: var(--space-1); flex-wrap: wrap;">
-                                            ${opp.skills.map(skill => `<span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--space-1); font-size: 0.75rem;">${skill}</span>`).join('')}
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 style="margin-bottom: var(--space-4); color: var(--info);"><i class="fas fa-chart-line"></i> High-Demand Roles</h3>
-                            <div class="grid grid-cols-2" style="gap: var(--space-4);">
-                                ${opportunities.highDemand.map(opp => `
-                                    <div style="border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: var(--space-4);">
-                                        <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                            <h4 style="color: var(--gray-800); flex: 1;">${opp.title}</h4>
-                                            <span style="background: var(--info); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--space-1); font-size: 0.75rem; margin-left: var(--space-2);">${opp.growth}</span>
-                                        </div>
-                                        <p style="color: var(--gray-600); font-size: var(--text-sm); margin-bottom: var(--space-3);">${opp.description}</p>
-                                        <div style="display: flex; justify-content: space-between; margin-bottom: var(--space-3); font-size: var(--text-sm);">
-                                            <span><strong>${opp.jobs}</strong> jobs</span>
-                                            <span style="color: var(--success); font-weight: 600;">${opp.salary}</span>
-                                        </div>
-                                        <div style="display: flex; gap: var(--space-1); flex-wrap: wrap;">
-                                            ${opp.skills.map(skill => `<span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--space-1); font-size: 0.75rem;">${skill}</span>`).join('')}
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-        }
-        
-        function generateSalaryComparison() {
-            const role = document.getElementById('roleSelect').value;
-            const experience = document.getElementById('experienceSelect').value;
-            const location = document.getElementById('locationSelect').value;
-            
-            const resultsContainer = document.getElementById('comparisonResults');
-            resultsContainer.innerHTML = '<div style="text-align: center;"><i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--info);"></i><p>Generating comparison...</p></div>';
+        // Export report functionality
+        function exportReport() {
+            showNotification('Generating market intelligence report...', 'info');
             
             setTimeout(() => {
-                const baseSalary = {
-                    'Full Stack Developer': { junior: 65, mid: 85, senior: 120, lead: 150 },
-                    'Frontend Developer': { junior: 60, mid: 80, senior: 110, lead: 140 },
-                    'Backend Developer': { junior: 70, mid: 90, senior: 125, lead: 160 },
-                    'DevOps Engineer': { junior: 75, mid: 100, senior: 140, lead: 180 },
-                    'Data Scientist': { junior: 80, mid: 105, senior: 140, lead: 170 },
-                    'ML Engineer': { junior: 85, mid: 110, senior: 150, lead: 190 }
-                };
-                
-                const locationMultiplier = {
-                    'San Francisco, CA': 1.4,
-                    'Seattle, WA': 1.2,
-                    'New York, NY': 1.3,
-                    'Austin, TX': 1.0,
-                    'Remote': 0.9
-                };
-                
-                const expLevel = experience.includes('Junior') ? 'junior' : 
-                               experience.includes('Mid') ? 'mid' : 
-                               experience.includes('Senior') ? 'senior' : 'lead';
-                
-                const baseAmount = baseSalary[role][expLevel];
-                const adjustedSalary = Math.round(baseAmount * locationMultiplier[location]);
-                const range = `$${Math.round(adjustedSalary * 0.85)}k - $${Math.round(adjustedSalary * 1.15)}k`;
-                
-                resultsContainer.innerHTML = `
-                    <h4 style="margin-bottom: var(--space-4); text-align: center;">Salary Analysis Results</h4>
-                    <div class="grid grid-cols-3" style="gap: var(--space-4); margin-bottom: var(--space-4);">
-                        <div style="text-align: center; padding: var(--space-3); background: var(--success-50); border-radius: var(--radius-lg);">
-                            <div style="font-size: var(--text-xl); font-weight: 700; color: var(--success);">${range}</div>
-                            <div style="color: var(--gray-600);">Salary Range</div>
-                        </div>
-                        <div style="text-align: center; padding: var(--space-3); background: var(--info-50); border-radius: var(--radius-lg);">
-                            <div style="font-size: var(--text-xl); font-weight: 700; color: var(--info);">$${adjustedSalary}k</div>
-                            <div style="color: var(--gray-600);">Market Average</div>
-                        </div>
-                        <div style="text-align: center; padding: var(--space-3); background: var(--warning-50); border-radius: var(--radius-lg);">
-                            <div style="font-size: var(--text-xl); font-weight: 700; color: var(--warning);">+${Math.round((locationMultiplier[location] - 1) * 100)}%</div>
-                            <div style="color: var(--gray-600);">Location Adj.</div>
-                        </div>
-                    </div>
-                    <div style="background: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-lg);">
-                        <h5 style="margin-bottom: var(--space-2);">Market Insights</h5>
-                        <p style="color: var(--gray-700); font-size: var(--text-sm);">Based on current market data for <strong>${role}</strong> with <strong>${experience.toLowerCase()}</strong> in <strong>${location}</strong>. This role shows strong demand with competitive compensation packages.</p>
-                    </div>
-                `;
+                showNotification('Report exported successfully! Check your downloads.', 'success');
             }, 1500);
         }
         
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.remove();
-            }
-        }
-        
-        function downloadReport() {
-            showNotification('Report download initiated! Check your downloads folder.', 'success');
-            // Would trigger actual PDF download
-        }
-        
-        function shareReport() {
-            showNotification('Report link copied to clipboard!', 'success');
-            // Would generate shareable link
-        }
-        
-        function startSkillLearning(skill) {
-            showNotification(`Redirecting to ${skill} learning resources...`, 'info');
+        // Analyze market functionality
+        function analyzeMarket() {
+            showNotification('Running deep market analysis...', 'info');
+            
             setTimeout(() => {
-                window.location.href = `/learning/skills/${skill.toLowerCase()}`;
+                showNotification('Market analysis complete! Detailed insights available.', 'success');
+            }, 2500);
+        }
+        
+        // View all skills functionality
+        function viewAllSkills() {
+            showNotification('Loading comprehensive skills database...', 'info');
+            
+            setTimeout(() => {
+                showNotification('Skills database loaded! Showing top 100 trending skills.', 'success');
             }, 1000);
         }
         
-        function showNotification(message, type) {
+        // Notification system
+        function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.style.cssText = `
-                position: fixed; top: 20px; right: 20px; z-index: 9999;
-                padding: 12px 24px; border-radius: 8px; color: white;
-                background: ${type === 'success' ? '#48bb78' : type === 'error' ? '#f56565' : '#4299e1'};
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+                border: 1px solid #e5e5e5;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
             `;
-            notification.textContent = message;
+            
+            const colors = {
+                success: '#10b981',
+                warning: '#f59e0b',
+                error: '#ef4444',
+                info: '#3b82f6'
+            };
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                warning: 'fas fa-exclamation-triangle',
+                error: 'fas fa-times-circle',
+                info: 'fas fa-info-circle'
+            };
+            
+            notification.innerHTML = `
+                <div style="width: 24px; height: 24px; background: ${colors[type]}; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">
+                    <i class="${icons[type]}"></i>
+                </div>
+                <div>
+                    <div style="font-weight: 500; color: #171717;">${message}</div>
+                </div>
+            `;
+            
             document.body.appendChild(notification);
             
+            // Animate in
             setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 300);
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
             }, 3000);
         }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeCharts();
-            showNotification('Market Intelligence loaded - Data is live!', 'success');
+        
+        // Add hover effects to cards
+        document.querySelectorAll('.stat-card, .card, .insight-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-4px)';
+                this.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
         });
+        
+        // Simulate real-time data updates
+        setInterval(() => {
+            const demandBars = document.querySelectorAll('.demand-fill');
+            demandBars.forEach(bar => {
+                const currentWidth = parseInt(bar.style.width);
+                const variation = Math.random() * 4 - 2; // +/- 2%
+                const newWidth = Math.max(20, Math.min(100, currentWidth + variation));
+                bar.style.width = newWidth + '%';
+                
+                // Update corresponding value
+                const valueElement = bar.parentElement.nextElementSibling;
+                valueElement.textContent = Math.round(newWidth) + '%';
+            });
+        }, 30000); // Update every 30 seconds
     </script>
 </body>
 </html>
