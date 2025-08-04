@@ -612,6 +612,9 @@ from ai_activity_tracker import get_activity_tracker, track_user_ai_interaction,
 # Neural Career DNA Integration
 from neural_career_dna import get_neural_dna_system, initialize_neural_dna_system, CareerDNAProfile
 
+# Revolutionary Neural DNA Integration
+from revolutionary_neural_dna import get_revolutionary_neural_dna_system, initialize_revolutionary_neural_dna_system
+
 # Career Intelligence Agent Integration
 from career_intelligence_agent import ProactiveCareerAgent
 
@@ -1157,6 +1160,11 @@ def neural_dna_page():
     """Serve the Neural Career DNA interface"""
     return render_template('neural_dna.html')
 
+@app.route('/revolutionary-dna')
+def revolutionary_dna_page():
+    """Serve the Revolutionary Neural Career DNA interface"""
+    return render_template('revolutionary_dna.html')
+
 @app.route('/api/neural-dna/profile/<user_id>')
 def get_neural_dna_profile(user_id):
     """Get Neural Career DNA profile for a user"""
@@ -1279,6 +1287,159 @@ def neural_dna_system_status():
             'error': str(e)
         }), 500
 
+# Revolutionary Neural DNA Endpoints
+
+@app.route('/api/revolutionary-dna/create-profile', methods=['POST'])
+def create_revolutionary_dna_profile():
+    """Create Revolutionary Neural Career DNA profile"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id', f'user_{uuid.uuid4().hex[:8]}')
+        assessment_data = data.get('assessment_data', {})
+        privacy_preferences = data.get('privacy_preferences', {})
+        
+        revolutionary_system = get_revolutionary_neural_dna_system()
+        profile_result = revolutionary_system.create_revolutionary_dna_profile(
+            user_id, assessment_data, privacy_preferences
+        )
+        
+        return jsonify({
+            'success': True,
+            'revolutionary_profile': profile_result,
+            'user_id': user_id,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        logger.error(f"Revolutionary DNA Profile Creation Error: {e}")
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+@app.route('/api/revolutionary-dna/marketplace/create-asset', methods=['POST'])
+def create_dna_marketplace_asset():
+    """Create DNA asset for marketplace"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id')
+        monetization_tier = data.get('monetization_tier', 'personal_only')
+        
+        if not user_id:
+            return jsonify({'success': False, 'error': 'User ID required'}), 400
+        
+        revolutionary_system = get_revolutionary_neural_dna_system()
+        
+        # Get user's DNA profile
+        if user_id not in revolutionary_system.user_profiles:
+            return jsonify({'success': False, 'error': 'DNA profile not found'}), 404
+        
+        profile = revolutionary_system.user_profiles[user_id]
+        
+        # Create marketplace asset
+        from revolutionary_neural_dna import DNAMonetizationTier
+        tier = DNAMonetizationTier(monetization_tier)
+        dna_asset = revolutionary_system.dna_marketplace.create_dna_asset(profile, tier)
+        
+        return jsonify({
+            'success': True,
+            'dna_asset': {
+                'asset_id': dna_asset.asset_id,
+                'market_value': dna_asset.market_value,
+                'rarity_score': dna_asset.rarity_score,
+                'monetization_potential': f"${dna_asset.market_value * 12}/year estimated",
+                'anonymized_insights': dna_asset.anonymized_insights
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/revolutionary-dna/privacy-game/profile/<user_id>')
+def get_privacy_game_profile(user_id):
+    """Get user's privacy gamification profile"""
+    try:
+        revolutionary_system = get_revolutionary_neural_dna_system()
+        
+        if user_id not in revolutionary_system.privacy_game.privacy_achievements:
+            # Create profile if it doesn't exist
+            profile = revolutionary_system.privacy_game.create_privacy_game_profile(user_id)
+        else:
+            profile = revolutionary_system.privacy_game.privacy_achievements[user_id]
+        
+        return jsonify({
+            'success': True,
+            'privacy_game_profile': profile,
+            'user_id': user_id
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/revolutionary-dna/privacy-game/complete-challenge', methods=['POST'])
+def complete_privacy_challenge():
+    """Complete a privacy challenge"""
+    try:
+        data = request.get_json() or {}
+        user_id = data.get('user_id')
+        challenge_id = data.get('challenge_id')
+        
+        if not user_id or not challenge_id:
+            return jsonify({'success': False, 'error': 'User ID and challenge ID required'}), 400
+        
+        revolutionary_system = get_revolutionary_neural_dna_system()
+        result = revolutionary_system.privacy_game.complete_privacy_challenge(user_id, challenge_id)
+        
+        return jsonify({
+            'success': True,
+            'challenge_result': result
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/revolutionary-dna/quantum-analysis/<user_id>')
+def get_quantum_career_analysis(user_id):
+    """Get quantum-enhanced career analysis"""
+    try:
+        revolutionary_system = get_revolutionary_neural_dna_system()
+        
+        if user_id not in revolutionary_system.user_profiles:
+            return jsonify({'success': False, 'error': 'DNA profile not found'}), 404
+        
+        profile = revolutionary_system.user_profiles[user_id]
+        quantum_vectors = revolutionary_system.quantum_intelligence.generate_quantum_career_vectors(profile)
+        immunity_profile = revolutionary_system.quantum_intelligence.generate_predictive_career_immunity(profile)
+        
+        return jsonify({
+            'success': True,
+            'quantum_analysis': {
+                'quantum_vectors': quantum_vectors,
+                'predictive_immunity': immunity_profile,
+                'user_id': user_id,
+                'analysis_timestamp': datetime.utcnow().isoformat()
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@app.route('/api/revolutionary-dna/system-status')
+def revolutionary_dna_system_status():
+    """Get Revolutionary DNA system status"""
+    try:
+        revolutionary_system = get_revolutionary_neural_dna_system()
+        status = revolutionary_system.get_revolutionary_system_status()
+        
+        return jsonify({
+            'success': True,
+            'system_status': status,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+        
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
 # Initialize database and AI system
 with app.app_context():
     db.create_all()
@@ -1287,8 +1448,9 @@ with app.app_context():
         a2a_protocol = initialize_a2a_system()
         activity_tracker = global_activity_tracker
         neural_dna_system = initialize_neural_dna_system()
+        revolutionary_dna_system = initialize_revolutionary_neural_dna_system()
         career_agent = ProactiveCareerAgent()
-        logger.info("All AI systems initialized successfully")
+        logger.info("All AI systems initialized successfully including Revolutionary DNA system")
     except Exception as e:
         logger.error(f"AI System Initialization Error: {e}")
 

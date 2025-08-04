@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revolutionary Neural Career DNA - SkillSync AI Platform</title>
+    <meta name="description" content="Transform your career with Revolutionary Neural Career DNA - Privacy-Powered Intelligence that turns ethical concerns into competitive advantages.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
+          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
+          --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
+          --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
+          --font-primary: 'Inter', sans-serif; --font-display: 'Plus Jakarta Sans', sans-serif;
+          --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 1.875rem; --text-4xl: 2.25rem;
+          --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem;
+          --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-full: 9999px; --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1); --transition-fast: 150ms ease-in-out;
+          --quantum-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+          --dna-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+          --privacy-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+
+        /* Dashboard Layout */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: var(--space-6);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            margin-bottom: var(--space-8);
+            text-align: center;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+            margin-bottom: var(--space-8);
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: var(--space-1);
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            text-decoration: none;
+            color: var(--gray-700);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-fast);
+            font-weight: 500;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--quantum-gradient);
+            color: white;
+            transform: translateX(4px);
+        }
+        
+        .main-content {
+            padding: var(--space-6);
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Revolutionary DNA Styles */
+        .dna-hero {
+            background: var(--quantum-gradient);
+            border-radius: var(--radius-xl);
+            padding: var(--space-12);
+            color: white;
+            text-align: center;
+            margin-bottom: var(--space-8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dna-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: dna-pattern 20s linear infinite;
+        }
+
+        @keyframes dna-pattern {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .dna-hero h1 {
+            font-family: var(--font-display);
+            font-size: var(--text-4xl);
+            font-weight: 800;
+            margin-bottom: var(--space-4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--quantum-gradient);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-2xl);
+            color: white;
+            margin-bottom: var(--space-4);
+        }
+
+        .dna-icon { background: var(--dna-gradient); }
+        .privacy-icon { background: var(--privacy-gradient); }
+        .quantum-icon { background: var(--quantum-gradient); }
+        .game-icon { background: linear-gradient(135deg, #ff6b6b, #feca57); }
+
+        .interactive-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+
+        .privacy-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-6);
+        }
+
+        .privacy-card {
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .privacy-card:hover,
+        .privacy-card.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-6);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-quantum {
+            background: var(--quantum-gradient);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-quantum:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2);
+        }
+
+        .btn-dna {
+            background: var(--dna-gradient);
+            color: white;
+        }
+
+        .btn-privacy {
+            background: var(--privacy-gradient);
+            color: white;
+        }
+
+        .progress-bar {
+            background: var(--gray-200);
+            border-radius: var(--radius-full);
+            height: 12px;
+            overflow: hidden;
+            margin: var(--space-3) 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--quantum-gradient);
+            transition: width 0.5s ease;
+            border-radius: var(--radius-full);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-6);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: var(--space-4);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-lg);
+        }
+
+        .stat-value {
+            font-size: var(--text-2xl);
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: var(--space-2);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform var(--transition-fast);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .notification.info {
+            border-left: 4px solid var(--info);
+        }
+
+        .revolutionary-features {
+            margin-top: var(--space-8);
+        }
+
+        .feature-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: var(--radius-lg);
+        }
+
+        .feature-list i {
+            color: #667eea;
+            font-size: var(--text-lg);
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -280px;
+                z-index: 1000;
+                transition: left 0.3s ease;
+            }
+            .sidebar.open {
+                left: 0;
+            }
+            .main-content {
+                padding: var(--space-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div style="font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); margin-bottom: var(--space-2);">
+                    <i class="fas fa-rocket"></i> SkillSync AI
+                </div>
+                <div style="font-size: var(--text-sm); color: var(--gray-600);">Revolutionary Career Intelligence</div>
+            </div>
+            
+            <nav>
+                <ul class="sidebar-menu">
+                    <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Overview</a></li>
+                    <li><a href="/career-paths"><i class="fas fa-route"></i> Career Paths</a></li>
+                    <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Market Intel</a></li>
+                    <li><a href="/tools"><i class="fas fa-tools"></i> AI Tools</a></li>
+                    <li><a href="/neural-dna"><i class="fas fa-dna"></i> Neural DNA</a></li>
+                    <li><a href="/revolutionary-dna" class="active"><i class="fas fa-atom"></i> Revolutionary DNA</a></li>
+                    <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
+                    <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Revolutionary AI Assistant Widget -->
+            <div style="margin-top: auto; padding: var(--space-4); background: var(--quantum-gradient); border-radius: var(--radius-xl); color: white; text-align: center;">
+                <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl);">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">Quantum AI Assistant</h4>
+                <p style="font-size: var(--text-xs); color: rgba(255,255,255,0.9); margin-bottom: var(--space-3);">Privacy-powered intelligence!</p>
+                <button onclick="openQuantumAssistant()" style="background: rgba(255,255,255,0.2); border: none; border-radius: var(--radius-lg); padding: var(--space-2) var(--space-4); color: white; font-size: var(--text-xs); cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                    <i class="fas fa-comments"></i> Chat Now
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="dna-hero">
+                <h1>Revolutionary Neural Career DNA</h1>
+                <p style="font-size: var(--text-xl); margin-bottom: var(--space-6); opacity: 0.9;">Privacy-Powered Intelligence That Transforms Your Career</p>
+                <button class="btn btn-quantum" onclick="startRevolutionaryJourney()">
+                    <i class="fas fa-atom"></i> Begin Your DNA Revolution
+                </button>
+            </section>
+
+            <!-- Revolutionary Features Grid -->
+            <section class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon dna-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-3);">DNA-as-a-Service Monetization</h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Earn $100-$1000+/year by licensing your anonymized career patterns while maintaining complete privacy.</p>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">$847</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-600);">Avg Yearly Earnings</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">70%</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-600);">Revenue Share</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-dna" onclick="createDNAAsset()" style="width: 100%; margin-top: var(--space-4);">
+                        <i class="fas fa-gem"></i> Create DNA Asset
+                    </button>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon privacy-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-3);">Predictive Career Immunity</h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">80-98% resistance to algorithmic bias, career stagnation, and automation displacement.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 92%"></div>
+                    </div>
+                    <div style="text-align: center; font-size: var(--text-sm); color: var(--gray-600);">92% Immunity Score</div>
+                    <button class="btn btn-privacy" onclick="generateImmunityProfile()" style="width: 100%; margin-top: var(--space-4);">
+                        <i class="fas fa-heart-pulse"></i> Generate Immunity
+                    </button>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon quantum-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-3);">Quantum Career Vectors</h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Multi-dimensional career analysis using quantum-inspired algorithms for unprecedented insights.</p>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">12D</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-600);">Career Dimensions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">95%</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-600);">Quantum Advantage</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-quantum" onclick="generateQuantumVectors()" style="width: 100%; margin-top: var(--space-4);">
+                        <i class="fas fa-project-diagram"></i> Generate Vectors
+                    </button>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon game-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 style="margin-bottom: var(--space-3);">Gamified Privacy Control</h3>
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Make data ownership fun with privacy challenges, sovereignty points, and unlockable superpowers.</p>
+                    <div id="privacyGameStats" class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">Level 1</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-600);">Privacy Level</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">0</div>
+                            <div style="font-size: var(--text-sm); color: var(--gray-600);">Sovereignty Points</div>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="startPrivacyGame()" style="width: 100%; margin-top: var(--space-4); background: linear-gradient(135deg, #ff6b6b, #feca57); color: white;">
+                        <i class="fas fa-trophy"></i> Start Privacy Game
+                    </button>
+                </div>
+            </section>
+
+            <!-- Interactive Assessment Section -->
+            <section class="interactive-section">
+                <h2 style="text-align: center; margin-bottom: var(--space-6); color: var(--gray-800);">
+                    <i class="fas fa-dna"></i> Create Your Revolutionary DNA Profile
+                </h2>
+                
+                <div class="privacy-controls">
+                    <div class="privacy-card" data-tier="personal_only">
+                        <h4 style="margin-bottom: var(--space-2);"><i class="fas fa-lock"></i> Personal Only</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600);">Complete privacy - data never leaves your device</p>
+                    </div>
+                    <div class="privacy-card" data-tier="anonymous_research">
+                        <h4 style="margin-bottom: var(--space-2);"><i class="fas fa-user-secret"></i> Anonymous Research</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600);">Contribute to research anonymously - earn rewards</p>
+                    </div>
+                    <div class="privacy-card selected" data-tier="pattern_licensing">
+                        <h4 style="margin-bottom: var(--space-2);"><i class="fas fa-coins"></i> Pattern Licensing</h4>
+                        <p style="font-size: var(--text-sm); color: var(--gray-600);">License behavioral patterns - maximum earnings</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: var(--space-8);">
+                    <button class="btn btn-quantum" onclick="createRevolutionaryProfile()" style="font-size: var(--text-lg); padding: var(--space-4) var(--space-8);">
+                        <i class="fas fa-atom"></i> Generate Revolutionary DNA Profile
+                    </button>
+                </div>
+            </section>
+
+            <!-- Revolutionary Features List -->
+            <section class="revolutionary-features">
+                <h2 style="text-align: center; margin-bottom: var(--space-6);">Revolutionary Advantages</h2>
+                <ul class="feature-list">
+                    <li><i class="fas fa-dna"></i> DNA patterns generate revenue while maintaining privacy</li>
+                    <li><i class="fas fa-shield-alt"></i> Quantum-resistant security protects against future threats</li>
+                    <li><i class="fas fa-eye-slash"></i> Zero-knowledge proofs enable insights without data exposure</li>
+                    <li><i class="fas fa-heart-pulse"></i> Predictive immunity prevents algorithmic bias</li>
+                    <li><i class="fas fa-unlock"></i> Time-locked predictions increase value with achievements</li>
+                    <li><i class="fas fa-gamepad"></i> Gamified privacy controls make data ownership fun</li>
+                    <li><i class="fas fa-network-wired"></i> Decentralized intelligence reduces big tech dependence</li>
+                    <li><i class="fas fa-gem"></i> DNA rarity scoring creates unique digital career assets</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification">
+        <div style="display: flex; align-items: center; gap: var(--space-3);">
+            <i class="fas fa-check-circle" style="color: var(--success);"></i>
+            <div>
+                <div style="font-weight: 600;" id="notificationTitle">Success!</div>
+                <div style="font-size: var(--text-sm); color: var(--gray-600);" id="notificationMessage">Operation completed successfully.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = `user_${Math.random().toString(36).substr(2, 9)}`;
+        let selectedPrivacyTier = 'pattern_licensing';
+        
+        // Privacy tier selection
+        document.querySelectorAll('.privacy-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.privacy-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedPrivacyTier = card.dataset.tier;
+            });
+        });
+
+        function showNotification(title, message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const titleEl = document.getElementById('notificationTitle');
+            const messageEl = document.getElementById('notificationMessage');
+            
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        async function createRevolutionaryProfile() {
+            try {
+                showNotification('Creating Profile...', 'Generating your Revolutionary Neural Career DNA', 'info');
+                
+                const assessmentData = {
+                    cognitive: {
+                        analytical_thinking: Math.random() * 0.5 + 0.5,
+                        creative_processing: Math.random() * 0.5 + 0.4,
+                        systematic_approach: Math.random() * 0.5 + 0.6
+                    },
+                    learning: {
+                        information_absorption: Math.random() * 0.3 + 0.7,
+                        skill_transfer: Math.random() * 0.4 + 0.6,
+                        adaptive_learning: Math.random() * 0.3 + 0.7
+                    },
+                    innovation: {
+                        creative_thinking: Math.random() * 0.4 + 0.6,
+                        experimental_approach: Math.random() * 0.5 + 0.5,
+                        idea_generation: Math.random() * 0.3 + 0.7
+                    }
+                };
+
+                const response = await fetch('/api/revolutionary-dna/create-profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: currentUser,
+                        assessment_data: assessmentData,
+                        privacy_preferences: {
+                            monetization: selectedPrivacyTier,
+                            ownership_level: 'encrypted_sync',
+                            privacy_mode: 'zero_knowledge'
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    const profile = result.revolutionary_profile;
+                    showNotification(
+                        'Revolutionary DNA Created!', 
+                        `Your DNA asset is worth $${profile.dna_marketplace.market_value} with ${Math.round(profile.dna_marketplace.rarity_score * 100)}% rarity!`
+                    );
+                    
+                    // Update privacy game stats if available
+                    if (profile.privacy_gamification) {
+                        updatePrivacyGameStats(profile.privacy_gamification);
+                    }
+                } else {
+                    showNotification('Error', result.error || 'Failed to create profile', 'error');
+                }
+            } catch (error) {
+                showNotification('Error', 'Network error occurred', 'error');
+                console.error('Profile creation error:', error);
+            }
+        }
+
+        async function createDNAAsset() {
+            try {
+                showNotification('Creating DNA Asset...', 'Converting your profile into a tradeable asset', 'info');
+                
+                const response = await fetch('/api/revolutionary-dna/marketplace/create-asset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: currentUser,
+                        monetization_tier: selectedPrivacyTier
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    const asset = result.dna_asset;
+                    showNotification(
+                        'DNA Asset Created!', 
+                        `Asset value: $${asset.market_value} | Rarity: ${Math.round(asset.rarity_score * 100)}%`
+                    );
+                } else {
+                    showNotification('Info', 'Create your DNA profile first!', 'info');
+                }
+            } catch (error) {
+                showNotification('Error', 'Failed to create DNA asset', 'error');
+            }
+        }
+
+        async function generateImmunityProfile() {
+            try {
+                showNotification('Generating Immunity...', 'Creating your predictive career immunity profile', 'info');
+                
+                const response = await fetch(`/api/revolutionary-dna/quantum-analysis/${currentUser}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const immunity = result.quantum_analysis.predictive_immunity;
+                    showNotification(
+                        'Immunity Generated!', 
+                        `Overall immunity: ${Math.round(immunity.overall_immunity_score * 100)}% | Rank: ${immunity.immunity_rank}`
+                    );
+                } else {
+                    showNotification('Info', 'Create your DNA profile first!', 'info');
+                }
+            } catch (error) {
+                showNotification('Error', 'Failed to generate immunity profile', 'error');
+            }
+        }
+
+        async function generateQuantumVectors() {
+            try {
+                showNotification('Generating Vectors...', 'Creating quantum-enhanced career vectors', 'info');
+                
+                const response = await fetch(`/api/revolutionary-dna/quantum-analysis/${currentUser}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    const vectors = result.quantum_analysis.quantum_vectors;
+                    showNotification(
+                        'Quantum Vectors Generated!', 
+                        `Quantum advantage: ${Math.round(vectors.quantum_advantage_score * 100)}% | Coherence: ${Math.round(vectors.dimensional_coherence * 100)}%`
+                    );
+                } else {
+                    showNotification('Info', 'Create your DNA profile first!', 'info');
+                }
+            } catch (error) {
+                showNotification('Error', 'Failed to generate quantum vectors', 'error');
+            }
+        }
+
+        async function startPrivacyGame() {
+            try {
+                showNotification('Starting Privacy Game...', 'Initializing your privacy control adventure', 'info');
+                
+                const response = await fetch(`/api/revolutionary-dna/privacy-game/profile/${currentUser}`);
+                const result = await response.json();
+                
+                if (result.success) {
+                    updatePrivacyGameStats(result.privacy_game_profile);
+                    showNotification(
+                        'Privacy Game Started!', 
+                        `Level ${result.privacy_game_profile.privacy_level} | ${result.privacy_game_profile.sovereignty_score} Sovereignty Points`
+                    );
+                } else {
+                    showNotification('Error', 'Failed to start privacy game', 'error');
+                }
+            } catch (error) {
+                showNotification('Error', 'Failed to start privacy game', 'error');
+            }
+        }
+
+        function updatePrivacyGameStats(gameProfile) {
+            const statsEl = document.getElementById('privacyGameStats');
+            if (statsEl) {
+                statsEl.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">Level ${gameProfile.privacy_level}</div>
+                        <div style="font-size: var(--text-sm); color: var(--gray-600);">Privacy Level</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${gameProfile.sovereignty_score}</div>
+                        <div style="font-size: var(--text-sm); color: var(--gray-600);">Sovereignty Points</div>
+                    </div>
+                `;
+            }
+        }
+
+        function startRevolutionaryJourney() {
+            document.querySelector('.interactive-section').scrollIntoView({ behavior: 'smooth' });
+            showNotification(
+                'Welcome to the Revolution!', 
+                'Transform your career with privacy-powered intelligence', 
+                'info'
+            );
+        }
+
+        function openQuantumAssistant() {
+            showNotification('Quantum Assistant', 'Opening privacy-powered AI assistant...', 'info');
+            setTimeout(() => {
+                window.location.href = '/ai-agent';
+            }, 1000);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            showNotification(
+                'Revolutionary DNA Ready!', 
+                'Privacy-powered career intelligence at your fingertips', 
+                'info'
+            );
+        });
+    </script>
+</body>
+</html>
