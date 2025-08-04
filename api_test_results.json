@@ -1,0 +1,80 @@
+{
+  "test_timestamp": "2025-08-04T16:35:30.090071",
+  "summary": {
+    "total_tests": 10,
+    "passed": 9,
+    "failed": 1
+  },
+  "detailed_results": [
+    {
+      "test": "System Status",
+      "success": true,
+      "details": "xAI: configured, MCP: available",
+      "timestamp": "2025-08-04T16:35:14.630094",
+      "response_preview": "{'components': {'a2a_system': {'status': 'available', 'swarm': 'not_initialized'}, 'database': {'connection': True, 'status': 'healthy'}, 'flask_app': {'status': 'healthy', 'version': '1.0.0'}, 'mcp_s..."
+    },
+    {
+      "test": "xAI Integration",
+      "success": false,
+      "details": "Error: xAI API call failed: HTTPSConnectionPool(host='api.x.ai', port=443): Read timed out. (read timeout=10)",
+      "timestamp": "2025-08-04T16:35:24.884080",
+      "response_preview": "{'assessment': {'error': \"xAI API call failed: HTTPSConnectionPool(host='api.x.ai', port=443): Read timed out. (read timeout=10)\"}, 'success': True, 'timestamp': '2025-08-04T21:35:24.883309', 'user_id..."
+    },
+    {
+      "test": "Brave API Integration",
+      "success": true,
+      "details": "Real data: 40 sources",
+      "timestamp": "2025-08-04T16:35:28.256632",
+      "response_preview": "{'career_growth_potential': 'high', 'confidence': 0.8, 'data_sources': 40, 'job_title': 'Machine Learning Engineer', 'last_updated': '2025-08-04T21:35:28.254720', 'location': 'Seattle', 'market_trend'..."
+    },
+    {
+      "test": "AI Radar - Junior Developer",
+      "success": true,
+      "details": "Got 5 opportunities, location aware: True",
+      "timestamp": "2025-08-04T16:35:28.502228",
+      "response_preview": "{'opportunities_count': 5, 'location': 'Remote'}..."
+    },
+    {
+      "test": "AI Radar - Senior Engineer",
+      "success": true,
+      "details": "Got 5 opportunities, location aware: False",
+      "timestamp": "2025-08-04T16:35:28.746007",
+      "response_preview": "{'opportunities_count': 5, 'location': 'San Francisco'}..."
+    },
+    {
+      "test": "AI Career Pivot",
+      "success": true,
+      "details": "Success prob: 72.8%, Bridge roles: 0",
+      "timestamp": "2025-08-04T16:35:28.986788",
+      "response_preview": "{'success_probability': 0.7282500000000001, 'bridge_roles_count': 0}..."
+    },
+    {
+      "test": "Analytics Page",
+      "success": true,
+      "details": "Page loads successfully (28807 chars)",
+      "timestamp": "2025-08-04T16:35:29.252635",
+      "response_preview": null
+    },
+    {
+      "test": "Events Page",
+      "success": true,
+      "details": "Page loads successfully (16693 chars)",
+      "timestamp": "2025-08-04T16:35:29.516725",
+      "response_preview": null
+    },
+    {
+      "test": "AI Opportunity Radar Page",
+      "success": true,
+      "details": "Page loads successfully (21863 chars)",
+      "timestamp": "2025-08-04T16:35:29.804434",
+      "response_preview": null
+    },
+    {
+      "test": "AI Career Pivot Page",
+      "success": true,
+      "details": "Page loads successfully (27694 chars)",
+      "timestamp": "2025-08-04T16:35:30.089419",
+      "response_preview": null
+    }
+  ]
+}
