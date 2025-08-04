@@ -3,286 +3,858 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Agent - SkillSync AI Platform</title>
-    <meta name="description" content="Intelligent AI career agent providing personalized guidance, automated insights, and proactive recommendations.">
+    <title>AI Agent - SkillSync AI</title>
+    <meta name="description" content="Intelligent AI-powered career agent providing personalized guidance, automated insights, and proactive recommendations.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
-          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
-          --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
-          --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
-          --font-primary: 'Inter', sans-serif; --font-display: 'Plus Jakarta Sans', sans-serif;
-          --text-sm: 0.875rem; --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem; --text-2xl: 1.5rem; --text-3xl: 1.875rem;
-          --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem;
-          --radius-lg: 0.75rem; --radius-xl: 1rem; --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1); --transition-fast: 150ms ease-in-out;
+            /* Modern Color System */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            
+            --blue-50: #eff6ff;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            
+            --violet-50: #f5f3ff;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+            
+            --orange-50: #fff7ed;
+            --orange-500: #f59e0b;
+            --orange-600: #d97706;
+            
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-800); background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); min-height: 100vh; }
-        .navbar { background: white; border-bottom: 1px solid var(--gray-200); padding: var(--space-4) 0; position: sticky; top: 0; z-index: 1020; box-shadow: var(--shadow-sm); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
-        .logo { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); text-decoration: none; }
-        .nav-links { display: flex; gap: var(--space-8); list-style: none; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--gray-700); font-weight: 500; font-size: var(--text-sm); transition: color var(--transition-fast); }
-        .nav-links a:hover { color: var(--primary-600); }
-        .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
-        .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-lg); }
-        .btn-secondary { background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-300); }
-        .btn:hover { transform: translateY(-2px); }
-        .card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-xl); padding: var(--space-6); box-shadow: var(--shadow-lg); transition: all var(--transition-fast); }
-        .card:hover { transform: translateY(-4px); }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 var(--space-4); }
-        .grid { display: grid; gap: var(--space-6); }
-        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .hero { padding: var(--space-16) 0; text-align: center; }
-        .hero h1 { font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 800; margin-bottom: var(--space-6); color: var(--gray-800); }
-        .interactive-controls { display: flex; gap: var(--space-4); margin-bottom: var(--space-6); justify-content: center; flex-wrap: wrap; }
-        .data-section { margin: var(--space-8) 0; }
-        .section-title { color: var(--gray-800); font-size: var(--text-2xl); font-weight: 700; margin-bottom: var(--space-6); text-align: center; }
         
-        /* Chat Interface Styles */
-        .chat-container { height: 500px; display: flex; flex-direction: column; background: white; border-radius: var(--radius-xl); overflow: hidden; }
-        .chat-header { background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); color: white; padding: var(--space-4); text-align: center; font-weight: 600; }
-        .chat-messages { flex: 1; overflow-y: auto; padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); }
-        .message { max-width: 80%; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); }
-        .message.user { background: var(--primary-500); color: white; align-self: flex-end; border-bottom-right-radius: var(--space-2); }
-        .message.ai { background: var(--gray-100); color: var(--gray-800); align-self: flex-start; border-bottom-left-radius: var(--space-2); }
-        .message.ai .typing { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--gray-500); animation: typing 1.4s infinite; }
-        .message.ai .typing:nth-child(2) { animation-delay: 0.2s; }
-        .message.ai .typing:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
-        .chat-input-container { border-top: 1px solid var(--gray-200); padding: var(--space-4); display: flex; gap: var(--space-3); }
-        .chat-input { flex: 1; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); font-size: var(--text-sm); }
-        .chat-input:focus { outline: none; border-color: var(--primary-500); }
-        .send-btn { background: var(--primary-500); color: white; border: none; padding: var(--space-3) var(--space-4); border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); }
-        .send-btn:hover { background: var(--primary-600); }
-        .send-btn:disabled { background: var(--gray-400); cursor: not-allowed; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
         
-        /* Agent Status Indicators */
-        .status-indicator { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .status-online { background: var(--success); animation: pulse 2s infinite; }
-        .status-thinking { background: var(--warning); animation: pulse 1s infinite; }
-        .status-offline { background: var(--gray-400); }
+        /* Layout */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            padding: var(--space-6);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue-500), var(--violet-500));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+        }
+        
+        .nav {
+            flex: 1;
+        }
+        
+        .nav-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-3);
+        }
+        
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+        
+        .nav-item.active {
+            background: var(--blue-50);
+            color: var(--blue-700);
+        }
+        
+        .nav-item i {
+            width: 16px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: var(--space-8);
+            overflow-y: auto;
+        }
+        
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-8);
+        }
+        
+        .main-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+        
+        .main-subtitle {
+            color: var(--gray-600);
+            margin-top: var(--space-1);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: var(--gray-900);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--gray-800);
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            padding: var(--space-6);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: var(--space-2);
+        }
+        
+        .card-content {
+            padding: var(--space-6);
+        }
+        
+        .agent-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        /* Chat Interface */
+        .chat-container {
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, var(--blue-500), var(--violet-500));
+            color: white;
+            padding: var(--space-4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .message.user {
+            background: var(--blue-500);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: var(--radius-sm);
+        }
+        
+        .message.ai {
+            background: var(--gray-100);
+            color: var(--gray-800);
+            align-self: flex-start;
+            border-bottom-left-radius: var(--radius-sm);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: var(--space-2);
+            align-items: center;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gray-500);
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+        
+        .chat-input-container {
+            border-top: 1px solid var(--gray-200);
+            padding: var(--space-4);
+            display: flex;
+            gap: var(--space-3);
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: var(--space-3);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        
+        .chat-input:focus {
+            border-color: var(--blue-500);
+        }
+        
+        .send-btn {
+            background: var(--blue-500);
+            color: white;
+            border: none;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .send-btn:hover {
+            background: var(--blue-600);
+        }
+        
+        .send-btn:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+        }
+        
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 0.875rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .status-online {
+            background: var(--emerald-500);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-thinking {
+            background: var(--orange-500);
+            animation: pulse 1s infinite;
+        }
+        
+        .status-offline {
+            background: var(--gray-400);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
         
         /* Quick Actions */
-        .quick-actions { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap; }
-        .quick-action { background: var(--gray-100); color: var(--gray-700); padding: var(--space-2) var(--space-3); border-radius: var(--radius-lg); font-size: var(--text-sm); cursor: pointer; transition: all var(--transition-fast); border: none; }
-        .quick-action:hover { background: var(--primary-100); color: var(--primary-700); }
+        .quick-actions {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+            flex-wrap: wrap;
+        }
         
-        /* Agent Capabilities */
-        .capability-card { text-align: center; padding: var(--space-4); }
-        .capability-icon { font-size: var(--text-3xl); margin-bottom: var(--space-3); }
-        .capability-title { font-weight: 600; margin-bottom: var(--space-2); }
-        .capability-desc { color: var(--gray-600); font-size: var(--text-sm); }
+        .quick-action {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
         
-        @media (max-width: 768px) { .grid-cols-2, .grid-cols-3 { grid-template-columns: 1fr; } .nav-links { display: none; } .interactive-controls { flex-direction: column; } .message { max-width: 90%; } }
+        .quick-action:hover {
+            background: var(--blue-50);
+            color: var(--blue-700);
+        }
+        
+        /* Agent Features */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: var(--space-4);
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-3);
+            font-size: 1.25rem;
+            color: white;
+        }
+        
+        .feature-icon-blue { background: linear-gradient(135deg, var(--blue-500), var(--blue-600)); }
+        .feature-icon-emerald { background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600)); }
+        .feature-icon-violet { background: linear-gradient(135deg, var(--violet-500), var(--violet-600)); }
+        .feature-icon-orange { background: linear-gradient(135deg, var(--orange-500), var(--orange-600)); }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--gray-900);
+        }
+        
+        .feature-desc {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        /* Insights Cards */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-6);
+        }
+        
+        .insight-card {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue-500), var(--violet-500));
+        }
+        
+        .insight-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+        }
+        
+        .insight-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+        
+        .insight-content {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                padding: var(--space-6) var(--space-4);
+            }
+            
+            .agent-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        .animate-delay {
+            animation-delay: 0.1s;
+            animation-fill-mode: both;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="logo"><i class="fas fa-rocket"></i> SkillSync AI</a>
-            <ul class="nav-links">
-                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Intelligence</a></li>
-                <li><a href="/career-paths"><i class="fas fa-route"></i> Paths</a></li>
-                <li><a href="/tools"><i class="fas fa-tools"></i> Tools</a></li>
-                <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
-                <li><a href="/community"><i class="fas fa-users"></i> Community</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <div class="container">
-            <h1><i class="fas fa-robot"></i> AI Career Agent</h1>
-            <p style="font-size: var(--text-lg); opacity: 0.8; margin-bottom: var(--space-8); color: var(--gray-700);">
-                <span style="color: var(--gray-700);">Your intelligent career companion providing 24/7 personalized guidance and insights</span>
-            </p>
-            <div class="interactive-controls">
-                <button class="btn btn-primary" onclick="startChat()">
-                    <i class="fas fa-comments"></i> Start Conversation
-                </button>
-                <button class="btn btn-secondary" onclick="showCapabilities()">
-                    <i class="fas fa-list"></i> View Capabilities
-                </button>
-                <button class="btn btn-secondary" onclick="getProactiveInsights()">
-                    <i class="fas fa-lightbulb"></i> Get Insights
-                </button>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="logo-text">SkillSync AI</div>
             </div>
-        </div>
-    </section>
-
-    <main style="padding: var(--space-8) 0;">
-        <div class="container">
+            
+            <nav class="nav">
+                <div class="nav-section">
+                    <div class="nav-title">Overview</div>
+                    <ul class="nav-list">
+                        <li><a href="/dashboard" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                        <li><a href="/career-paths" class="nav-item"><i class="fas fa-route"></i> Career Paths</a></li>
+                        <li><a href="#analytics" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Tools</div>
+                    <ul class="nav-list">
+                        <li><a href="/market-intelligence" class="nav-item"><i class="fas fa-brain"></i> Market Intel</a></li>
+                        <li><a href="/tools" class="nav-item"><i class="fas fa-tools"></i> AI Tools</a></li>
+                        <li><a href="/ai-agent" class="nav-item active"><i class="fas fa-robot"></i> AI Agent</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Community</div>
+                    <ul class="nav-list">
+                        <li><a href="/community" class="nav-item"><i class="fas fa-users"></i> Network</a></li>
+                        <li><a href="#mentorship" class="nav-item"><i class="fas fa-graduation-cap"></i> Mentorship</a></li>
+                        <li><a href="#events" class="nav-item"><i class="fas fa-calendar"></i> Events</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="main-header animate-slide-up">
+                <div>
+                    <h1 class="main-title">AI Agent</h1>
+                    <p class="main-subtitle">Your intelligent career companion providing 24/7 personalized guidance and proactive insights.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="showCapabilities()">
+                        <i class="fas fa-list"></i> View Capabilities
+                    </button>
+                    <button class="btn btn-primary" onclick="getProactiveInsights()">
+                        <i class="fas fa-lightbulb"></i> Get Insights
+                    </button>
+                </div>
+            </div>
+            
             <!-- AI Agent Status -->
-            <div class="data-section">
-                <div class="card" style="text-align: center; margin-bottom: var(--space-8);">
+            <div class="card animate-slide-up animate-delay" style="text-align: center; margin-bottom: var(--space-8);">
+                <div class="card-content">
                     <div style="display: flex; justify-content: center; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4);">
-                        <div style="font-size: var(--text-3xl);">🤖</div>
+                        <div style="font-size: 3rem;">🤖</div>
                         <div>
-                            <h3>SkillSync AI Agent</h3>
+                            <h3 style="color: var(--gray-900); margin-bottom: var(--space-2);">SkillSync AI Agent</h3>
                             <div class="status-indicator">
                                 <div class="status-dot status-online" id="agentStatus"></div>
                                 <span id="agentStatusText">Online & Ready</span>
                             </div>
                         </div>
                     </div>
-                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">
-                        Powered by advanced AI to provide personalized career guidance, skill recommendations, and market insights.
+                    <p style="color: var(--gray-600); margin-bottom: var(--space-4); max-width: 600px; margin-left: auto; margin-right: auto;">
+                        Powered by advanced AI to provide personalized career guidance, skill recommendations, and market insights tailored to your unique professional journey.
                     </p>
-                    <div style="display: flex; gap: var(--space-4); justify-content: center; font-size: var(--text-sm); color: var(--gray-600);">
-                        <span><i class="fas fa-brain"></i> AI-Powered</span>
-                        <span><i class="fas fa-clock"></i> 24/7 Available</span>
-                        <span><i class="fas fa-shield-alt"></i> Privacy Protected</span>
-                        <span><i class="fas fa-sync"></i> Always Learning</span>
+                    <div style="display: flex; gap: var(--space-6); justify-content: center; font-size: 0.875rem; color: var(--gray-600); flex-wrap: wrap;">
+                        <span><i class="fas fa-brain" style="color: var(--blue-500);"></i> AI-Powered</span>
+                        <span><i class="fas fa-clock" style="color: var(--emerald-500);"></i> 24/7 Available</span>
+                        <span><i class="fas fa-shield-alt" style="color: var(--violet-500);"></i> Privacy Protected</span>
+                        <span><i class="fas fa-sync" style="color: var(--orange-500);"></i> Always Learning</span>
                     </div>
                 </div>
             </div>
-
+            
             <!-- Interactive Chat Interface -->
-            <div class="data-section">
-                <h2 class="section-title">Interactive AI Chat</h2>
-                <div class="grid grid-cols-2">
-                    <div class="card" style="padding: 0;">
-                        <div class="chat-container">
-                            <div class="chat-header">
-                                <div style="display: flex; justify-content: between; align-items: center;">
-                                    <span>Career AI Assistant</span>
-                                    <div class="status-indicator" style="margin-left: auto;">
-                                        <div class="status-dot status-online"></div>
-                                        <span>Online</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="chat-messages" id="chatMessages">
-                                <div class="message ai">
-                                    👋 Hello! I'm your AI career assistant. I can help you with career planning, skill development, job search strategies, and market insights. What would you like to discuss today?
-                                </div>
-                            </div>
-                            
-                            <div style="padding: var(--space-4);">
-                                <div class="quick-actions">
-                                    <button class="quick-action" onclick="sendQuickMessage('career advice')">Career Advice</button>
-                                    <button class="quick-action" onclick="sendQuickMessage('skill assessment')">Skill Assessment</button>
-                                    <button class="quick-action" onclick="sendQuickMessage('job search help')">Job Search</button>
-                                    <button class="quick-action" onclick="sendQuickMessage('salary negotiation')">Salary Tips</button>
-                                </div>
-                            </div>
-                            
-                            <div class="chat-input-container">
-                                <input type="text" id="chatInput" class="chat-input" placeholder="Ask me anything about your career..." onkeypress="handleKeyPress(event)">
-                                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="card" style="margin-bottom: var(--space-6);">
-                            <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-magic"></i> AI Capabilities</h3>
-                            <div class="grid grid-cols-2" style="gap: var(--space-4);">
-                                <div class="capability-card">
-                                    <div class="capability-icon" style="color: var(--info);">
-                                        <i class="fas fa-route"></i>
-                                    </div>
-                                    <div class="capability-title">Career Planning</div>
-                                    <div class="capability-desc">Personalized roadmaps and goal setting</div>
-                                </div>
-                                <div class="capability-card">
-                                    <div class="capability-icon" style="color: var(--success);">
-                                        <i class="fas fa-chart-line"></i>
-                                    </div>
-                                    <div class="capability-title">Market Analysis</div>
-                                    <div class="capability-desc">Real-time industry insights</div>
-                                </div>
-                                <div class="capability-card">
-                                    <div class="capability-icon" style="color: var(--warning);">
-                                        <i class="fas fa-graduation-cap"></i>
-                                    </div>
-                                    <div class="capability-title">Skill Development</div>
-                                    <div class="capability-desc">Learning recommendations</div>
-                                </div>
-                                <div class="capability-card">
-                                    <div class="capability-icon" style="color: var(--error);">
-                                        <i class="fas fa-bullseye"></i>
-                                    </div>
-                                    <div class="capability-title">Goal Tracking</div>
-                                    <div class="capability-desc">Progress monitoring</div>
-                                </div>
+            <div class="agent-grid animate-slide-up animate-delay">
+                <div class="card" style="padding: 0;">
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <span style="font-weight: 600;">Career AI Assistant</span>
+                            <div class="status-indicator">
+                                <div class="status-dot status-online"></div>
+                                <span>Online</span>
                             </div>
                         </div>
                         
-                        <div class="card">
-                            <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-history"></i> Recent Interactions</h3>
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message ai">
+                                👋 Hello! I'm your AI career assistant. I can help you with career planning, skill development, job search strategies, and market insights. What would you like to discuss today?
+                            </div>
+                        </div>
+                        
+                        <div style="padding: var(--space-4);">
+                            <div class="quick-actions">
+                                <button class="quick-action" onclick="sendQuickMessage('career advice')">Career Advice</button>
+                                <button class="quick-action" onclick="sendQuickMessage('skill assessment')">Skill Assessment</button>
+                                <button class="quick-action" onclick="sendQuickMessage('job search help')">Job Search</button>
+                                <button class="quick-action" onclick="sendQuickMessage('salary negotiation')">Salary Tips</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-input-container">
+                            <input type="text" id="chatInput" class="chat-input" placeholder="Ask me anything about your career..." onkeypress="handleKeyPress(event)">
+                            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="card" style="margin-bottom: var(--space-6);">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-magic"></i> AI Capabilities</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="feature-grid">
+                                <div class="feature-item">
+                                    <div class="feature-icon feature-icon-blue">
+                                        <i class="fas fa-route"></i>
+                                    </div>
+                                    <div class="feature-title">Career Planning</div>
+                                    <div class="feature-desc">Personalized roadmaps and goal setting</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon feature-icon-emerald">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <div class="feature-title">Market Analysis</div>
+                                    <div class="feature-desc">Real-time industry insights</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon feature-icon-violet">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div class="feature-title">Skill Development</div>
+                                    <div class="feature-desc">Learning recommendations</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon feature-icon-orange">
+                                        <i class="fas fa-bullseye"></i>
+                                    </div>
+                                    <div class="feature-title">Goal Tracking</div>
+                                    <div class="feature-desc">Progress monitoring</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-history"></i> Recent Interactions</h3>
+                        </div>
+                        <div class="card-content">
                             <div id="recentInteractions">
                                 <div style="padding: var(--space-3); border-bottom: 1px solid var(--gray-200); margin-bottom: var(--space-3);">
-                                    <div style="font-weight: 600; margin-bottom: var(--space-1);">Career Path Guidance</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-600);">Discussed frontend to full-stack transition</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">2 hours ago</div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-1); color: var(--gray-900);">Career Path Guidance</div>
+                                    <div style="font-size: 0.875rem; color: var(--gray-600);">Discussed frontend to full-stack transition</div>
+                                    <div style="font-size: 0.75rem; color: var(--gray-500);">2 hours ago</div>
                                 </div>
                                 <div style="padding: var(--space-3); border-bottom: 1px solid var(--gray-200); margin-bottom: var(--space-3);">
-                                    <div style="font-weight: 600; margin-bottom: var(--space-1);">Skill Assessment</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-600);">Evaluated React and JavaScript skills</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">Yesterday</div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-1); color: var(--gray-900);">Skill Assessment</div>
+                                    <div style="font-size: 0.875rem; color: var(--gray-600);">Evaluated React and JavaScript skills</div>
+                                    <div style="font-size: 0.75rem; color: var(--gray-500);">Yesterday</div>
                                 </div>
                                 <div style="padding: var(--space-3);">
-                                    <div style="font-weight: 600; margin-bottom: var(--space-1);">Market Analysis</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-600);">Analyzed demand for cloud skills</div>
-                                    <div style="font-size: var(--text-sm); color: var(--gray-500);">3 days ago</div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-1); color: var(--gray-900);">Market Analysis</div>
+                                    <div style="font-size: 0.875rem; color: var(--gray-600);">Analyzed demand for cloud skills</div>
+                                    <div style="font-size: 0.75rem; color: var(--gray-500);">3 days ago</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            
             <!-- Proactive Insights -->
-            <div class="data-section">
-                <h2 class="section-title">Proactive AI Insights</h2>
-                <div class="grid grid-cols-3">
-                    <div class="card" style="background: linear-gradient(135deg, var(--info) 0%, #3182ce 100%); color: white;">
-                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-trending-up"></i> Market Opportunity</h3>
-                        <p style="margin-bottom: var(--space-4); opacity: 0.9; color: var(--gray-800);">
-                            🚀 AI/ML skills are seeing 35% growth. Consider adding machine learning to your skillset.
-                        </p>
-                        <button class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);" onclick="exploreOpportunity('ai-ml')">
-                            <i class="fas fa-arrow-right"></i> Explore
+            <div class="insights-grid animate-slide-up animate-delay">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon" style="background: linear-gradient(135deg, var(--blue-500), var(--blue-600));">
+                            <i class="fas fa-trending-up"></i>
+                        </div>
+                        <div class="insight-title">Market Opportunity</div>
+                    </div>
+                    <div class="insight-content">
+                        🚀 AI/ML skills are seeing 35% growth in job postings. Companies are actively seeking professionals with machine learning experience and AI integration capabilities.
+                    </div>
+                    <div style="margin-top: var(--space-4);">
+                        <button class="btn btn-primary" onclick="exploreOpportunity('ai-ml')">
+                            <i class="fas fa-arrow-right"></i> Explore Opportunity
                         </button>
                     </div>
-                    
-                    <div class="card" style="background: linear-gradient(135deg, var(--success) 0%, #38a169 100%); color: white;">
-                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-certificate"></i> Skill Recommendation</h3>
-                        <p style="margin-bottom: var(--space-4); opacity: 0.9; color: var(--gray-800);">
-                            🎯 Based on your progress, AWS certification could boost your salary by 18%.
-                        </p>
-                        <button class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);" onclick="exploreOpportunity('aws-cert')">
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon" style="background: linear-gradient(135deg, var(--emerald-500), var(--emerald-600));">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div class="insight-title">Skill Recommendation</div>
+                    </div>
+                    <div class="insight-content">
+                        🎯 Based on your progress, AWS certification could boost your salary by 18%. Cloud skills are highly valued with 67% of companies using AWS infrastructure.
+                    </div>
+                    <div style="margin-top: var(--space-4);">
+                        <button class="btn btn-primary" onclick="exploreOpportunity('aws-cert')">
                             <i class="fas fa-arrow-right"></i> Learn More
                         </button>
                     </div>
-                    
-                    <div class="card" style="background: linear-gradient(135deg, var(--warning) 0%, #d69e2e 100%); color: white;">
-                        <h3 style="margin-bottom: var(--space-4);"><i class="fas fa-briefcase"></i> Job Alert</h3>
-                        <p style="margin-bottom: var(--space-4); opacity: 0.9; color: var(--gray-800);">
-                            💼 12 new jobs matching your profile posted this week. Check them out!
-                        </p>
-                        <button class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);" onclick="exploreOpportunity('job-matches')">
+                </div>
+                
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <div class="insight-icon" style="background: linear-gradient(135deg, var(--violet-500), var(--violet-600));">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="insight-title">Job Opportunities</div>
+                    </div>
+                    <div class="insight-content">
+                        💼 12 new jobs matching your profile posted this week. AI-curated opportunities based on your skills, experience level, and career preferences.
+                    </div>
+                    <div style="margin-top: var(--space-4);">
+                        <button class="btn btn-primary" onclick="exploreOpportunity('job-matches')">
                             <i class="fas fa-arrow-right"></i> View Jobs
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
         let isTyping = false;
@@ -606,7 +1178,7 @@
             const messagesContainer = document.getElementById('chatMessages');
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ai typing-indicator';
-            typingDiv.innerHTML = '<span class="typing"></span><span class="typing"></span><span class="typing"></span>';
+            typingDiv.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
             messagesContainer.appendChild(typingDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
             isTyping = true;
@@ -901,6 +1473,13 @@
         
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation delays
+            const animatedElements = document.querySelectorAll('.animate-slide-up');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+                el.style.animationFillMode = 'both';
+            });
+            
             showNotification('AI Career Agent is online and ready to help!', 'success');
             
             // Simulate proactive insight after a delay
@@ -909,6 +1488,19 @@
                     addMessage('ai', "💡 **Proactive Tip:** I noticed you're focusing on React development. The market is showing strong demand for React developers with TypeScript experience. Would you like me to suggest a learning path for TypeScript?");
                 }
             }, 5000);
+            
+            // Add hover effects to cards
+            document.querySelectorAll('.card, .insight-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                    this.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '';
+                });
+            });
         });
     </script>
 </body>

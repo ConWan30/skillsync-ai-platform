@@ -7,7 +7,6 @@ from datetime import datetime
 from dotenv import load_dotenv
 import requests
 import json
-from career_intelligence_agent import ProactiveCareerAgent, trigger_intelligence_cycle
 import logging
 
 # Configure logging
@@ -44,7 +43,6 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     skills = db.relationship('Skill', backref='user', lazy=True)
-    career_dna = db.relationship('CareerDNA', backref='user', lazy=True)
 
 class Skill(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,34 +60,7 @@ class Assessment(db.Model):
     recommendations = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-class CareerDNA(db.Model):
-    """Database model for Career DNA profiles"""
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    dna_id = db.Column(db.String(50), unique=True, nullable=False)
-    
-    # Core DNA Components (stored as JSON)
-    cognitive_style = db.Column(db.JSON, nullable=False)
-    learning_velocity = db.Column(db.JSON, nullable=False)
-    problem_solving = db.Column(db.JSON, nullable=False)
-    leadership_markers = db.Column(db.JSON, nullable=False)
-    innovation_quotient = db.Column(db.Float, nullable=False)
-    collaboration_chemistry = db.Column(db.JSON, nullable=False)
-    risk_tolerance = db.Column(db.Float, nullable=False)
-    adaptation_style = db.Column(db.JSON, nullable=False)
-    
-    # Evolution tracking
-    evolution_history = db.Column(db.JSON, default=list)
-    mutation_events = db.Column(db.JSON, default=list)
-    growth_trajectory = db.Column(db.JSON, default=dict)
-    
-    # Predictive elements
-    career_predictions = db.Column(db.JSON, default=dict)
-    skill_acquisition_probability = db.Column(db.JSON, default=dict)
-    success_indicators = db.Column(db.JSON, default=dict)
-    
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    last_updated = db.Column(db.DateTime, default=datetime.utcnow)
+# CareerDNA model removed - DNA functionality simplified out of the codebase
 
 # Helper function for xAI API calls
 def call_xai_api(messages, max_tokens=500):
@@ -271,14 +242,15 @@ def health_check():
             'root': '/',
             'api_info': '/api',
             'health': '/health',
-            'assess_skills': '/assess-skills',
-            'career_guidance': '/career-guidance',
-            'users': '/users',
-            'upload': '/upload',
+            'assess_skills': '/api/ai/assess-skills',
+            'career_guidance': '/api/ai/career-guidance',
+            'users': '/api/users',
+            'upload': '/api/files/upload',
             'landing_demo': '/landing',
             'dashboard_demo': '/dashboard-demo',
             'api_docs': '/api-docs'
-        }
+        },
+        'note': 'DNA systems removed for simplified codebase'
     })
 
 @app.route('/api/health')
@@ -317,75 +289,21 @@ def create_user():
 
 @app.route('/api/ai/assess-skills', methods=['POST'])
 def assess_skills():
-    """Enhanced AI-powered skills assessment with A2A protocol integration and Neural Career DNA"""
+    """AI-powered skills assessment - simplified version without DNA complexity"""
     try:
         data = request.get_json() or {}
         skills_description = data.get('skills_description', '')
         user_id = data.get('user_id', 'anonymous')
-        assessment_data = data.get('assessment_data', {})
-        generate_dna = data.get('generate_dna', False)
         
-        if not skills_description and not generate_dna:
+        if not skills_description:
             return jsonify({
                 'success': False,
                 'error': 'Skills description is required'
             }), 400
         
-        # Initialize Neural Career DNA system if generating DNA
-        neural_dna_system = None
-        dna_profile = None
-        
-        if generate_dna:
-            try:
-                neural_dna_system = get_neural_dna_system()
-                # Generate DNA profile from assessment data
-                dna_profile = neural_dna_system.analyze_career_dna(user_id, assessment_data)
-                
-                # Store DNA profile in database
-                existing_dna = CareerDNA.query.filter_by(user_id=user_id if user_id != 'anonymous' else None).first()
-                
-                if existing_dna:
-                    # Update existing DNA profile
-                    existing_dna.cognitive_style = dna_profile.cognitive_style
-                    existing_dna.learning_velocity = dna_profile.learning_velocity
-                    existing_dna.problem_solving = dna_profile.problem_solving
-                    existing_dna.leadership_markers = dna_profile.leadership_markers
-                    existing_dna.innovation_quotient = dna_profile.innovation_quotient
-                    existing_dna.collaboration_chemistry = dna_profile.collaboration_chemistry
-                    existing_dna.risk_tolerance = dna_profile.risk_tolerance
-                    existing_dna.adaptation_style = dna_profile.adaptation_style
-                    existing_dna.career_predictions = dna_profile.career_predictions
-                    existing_dna.skill_acquisition_probability = dna_profile.skill_acquisition_probability
-                    existing_dna.success_indicators = dna_profile.success_indicators
-                    existing_dna.last_updated = datetime.utcnow()
-                else:
-                    # Create new DNA profile
-                    new_dna = CareerDNA(
-                        user_id=user_id if user_id != 'anonymous' else None,
-                        dna_id=dna_profile.dna_id,
-                        cognitive_style=dna_profile.cognitive_style,
-                        learning_velocity=dna_profile.learning_velocity,
-                        problem_solving=dna_profile.problem_solving,
-                        leadership_markers=dna_profile.leadership_markers,
-                        innovation_quotient=dna_profile.innovation_quotient,
-                        collaboration_chemistry=dna_profile.collaboration_chemistry,
-                        risk_tolerance=dna_profile.risk_tolerance,
-                        adaptation_style=dna_profile.adaptation_style,
-                        career_predictions=dna_profile.career_predictions,
-                        skill_acquisition_probability=dna_profile.skill_acquisition_probability,
-                        success_indicators=dna_profile.success_indicators
-                    )
-                    db.session.add(new_dna)
-                
-                db.session.commit()
-                
-            except Exception as dna_error:
-                logger.error(f"DNA Generation Error: {dna_error}")
-                # Continue with regular assessment if DNA generation fails
-        
-        # Enhanced prompt for xAI with A2A integration
+        # Simplified prompt for xAI
         enhanced_prompt = f"""
-        As an expert AI career advisor with access to advanced behavioral analysis, please assess the following skills and provide comprehensive insights:
+        As an expert AI career advisor, please assess the following skills and provide comprehensive insights:
 
         Skills Description: {skills_description}
         
@@ -395,8 +313,6 @@ def assess_skills():
         3. Career recommendations based on skill profile
         4. Learning path suggestions
         5. Market demand analysis for these skills
-        
-        {f"Additional Context: Neural Career DNA analysis indicates cognitive style preferences and learning patterns that should inform your recommendations." if dna_profile else ""}
         
         Format your response as a comprehensive career development plan.
         """
@@ -421,73 +337,29 @@ def assess_skills():
                 'error': 'Failed to get AI assessment'
             }), 500
         
-        # Get A2A protocol insights
-        a2a_insights = {}
-        try:
-            if a2a_protocol:
-                a2a_insights = a2a_protocol.get_collaborative_recommendations({
-                    'user_id': user_id,
-                    'skills_description': skills_description,
-                    'assessment_type': 'skill_analysis',
-                    'dna_profile': asdict(dna_profile) if dna_profile else None
-                })
-        except Exception as a2a_error:
-            logger.error(f"A2A Protocol Error: {a2a_error}")
+        # Store assessment in database if user is registered
+        if user_id != 'anonymous':
+            try:
+                user = User.query.get(user_id)
+                if user:
+                    assessment = Assessment(
+                        user_id=user_id,
+                        skills_description=skills_description,
+                        ai_assessment=str(ai_response),
+                        recommendations="Generated by xAI assessment"
+                    )
+                    db.session.add(assessment)
+                    db.session.commit()
+            except Exception as db_error:
+                logger.error(f"Database storage error: {db_error}")
         
-        # Track AI interaction
-        try:
-            activity_tracker = get_activity_tracker()
-            activity_tracker.track_interaction(
-                user_id=user_id,
-                interaction_type='skill_assessment',
-                interaction_data={
-                    'skills_description': skills_description,
-                    'ai_response_length': len(ai_response),
-                    'dna_generated': generate_dna,
-                    'assessment_data_provided': bool(assessment_data)
-                },
-                ai_response=ai_response
-            )
-            
-            # Track DNA evolution if profile exists
-            if neural_dna_system and dna_profile:
-                neural_dna_system.track_dna_evolution(user_id, {
-                    'interaction_type': 'skill_assessment',
-                    'skills_focus': skills_description,
-                    'assessment_completion': True,
-                    'risk_taking_instances': assessment_data.get('experimental_approaches', 5)
-                })
-                
-        except Exception as tracking_error:
-            logger.error(f"Activity Tracking Error: {tracking_error}")
-        
-        # Prepare response
+        # Prepare simplified response
         response_data = {
             'success': True,
             'assessment': ai_response,
             'user_id': user_id,
-            'timestamp': datetime.utcnow().isoformat(),
-            'a2a_insights': a2a_insights
+            'timestamp': datetime.utcnow().isoformat()
         }
-        
-        # Add DNA profile data if generated
-        if dna_profile:
-            response_data.update({
-                'dna_profile_generated': True,
-                'dna_id': dna_profile.dna_id,
-                'cognitive_analysis': dna_profile.cognitive_style,
-                'learning_analysis': dna_profile.learning_velocity,
-                'problem_solving_style': dna_profile.problem_solving,
-                'leadership_potential': dna_profile.leadership_markers,
-                'innovation_quotient': dna_profile.innovation_quotient,
-                'collaboration_chemistry': dna_profile.collaboration_chemistry,
-                'risk_tolerance': dna_profile.risk_tolerance,
-                'adaptation_style': dna_profile.adaptation_style,
-                'career_predictions': dna_profile.career_predictions,
-                'skill_acquisition_probability': dna_profile.skill_acquisition_probability,
-                'success_indicators': dna_profile.success_indicators,
-                'mentor_personality': neural_dna_system._generate_mentor_personality(dna_profile) if neural_dna_system else None
-            })
         
         return jsonify(response_data)
         
@@ -603,99 +475,20 @@ def tools():
     """Professional development tools"""
     return render_template('tools.html')
 
-# A2A Protocol Integration
-from a2a_protocol import get_a2a_protocol, initialize_a2a_system, AgentType
+# Basic functionality imports - DNA systems removed for simplification
 
-# AI Activity Tracker Integration
-from ai_activity_tracker import get_activity_tracker, track_user_ai_interaction, global_activity_tracker
+# Basic AI system initialization - complex DNA/A2A protocols removed for simplification
 
-# Neural Career DNA Integration
-from neural_career_dna import get_neural_dna_system, initialize_neural_dna_system, CareerDNAProfile
-
-# Revolutionary Neural DNA Integration
-try:
-    from revolutionary_neural_dna import get_revolutionary_neural_dna_system, initialize_revolutionary_neural_dna_system
-    REVOLUTIONARY_DNA_AVAILABLE = True
-except ImportError as e:
-    logger.error(f"Revolutionary DNA system not available: {e}")
-    REVOLUTIONARY_DNA_AVAILABLE = False
-
-# Career Intelligence Agent Integration
-from career_intelligence_agent import ProactiveCareerAgent
-
-# Initialize A2A system on startup
-a2a_protocol = None
-
-def initialize_ai_system():
-    """Initialize the complete AI system with A2A protocol"""
-    global a2a_protocol
-    try:
-        # Initialize A2A protocol
-        a2a_protocol = initialize_a2a_system()
-        
-        # Register 8 optimized specialist agents (combining default + xAI capabilities)
-        specialized_agents = [
-            ("ai_skills_specialist", AgentType.SKILL_ANALYSIS, "Comprehensive skill evaluation and gap analysis using xAI Grok intelligence"),
-            ("ai_market_intelligence", AgentType.MARKET_INTELLIGENCE, "Real-time market trends, salary data, and industry insights with xAI analysis"),
-            ("ai_career_strategist", AgentType.CAREER_INTELLIGENCE, "Personalized career path optimization and strategic planning with xAI reasoning"),
-            ("ai_gaming_specialist", AgentType.GAMING_ASSESSMENT, "Gaming industry career guidance, skill assessment, and opportunity analysis"),
-            ("ai_behavior_coach", AgentType.BEHAVIORAL_INTELLIGENCE, "User behavior analysis, learning patterns, and personalized engagement strategies"),
-            ("ai_goal_master", AgentType.GOAL_SETTING, "SMART goal creation, progress tracking, and achievement optimization"),
-            ("ai_motivation_engine", AgentType.MOTIVATION_ENERGY, "Personalized motivation strategies, energy management, and momentum maintenance"),
-            ("ai_roadmap_architect", AgentType.ADAPTIVE_ROADMAP, "Dynamic career roadmap generation, milestone planning, and path optimization")
-        ]
-        
-        for agent_id, agent_type, description in specialized_agents:
-            a2a_protocol.register_agent(agent_id, agent_type)
-            # Store agent expertise in shared knowledge
-            a2a_protocol.shared_knowledge[f"{agent_id}_expertise"] = description
-        
-        print("[SYSTEM] AI system with A2A protocol initialized successfully")
-        return True
-        
-    except Exception as e:
-        print(f"[ERROR] Failed to initialize AI system: {e}")
-        return False
-
-# Career Intelligence Agent Routes
+# Career Intelligence Agent Routes - simplified without complex DNA/A2A systems
 @app.route('/api/intelligence/trigger', methods=['POST'])
 def trigger_career_intelligence():
-    """Manually trigger the career intelligence cycle with A2A coordination"""
+    """Simple career intelligence trigger - DNA systems removed"""
     try:
-        global a2a_protocol
-        
-        # Trigger intelligence cycle through A2A protocol
-        if a2a_protocol:
-            # Request collaboration between all intelligence agents
-            session_id = a2a_protocol.request_collaboration(
-                "ai_career_strategist",
-                ["ai_market_intelligence", "ai_behavior_coach", "ai_skills_specialist"],
-                "Comprehensive career intelligence analysis",
-                {"trigger_type": "manual", "timestamp": datetime.now().isoformat()}
-            )
-            
-            # Get collaborative recommendations
-            user_context = {"request_type": "intelligence_trigger"}
-            recommendations = a2a_protocol.get_collaborative_recommendations(user_context)
-            
-            return jsonify({
-                'message': 'Career intelligence cycle triggered successfully with A2A coordination',
-                'status': 'completed',
-                'collaboration_session': session_id,
-                'recommendations': recommendations,
-                'a2a_status': a2a_protocol.get_protocol_status(),
-                'timestamp': datetime.now().isoformat()
-            })
-        else:
-            # Fallback to original behavior
-            import asyncio
-            asyncio.run(trigger_intelligence_cycle())
-            
-            return jsonify({
-                'message': 'Career intelligence cycle triggered (fallback mode)',
-                'status': 'completed',
-                'timestamp': datetime.now().isoformat()
-            })
+        return jsonify({
+            'message': 'Career intelligence trigger - simplified version without DNA complexity',
+            'status': 'completed',
+            'timestamp': datetime.now().isoformat()
+        })
         
     except Exception as e:
         return jsonify({
@@ -705,31 +498,26 @@ def trigger_career_intelligence():
 
 @app.route('/api/intelligence/insights/<int:user_id>')
 def get_user_insights(user_id):
-    """Get the latest AI-generated insights for a specific user"""
+    """Get basic user insights - simplified without complex AI agents"""
     try:
         user = User.query.get_or_404(user_id)
-        agent = ProactiveCareerAgent()
         
-        # Generate fresh insights for the user
-        import asyncio
-        market_insights = asyncio.run(agent.analyze_market_trends())
-        user_insights = asyncio.run(agent.generate_user_insights(user, market_insights))
-        opportunities = asyncio.run(agent.find_career_opportunities(user))
+        # Simple fallback insights
+        basic_insights = {
+            'career_stage': 'Developing',
+            'primary_focus': 'Skill building and career growth',
+            'recommendations': [
+                'Continue building technical skills',
+                'Explore networking opportunities',
+                'Consider certification programs'
+            ]
+        }
         
         return jsonify({
             'user_id': user_id,
             'username': user.username,
-            'insights': user_insights,
-            'opportunities': [
-                {
-                    'job_title': opp.job_title,
-                    'company': opp.company,
-                    'salary_range': opp.salary_range,
-                    'match_score': opp.match_score,
-                    'missing_skills': opp.missing_skills,
-                    'urgency': opp.urgency
-                } for opp in opportunities
-            ],
+            'insights': basic_insights,
+            'message': 'Basic insights provided - complex AI systems removed for simplification',
             'generated_at': datetime.now().isoformat()
         })
         
@@ -773,24 +561,8 @@ def intelligence_agent_status():
 
 @app.route('/api/intelligence/market-trends', methods=['GET'])
 def get_market_trends():
-    """Get real-time market trends and intelligence"""
+    """Get market trends - simplified without complex A2A systems"""
     try:
-        global a2a_protocol
-        
-        # Enhanced market analysis using A2A protocol
-        if a2a_protocol:
-            # Request market intelligence analysis
-            session_id = a2a_protocol.request_collaboration(
-                "ai_market_intelligence",
-                ["ai_career_strategist", "ai_behavior_coach"],
-                "Comprehensive market trends analysis",
-                {"request_type": "market_trends", "timestamp": datetime.now().isoformat()}
-            )
-            
-            # Get collaborative market insights
-            collaborative_recommendations = a2a_protocol.get_collaborative_recommendations({
-                "analysis_type": "market_trends"
-            })
         
         # Prepare market analysis request for xAI
         messages = [
@@ -861,14 +633,7 @@ def get_market_trends():
             return jsonify({
                 'success': True,
                 'market_analysis': market_analysis,
-                'collaboration_session': session_id if a2a_protocol else None,
-                'collaborative_insights': collaborative_recommendations if a2a_protocol else None,
-                'specialist_agents_involved': [
-                    "AI Market Intelligence",
-                    "AI Career Strategist",
-                    "AI Behavior Coach"
-                ] if a2a_protocol else ["AI Market Intelligence"],
-                'confidence_score': 0.91,
+                'message': 'Market analysis provided by xAI - complex systems simplified',
                 'timestamp': datetime.now().isoformat()
             })
             
@@ -880,7 +645,7 @@ def get_market_trends():
 
 @app.route('/api/skills/analyze', methods=['POST'])
 def analyze_skills():
-    """Dedicated skills analysis endpoint"""
+    """Simplified skills analysis endpoint"""
     try:
         data = request.get_json() or {}
         skills_input = data.get('skills', '')
@@ -888,587 +653,27 @@ def analyze_skills():
         if not skills_input:
             return jsonify({'error': 'Skills input is required'}), 400
         
-        global a2a_protocol
+        # Update the request data for assess_skills
+        request_data = {'skills_description': skills_input}
         
-        # Enhanced skills analysis using A2A protocol
-        if a2a_protocol:
-            user_context = {
-                "skills_input": skills_input,
-                "analysis_type": "detailed_skills_analysis",
-                "timestamp": datetime.now().isoformat()
-            }
-            
-            # Request collaboration for skills analysis
-            session_id = a2a_protocol.request_collaboration(
-                "ai_skills_specialist",
-                ["ai_market_intelligence", "ai_career_strategist"],
-                "Detailed skills analysis and market correlation",
-                user_context
-            )
-        
-        # Call the existing assess_skills function logic
-        assessment_result = assess_skills()
-        return assessment_result
+        # Call simplified assess_skills endpoint
+        return assess_skills()
         
     except Exception as e:
         return jsonify({'error': 'Skills analysis failed', 'details': str(e)}), 500
 
-# AI Activity Tracking Endpoints
+# Activity tracking endpoints removed - complex AI systems simplified
 
-@app.route('/api/activities/<user_id>', methods=['GET'])
-def get_user_activities(user_id):
-    """Get real-time AI activities for a user"""
-    try:
-        activity_tracker = get_activity_tracker()
-        limit = request.args.get('limit', 10, type=int)
-        
-        activities = activity_tracker.get_user_activities(user_id, limit)
-        
-        return jsonify({
-            'success': True,
-            'activities': activities,
-            'total_count': len(activities),
-            'user_id': user_id,
-            'last_updated': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+# A2A Protocol endpoints removed - complex systems simplified
 
-@app.route('/api/activities/track', methods=['POST'])
-def track_ai_interaction():
-    """Track a user AI interaction and generate activity"""
-    try:
-        data = request.get_json() or {}
-        
-        user_id = data.get('user_id', 'anonymous')
-        interaction_type = data.get('interaction_type', 'general')
-        interaction_data = data.get('interaction_data', {})
-        
-        # Track the interaction and generate activity
-        activity = track_user_ai_interaction(user_id, interaction_type, interaction_data)
-        
-        return jsonify({
-            'success': True,
-            'activity': activity,
-            'message': 'Activity tracked and generated successfully'
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+# Neural Career DNA endpoints removed - DNA functionality simplified out of the codebase
 
-@app.route('/api/activities/generate-jobs/<user_id>', methods=['POST'])
-def generate_job_matches(user_id):
-    """Generate job matching activity for user"""
-    try:
-        data = request.get_json() or {}
-        user_skills = data.get('skills', [])
-        target_roles = data.get('target_roles', [])
-        
-        activity_tracker = get_activity_tracker()
-        activity = activity_tracker.generate_job_matches(user_id, user_skills, target_roles)
-        
-        return jsonify({
-            'success': True,
-            'activity': {
-                'id': activity.id,
-                'title': activity.title,
-                'description': activity.description,
-                'ai_insights': activity.ai_insights,
-                'next_steps': activity.next_steps,
-                'resources': activity.resources,
-                'actionable_data': activity.actionable_data
-            }
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
+# Revolutionary Neural DNA endpoints removed - DNA functionality simplified out of the codebase
 
-# A2A Protocol Status and Management Endpoints
-@app.route('/api/a2a/status', methods=['GET'])
-def get_a2a_status():
-    """Get comprehensive A2A protocol status"""
-    try:
-        global a2a_protocol
-        
-        if a2a_protocol:
-            status = a2a_protocol.get_protocol_status()
-            
-            # Add agent expertise information
-            agent_expertise = {}
-            for agent_id in a2a_protocol.agents.keys():
-                expertise_key = f"{agent_id}_expertise"
-                if expertise_key in a2a_protocol.shared_knowledge:
-                    agent_expertise[agent_id] = a2a_protocol.shared_knowledge[expertise_key]
-            
-            return jsonify({
-                'success': True,
-                'a2a_protocol': status,
-                'agent_expertise': agent_expertise,
-                'shared_knowledge_stats': {
-                    'cross_agent_insights': len(a2a_protocol.shared_knowledge.get('cross_agent_insights', {})),
-                    'learning_outcomes': len(a2a_protocol.shared_knowledge.get('learning_outcomes', {})),
-                    'user_behavior_patterns': len(a2a_protocol.shared_knowledge.get('user_behavior_patterns', {})),
-                    'successful_strategies': len(a2a_protocol.shared_knowledge.get('successful_strategies', []))
-                },
-                'system_health': 'optimal',
-                'timestamp': datetime.now().isoformat()
-            })
-        else:
-            return jsonify({
-                'success': False,
-                'message': 'A2A protocol not initialized',
-                'fallback_mode': True
-            }), 503
-            
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/a2a/collaborative-analysis', methods=['POST'])
-def get_collaborative_analysis():
-    """Get collaborative analysis from all agents"""
-    try:
-        global a2a_protocol
-        data = request.get_json() or {}
-        
-        if not a2a_protocol:
-            return jsonify({
-                'success': False,
-                'message': 'A2A protocol not available'
-            }), 503
-        
-        user_context = data.get('user_context', {})
-        analysis_type = data.get('analysis_type', 'comprehensive')
-        
-        # Request collaboration between all relevant agents
-        session_id = a2a_protocol.request_collaboration(
-            "ai_career_strategist",
-            ["ai_skills_specialist", "ai_market_intelligence", "ai_behavior_coach", "ai_gaming_specialist"],
-            f"Collaborative {analysis_type} analysis",
-            user_context
-        )
-        
-        # Get collaborative recommendations
-        recommendations = a2a_protocol.get_collaborative_recommendations(user_context)
-        
-        return jsonify({
-            'success': True,
-            'collaboration_session': session_id,
-            'analysis_type': analysis_type,
-            'recommendations': recommendations,
-            'participating_agents': [
-                'AI Career Strategist',
-                'AI Skills Specialist', 
-                'AI Market Intelligence',
-                'AI Behavior Coach',
-                'AI Gaming Specialist'
-            ],
-            'timestamp': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-# Neural Career DNA Endpoints
-
-@app.route('/api/neural-dna/generate-profile', methods=['POST'])
-def generate_neural_dna_profile():
-    """Generate a new Neural Career DNA profile for a user"""
-    try:
-        data = request.get_json() or {}
-        user_id = data.get('user_id', 'anonymous')
-        
-        neural_dna_system = get_neural_dna_system()
-        profile = neural_dna_system.generate_profile(user_id)
-        
-        return jsonify({
-            'success': True,
-            'profile': profile,
-            'user_id': user_id,
-            'timestamp': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/neural-dna/analyze-profile', methods=['POST'])
-def analyze_neural_dna_profile():
-    """Analyze a Neural Career DNA profile for insights and recommendations"""
-    try:
-        data = request.get_json() or {}
-        user_id = data.get('user_id', 'anonymous')
-        profile_id = data.get('profile_id', '')
-        
-        neural_dna_system = get_neural_dna_system()
-        analysis = neural_dna_system.analyze_profile(user_id, profile_id)
-        
-        return jsonify({
-            'success': True,
-            'analysis': analysis,
-            'user_id': user_id,
-            'profile_id': profile_id,
-            'timestamp': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/neural-dna/update-profile', methods=['POST'])
-def update_neural_dna_profile():
-    """Update a Neural Career DNA profile with new data"""
-    try:
-        data = request.get_json() or {}
-        user_id = data.get('user_id', 'anonymous')
-        profile_id = data.get('profile_id', '')
-        update_data = data.get('update_data', {})
-        
-        neural_dna_system = get_neural_dna_system()
-        updated_profile = neural_dna_system.update_profile(user_id, profile_id, update_data)
-        
-        return jsonify({
-            'success': True,
-            'updated_profile': updated_profile,
-            'user_id': user_id,
-            'profile_id': profile_id,
-            'timestamp': datetime.now().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/neural-dna')
-def neural_dna_page():
-    """Serve the Neural Career DNA interface"""
-    return render_template('neural_dna.html')
-
-@app.route('/revolutionary-dna')
-def revolutionary_dna_page():
-    """Serve the Revolutionary Neural Career DNA interface"""
-    return render_template('revolutionary_dna.html')
-
-@app.route('/api/neural-dna/profile/<user_id>')
-def get_neural_dna_profile(user_id):
-    """Get Neural Career DNA profile for a user"""
-    try:
-        neural_dna_system = get_neural_dna_system()
-        profile = neural_dna_system.get_dna_profile(user_id)
-        
-        if not profile:
-            return jsonify({
-                'success': False,
-                'error': 'DNA profile not found'
-            }), 404
-        
-        return jsonify({
-            'success': True,
-            'profile': asdict(profile),
-            'user_id': user_id,
-            'timestamp': datetime.utcnow().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/neural-dna/recommendations/<user_id>')
-def get_dna_recommendations(user_id):
-    """Get DNA-based recommendations for a user"""
-    try:
-        context = request.args.to_dict()
-        neural_dna_system = get_neural_dna_system()
-        recommendations = neural_dna_system.get_dna_based_recommendations(user_id, context)
-        
-        return jsonify({
-            'success': True,
-            'recommendations': recommendations,
-            'user_id': user_id,
-            'timestamp': datetime.utcnow().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/neural-dna/evolution/<user_id>')
-def get_dna_evolution(user_id):
-    """Get DNA evolution history for a user"""
-    try:
-        neural_dna_system = get_neural_dna_system()
-        profile = neural_dna_system.get_dna_profile(user_id)
-        
-        if not profile:
-            return jsonify({
-                'success': False,
-                'error': 'DNA profile not found'
-            }), 404
-        
-        return jsonify({
-            'success': True,
-            'evolution_history': profile.evolution_history,
-            'mutation_events': profile.mutation_events,
-            'growth_trajectory': profile.growth_trajectory,
-            'user_id': user_id,
-            'timestamp': datetime.utcnow().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/neural-dna/mentor/<user_id>')
-def get_ai_mentor_personality(user_id):
-    """Get personalized AI mentor personality based on DNA"""
-    try:
-        neural_dna_system = get_neural_dna_system()
-        profile = neural_dna_system.get_dna_profile(user_id)
-        
-        if not profile:
-            return jsonify({
-                'success': False,
-                'error': 'DNA profile not found'
-            }), 404
-        
-        mentor_personality = neural_dna_system._generate_mentor_personality(profile)
-        
-        return jsonify({
-            'success': True,
-            'mentor_personality': mentor_personality,
-            'user_id': user_id,
-            'timestamp': datetime.utcnow().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/neural-dna/status')
-def neural_dna_system_status():
-    """Get Neural Career DNA system status"""
-    try:
-        neural_dna_system = get_neural_dna_system()
-        status = neural_dna_system.get_system_status()
-        
-        return jsonify({
-            'success': True,
-            'system_status': status,
-            'timestamp': datetime.utcnow().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-# Revolutionary Neural DNA Endpoints
-
-@app.route('/api/revolutionary-dna/create-profile', methods=['POST'])
-def create_revolutionary_dna_profile():
-    """Create Revolutionary Neural Career DNA profile"""
-    try:
-        if not REVOLUTIONARY_DNA_AVAILABLE:
-            return jsonify({
-                'success': False,
-                'error': 'Revolutionary DNA system not available - cryptography module required'
-            }), 503
-        
-        data = request.get_json() or {}
-        user_id = data.get('user_id', f'user_{uuid.uuid4().hex[:8]}')
-        assessment_data = data.get('assessment_data', {})
-        privacy_preferences = data.get('privacy_preferences', {})
-        
-        revolutionary_system = get_revolutionary_neural_dna_system()
-        profile_result = revolutionary_system.create_revolutionary_dna_profile(
-            user_id, assessment_data, privacy_preferences
-        )
-        
-        return jsonify({
-            'success': True,
-            'revolutionary_profile': profile_result,
-            'user_id': user_id,
-            'timestamp': datetime.utcnow().isoformat()
-        })
-        
-    except Exception as e:
-        logger.error(f"Revolutionary DNA Profile Creation Error: {e}")
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        }), 500
-
-@app.route('/api/revolutionary-dna/marketplace/create-asset', methods=['POST'])
-def create_dna_marketplace_asset():
-    """Create DNA asset for marketplace"""
-    try:
-        data = request.get_json() or {}
-        user_id = data.get('user_id')
-        monetization_tier = data.get('monetization_tier', 'personal_only')
-        
-        if not user_id:
-            return jsonify({'success': False, 'error': 'User ID required'}), 400
-        
-        revolutionary_system = get_revolutionary_neural_dna_system()
-        
-        # Get user's DNA profile
-        if user_id not in revolutionary_system.user_profiles:
-            return jsonify({'success': False, 'error': 'DNA profile not found'}), 404
-        
-        profile = revolutionary_system.user_profiles[user_id]
-        
-        # Create marketplace asset
-        from revolutionary_neural_dna import DNAMonetizationTier
-        tier = DNAMonetizationTier(monetization_tier)
-        dna_asset = revolutionary_system.dna_marketplace.create_dna_asset(profile, tier)
-        
-        return jsonify({
-            'success': True,
-            'dna_asset': {
-                'asset_id': dna_asset.asset_id,
-                'market_value': dna_asset.market_value,
-                'rarity_score': dna_asset.rarity_score,
-                'monetization_potential': f"${dna_asset.market_value * 12}/year estimated",
-                'anonymized_insights': dna_asset.anonymized_insights
-            }
-        })
-        
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-@app.route('/api/revolutionary-dna/privacy-game/profile/<user_id>')
-def get_privacy_game_profile(user_id):
-    """Get user's privacy gamification profile"""
-    try:
-        revolutionary_system = get_revolutionary_neural_dna_system()
-        
-        if user_id not in revolutionary_system.privacy_game.privacy_achievements:
-            # Create profile if it doesn't exist
-            profile = revolutionary_system.privacy_game.create_privacy_game_profile(user_id)
-        else:
-            profile = revolutionary_system.privacy_game.privacy_achievements[user_id]
-        
-        return jsonify({
-            'success': True,
-            'privacy_game_profile': profile,
-            'user_id': user_id
-        })
-        
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-@app.route('/api/revolutionary-dna/privacy-game/complete-challenge', methods=['POST'])
-def complete_privacy_challenge():
-    """Complete a privacy challenge"""
-    try:
-        data = request.get_json() or {}
-        user_id = data.get('user_id')
-        challenge_id = data.get('challenge_id')
-        
-        if not user_id or not challenge_id:
-            return jsonify({'success': False, 'error': 'User ID and challenge ID required'}), 400
-        
-        revolutionary_system = get_revolutionary_neural_dna_system()
-        result = revolutionary_system.privacy_game.complete_privacy_challenge(user_id, challenge_id)
-        
-        return jsonify({
-            'success': True,
-            'challenge_result': result
-        })
-        
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-@app.route('/api/revolutionary-dna/quantum-analysis/<user_id>')
-def get_quantum_career_analysis(user_id):
-    """Get quantum-enhanced career analysis"""
-    try:
-        revolutionary_system = get_revolutionary_neural_dna_system()
-        
-        if user_id not in revolutionary_system.user_profiles:
-            return jsonify({'success': False, 'error': 'DNA profile not found'}), 404
-        
-        profile = revolutionary_system.user_profiles[user_id]
-        quantum_vectors = revolutionary_system.quantum_intelligence.generate_quantum_career_vectors(profile)
-        immunity_profile = revolutionary_system.quantum_intelligence.generate_predictive_career_immunity(profile)
-        
-        return jsonify({
-            'success': True,
-            'quantum_analysis': {
-                'quantum_vectors': quantum_vectors,
-                'predictive_immunity': immunity_profile,
-                'user_id': user_id,
-                'analysis_timestamp': datetime.utcnow().isoformat()
-            }
-        })
-        
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-@app.route('/api/revolutionary-dna/system-status')
-def revolutionary_dna_system_status():
-    """Get Revolutionary DNA system status"""
-    try:
-        revolutionary_system = get_revolutionary_neural_dna_system()
-        status = revolutionary_system.get_revolutionary_system_status()
-        
-        return jsonify({
-            'success': True,
-            'system_status': status,
-            'timestamp': datetime.utcnow().isoformat()
-        })
-        
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
-
-# Initialize database and AI system
+# Initialize database - simplified without complex AI systems
 with app.app_context():
     db.create_all()
-    # Initialize the comprehensive AI system with A2A protocol
-    try:
-        a2a_protocol = initialize_a2a_system()
-        activity_tracker = global_activity_tracker
-        neural_dna_system = initialize_neural_dna_system()
-        
-        if REVOLUTIONARY_DNA_AVAILABLE:
-            revolutionary_dna_system = initialize_revolutionary_neural_dna_system()
-            logger.info("All AI systems initialized successfully including Revolutionary DNA system")
-        else:
-            logger.info("All AI systems initialized successfully (Revolutionary DNA system unavailable)")
-            
-        career_agent = ProactiveCareerAgent()
-    except Exception as e:
-        logger.error(f"AI System Initialization Error: {e}")
+    logger.info("Database initialized successfully - DNA systems removed for simplification")
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))

@@ -3,433 +3,420 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Powered Community - SkillSync AI Platform</title>
-    <meta name="description" content="Connect with professionals, mentors, and industry experts in our intelligent community platform powered by AI moderation and matching.">
+    <title>Community - SkillSync AI</title>
+    <meta name="description" content="Connect with professionals, share insights, and grow your career through our intelligent community platform.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <!-- Embedded Design System CSS -->
     <style>
         :root {
-          --primary-50: #f8fafc; --primary-100: #f1f5f9; --primary-200: #e2e8f0; --primary-300: #cbd5e1; --primary-400: #94a3b8; --primary-500: #64748b; --primary-600: #475569; --primary-700: #334155; --primary-800: #1e293b; --primary-900: #0f172a;
-          --secondary-50: #f8fafc; --secondary-100: #f1f5f9; --secondary-200: #e2e8f0; --secondary-300: #cbd5e1; --secondary-400: #94a3b8; --secondary-500: #64748b; --secondary-600: #475569; --secondary-700: #334155; --secondary-800: #1e293b; --secondary-900: #0f172a;
-          --gray-50: #fafbfc; --gray-100: #f4f6f8; --gray-200: #e6eaee; --gray-300: #d2d9e0; --gray-400: #a0aec0; --gray-500: #68768a; --gray-600: #4a5568; --gray-700: #2d3748; --gray-800: #1a202c; --gray-900: #171923;
-          --success: #48bb78; --warning: #ed8936; --error: #f56565; --info: #4299e1;
-          --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; --font-secondary: 'JetBrains Mono', 'Fira Code', monospace; --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
-          --text-xs: clamp(0.75rem, 0.7rem + 0.1vw, 0.8rem); --text-sm: clamp(0.875rem, 0.8rem + 0.2vw, 0.95rem); --text-base: clamp(1rem, 0.9rem + 0.3vw, 1.1rem); --text-lg: clamp(1.125rem, 1rem + 0.4vw, 1.25rem); --text-xl: clamp(1.25rem, 1.1rem + 0.5vw, 1.4rem); --text-2xl: clamp(1.5rem, 1.3rem + 0.7vw, 1.75rem); --text-3xl: clamp(1.875rem, 1.6rem + 1vw, 2.25rem); --text-4xl: clamp(2.25rem, 2rem + 1.5vw, 3rem); --text-5xl: clamp(3rem, 2.5rem + 2vw, 4rem);
-          --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem; --space-20: 5rem; --space-24: 6rem;
-          --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-2xl: 1.5rem; --radius-full: 9999px;
-          --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05); --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25); --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-          --transition-fast: 150ms ease-in-out; --transition-normal: 250ms ease-in-out; --transition-slow: 350ms ease-in-out;
-          --z-dropdown: 1000; --z-sticky: 1020; --z-fixed: 1030; --z-modal-backdrop: 1040; --z-modal: 1050; --z-popover: 1060; --z-tooltip: 1070; --z-toast: 1080;
-          --container-sm: 640px; --container-md: 768px; --container-lg: 1024px; --container-xl: 1280px; --container-2xl: 1536px;
-        }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11'; }
-        body { font-family: var(--font-primary); font-size: var(--text-base); line-height: 1.6; color: var(--gray-100); background: linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); min-height: 100vh; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-        .btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-6); font-size: var(--text-sm); font-weight: 600; text-decoration: none; border: none; border-radius: var(--radius-lg); cursor: pointer; transition: all var(--transition-fast); position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, var(--primary-500), var(--primary-600)); color: white; box-shadow: var(--shadow-md); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); background: linear-gradient(135deg, var(--primary-600), var(--primary-700)); }
-        .btn-secondary { background: rgba(255, 255, 255, 0.9); color: var(--gray-700); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 1); transform: translateY(-2px); }
-        .pulse-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 2s infinite; margin-right: var(--space-2); }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <style>
-        /* Advanced Community Platform Styles */
-        body {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            color: var(--gray-800);
+            /* Modern Color System */
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            
+            --blue-50: #eff6ff;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            
+            --emerald-50: #ecfdf5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            
+            --violet-50: #f5f3ff;
+            --violet-500: #8b5cf6;
+            --violet-600: #7c3aed;
+            
+            --orange-50: #fff7ed;
+            --orange-500: #f59e0b;
+            --orange-600: #d97706;
+            
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            
+            /* Typography */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            
+            /* Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         
-        .community-layout {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-sans);
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Layout */
+        .dashboard-layout {
             display: grid;
             grid-template-columns: 280px 1fr;
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--primary-500) 0%, var(--secondary-600) 100%);
         }
         
-        /* Dashboard Sidebar Styles */
-        .dashboard-sidebar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--gray-200);
             padding: var(--space-6);
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
             display: flex;
             flex-direction: column;
         }
         
         .sidebar-header {
-            margin-bottom: var(--space-8);
-            text-align: center;
-        }
-        
-        .sidebar-menu {
-            list-style: none;
-            margin-bottom: var(--space-8);
-        }
-        
-        .sidebar-menu li {
-            margin-bottom: var(--space-1);
-        }
-        
-        .sidebar-menu a {
             display: flex;
             align-items: center;
             gap: var(--space-3);
-            padding: var(--space-3) var(--space-4);
-            text-decoration: none;
-            color: var(--gray-700);
-            border-radius: var(--radius-lg);
-            transition: all var(--transition-fast);
-            font-weight: 500;
-        }
-        
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
-            color: white;
-            transform: translateX(4px);
-        }
-        
-        .community-header {
-            background: white;
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
             border-bottom: 1px solid var(--gray-200);
-            padding: var(--space-6) 0;
-            box-shadow: var(--shadow-lg);
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
         }
         
-        .community-nav {
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue-500), var(--violet-500));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--gray-900);
+        }
+        
+        .nav {
+            flex: 1;
+        }
+        
+        .nav-section {
+            margin-bottom: var(--space-6);
+        }
+        
+        .nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-3);
+        }
+        
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item:hover,
+        .nav-item.active {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+        
+        .nav-item.active {
+            background: var(--blue-50);
+            color: var(--blue-700);
+        }
+        
+        .nav-item i {
+            width: 16px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: var(--space-8);
+            overflow-y: auto;
+        }
+        
+        .main-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: var(--container-xl);
-            margin: 0 auto;
-            padding: 0 var(--space-4);
+            margin-bottom: var(--space-8);
         }
         
-        .community-tabs {
-            display: flex;
-            gap: var(--space-1);
-            background: var(--gray-100);
-            padding: var(--space-1);
-            border-radius: var(--radius-lg);
+        .main-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gray-900);
         }
         
-        .tab-btn {
-            padding: var(--space-3) var(--space-6);
-            border: none;
-            background: transparent;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            font-size: var(--text-sm);
+        .main-subtitle {
             color: var(--gray-600);
-            cursor: pointer;
-            transition: all var(--transition-fast);
+            margin-top: var(--space-1);
         }
         
-        .tab-btn.active {
-            background: white;
-            color: var(--primary-600);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .tab-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.7);
-        }
-        
-        .community-actions {
+        .header-actions {
             display: flex;
             gap: var(--space-3);
+        }
+        
+        .btn {
+            display: inline-flex;
             align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            font-size: 0.875rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         
-        .search-box {
-            position: relative;
-        }
-        
-        .search-input {
-            padding: var(--space-3) var(--space-4) var(--space-3) var(--space-12);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: var(--radius-lg);
-            background: rgba(255, 255, 255, 0.9);
-            font-size: var(--text-sm);
-            width: 280px;
-            transition: all var(--transition-fast);
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary-500);
-            background: white;
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: var(--space-4);
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray-500);
-        }
-        
-        .main-content {
-            padding: var(--space-8) var(--space-4);
-            max-width: var(--container-xl);
-            margin: 0 auto;
-        }
-        
-        .hero-banner {
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-600));
-            border-radius: var(--radius-2xl);
-            padding: var(--space-12);
+        .btn-primary {
+            background: var(--gray-900);
             color: white;
-            text-align: center;
-            margin-bottom: var(--space-12);
-            position: relative;
-            overflow: hidden;
         }
         
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="communityGrid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23communityGrid)"/></svg>');
-            pointer-events: none;
+        .btn-primary:hover {
+            background: var(--gray-800);
+            transform: translateY(-1px);
         }
         
-        .hero-content {
-            position: relative;
-            z-index: 1;
+        .btn-secondary {
+            background: white;
+            color: var(--gray-700);
+            border: 1px solid var(--gray-300);
         }
         
-        .hero-stats {
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-400);
+        }
+        
+        /* Community Grid */
+        .community-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: var(--space-6);
-            margin-top: var(--space-8);
-        }
-        
-        .hero-stat {
-            text-align: center;
-        }
-        
-        .hero-stat-number {
-            font-size: var(--text-2xl);
-            font-weight: 800;
-            margin-bottom: var(--space-1);
-        }
-        
-        .hero-stat-label {
-            font-size: var(--text-sm);
-            opacity: 0.9;
-        }
-        
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1fr 320px;
             gap: var(--space-8);
         }
         
-        .main-feed {
+        .community-feed {
             display: flex;
             flex-direction: column;
             gap: var(--space-6);
         }
         
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-6);
-        }
-        
-        .feed-card {
+        .post-card {
             background: white;
-            border: 1px solid var(--gray-200);
             border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
             padding: var(--space-6);
-            box-shadow: var(--shadow-lg);
-            transition: all var(--transition-normal);
+            transition: all 0.3s ease;
         }
         
-        .feed-card:hover {
+        .post-card:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-2xl);
+            box-shadow: var(--shadow-lg);
         }
         
         .post-header {
             display: flex;
             align-items: center;
-            gap: var(--space-4);
+            gap: var(--space-3);
             margin-bottom: var(--space-4);
         }
         
-        .avatar {
+        .post-avatar {
             width: 48px;
             height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, var(--blue-500), var(--violet-500));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: 600;
-            font-size: var(--text-lg);
         }
         
-        .post-meta {
+        .post-author-info {
             flex: 1;
         }
         
         .post-author {
             font-weight: 600;
-            color: var(--gray-800);
-            margin-bottom: var(--space-1);
+            color: var(--gray-900);
         }
         
-        .post-time {
-            font-size: var(--text-xs);
+        .post-meta {
+            font-size: 0.875rem;
             color: var(--gray-500);
         }
         
         .post-content {
             margin-bottom: var(--space-4);
-            line-height: 1.6;
-            color: var(--gray-700);
+            line-height: 1.7;
         }
         
         .post-actions {
             display: flex;
+            align-items: center;
             gap: var(--space-6);
             padding-top: var(--space-4);
             border-top: 1px solid var(--gray-200);
         }
         
-        .action-btn {
+        .post-action {
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            background: none;
-            border: none;
-            color: var(--gray-600);
-            font-size: var(--text-sm);
+            color: var(--gray-500);
+            font-size: 0.875rem;
             cursor: pointer;
-            transition: color var(--transition-fast);
+            transition: color 0.2s ease;
         }
         
-        .action-btn:hover {
-            color: var(--primary-600);
+        .post-action:hover {
+            color: var(--blue-500);
         }
         
-        .action-btn.active {
-            color: var(--primary-600);
+        /* Sidebar */
+        .community-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+        
+        .sidebar-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            padding: var(--space-6);
+        }
+        
+        .sidebar-card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: var(--space-4);
         }
         
         .trending-topics {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .section-title {
-            font-size: var(--text-lg);
-            font-weight: 700;
-            color: var(--gray-800);
-            margin-bottom: var(--space-4);
             display: flex;
-            align-items: center;
-            gap: var(--space-2);
+            flex-direction: column;
+            gap: var(--space-3);
         }
         
-        .topic-item {
+        .trending-topic {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: var(--space-3);
-            border-radius: var(--radius-lg);
-            transition: background var(--transition-fast);
+            padding: var(--space-2);
+            border-radius: var(--radius-md);
+            transition: background-color 0.2s ease;
             cursor: pointer;
-            margin-bottom: var(--space-2);
         }
         
-        .topic-item:hover {
-            background: rgba(102, 126, 234, 0.05);
+        .trending-topic:hover {
+            background: var(--gray-50);
         }
         
         .topic-name {
-            font-weight: 600;
-            color: var(--gray-800);
+            font-weight: 500;
+            color: var(--gray-900);
         }
         
         .topic-count {
-            font-size: var(--text-xs);
+            font-size: 0.875rem;
             color: var(--gray-500);
-            background: var(--gray-100);
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--radius-full);
         }
         
-        .online-members {
-            background: white;
-            border: 1px solid var(--gray-200);
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            box-shadow: var(--shadow-lg);
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
         }
         
         .member-item {
             display: flex;
             align-items: center;
             gap: var(--space-3);
-            padding: var(--space-3);
-            border-radius: var(--radius-lg);
-            transition: background var(--transition-fast);
+            padding: var(--space-2);
+            border-radius: var(--radius-md);
+            transition: background-color 0.2s ease;
             cursor: pointer;
-            margin-bottom: var(--space-2);
         }
         
         .member-item:hover {
-            background: rgba(102, 126, 234, 0.05);
+            background: var(--gray-50);
         }
         
         .member-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--emerald-500), var(--blue-500));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
+            font-size: 0.875rem;
             font-weight: 600;
-            font-size: var(--text-sm);
-            position: relative;
-        }
-        
-        .online-dot {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 12px;
-            height: 12px;
-            background: var(--success);
-            border: 2px solid white;
-            border-radius: 50%;
         }
         
         .member-info {
@@ -437,1439 +424,428 @@
         }
         
         .member-name {
-            font-weight: 600;
-            color: var(--gray-800);
-            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--gray-900);
+            font-size: 0.875rem;
         }
         
-        .member-status {
-            font-size: var(--text-xs);
+        .member-role {
+            font-size: 0.75rem;
             color: var(--gray-500);
         }
         
-        .floating-compose {
-            position: fixed;
-            bottom: var(--space-8);
-            right: var(--space-8);
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: var(--text-xl);
-            box-shadow: var(--shadow-2xl);
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            z-index: var(--z-fixed);
-        }
-        
-        .floating-compose:hover {
-            transform: scale(1.1);
-            box-shadow: var(--shadow-2xl);
-        }
-        
-        .ai-moderator-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-1);
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
-            color: white;
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--radius-full);
-            font-size: var(--text-xs);
-            font-weight: 600;
-        }
-        
-        .notification-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--error);
-            border-radius: 50%;
-            position: absolute;
-            top: -2px;
-            right: -2px;
-        }
-        
+        /* Mobile Responsive */
         @media (max-width: 1024px) {
-            .community-layout {
+            .dashboard-layout {
                 grid-template-columns: 1fr;
             }
             
-            .dashboard-sidebar {
-                position: fixed;
-                top: 0;
-                left: -280px;
-                z-index: 1000;
-                transition: left 0.3s ease;
-            }
-            
-            .dashboard-sidebar.open {
-                left: 0;
-            }
-            
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .search-input {
-                width: 200px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .community-tabs {
+            .sidebar {
                 display: none;
             }
             
-            .hero-stats {
-                grid-template-columns: repeat(2, 1fr);
+            .main-content {
+                padding: var(--space-6) var(--space-4);
             }
             
-            .search-input {
-                width: 150px;
+            .community-grid {
+                grid-template-columns: 1fr;
             }
+            
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-4);
+            }
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.4s ease-out;
+        }
+        
+        .animate-delay {
+            animation-delay: 0.1s;
+            animation-fill-mode: both;
         }
     </style>
 </head>
-
 <body>
-    <div class="community-layout">
-        <!-- Dashboard Sidebar -->
-        <aside class="dashboard-sidebar">
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
             <div class="sidebar-header">
-                <div style="font-family: var(--font-display); font-size: var(--text-xl); font-weight: 800; color: var(--primary-600); margin-bottom: var(--space-2);">
-                    <i class="fas fa-rocket"></i> SkillSync AI
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
                 </div>
-                <div style="font-size: var(--text-sm); color: var(--gray-600);">AI-Powered Career Platform</div>
+                <div class="logo-text">SkillSync AI</div>
             </div>
             
-            <nav>
-                <ul class="sidebar-menu">
-                    <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Overview</a></li>
-                    <li><a href="/career-paths"><i class="fas fa-route"></i> Career Paths</a></li>
-                    <li><a href="/market-intelligence"><i class="fas fa-brain"></i> Market Intel</a></li>
-                    <li><a href="/tools"><i class="fas fa-tools"></i> AI Tools</a></li>
-                    <li><a href="/neural-dna"><i class="fas fa-dna"></i> Neural DNA</a></li>
-                    <li><a href="/revolutionary-dna"><i class="fas fa-atom"></i> Revolutionary DNA</a></li>
-                    <li><a href="/community" class="active"><i class="fas fa-users"></i> Community</a></li>
-                    <li><a href="/api-docs"><i class="fas fa-code"></i> API Docs</a></li>
-                    <li><a href="/ai-agent"><i class="fas fa-robot"></i> AI Agent</a></li>
-                </ul>
+            <nav class="nav">
+                <div class="nav-section">
+                    <div class="nav-title">Overview</div>
+                    <ul class="nav-list">
+                        <li><a href="/dashboard" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                        <li><a href="/career-paths" class="nav-item"><i class="fas fa-route"></i> Career Paths</a></li>
+                        <li><a href="#analytics" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Tools</div>
+                    <ul class="nav-list">
+                        <li><a href="/market-intelligence" class="nav-item"><i class="fas fa-brain"></i> Market Intel</a></li>
+                        <li><a href="/tools" class="nav-item"><i class="fas fa-tools"></i> AI Tools</a></li>
+                        <li><a href="/ai-agent" class="nav-item"><i class="fas fa-robot"></i> AI Agent</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-title">Community</div>
+                    <ul class="nav-list">
+                        <li><a href="/community" class="nav-item active"><i class="fas fa-users"></i> Network</a></li>
+                        <li><a href="#mentorship" class="nav-item"><i class="fas fa-graduation-cap"></i> Mentorship</a></li>
+                        <li><a href="#events" class="nav-item"><i class="fas fa-calendar"></i> Events</a></li>
+                    </ul>
+                </div>
             </nav>
-            
-            <!-- AI Assistant Widget -->
-            <div style="margin-top: auto; padding: var(--space-4); background: linear-gradient(135deg, var(--primary-500), var(--secondary-600)); border-radius: var(--radius-xl); color: white; text-align: center;">
-                <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-3); font-size: var(--text-xl);">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <h4 style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-2);">AI Assistant</h4>
-                <p style="font-size: var(--text-xs); color: rgba(255,255,255,0.9); margin-bottom: var(--space-3);">Need help? Ask our AI!</p>
-                <button onclick="openAIAssistant()" style="background: rgba(255,255,255,0.2); border: none; border-radius: var(--radius-lg); padding: var(--space-2) var(--space-4); color: white; font-size: var(--text-xs); cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                    <i class="fas fa-comments"></i> Chat Now
-                </button>
-            </div>
         </aside>
         
-        <!-- Main Content Container -->
-        <div class="main-content" style="background: rgba(255, 255, 255, 0.1); overflow: hidden;">
-            <!-- Community Header -->
-            <header class="community-header">
-                <div class="community-nav" style="justify-content: center; align-items: center; display: flex;">
-                
-                <div class="community-tabs">
-                    <button class="tab-btn active" onclick="switchTab('feed')">
-                        <i class="fas fa-home"></i> Feed
-                    </button>
-                    <button class="tab-btn" onclick="switchTab('discussions')">
-                        <i class="fas fa-comments"></i> Discussions
-                    </button>
-                    <button class="tab-btn" onclick="switchTab('mentorship')">
-                        <i class="fas fa-user-graduate"></i> Mentorship
-                    </button>
-                    <button class="tab-btn" onclick="switchTab('events')">
-                        <i class="fas fa-calendar"></i> Events
-                    </button>
-                    <button class="tab-btn" onclick="switchTab('jobs')">
-                        <i class="fas fa-briefcase"></i> Jobs
-                    </button>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="main-header animate-slide-up">
+                <div>
+                    <h1 class="main-title">Community</h1>
+                    <p class="main-subtitle">Connect with professionals, share insights, and accelerate your career growth.</p>
                 </div>
-                
-                <div class="community-actions">
-                    <div class="search-box">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" class="search-input" placeholder="Search community...">
-                    </div>
-                    <button class="btn btn-secondary" onclick="navigateToDashboard()">
-                        <i class="fas fa-chart-line"></i> Dashboard
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="joinGroup()">
+                        <i class="fas fa-plus"></i> Join Group
                     </button>
-                    <div style="position: relative;">
-                        <button class="btn btn-primary" onclick="openNotifications()">
-                            <i class="fas fa-bell"></i>
-                            <div class="notification-dot"></div>
-                        </button>
-                    </div>
+                    <button class="btn btn-primary" onclick="createPost()">
+                        <i class="fas fa-edit"></i> New Post
+                    </button>
                 </div>
             </div>
-            </header>
             
-            <!-- Community Main Content -->
-            <main style="padding: var(--space-6);">
-            <!-- Hero Banner -->
-            <section class="hero-banner" data-aos="fade-up">
-                <div class="hero-content">
-                    <h1 style="font-size: var(--text-4xl); font-weight: 800; margin-bottom: var(--space-4);">
-                        AI-Powered Professional Community
-                    </h1>
-                    <p style="font-size: var(--text-lg); margin-bottom: var(--space-2); opacity: 0.9;">
-                        Connect, learn, and grow with intelligent matching and AI moderation
-                    </p>
-                    <div class="ai-moderator-badge">
-                        <i class="fas fa-robot"></i>
-                        Claude AI Moderated
-                    </div>
-                    
-                    <div class="hero-stats">
-                        <div class="hero-stat">
-                            <div class="hero-stat-number" id="totalMembers">24,847</div>
-                            <div class="hero-stat-label">Active Members</div>
-                        </div>
-                        <div class="hero-stat">
-                            <div class="hero-stat-number" id="onlineNow">1,234</div>
-                            <div class="hero-stat-label">Online Now</div>
-                        </div>
-                        <div class="hero-stat">
-                            <div class="hero-stat-number" id="dailyPosts">567</div>
-                            <div class="hero-stat-label">Posts Today</div>
-                        </div>
-                        <div class="hero-stat">
-                            <div class="hero-stat-number" id="mentorConnections">89</div>
-                            <div class="hero-stat-label">Mentor Matches</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- Content Grid -->
-            <div class="content-grid">
+            <div class="community-grid animate-slide-up animate-delay">
                 <!-- Main Feed -->
-                <div class="main-feed" id="mainFeed">
-                    <!-- Featured Post -->
-                    <article class="feed-card" data-aos="fade-up">
+                <div class="community-feed">
+                    <div class="post-card">
                         <div class="post-header">
-                            <div class="avatar">SM</div>
-                            <div class="post-meta">
-                                <div class="post-author">
-                                    Sarah Martinez
-                                    <span class="ai-moderator-badge" style="margin-left: var(--space-2);">
-                                        <i class="fas fa-star"></i> Expert
-                                    </span>
-                                </div>
-                                <div class="post-time">2 hours ago • Senior Frontend Developer at Netflix</div>
+                            <div class="post-avatar">AM</div>
+                            <div class="post-author-info">
+                                <div class="post-author">Alex Morgan</div>
+                                <div class="post-meta">Senior Developer • 2 hours ago</div>
                             </div>
                         </div>
                         <div class="post-content">
-                            <h3 style="font-weight: 700; margin-bottom: var(--space-3); color: var(--gray-800);">
-                                🚀 How I Transitioned from Junior to Senior Developer in 18 Months
-                            </h3>
-                            <p>Just hit my 18-month mark and wanted to share the key strategies that accelerated my career growth. The Claude AI career analysis was a game-changer - it identified skill gaps I didn't even know I had...</p>
-                            <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4);">
-                                <strong>Key Takeaways:</strong>
-                                <ul style="margin-top: var(--space-2); margin-left: var(--space-4);">
-                                    <li>Focus on system design fundamentals</li>
-                                    <li>Build projects that solve real problems</li>
-                                    <li>Find mentors through AI matching</li>
-                                </ul>
-                            </div>
+                            Just completed my transition from frontend to full-stack development! The AI-powered learning recommendations really helped me identify the key backend skills I needed. Anyone else making similar career pivots?
                         </div>
                         <div class="post-actions">
-                            <button class="action-btn" onclick="toggleLike(this)">
-                                <i class="fas fa-heart"></i> 247 Likes
-                            </button>
-                            <button class="action-btn" onclick="showComments(this)">
-                                <i class="fas fa-comment"></i> 52 Comments
-                            </button>
-                            <button class="action-btn" onclick="sharePost(this)">
-                                <i class="fas fa-share"></i> Share
-                            </button>
-                            <button class="action-btn" onclick="savePost(this)">
-                                <i class="fas fa-bookmark"></i> Save
-                            </button>
-                        </div>
-                    </article>
-                    
-                    <!-- AI Recommendation Post -->
-                    <article class="feed-card" data-aos="fade-up" data-aos-delay="100">
-                        <div style="background: linear-gradient(135deg, var(--primary-500), var(--secondary-500)); color: white; padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
-                            <div style="display: flex; align-items: center; gap: var(--space-3);">
-                                <i class="fas fa-robot" style="font-size: var(--text-xl);"></i>
-                                <div>
-                                    <strong>Claude AI Recommendation</strong>
-                                    <div style="font-size: var(--text-sm); opacity: 0.9;">Personalized for your career goals</div>
-                                </div>
+                            <div class="post-action" onclick="likePost(1)">
+                                <i class="fas fa-heart"></i>
+                                <span>24</span>
+                            </div>
+                            <div class="post-action" onclick="commentPost(1)">
+                                <i class="fas fa-comment"></i>
+                                <span>8</span>
+                            </div>
+                            <div class="post-action" onclick="sharePost(1)">
+                                <i class="fas fa-share"></i>
+                                <span>3</span>
                             </div>
                         </div>
-                        <div class="post-content">
-                            <h3 style="font-weight: 700; margin-bottom: var(--space-3); color: var(--gray-800);">
-                                🎯 Perfect Match: React Developer Meetup This Weekend
-                            </h3>
-                            <p>Based on your interest in React and frontend development, we found this highly relevant event. The speaker lineup includes engineers from Meta, Airbnb, and other top companies.</p>
-                            <div style="background: var(--primary-50); border: 2px solid var(--primary-200); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4);">
-                                <strong style="color: var(--primary-700);">Event Details:</strong>
-                                <div style="margin-top: var(--space-2); font-size: var(--text-sm);">
-                                    📅 Saturday, 2:00 PM PST<br>
-                                    📍 San Francisco (Hybrid)<br>
-                                    🎤 Topic: React 18 Performance Optimization
-                                </div>
-                                <button class="btn btn-primary" style="margin-top: var(--space-3); font-size: var(--text-sm);">
-                                    Register Now
-                                </button>
-                            </div>
-                        </div>
-                    </article>
+                    </div>
                     
-                    <!-- Discussion Post -->
-                    <article class="feed-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="post-card">
                         <div class="post-header">
-                            <div class="avatar">AJ</div>
-                            <div class="post-meta">
-                                <div class="post-author">Alex Johnson</div>
-                                <div class="post-time">4 hours ago • DevOps Engineer looking for career advice</div>
+                            <div class="post-avatar">SJ</div>
+                            <div class="post-author-info">
+                                <div class="post-author">Sarah Johnson</div>
+                                <div class="post-meta">Product Manager • 4 hours ago</div>
                             </div>
                         </div>
                         <div class="post-content">
-                            <h3 style="font-weight: 700; margin-bottom: var(--space-3); color: var(--gray-800);">
-                                💭 Should I transition from DevOps to Cloud Architecture?
-                            </h3>
-                            <p>I've been in DevOps for 3 years and love the infrastructure side, but I'm seeing huge demand for cloud architects. The AI analysis suggests it's a good move for my skill set. What's your experience with this transition?</p>
+                            Amazing insights from the AI market intelligence dashboard! Seeing 40% growth in demand for PM roles with AI/ML experience. Time to upskill! 📈
                         </div>
                         <div class="post-actions">
-                            <button class="action-btn" onclick="toggleLike(this)">
-                                <i class="fas fa-heart"></i> 43 Likes
-                            </button>
-                            <button class="action-btn" onclick="showComments(this)">
-                                <i class="fas fa-comment"></i> 28 Comments
-                            </button>
-                            <button class="action-btn" onclick="sharePost(this)">
-                                <i class="fas fa-share"></i> Share
-                            </button>
+                            <div class="post-action" onclick="likePost(2)">
+                                <i class="fas fa-heart"></i>
+                                <span>31</span>
+                            </div>
+                            <div class="post-action" onclick="commentPost(2)">
+                                <i class="fas fa-comment"></i>
+                                <span>12</span>
+                            </div>
+                            <div class="post-action" onclick="sharePost(2)">
+                                <i class="fas fa-share"></i>
+                                <span>7</span>
+                            </div>
                         </div>
-                    </article>
+                    </div>
+                    
+                    <div class="post-card">
+                        <div class="post-header">
+                            <div class="post-avatar">MK</div>
+                            <div class="post-author-info">
+                                <div class="post-author">Mike Kim</div>
+                                <div class="post-meta">Data Scientist • 6 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Pro tip: The career path recommendations helped me identify a gap in my cloud computing skills. Just started AWS certification and already seeing interview opportunities increase!
+                        </div>
+                        <div class="post-actions">
+                            <div class="post-action" onclick="likePost(3)">
+                                <i class="fas fa-heart"></i>
+                                <span>19</span>
+                            </div>
+                            <div class="post-action" onclick="commentPost(3)">
+                                <i class="fas fa-comment"></i>
+                                <span>5</span>
+                            </div>
+                            <div class="post-action" onclick="sharePost(3)">
+                                <i class="fas fa-share"></i>
+                                <span>2</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Sidebar -->
-                <aside class="sidebar">
-                    <!-- Trending Topics -->
-                    <div class="trending-topics" data-aos="fade-left">
-                        <h2 class="section-title">
-                            <i class="fas fa-fire"></i>
-                            Trending Topics
-                        </h2>
-                        <div class="topic-item" onclick="searchTopic('react-18')">
-                            <div class="topic-name">#React18</div>
-                            <div class="topic-count">234 posts</div>
-                        </div>
-                        <div class="topic-item" onclick="searchTopic('ai-careers')">
-                            <div class="topic-name">#AICareers</div>
-                            <div class="topic-count">189 posts</div>
-                        </div>
-                        <div class="topic-item" onclick="searchTopic('remote-work')">
-                            <div class="topic-name">#RemoteWork</div>
-                            <div class="topic-count">156 posts</div>
-                        </div>
-                        <div class="topic-item" onclick="searchTopic('cloud-certification')">
-                            <div class="topic-name">#CloudCertification</div>
-                            <div class="topic-count">98 posts</div>
-                        </div>
-                        <div class="topic-item" onclick="searchTopic('salary-negotiation')">
-                            <div class="topic-name">#SalaryNegotiation</div>
-                            <div class="topic-count">87 posts</div>
+                <div class="community-sidebar">
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-card-title">Trending Topics</h3>
+                        <div class="trending-topics">
+                            <div class="trending-topic" onclick="exploreHashtag('ai-careers')">
+                                <div class="topic-name">#ai-careers</div>
+                                <div class="topic-count">156 posts</div>
+                            </div>
+                            <div class="trending-topic" onclick="exploreHashtag('remote-work')">
+                                <div class="topic-name">#remote-work</div>
+                                <div class="topic-count">89 posts</div>
+                            </div>
+                            <div class="trending-topic" onclick="exploreHashtag('career-pivot')">
+                                <div class="topic-name">#career-pivot</div>
+                                <div class="topic-count">67 posts</div>
+                            </div>
+                            <div class="trending-topic" onclick="exploreHashtag('upskilling')">
+                                <div class="topic-name">#upskilling</div>
+                                <div class="topic-count">124 posts</div>
+                            </div>
+                            <div class="trending-topic" onclick="exploreHashtag('leadership')">
+                                <div class="topic-name">#leadership</div>
+                                <div class="topic-count">91 posts</div>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Online Members -->
-                    <div class="online-members" data-aos="fade-left" data-aos-delay="100">
-                        <h2 class="section-title">
-                            <i class="fas fa-users"></i>
-                            Online Members
-                            <div class="pulse-dot" style="margin-left: var(--space-2);"></div>
-                        </h2>
-                        <div class="member-item" onclick="viewProfile('mike-chen')">
-                            <div class="member-avatar">
-                                MC
-                                <div class="online-dot"></div>
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-card-title">Active Members</h3>
+                        <div class="member-list">
+                            <div class="member-item" onclick="viewProfile('alex-morgan')">
+                                <div class="member-avatar">AM</div>
+                                <div class="member-info">
+                                    <div class="member-name">Alex Morgan</div>
+                                    <div class="member-role">Senior Developer</div>
+                                </div>
                             </div>
-                            <div class="member-info">
-                                <div class="member-name">Mike Chen</div>
-                                <div class="member-status">Senior Full Stack Developer</div>
+                            <div class="member-item" onclick="viewProfile('sarah-johnson')">
+                                <div class="member-avatar">SJ</div>
+                                <div class="member-info">
+                                    <div class="member-name">Sarah Johnson</div>
+                                    <div class="member-role">Product Manager</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="member-item" onclick="viewProfile('lisa-park')">
-                            <div class="member-avatar">
-                                LP
-                                <div class="online-dot"></div>
+                            <div class="member-item" onclick="viewProfile('mike-kim')">
+                                <div class="member-avatar">MK</div>
+                                <div class="member-info">
+                                    <div class="member-name">Mike Kim</div>
+                                    <div class="member-role">Data Scientist</div>
+                                </div>
                             </div>
-                            <div class="member-info">
-                                <div class="member-name">Lisa Park</div>
-                                <div class="member-status">Product Manager at Google</div>
+                            <div class="member-item" onclick="viewProfile('lisa-chen')">
+                                <div class="member-avatar">LC</div>
+                                <div class="member-info">
+                                    <div class="member-name">Lisa Chen</div>
+                                    <div class="member-role">UX Designer</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="member-item" onclick="viewProfile('david-kim')">
-                            <div class="member-avatar">
-                                DK
-                                <div class="online-dot"></div>
-                            </div>
-                            <div class="member-info">
-                                <div class="member-name">David Kim</div>
-                                <div class="member-status">Data Scientist</div>
-                            </div>
-                        </div>
-                        <div class="member-item" onclick="viewProfile('emma-wilson')">
-                            <div class="member-avatar">
-                                EW
-                                <div class="online-dot"></div>
-                            </div>
-                            <div class="member-info">
-                                <div class="member-name">Emma Wilson</div>
-                                <div class="member-status">UX Designer</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" style="width: 100%; margin-top: var(--space-4); font-size: var(--text-sm);">
-                            View All Members
-                        </button>
-                    </div>
-                    
-                    <!-- AI Insights Widget -->
-                    <div class="trending-topics" data-aos="fade-left" data-aos-delay="200">
-                        <h2 class="section-title">
-                            <i class="fas fa-brain"></i>
-                            AI Community Insights
-                        </h2>
-                        <div style="padding: var(--space-4); background: var(--primary-50); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
-                            <div style="font-weight: 600; color: var(--primary-700); margin-bottom: var(--space-2);">
-                                🎯 Perfect Mentor Match Found!
-                            </div>
-                            <div style="font-size: var(--text-sm); color: var(--gray-700);">
-                                Based on your React interests, Sarah Martinez (Senior Dev at Netflix) could be an ideal mentor.
-                            </div>
-                            <button class="btn btn-primary" style="width: 100%; margin-top: var(--space-3); font-size: var(--text-xs);">
-                                Send Connection Request
-                            </button>
-                        </div>
-                        
-                        <div style="padding: var(--space-4); background: var(--success-50); border-radius: var(--radius-lg);">
-                            <div style="font-weight: 600; color: var(--success-700); margin-bottom: var(--space-2);">
-                                📈 Your Engagement Score: 94%
-                            </div>
-                            <div style="font-size: var(--text-sm); color: var(--gray-700);">
-                                You're in the top 10% of active community members this month!
+                            <div class="member-item" onclick="viewProfile('david-smith')">
+                                <div class="member-avatar">DS</div>
+                                <div class="member-info">
+                                    <div class="member-name">David Smith</div>
+                                    <div class="member-role">DevOps Engineer</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </aside>
+                </div>
             </div>
         </main>
-        
-        <!-- Floating Compose Button -->
-        <button class="floating-compose" onclick="openComposer()" title="Create New Post">
-            <i class="fas fa-plus"></i>
-        </button>
     </div>
     
-    <!-- JavaScript for Enhanced Functionality -->
     <script>
-        // Initialize AOS animations
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100
+        // Add loading animation delays
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-slide-up');
+            animatedElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+                el.style.animationFillMode = 'both';
+            });
         });
         
-        // Real-time stats animation
-        function animateStats() {
-            const stats = [
-                { id: 'totalMembers', start: 24847, increment: 2, max: 25000 },
-                { id: 'onlineNow', start: 1234, increment: 1, max: 1300 },
-                { id: 'dailyPosts', start: 567, increment: 1, max: 600 },
-                { id: 'mentorConnections', start: 89, increment: 1, max: 95 }
-            ];
-            
-            stats.forEach(stat => {
-                const element = document.getElementById(stat.id);
-                let current = stat.start;
-                
-                setInterval(() => {
-                    if (Math.random() > 0.7) {
-                        current += stat.increment;
-                        if (current >= stat.max) {
-                            current = stat.start;
-                        }
-                        element.textContent = current.toLocaleString();
-                    }
-                }, 5000 + Math.random() * 10000);
-            });
-        }
-        
-        // Tab switching functionality with real content
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            const mainFeed = document.getElementById('mainFeed');
-            mainFeed.style.opacity = '0.5';
+        // Create new post
+        function createPost() {
+            showNotification('Opening post composer...', 'info');
             
             setTimeout(() => {
-                loadTabContent(tab);
-                mainFeed.style.opacity = '1';
-            }, 300);
+                showNotification('Post composer ready! Share your insights with the community.', 'success');
+            }, 1000);
         }
         
-        function loadTabContent(tab) {
-            const mainFeed = document.getElementById('mainFeed');
-            const contentMap = {
-                'feed': getFeedContent(),
-                'discussions': getDiscussionsContent(),
-                'mentorship': getMentorshipContent(),
-                'events': getEventsContent(),
-                'jobs': getJobsContent()
-            };
+        // Join group
+        function joinGroup() {
+            showNotification('Browsing available professional groups...', 'info');
             
-            mainFeed.innerHTML = contentMap[tab] || contentMap['feed'];
-            showToast(`Loaded ${tab} content`, 'success');
+            setTimeout(() => {
+                showNotification('Found 15 groups matching your interests!', 'success');
+            }, 1500);
         }
         
-        function getFeedContent() {
-            return `
-                <!-- Featured Post -->
-                <article class="feed-card" data-aos="fade-up">
-                    <div class="post-header">
-                        <div class="avatar">SM</div>
-                        <div class="post-meta">
-                            <div class="post-author">
-                                Sarah Martinez
-                                <span class="ai-moderator-badge" style="margin-left: var(--space-2);">
-                                    <i class="fas fa-star"></i> Expert
-                                </span>
-                            </div>
-                            <div class="post-time">2 hours ago • Senior Frontend Developer at Netflix</div>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 style="font-weight: 700; margin-bottom: var(--space-3); color: var(--gray-800);">
-                            🚀 How I Transitioned from Junior to Senior Developer in 18 Months
-                        </h3>
-                        <p>Just hit my 18-month mark and wanted to share the key strategies that accelerated my career growth. The Claude AI career analysis was a game-changer - it identified skill gaps I didn't even know I had...</p>
-                        <div style="background: var(--gray-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4);">
-                            <strong>Key Takeaways:</strong>
-                            <ul style="margin-top: var(--space-2); margin-left: var(--space-4);">
-                                <li>Focus on system design fundamentals</li>
-                                <li>Build projects that solve real problems</li>
-                                <li>Find mentors through AI matching</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="post-actions">
-                        <button class="action-btn" onclick="toggleLike(this)">
-                            <i class="fas fa-heart"></i> 247 Likes
-                        </button>
-                        <button class="action-btn" onclick="showComments(this)">
-                            <i class="fas fa-comment"></i> 52 Comments
-                        </button>
-                        <button class="action-btn" onclick="sharePost(this)">
-                            <i class="fas fa-share"></i> Share
-                        </button>
-                        <button class="action-btn" onclick="savePost(this)">
-                            <i class="fas fa-bookmark"></i> Save
-                        </button>
-                    </div>
-                </article>
-                
-                <!-- AI Recommendation Post -->
-                <article class="feed-card" data-aos="fade-up" data-aos-delay="100">
-                    <div style="background: linear-gradient(135deg, var(--primary-500), var(--secondary-500)); color: white; padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
-                        <div style="display: flex; align-items: center; gap: var(--space-3);">
-                            <i class="fas fa-robot" style="font-size: var(--text-xl);"></i>
-                            <div>
-                                <strong>Claude AI Recommendation</strong>
-                                <div style="font-size: var(--text-sm); opacity: 0.9;">Personalized for your career goals</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-content">
-                        <h3 style="font-weight: 700; margin-bottom: var(--space-3); color: var(--gray-800);">
-                            🎯 Perfect Match: React Developer Meetup This Weekend
-                        </h3>
-                        <p>Based on your interest in React and frontend development, we found this highly relevant event. The speaker lineup includes engineers from Meta, Airbnb, and other top companies.</p>
-                        <div style="background: var(--primary-50); border: 2px solid var(--primary-200); padding: var(--space-4); border-radius: var(--radius-lg); margin-top: var(--space-4);">
-                            <strong style="color: var(--primary-700);">Event Details:</strong>
-                            <div style="margin-top: var(--space-2); font-size: var(--text-sm);">
-                                📅 Saturday, 2:00 PM PST<br>
-                                📍 San Francisco (Hybrid)<br>
-                                🎤 Topic: React 18 Performance Optimization
-                            </div>
-                            <button class="btn btn-primary" onclick="registerForEvent()" style="margin-top: var(--space-3); font-size: var(--text-sm);">
-                                Register Now
-                            </button>
-                        </div>
-                    </div>
-                </article>
-            `;
-        }
-        
-        function getDiscussionsContent() {
-            return `
-                <div class="feed-card">
-                    <h2 style="margin-bottom: var(--space-6); color: var(--primary-600); text-align: center;">
-                        <i class="fas fa-comments"></i> Active Discussions
-                    </h2>
-                    
-                    <article class="feed-card" style="margin-bottom: var(--space-4);">
-                        <div class="post-header">
-                            <div class="avatar">TK</div>
-                            <div class="post-meta">
-                                <div class="post-author">Tom Kim</div>
-                                <div class="post-time">1 hour ago • Discussion Starter</div>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <h3 style="font-weight: 700; margin-bottom: var(--space-3); color: var(--gray-800);">
-                                💡 Best Practices for Code Reviews in Remote Teams?
-                            </h3>
-                            <p>Our team is fully remote and we're struggling with effective code reviews. What tools and processes have worked best for your teams?</p>
-                            <div style="display: flex; gap: var(--space-2); margin-top: var(--space-3);">
-                                <span style="background: var(--primary-100); color: var(--primary-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">#CodeReview</span>
-                                <span style="background: var(--success-100); color: var(--success-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">#RemoteWork</span>
-                            </div>
-                        </div>
-                        <div class="post-actions">
-                            <button class="action-btn" onclick="toggleLike(this)">
-                                <i class="fas fa-heart"></i> 34 Likes
-                            </button>
-                            <button class="action-btn" onclick="showComments(this)">
-                                <i class="fas fa-comment"></i> 18 Replies
-                            </button>
-                            <button class="action-btn" onclick="sharePost(this)">
-                                <i class="fas fa-share"></i> Share
-                            </button>
-                        </div>
-                    </article>
-                    
-                    <article class="feed-card">
-                        <div class="post-header">
-                            <div class="avatar">RW</div>
-                            <div class="post-meta">
-                                <div class="post-author">Rachel Williams</div>
-                                <div class="post-time">3 hours ago • Hot Discussion</div>
-                            </div>
-                        </div>
-                        <div class="post-content">
-                            <h3 style="font-weight: 700; margin-bottom: var(--space-3); color: var(--gray-800);">
-                                🔥 Should companies mandate return to office for senior developers?
-                            </h3>
-                            <p>Seeing more companies requiring in-office presence for senior roles. What's your take on productivity vs collaboration trade-offs?</p>
-                            <div style="display: flex; gap: var(--space-2); margin-top: var(--space-3);">
-                                <span style="background: var(--warning-100); color: var(--warning-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">#WorkCulture</span>
-                                <span style="background: var(--error-100); color: var(--error-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">#HotTopic</span>
-                            </div>
-                        </div>
-                        <div class="post-actions">
-                            <button class="action-btn" onclick="toggleLike(this)">
-                                <i class="fas fa-heart"></i> 127 Likes
-                            </button>
-                            <button class="action-btn" onclick="showComments(this)">
-                                <i class="fas fa-comment"></i> 89 Replies
-                            </button>
-                            <button class="action-btn" onclick="sharePost(this)">
-                                <i class="fas fa-share"></i> Share
-                            </button>
-                        </div>
-                    </article>
-                </div>
-            `;
-        }
-        
-        function getMentorshipContent() {
-            return `
-                <div class="feed-card">
-                    <h2 style="margin-bottom: var(--space-6); color: var(--primary-600); text-align: center;">
-                        <i class="fas fa-user-graduate"></i> AI-Powered Mentorship Hub
-                    </h2>
-                    
-                    <div style="background: linear-gradient(135deg, var(--success), var(--info)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
-                        <h3 style="margin-bottom: var(--space-3);">🎯 Perfect Mentor Matches Found!</h3>
-                        <p style="margin-bottom: var(--space-4); opacity: 0.9;">Our AI has identified 3 ideal mentors based on your skills, goals, and personality.</p>
-                        <button class="btn btn-secondary" onclick="viewMentorMatches()" style="background: rgba(255,255,255,0.9); color: var(--gray-800);">
-                            <i class="fas fa-users"></i> View Matches
-                        </button>
-                    </div>
-                    
-                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6);">
-                        <div class="feed-card" style="text-align: center;">
-                            <div class="avatar" style="width: 64px; height: 64px; font-size: var(--text-xl); margin: 0 auto var(--space-4);">
-                                SM
-                            </div>
-                            <h4 style="margin-bottom: var(--space-2);">Sarah Martinez</h4>
-                            <p style="color: var(--gray-600); font-size: var(--text-sm); margin-bottom: var(--space-3);">Senior Frontend Developer at Netflix</p>
-                            <div style="display: flex; gap: var(--space-2); justify-content: center; margin-bottom: var(--space-4);">
-                                <span style="background: var(--primary-100); color: var(--primary-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">React</span>
-                                <span style="background: var(--success-100); color: var(--success-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Leadership</span>
-                            </div>
-                            <div style="background: var(--gray-50); padding: var(--space-3); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
-                                <div style="font-weight: 600; color: var(--success); margin-bottom: var(--space-1);">98% Match</div>
-                                <div style="font-size: var(--text-xs); color: var(--gray-600);">Based on skills, experience, and communication style</div>
-                            </div>
-                            <button class="btn btn-primary" onclick="connectWithMentor('sarah-martinez')" style="width: 100%;">
-                                <i class="fas fa-handshake"></i> Connect
-                            </button>
-                        </div>
-                        
-                        <div class="feed-card" style="text-align: center;">
-                            <div class="avatar" style="width: 64px; height: 64px; font-size: var(--text-xl); margin: 0 auto var(--space-4);">
-                                MK
-                            </div>
-                            <h4 style="margin-bottom: var(--space-2);">Mike Kim</h4>
-                            <p style="color: var(--gray-600); font-size: var(--text-sm); margin-bottom: var(--space-3);">Principal Engineer at Google</p>
-                            <div style="display: flex; gap: var(--space-2); justify-content: center; margin-bottom: var(--space-4);">
-                                <span style="background: var(--info-100); color: var(--info-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">System Design</span>
-                                <span style="background: var(--warning-100); color: var(--warning-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Career Growth</span>
-                            </div>
-                            <div style="background: var(--gray-50); padding: var(--space-3); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
-                                <div style="font-weight: 600; color: var(--success); margin-bottom: var(--space-1);">94% Match</div>
-                                <div style="font-size: var(--text-xs); color: var(--gray-600);">Excellent for scaling technical skills</div>
-                            </div>
-                            <button class="btn btn-primary" onclick="connectWithMentor('mike-kim')" style="width: 100%;">
-                                <i class="fas fa-handshake"></i> Connect
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <h3 style="margin-bottom: var(--space-4);">Want to Become a Mentor?</h3>
-                        <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Share your expertise and help others grow in their careers</p>
-                        <button class="btn btn-secondary" onclick="becomeMentor()">
-                            <i class="fas fa-graduation-cap"></i> Become a Mentor
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function getEventsContent() {
-            return `
-                <div class="feed-card">
-                    <h2 style="margin-bottom: var(--space-6); color: var(--primary-600); text-align: center;">
-                        <i class="fas fa-calendar"></i> Upcoming Tech Events
-                    </h2>
-                    
-                    <div style="display: flex; gap: var(--space-4); margin-bottom: var(--space-6); justify-content: center; flex-wrap: wrap;">
-                        <button class="btn btn-secondary" onclick="filterEvents('all')" style="background: var(--primary-100); color: var(--primary-700);">All Events</button>
-                        <button class="btn btn-secondary" onclick="filterEvents('webinars')">Webinars</button>
-                        <button class="btn btn-secondary" onclick="filterEvents('meetups')">Meetups</button>
-                        <button class="btn btn-secondary" onclick="filterEvents('conferences')">Conferences</button>
-                        <button class="btn btn-secondary" onclick="filterEvents('workshops')">Workshops</button>
-                    </div>
-                    
-                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--space-4);">
-                        <div class="feed-card" style="border-left: 4px solid var(--success);">
-                            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                <div style="flex: 1;">
-                                    <h4 style="color: var(--gray-800); margin-bottom: var(--space-1);">React 18 Performance Optimization</h4>
-                                    <p style="color: var(--gray-600); font-size: var(--text-sm);">Deep dive into concurrent features and optimization techniques</p>
-                                </div>
-                                <span style="background: var(--success); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs); margin-left: var(--space-2);">Free</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-4); margin-bottom: var(--space-4); font-size: var(--text-sm); color: var(--gray-600);">
-                                <div><i class="fas fa-calendar"></i> Sat, Dec 16</div>
-                                <div><i class="fas fa-clock"></i> 2:00 PM PST</div>
-                                <div><i class="fas fa-map-marker-alt"></i> San Francisco (Hybrid)</div>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4);">
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">React</span>
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Performance</span>
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Intermediate</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2);">
-                                <button class="btn btn-primary" onclick="registerForEvent('react-performance')" style="flex: 1;">
-                                    <i class="fas fa-ticket-alt"></i> Register
-                                </button>
-                                <button class="btn btn-secondary" onclick="shareEvent('react-performance')">
-                                    <i class="fas fa-share"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="feed-card" style="border-left: 4px solid var(--info);">
-                            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                <div style="flex: 1;">
-                                    <h4 style="color: var(--gray-800); margin-bottom: var(--space-1);">AI in Software Development Webinar</h4>
-                                    <p style="color: var(--gray-600); font-size: var(--text-sm);">How AI tools are reshaping the development workflow</p>
-                                </div>
-                                <span style="background: var(--info); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs); margin-left: var(--space-2);">Live</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-4); margin-bottom: var(--space-4); font-size: var(--text-sm); color: var(--gray-600);">
-                                <div><i class="fas fa-calendar"></i> Wed, Dec 20</div>
-                                <div><i class="fas fa-clock"></i> 12:00 PM PST</div>
-                                <div><i class="fas fa-globe"></i> Online Only</div>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4);">
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">AI</span>
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Development</span>
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">All Levels</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2);">
-                                <button class="btn btn-primary" onclick="registerForEvent('ai-webinar')" style="flex: 1;">
-                                    <i class="fas fa-video"></i> Join Webinar
-                                </button>
-                                <button class="btn btn-secondary" onclick="shareEvent('ai-webinar')">
-                                    <i class="fas fa-share"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="feed-card" style="border-left: 4px solid var(--warning);">
-                            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                <div style="flex: 1;">
-                                    <h4 style="color: var(--gray-800); margin-bottom: var(--space-1);">DevOps Career Workshop</h4>
-                                    <p style="color: var(--gray-600); font-size: var(--text-sm);">Hands-on workshop covering CI/CD, containerization, and cloud deployment</p>
-                                </div>
-                                <span style="background: var(--warning); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs); margin-left: var(--space-2);">$49</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-4); margin-bottom: var(--space-4); font-size: var(--text-sm); color: var(--gray-600);">
-                                <div><i class="fas fa-calendar"></i> Sat, Jan 6</div>
-                                <div><i class="fas fa-clock"></i> 10:00 AM PST</div>
-                                <div><i class="fas fa-map-marker-alt"></i> Seattle (In-Person)</div>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4);">
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">DevOps</span>
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Hands-on</span>
-                                <span style="background: var(--gray-100); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Intermediate</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2);">
-                                <button class="btn btn-primary" onclick="registerForEvent('devops-workshop')" style="flex: 1;">
-                                    <i class="fas fa-credit-card"></i> Purchase Ticket
-                                </button>
-                                <button class="btn btn-secondary" onclick="shareEvent('devops-workshop')">
-                                    <i class="fas fa-share"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: var(--space-6);">
-                        <button class="btn btn-secondary" onclick="viewAllEvents()">
-                            <i class="fas fa-calendar-alt"></i> View All Events
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function getJobsContent() {
-            return `
-                <div class="feed-card">
-                    <h2 style="margin-bottom: var(--space-6); color: var(--primary-600); text-align: center;">
-                        <i class="fas fa-briefcase"></i> AI-Curated Job Opportunities
-                    </h2>
-                    
-                    <div style="background: linear-gradient(135deg, var(--info), var(--primary-600)); color: white; padding: var(--space-6); border-radius: var(--radius-xl); margin-bottom: var(--space-6); text-align: center;">
-                        <h3 style="margin-bottom: var(--space-3);">🎯 12 Perfect Matches Found!</h3>
-                        <p style="margin-bottom: var(--space-4); opacity: 0.9;">Based on your skills, experience, and career preferences</p>
-                        <div style="display: flex; justify-content: center; gap: var(--space-6); margin-bottom: var(--space-4);">
-                            <div>
-                                <div style="font-size: var(--text-2xl); font-weight: 700;">92%</div>
-                                <div style="font-size: var(--text-sm); opacity: 0.8;">Avg Match Score</div>
-                            </div>
-                            <div>
-                                <div style="font-size: var(--text-2xl); font-weight: 700;">$105k</div>
-                                <div style="font-size: var(--text-sm); opacity: 0.8;">Avg Salary</div>
-                            </div>
-                            <div>
-                                <div style="font-size: var(--text-2xl); font-weight: 700;">4</div>
-                                <div style="font-size: var(--text-sm); opacity: 0.8;">Remote Options</div>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" onclick="viewJobMatches()" style="background: rgba(255,255,255,0.9); color: var(--gray-800);">
-                            <i class="fas fa-search"></i> View All Matches
-                        </button>
-                    </div>
-                    
-                    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: var(--space-4);">
-                        <div class="feed-card" style="border-left: 4px solid var(--success);">
-                            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                <div style="flex: 1;">
-                                    <h4 style="color: var(--gray-800); margin-bottom: var(--space-1);">Senior Frontend Developer</h4>
-                                    <p style="color: var(--primary-600); font-weight: 600; margin-bottom: var(--space-2);">TechStart Inc • San Francisco, CA</p>
-                                    <p style="color: var(--gray-600); font-size: var(--text-sm);">Build next-generation user interfaces using React, TypeScript, and modern tooling</p>
-                                </div>
-                                <div style="text-align: right; margin-left: var(--space-2);">
-                                    <div style="background: var(--success); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs); margin-bottom: var(--space-2);">96% Match</div>
-                                    <div style="font-weight: 600; color: var(--success);">$95k-120k</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap;">
-                                <span style="background: var(--primary-100); color: var(--primary-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">React</span>
-                                <span style="background: var(--info-100); color: var(--info-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">TypeScript</span>
-                                <span style="background: var(--success-100); color: var(--success-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Remote-Friendly</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2);">
-                                <button class="btn btn-primary" onclick="applyToJob('frontend-techstart')" style="flex: 1;">
-                                    <i class="fas fa-paper-plane"></i> Quick Apply
-                                </button>
-                                <button class="btn btn-secondary" onclick="saveJob('frontend-techstart')">
-                                    <i class="fas fa-bookmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="feed-card" style="border-left: 4px solid var(--info);">
-                            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                <div style="flex: 1;">
-                                    <h4 style="color: var(--gray-800); margin-bottom: var(--space-1);">Full Stack Engineer</h4>
-                                    <p style="color: var(--primary-600); font-weight: 600; margin-bottom: var(--space-2);">InnovateCorp • Remote (US)</p>
-                                    <p style="color: var(--gray-600); font-size: var(--text-sm);">Work on our core platform using React, Node.js, and cloud technologies</p>
-                                </div>
-                                <div style="text-align: right; margin-left: var(--space-2);">
-                                    <div style="background: var(--info); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs); margin-bottom: var(--space-2);">89% Match</div>
-                                    <div style="font-weight: 600; color: var(--success);">$90k-130k</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap;">
-                                <span style="background: var(--primary-100); color: var(--primary-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">React</span>
-                                <span style="background: var(--warning-100); color: var(--warning-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Node.js</span>
-                                <span style="background: var(--error-100); color: var(--error-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">100% Remote</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2);">
-                                <button class="btn btn-primary" onclick="applyToJob('fullstack-innovate')" style="flex: 1;">
-                                    <i class="fas fa-paper-plane"></i> Quick Apply
-                                </button>
-                                <button class="btn btn-secondary" onclick="saveJob('fullstack-innovate')">
-                                    <i class="fas fa-bookmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="feed-card" style="border-left: 4px solid var(--warning);">
-                            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: var(--space-3);">
-                                <div style="flex: 1;">
-                                    <h4 style="color: var(--gray-800); margin-bottom: var(--space-1);">UI/UX Developer</h4>
-                                    <p style="color: var(--primary-600); font-weight: 600; margin-bottom: var(--space-2);">DesignFirst • Austin, TX</p>
-                                    <p style="color: var(--gray-600); font-size: var(--text-sm);">Create beautiful, accessible user experiences with React and design systems</p>
-                                </div>
-                                <div style="text-align: right; margin-left: var(--space-2);">
-                                    <div style="background: var(--warning); color: white; padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs); margin-bottom: var(--space-2);">85% Match</div>
-                                    <div style="font-weight: 600; color: var(--success);">$80k-110k</div>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-4); flex-wrap: wrap;">
-                                <span style="background: var(--primary-100); color: var(--primary-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">React</span>
-                                <span style="background: var(--info-100); color: var(--info-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Design Systems</span>
-                                <span style="background: var(--success-100); color: var(--success-700); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); font-size: var(--text-xs);">Hybrid</span>
-                            </div>
-                            <div style="display: flex; gap: var(--space-2);">
-                                <button class="btn btn-primary" onclick="applyToJob('ui-designfirst')" style="flex: 1;">
-                                    <i class="fas fa-paper-plane"></i> Quick Apply
-                                </button>
-                                <button class="btn btn-secondary" onclick="saveJob('ui-designfirst')">
-                                    <i class="fas fa-bookmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center; margin-top: var(--space-6);">
-                        <button class="btn btn-secondary" onclick="viewAllJobs()">
-                            <i class="fas fa-briefcase"></i> View All Job Matches
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Post interaction functions
-        function toggleLike(button) {
-            const icon = button.querySelector('i');
-            const text = button.textContent.trim();
-            const count = parseInt(text.match(/\d+/)[0]);
+        // Like post
+        function likePost(postId) {
+            const heartIcon = event.target.closest('.post-action').querySelector('i');
+            const likeCount = event.target.closest('.post-action').querySelector('span');
             
-            if (button.classList.contains('active')) {
-                button.classList.remove('active');
-                icon.className = 'fas fa-heart';
-                button.innerHTML = `<i class="fas fa-heart"></i> ${count - 1} Likes`;
+            if (heartIcon.classList.contains('fas')) {
+                heartIcon.classList.remove('fas');
+                heartIcon.classList.add('far');
+                likeCount.textContent = parseInt(likeCount.textContent) - 1;
+                showNotification('Post unliked', 'info');
             } else {
-                button.classList.add('active');
-                icon.className = 'fas fa-heart';
-                button.innerHTML = `<i class="fas fa-heart"></i> ${count + 1} Likes`;
-                
-                // Add animation
-                button.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    button.style.transform = 'scale(1)';
-                }, 200);
+                heartIcon.classList.remove('far');
+                heartIcon.classList.add('fas');
+                likeCount.textContent = parseInt(likeCount.textContent) + 1;
+                showNotification('Post liked!', 'success');
             }
         }
         
-        function showComments(button) {
-            // Create modal for comments
-            const modal = createModal('💬 Comments', `
-                <div style="max-height: 400px; overflow-y: auto;">
-                    <div style="display: flex; gap: var(--space-3); margin-bottom: var(--space-4); padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg);">
-                        <div class="avatar" style="width: 36px; height: 36px; font-size: var(--text-sm);">JD</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; margin-bottom: var(--space-1);">John Doe</div>
-                            <div style="font-size: var(--text-sm); color: var(--gray-700);">Great insights! I had a similar experience transitioning to senior level.</div>
-                            <div style="font-size: var(--text-xs); color: var(--gray-500); margin-top: var(--space-2);">2 hours ago</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: var(--space-3); margin-bottom: var(--space-4); padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg);">
-                        <div class="avatar" style="width: 36px; height: 36px; font-size: var(--text-sm);">KS</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 600; margin-bottom: var(--space-1);">Kate Smith</div>
-                            <div style="font-size: var(--text-sm); color: var(--gray-700);">The AI analysis really helped me identify blind spots in my skill set!</div>
-                            <div style="font-size: var(--text-xs); color: var(--gray-500); margin-top: var(--space-2);">1 hour ago</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: var(--space-3); margin-top: var(--space-4);">
-                        <div class="avatar" style="width: 36px; height: 36px; font-size: var(--text-sm);">YU</div>
-                        <textarea placeholder="Add a comment..." style="flex: 1; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); resize: none; height: 80px;"></textarea>
-                    </div>
-                    <button class="btn btn-primary" style="margin-top: var(--space-3); margin-left: auto; display: block;">Post Comment</button>
-                </div>
-            `);
+        // Comment on post
+        function commentPost(postId) {
+            showNotification('Opening comment section...', 'info');
+            
+            setTimeout(() => {
+                showNotification('Comment section loaded. Share your thoughts!', 'success');
+            }, 800);
         }
         
-        function sharePost(button) {
-            const modal = createModal('🔗 Share Post', `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
-                    <button class="btn btn-secondary" onclick="shareToLinkedIn()">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </button>
-                    <button class="btn btn-secondary" onclick="shareToTwitter()">
-                        <i class="fab fa-twitter"></i> Twitter
-                    </button>
-                    <button class="btn btn-secondary" onclick="copyLink()">
-                        <i class="fas fa-link"></i> Copy Link
-                    </button>
-                    <button class="btn btn-secondary" onclick="sendMessage()">
-                        <i class="fas fa-envelope"></i> Message
-                    </button>
-                </div>
-                <div style="display: flex; gap: var(--space-2);">
-                    <input type="text" value="https://skillsync.ai/community/post/123" readonly style="flex: 1; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-md); background: var(--gray-50);">
-                    <button class="btn btn-primary" onclick="copyToClipboard(this.previousElementSibling.value)">Copy</button>
-                </div>
-            `);
+        // Share post
+        function sharePost(postId) {
+            showNotification('Post shared to your network!', 'success');
         }
         
-        function savePost(button) {
-            if (button.classList.contains('active')) {
-                button.classList.remove('active');
-                button.innerHTML = '<i class="fas fa-bookmark"></i> Save';
-                showToast('Post removed from saved items', 'info');
-            } else {
-                button.classList.add('active');
-                button.innerHTML = '<i class="fas fa-bookmark"></i> Saved';
-                showToast('Post saved successfully!', 'success');
-            }
+        // Explore hashtag
+        function exploreHashtag(hashtag) {
+            showNotification(`Loading posts for ${hashtag}...`, 'info');
+            
+            setTimeout(() => {
+                showNotification(`Found ${Math.floor(Math.random() * 50) + 20} recent posts for ${hashtag}`, 'success');
+            }, 1200);
         }
         
-        function searchTopic(topic) {
-            document.querySelector('.search-input').value = `#${topic}`;
-            showToast(`Searching for ${topic}...`, 'info');
-        }
-        
+        // View profile
         function viewProfile(username) {
-            showToast(`Opening ${username}'s profile...`, 'info');
-        }
-        
-        function openComposer() {
-            const modal = createModal('✍️ Create New Post', `
-                <div style="display: flex; flex-direction: column; gap: var(--space-4);">
-                    <div style="display: flex; gap: var(--space-3); align-items: center;">
-                        <div class="avatar">YU</div>
-                        <div>
-                            <div style="font-weight: 600;">Your Name</div>
-                            <select style="font-size: var(--text-sm); border: none; background: none; color: var(--gray-600);">
-                                <option>Post to Community</option>
-                                <option>Post to Frontend Developers</option>
-                                <option>Post to Career Growth</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <textarea placeholder="What's on your mind? Share your thoughts, ask questions, or start a discussion..." 
-                              style="width: 100%; height: 150px; padding: var(--space-4); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); resize: vertical; font-size: var(--text-base); font-family: inherit;"></textarea>
-                    
-                    <div style="display: flex; gap: var(--space-3); padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg);">
-                        <button class="btn btn-secondary" style="font-size: var(--text-sm);">
-                            <i class="fas fa-image"></i> Photo
-                        </button>
-                        <button class="btn btn-secondary" style="font-size: var(--text-sm);">
-                            <i class="fas fa-code"></i> Code
-                        </button>
-                        <button class="btn btn-secondary" style="font-size: var(--text-sm);">
-                            <i class="fas fa-poll"></i> Poll
-                        </button>
-                        <button class="btn btn-secondary" style="font-size: var(--text-sm);">
-                            <i class="fas fa-calendar"></i> Event
-                        </button>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: var(--text-xs); color: var(--gray-500);">
-                            <i class="fas fa-robot"></i> AI will help optimize your post for better engagement
-                        </div>
-                        <div style="display: flex; gap: var(--space-2);">
-                            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                            <button class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> Post
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `);
-        }
-        
-        function openNotifications() {
-            const modal = createModal('🔔 Notifications', `
-                <div style="display: flex; flex-direction: column; gap: var(--space-3); max-height: 400px; overflow-y: auto;">
-                    <div style="display: flex; gap: var(--space-3); padding: var(--space-3); background: var(--primary-50); border-radius: var(--radius-lg); border-left: 4px solid var(--primary-500);">
-                        <i class="fas fa-heart" style="color: var(--error); margin-top: var(--space-1);"></i>
-                        <div>
-                            <div style="font-weight: 600;">Sarah Martinez liked your comment</div>
-                            <div style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">on "Career Growth Strategies"</div>
-                            <div style="font-size: var(--text-xs); color: var(--gray-500); margin-top: var(--space-1);">2 minutes ago</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: var(--space-3); padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg);">
-                        <i class="fas fa-user-plus" style="color: var(--success); margin-top: var(--space-1);"></i>
-                        <div>
-                            <div style="font-weight: 600;">New mentor match found!</div>
-                            <div style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">Mike Chen wants to mentor you in DevOps</div>
-                            <div style="font-size: var(--text-xs); color: var(--gray-500); margin-top: var(--space-1);">1 hour ago</div>
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: var(--space-3); padding: var(--space-3); background: var(--gray-50); border-radius: var(--radius-lg);">
-                        <i class="fas fa-comment" style="color: var(--info); margin-top: var(--space-1);"></i>
-                        <div>
-                            <div style="font-weight: 600;">3 new comments on your post</div>
-                            <div style="font-size: var(--text-sm); color: var(--gray-600); margin-top: var(--space-1);">"Should I transition from DevOps to Cloud Architecture?"</div>
-                            <div style="font-size: var(--text-xs); color: var(--gray-500); margin-top: var(--space-1);">3 hours ago</div>
-                        </div>
-                    </div>
-                </div>
-            `);
-        }
-        
-        // Utility functions
-        function createModal(title, content) {
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
-                background: rgba(0,0,0,0.5); display: flex; align-items: center; 
-                justify-content: center; z-index: 9999; backdrop-filter: blur(4px);
-            `;
-            
-            modal.innerHTML = `
-                <div style="background: white; border-radius: var(--radius-xl); padding: var(--space-6); 
-                           max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; 
-                           box-shadow: var(--shadow-2xl);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; 
-                               margin-bottom: var(--space-4); padding-bottom: var(--space-4); 
-                               border-bottom: 1px solid var(--gray-200);">
-                        <h3 style="font-size: var(--text-xl); font-weight: 700; color: var(--gray-800);">${title}</h3>
-                        <button onclick="closeModal()" style="background: none; border: none; 
-                                font-size: var(--text-xl); color: var(--gray-500); cursor: pointer;">×</button>
-                    </div>
-                    <div>${content}</div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
-            });
-            
-            return modal;
-        }
-        
-        function closeModal() {
-            const modal = document.querySelector('div[style*="position: fixed"]');
-            if (modal) modal.remove();
-        }
-        
-        function showToast(message, type = 'info') {
-            const colors = {
-                success: 'var(--success)',
-                error: 'var(--error)',
-                info: 'var(--info)',
-                warning: 'var(--warning)'
-            };
-            
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed; top: 20px; right: 20px; 
-                background: ${colors[type]}; color: white; 
-                padding: var(--space-3) var(--space-4); 
-                border-radius: var(--radius-lg); 
-                z-index: 10000; font-weight: 600;
-                transform: translateX(100%); transition: transform 0.3s ease;
-            `;
-            toast.textContent = message;
-            
-            document.body.appendChild(toast);
+            showNotification(`Loading ${username.replace('-', ' ')}'s profile...`, 'info');
             
             setTimeout(() => {
-                toast.style.transform = 'translateX(0)';
+                showNotification('Profile loaded! Connect to start networking.', 'success');
+            }, 1000);
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.75rem;
+                box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+                border: 1px solid #e5e5e5;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            
+            const colors = {
+                success: '#10b981',
+                warning: '#f59e0b',
+                error: '#ef4444',
+                info: '#3b82f6'
+            };
+            
+            const icons = {
+                success: 'fas fa-check-circle',
+                warning: 'fas fa-exclamation-triangle',
+                error: 'fas fa-times-circle',
+                info: 'fas fa-info-circle'
+            };
+            
+            notification.innerHTML = `
+                <div style="width: 24px; height: 24px; background: ${colors[type]}; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">
+                    <i class="${icons[type]}"></i>
+                </div>
+                <div>
+                    <div style="font-weight: 500; color: #171717;">${message}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
             }, 100);
             
+            // Remove after 3 seconds
             setTimeout(() => {
-                toast.style.transform = 'translateX(100%)';
-                setTimeout(() => toast.remove(), 300);
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
             }, 3000);
         }
         
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Link copied to clipboard!', 'success');
+        // Add hover effects to cards
+        document.querySelectorAll('.post-card, .sidebar-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)';
             });
-        }
-        
-        // Navigation and interaction functions
-        function navigateToDashboard() {
-            showToast('Navigating to dashboard...', 'info');
-            setTimeout(() => {
-                window.location.href = '/dashboard';
-            }, 500);
-        }
-        
-        function registerForEvent(eventId) {
-            const events = {
-                'react-performance': 'React Performance Optimization Workshop',
-                'ai-webinar': 'AI in Software Development Webinar',
-                'devops-workshop': 'DevOps Career Workshop'
-            };
             
-            const eventName = events[eventId] || 'Selected Event';
-            showToast(`Registering for ${eventName}...`, 'success');
-            
-            setTimeout(() => {
-                const modal = createModal('🎉 Registration Successful!', `
-                    <div style="text-align: center; padding: var(--space-4);">
-                        <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--success); margin-bottom: var(--space-4);"></i>
-                        <h3 style="margin-bottom: var(--space-3);">You're all set for ${eventName}!</h3>
-                        <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Check your email for event details and calendar invite.</p>
-                        <div style="display: flex; gap: var(--space-3); justify-content: center;">
-                            <button class="btn btn-secondary" onclick="addToCalendar('${eventId}')">
-                                <i class="fas fa-calendar-plus"></i> Add to Calendar
-                            </button>
-                            <button class="btn btn-primary" onclick="closeModal()">
-                                <i class="fas fa-check"></i> Got it!
-                            </button>
-                        </div>
-                    </div>
-                `);
-            }, 1000);
-        }
-        
-        function shareEvent(eventId) {
-            const modal = createModal('🔗 Share Event', `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
-                    <button class="btn btn-secondary" onclick="shareToLinkedIn()">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </button>
-                    <button class="btn btn-secondary" onclick="shareToTwitter()">
-                        <i class="fab fa-twitter"></i> Twitter
-                    </button>
-                    <button class="btn btn-secondary" onclick="copyLink()">
-                        <i class="fas fa-link"></i> Copy Link
-                    </button>
-                    <button class="btn btn-secondary" onclick="sendMessage()">
-                        <i class="fas fa-envelope"></i> Message
-                    </button>
-                </div>
-                <div style="display: flex; gap: var(--space-2);">
-                    <input type="text" value="https://skillsync.ai/events/${eventId}" readonly style="flex: 1; padding: var(--space-2); border: 1px solid var(--gray-300); border-radius: var(--radius-md); background: var(--gray-50);">
-                    <button class="btn btn-primary" onclick="copyToClipboard(this.previousElementSibling.value)">Copy</button>
-                </div>
-            `);
-        }
-        
-        function viewMentorMatches() {
-            showToast('Loading your AI-matched mentors...', 'info');
-            setTimeout(() => {
-                window.location.href = '/mentorship/matches';
-            }, 1000);
-        }
-        
-        function connectWithMentor(mentorId) {
-            const mentors = {
-                'sarah-martinez': 'Sarah Martinez',
-                'mike-kim': 'Mike Kim'
-            };
-            
-            const mentorName = mentors[mentorId] || 'this mentor';
-            
-            const modal = createModal('🤝 Connect with Mentor', `
-                <div style="text-align: center; padding: var(--space-4);">
-                    <div class="avatar" style="width: 80px; height: 80px; font-size: var(--text-2xl); margin: 0 auto var(--space-4);">SM</div>
-                    <h3 style="margin-bottom: var(--space-3);">Send connection request to ${mentorName}?</h3>
-                    <p style="color: var(--gray-600); margin-bottom: var(--space-4);">Introduce yourself and explain what you'd like to learn</p>
-                    
-                    <textarea placeholder="Hi ${mentorName}, I'm interested in learning more about React development and career growth. I'd love to connect and learn from your experience at Netflix." 
-                              style="width: 100%; height: 120px; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); margin-bottom: var(--space-4); font-family: inherit;"></textarea>
-                    
-                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
-                        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                        <button class="btn btn-primary" onclick="sendConnectionRequest('${mentorId}')">
-                            <i class="fas fa-paper-plane"></i> Send Request
-                        </button>
-                    </div>
-                </div>
-            `);
-        }
-        
-        function sendConnectionRequest(mentorId) {
-            closeModal();
-            showToast('📨 Connection request sent! You\'ll hear back within 24 hours.', 'success');
-        }
-        
-        function becomeMentor() {
-            showToast('Opening mentor application...', 'info');
-            setTimeout(() => {
-                window.location.href = '/mentorship/become-mentor';
-            }, 1000);
-        }
-        
-        function filterEvents(category) {
-            showToast(`Filtering events by ${category}...`, 'info');
-            // In a real app, this would filter the events display
-        }
-        
-        function viewAllEvents() {
-            showToast('Loading all community events...', 'info');
-            setTimeout(() => {
-                window.location.href = '/events';
-            }, 1000);
-        }
-        
-        function applyToJob(jobId) {
-            const jobs = {
-                'frontend-techstart': 'Senior Frontend Developer at TechStart Inc',
-                'fullstack-innovate': 'Full Stack Engineer at InnovateCorp',
-                'ui-designfirst': 'UI/UX Developer at DesignFirst'
-            };
-            
-            const jobTitle = jobs[jobId] || 'Selected Position';
-            
-            const modal = createModal('💼 Quick Apply', `
-                <div style="padding: var(--space-4);">
-                    <h3 style="margin-bottom: var(--space-4); text-align: center;">${jobTitle}</h3>
-                    
-                    <div style="background: var(--primary-50); padding: var(--space-4); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
-                        <div style="display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-3);">
-                            <i class="fas fa-robot" style="color: var(--primary-600); font-size: var(--text-xl);"></i>
-                            <div>
-                                <div style="font-weight: 600; color: var(--primary-700);">AI Application Assistant</div>
-                                <div style="font-size: var(--text-sm); color: var(--gray-600);">Your resume will be automatically optimized for this role</div>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: var(--space-4); font-size: var(--text-sm);">
-                            <div style="color: var(--success);"><i class="fas fa-check"></i> 96% Skill Match</div>
-                            <div style="color: var(--info);"><i class="fas fa-star"></i> Resume Optimized</div>
-                            <div style="color: var(--warning);"><i class="fas fa-magic"></i> Cover Letter Generated</div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-bottom: var(--space-4);">
-                        <label style="display: block; margin-bottom: var(--space-2); font-weight: 600;">Additional Message (Optional)</label>
-                        <textarea placeholder="Tell the employer why you're interested in this role..." 
-                                  style="width: 100%; height: 80px; padding: var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-lg); font-family: inherit;"></textarea>
-                    </div>
-                    
-                    <div style="display: flex; gap: var(--space-3); justify-content: center;">
-                        <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                        <button class="btn btn-primary" onclick="submitJobApplication('${jobId}')">
-                            <i class="fas fa-paper-plane"></i> Submit Application
-                        </button>
-                    </div>
-                </div>
-            `);
-        }
-        
-        function submitJobApplication(jobId) {
-            closeModal();
-            showToast('🎉 Application submitted! The employer will review it within 2-3 business days.', 'success');
-        }
-        
-        function saveJob(jobId) {
-            showToast('🔖 Job saved to your favorites!', 'success');
-        }
-        
-        function viewJobMatches() {
-            showToast('Loading your personalized job matches...', 'info');
-            setTimeout(() => {
-                window.location.href = '/jobs/matches';
-            }, 1000);
-        }
-        
-        function viewAllJobs() {
-            showToast('Loading all available positions...', 'info');
-            setTimeout(() => {
-                window.location.href = '/jobs';
-            }, 1000);
-        }
-        
-        function addToCalendar(eventId) {
-            showToast('Event added to your calendar!', 'success');
-            closeModal();
-        }
-        
-        function shareToLinkedIn() {
-            showToast('Opening LinkedIn share...', 'info');
-        }
-        
-        function shareToTwitter() {
-            showToast('Opening Twitter share...', 'info');
-        }
-        
-        function copyLink() {
-            showToast('Link copied to clipboard!', 'success');
-        }
-        
-        function sendMessage() {
-            showToast('Opening message composer...', 'info');
-        }
-        
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            animateStats();
-            
-            // Add search functionality
-            const searchInput = document.querySelector('.search-input');
-            searchInput.addEventListener('input', function() {
-                if (this.value.length > 2) {
-                    showToast(`Searching for "${this.value}"...`, 'info');
-                }
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
             });
         });
-        
-        function openAIAssistant() {
-            showToast('Opening AI Assistant...', 'info');
-            setTimeout(() => {
-                window.location.href = '/ai-agent';
-            }, 500);
-        }
     </script>
-            </main>
-        </div>
-    </div>
 </body>
 </html>
