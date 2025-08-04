@@ -9,10 +9,10 @@ import asyncio
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 try:
-    import aiohttp
-    AIOHTTP_AVAILABLE = True
+    import requests
+    REQUESTS_AVAILABLE = True
 except ImportError:
-    AIOHTTP_AVAILABLE = False
+    REQUESTS_AVAILABLE = False
 import sqlite3
 from dataclasses import dataclass
 try:
@@ -215,7 +215,7 @@ class SkillSyncMCPManager:
     
     async def _brave_search(self, query: str) -> Dict:
         """Perform Brave search API call"""
-        if not self.brave_api_key or not AIOHTTP_AVAILABLE:
+        if not self.brave_api_key or not REQUESTS_AVAILABLE:
             return {}
             
         url = "https://api.search.brave.com/res/v1/web/search"
@@ -227,13 +227,13 @@ class SkillSyncMCPManager:
         params = {"q": query, "count": 10}
         
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, headers=headers, params=params) as response:
-                    if response.status == 200:
-                        return await response.json()
-                    return {}
+            response = requests.get(url, headers=headers, params=params, timeout=10)
+            if response.status_code == 200:
+                return response.json()
+            return {}
         except Exception as e:
-            print(f"Brave search error: {e}")
+            if current_app:
+                current_app.logger.error(f"Brave search error: {e}")
             return {}
     
     def _extract_salary_data(self, search_result: Dict) -> List[Dict]:

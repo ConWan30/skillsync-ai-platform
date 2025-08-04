@@ -9,7 +9,6 @@ gunicorn==21.2.0
 requests==2.31.0
 
 # Railway-compatible dependencies
-aiohttp==3.8.6
 python-dateutil==2.8.2
 
 # Optional dependencies - removed to prevent build failures
